@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Conxian Labs | Sovereign Interface</title>
+    <link rel="icon" href="Conxian_Logo.jpg" type="image/jpeg">
+
     <style>
         :root {
             --bg-color: #050505;
@@ -39,13 +41,15 @@
             display: grid;
             grid-template-columns: repeat(12, 1fr);
             gap: 1px;
-            background-color: var(--border-color); /* Creates the grid lines */
+            background-color: var(--border-color);
         }
 
         /* General Panel Styling */
         .panel {
             background-color: var(--panel-color);
             padding: 25px;
+            position: relative;
+            overflow: hidden;
         }
 
         /* Header Section */
@@ -55,26 +59,17 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid var(--border-color);
+            height: 80px;
         }
 
-        .brand {
-            font-size: 1.5rem;
-            font-weight: bold;
-            letter-spacing: 2px;
-            color: #fff;
-            text-transform: uppercase;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .brand::before {
-            content: '';
+        /* LOGO STYLING: Handles the white background gracefully */
+        .brand-logo {
+            height: 50px;
+            width: auto;
+            background-color: #fff; /* Creates a clean badge effect */
+            padding: 5px 15px;
+            border-radius: 4px;
             display: block;
-            width: 12px;
-            height: 12px;
-            background: var(--highlight);
-            box-shadow: 0 0 10px var(--highlight);
         }
 
         .status-badge {
@@ -84,24 +79,47 @@
             border: 1px solid #333;
             color: var(--success);
             text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        /* Mission Section */
+        /* Mission Section with Product Feature */
         .mission {
             grid-column: span 8;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .mission-text {
+            flex: 1;
+            padding-right: 20px;
         }
         
         .mission h2 {
-            font-size: 0.9rem;
-            color: var(--text-dim);
+            font-size: 0.8rem;
+            color: var(--highlight);
             text-transform: uppercase;
             margin-top: 0;
+            letter-spacing: 1px;
+            border-bottom: 1px solid #333;
+            display: inline-block;
+            padding-bottom: 5px;
         }
 
         .mission p {
             font-size: 1.1rem;
             line-height: 1.6;
             color: var(--text-main);
+            margin-bottom: 0;
+        }
+
+        /* Product Logo in Mission Panel */
+        .product-logo {
+            height: 80px;
+            width: auto;
+            border-radius: 8px;
+            opacity: 0.9;
+            border: 1px solid #333;
         }
 
         /* Stats Panel */
@@ -121,7 +139,7 @@
             padding-bottom: 5px;
         }
         .stat-label { color: var(--text-dim); }
-        .stat-value { color: var(--highlight); }
+        .stat-value { color: var(--highlight); font-weight: bold; }
 
         /* Comms Grid */
         .comms {
@@ -135,6 +153,7 @@
             align-items: center;
             justify-content: center;
             height: 150px;
+            border-top: 1px solid var(--border-color);
         }
 
         .comms:hover {
@@ -144,8 +163,7 @@
 
         .comms:hover .role { color: #fff; }
 
-        .icon { font-size: 1.5rem; margin-bottom: 10px; color: var(--text-dim); }
-        .role { font-size: 0.8rem; text-transform: uppercase; color: var(--highlight); margin-bottom: 5px; font-weight: bold; }
+        .role { font-size: 0.8rem; text-transform: uppercase; color: var(--highlight); margin-bottom: 5px; font-weight: bold; letter-spacing: 1px; }
         .email-text { font-size: 0.75rem; color: var(--text-dim); }
 
         /* Footer */
@@ -153,18 +171,23 @@
             grid-column: span 12;
             display: flex;
             justify-content: space-between;
+            align-items: center;
             font-size: 0.7rem;
             color: var(--text-dim);
             padding: 15px 25px;
             background: #080808;
+            border-top: 1px solid var(--border-color);
         }
 
-        a.footer-link { color: var(--text-dim); text-decoration: none; transition: 0.3s; }
+        a.footer-link { color: var(--text-dim); text-decoration: none; transition: 0.3s; margin-left: 10px; }
         a.footer-link:hover { color: var(--highlight); }
 
         /* Mobile Responsive */
         @media (max-width: 700px) {
-            .mission, .stats, .comms { grid-column: span 12; }
+            .mission { grid-column: span 12; flex-direction: column; text-align: center; }
+            .mission-text { padding-right: 0; margin-bottom: 20px; }
+            .stats, .comms { grid-column: span 12; }
+            .header { height: auto; padding: 15px; flex-direction: column; gap: 15px; }
             .comms { height: 100px; border-bottom: 1px solid var(--border-color); }
         }
     </style>
@@ -173,13 +196,16 @@
 
     <div class="dashboard">
         <div class="panel header">
-            <div class="brand">Conxian Labs</div>
+            <img src="Conxian-Labs_Logo.jpg" alt="Conxian Labs" class="brand-logo">
             <div class="status-badge">● System Nominal</div>
         </div>
 
         <div class="panel mission">
-            <h2>Primary Directive</h2>
-            <p>Architecting non-custodial Bitcoin infrastructure for the sovereign economy. We build the rails; you own the train.</p>
+            <div class="mission-text">
+                <h2>Primary Directive</h2>
+                <p>Architecting non-custodial Bitcoin infrastructure for the sovereign economy. We build the rails; you own the train.</p>
+            </div>
+            <img src="Conxius-Wallet_Logo.jpg" alt="Conxius Wallet" class="product-logo">
         </div>
 
         <div class="panel stats">
