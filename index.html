@@ -31,7 +31,6 @@
             padding: 20px;
         }
 
-        /* The Main Dashboard Container */
         .dashboard {
             width: 100%;
             max-width: 900px;
@@ -44,7 +43,6 @@
             background-color: var(--border-color);
         }
 
-        /* General Panel Styling */
         .panel {
             background-color: var(--panel-color);
             padding: 25px;
@@ -52,7 +50,7 @@
             overflow: hidden;
         }
 
-        /* Header Section */
+        /* HEADER */
         .header {
             grid-column: span 12;
             display: flex;
@@ -62,13 +60,14 @@
             height: 80px;
         }
 
-        /* LOGO STYLING: Handles the white background gracefully */
+        /* THE MAGIC CSS FILTER FOR LOGOS */
+        /* This turns a White JPG into a Transparent-looking Dark Mode asset */
         .brand-logo {
-            height: 50px;
+            height: 55px;
             width: auto;
-            background-color: #fff; /* Creates a clean badge effect */
-            padding: 5px 15px;
-            border-radius: 4px;
+            /* 1. Turn White BG to Black. 2. Fix colors back to Blue. 3. Make Black transparent. */
+            filter: invert(1) hue-rotate(180deg) brightness(1.5); 
+            mix-blend-mode: screen; 
             display: block;
         }
 
@@ -82,7 +81,7 @@
             letter-spacing: 1px;
         }
 
-        /* Mission Section with Product Feature */
+        /* MISSION */
         .mission {
             grid-column: span 8;
             display: flex;
@@ -90,10 +89,7 @@
             justify-content: space-between;
         }
 
-        .mission-text {
-            flex: 1;
-            padding-right: 20px;
-        }
+        .mission-text { flex: 1; padding-right: 20px; }
         
         .mission h2 {
             font-size: 0.8rem;
@@ -113,16 +109,17 @@
             margin-bottom: 0;
         }
 
-        /* Product Logo in Mission Panel */
+        /* PRODUCT LOGO HACK */
         .product-logo {
-            height: 80px;
+            height: 90px;
             width: auto;
-            border-radius: 8px;
+            /* Same hack: Invert colors + Screen mode = Transparent BG */
+            filter: invert(1) hue-rotate(180deg) brightness(1.2);
+            mix-blend-mode: screen;
             opacity: 0.9;
-            border: 1px solid #333;
         }
 
-        /* Stats Panel */
+        /* STATS */
         .stats {
             grid-column: span 4;
             display: flex;
@@ -141,7 +138,7 @@
         .stat-label { color: var(--text-dim); }
         .stat-value { color: var(--highlight); font-weight: bold; }
 
-        /* Comms Grid */
+        /* COMMS */
         .comms {
             grid-column: span 4;
             text-align: center;
@@ -160,13 +157,12 @@
             background-color: #0f0f0f;
             box-shadow: inset 0 0 20px rgba(247, 147, 26, 0.05);
         }
-
         .comms:hover .role { color: #fff; }
 
         .role { font-size: 0.8rem; text-transform: uppercase; color: var(--highlight); margin-bottom: 5px; font-weight: bold; letter-spacing: 1px; }
         .email-text { font-size: 0.75rem; color: var(--text-dim); }
 
-        /* Footer */
+        /* FOOTER */
         .footer {
             grid-column: span 12;
             display: flex;
@@ -182,7 +178,7 @@
         a.footer-link { color: var(--text-dim); text-decoration: none; transition: 0.3s; margin-left: 10px; }
         a.footer-link:hover { color: var(--highlight); }
 
-        /* Mobile Responsive */
+        /* RESPONSIVE */
         @media (max-width: 700px) {
             .mission { grid-column: span 12; flex-direction: column; text-align: center; }
             .mission-text { padding-right: 0; margin-bottom: 20px; }
