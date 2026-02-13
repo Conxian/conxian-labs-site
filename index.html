@@ -3,54 +3,223 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conxian Labs | Sovereign Infrastructure</title>
+    <title>Conxian Labs | Sovereign Interface</title>
     <style>
-        body { background-color: #050505; color: #e0e0e0; font-family: 'Courier New', monospace; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; text-align: center; }
+        :root {
+            --bg-color: #050505;
+            --panel-color: #0a0a0a;
+            --border-color: #1a1a1a;
+            --highlight: #f7931a; /* Bitcoin Orange */
+            --text-main: #e0e0e0;
+            --text-dim: #666;
+            --success: #00ff41;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: radial-gradient(#111 1px, transparent 1px);
+            background-size: 40px 40px;
+            color: var(--text-main);
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* The Main Dashboard Container */
+        .dashboard {
+            width: 100%;
+            max-width: 900px;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 1px;
+            background-color: var(--border-color); /* Creates the grid lines */
+        }
+
+        /* General Panel Styling */
+        .panel {
+            background-color: var(--panel-color);
+            padding: 25px;
+        }
+
+        /* Header Section */
+        .header {
+            grid-column: span 12;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: #fff;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand::before {
+            content: '';
+            display: block;
+            width: 12px;
+            height: 12px;
+            background: var(--highlight);
+            box-shadow: 0 0 10px var(--highlight);
+        }
+
+        .status-badge {
+            font-size: 0.7rem;
+            background: #111;
+            padding: 5px 10px;
+            border: 1px solid #333;
+            color: var(--success);
+            text-transform: uppercase;
+        }
+
+        /* Mission Section */
+        .mission {
+            grid-column: span 8;
+        }
         
-        /* Branding */
-        h1 { font-size: 2.5rem; letter-spacing: 4px; border-bottom: 2px solid #f7931a; padding-bottom: 10px; color: #fff; text-transform: uppercase; margin-bottom: 10px; }
-        h2 { font-size: 1rem; color: #f7931a; letter-spacing: 2px; margin-top: 0; text-transform: uppercase; opacity: 0.8; }
-        p { max-width: 600px; line-height: 1.6; color: #888; margin-bottom: 40px; }
-        
-        /* Communications Grid */
-        .contact-container { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; }
-        .contact-card { background: #0a0a0a; border: 1px solid #333; padding: 20px; width: 220px; border-radius: 4px; transition: all 0.3s ease; }
-        .contact-card:hover { border-color: #f7931a; transform: translateY(-5px); box-shadow: 0 5px 15px rgba(247, 147, 26, 0.1); }
-        .role { display: block; color: #f7931a; font-size: 0.8rem; text-transform: uppercase; font-weight: bold; margin-bottom: 8px; }
-        .email { color: #ccc; text-decoration: none; font-size: 0.85rem; letter-spacing: 0.5px; }
-        .email:hover { color: #fff; text-decoration: underline; }
+        .mission h2 {
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            margin-top: 0;
+        }
+
+        .mission p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: var(--text-main);
+        }
+
+        /* Stats Panel */
+        .stats {
+            grid-column: span 4;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            border-bottom: 1px solid #1a1a1a;
+            padding-bottom: 5px;
+        }
+        .stat-label { color: var(--text-dim); }
+        .stat-value { color: var(--highlight); }
+
+        /* Comms Grid */
+        .comms {
+            grid-column: span 4;
+            text-align: center;
+            transition: 0.2s;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 150px;
+        }
+
+        .comms:hover {
+            background-color: #0f0f0f;
+            box-shadow: inset 0 0 20px rgba(247, 147, 26, 0.05);
+        }
+
+        .comms:hover .role { color: #fff; }
+
+        .icon { font-size: 1.5rem; margin-bottom: 10px; color: var(--text-dim); }
+        .role { font-size: 0.8rem; text-transform: uppercase; color: var(--highlight); margin-bottom: 5px; font-weight: bold; }
+        .email-text { font-size: 0.75rem; color: var(--text-dim); }
 
         /* Footer */
-        footer { position: absolute; bottom: 20px; font-size: 0.75rem; color: #444; width: 100%; border-top: 1px solid #111; padding-top: 20px; }
-        a.link { color: #666; text-decoration: none; margin: 0 15px; transition: 0.3s; }
-        a.link:hover { color: #f7931a; }
+        .footer {
+            grid-column: span 12;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            padding: 15px 25px;
+            background: #080808;
+        }
+
+        a.footer-link { color: var(--text-dim); text-decoration: none; transition: 0.3s; }
+        a.footer-link:hover { color: var(--highlight); }
+
+        /* Mobile Responsive */
+        @media (max-width: 700px) {
+            .mission, .stats, .comms { grid-column: span 12; }
+            .comms { height: 100px; border-bottom: 1px solid var(--border-color); }
+        }
     </style>
 </head>
 <body>
-    <h1>CONXIAN LABS</h1>
-    <h2>Sovereign Infrastructure</h2>
-    
-    <p>Researching and architecting non-custodial Bitcoin infrastructure for the decentralized economy. <br><br><i>"We build the rails, you own the train."</i></p>
-    
-    <div class="contact-container">
-        <div class="contact-card">
-            <span class="role">Management</span>
-            <a href="mailto:admin@conxian-labs.com" class="email">admin@conxian-labs.com</a>
+
+    <div class="dashboard">
+        <div class="panel header">
+            <div class="brand">Conxian Labs</div>
+            <div class="status-badge">● System Nominal</div>
         </div>
-        <div class="contact-card">
-            <span class="role">Support Protocol</span>
-            <a href="mailto:support@conxian-labs.com" class="email">support@conxian-labs.com</a>
+
+        <div class="panel mission">
+            <h2>Primary Directive</h2>
+            <p>Architecting non-custodial Bitcoin infrastructure for the sovereign economy. We build the rails; you own the train.</p>
         </div>
-        <div class="contact-card">
-            <span class="role">Public Relations</span>
-            <a href="mailto:info@conxian-labs.com" class="email">info@conxian-labs.com</a>
+
+        <div class="panel stats">
+            <div class="stat-row">
+                <span class="stat-label">NETWORK</span>
+                <span class="stat-value">BITCOIN MAINNET</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">PROTOCOL</span>
+                <span class="stat-value">STACKS L2</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">STATUS</span>
+                <span class="stat-value">R&D ACTIVE</span>
+            </div>
+        </div>
+
+        <a href="mailto:admin@conxian-labs.com" class="panel comms">
+            <div class="role">Management</div>
+            <div class="email-text">admin@conxian-labs.com</div>
+        </a>
+
+        <a href="mailto:support@conxian-labs.com" class="panel comms">
+            <div class="role">Support Relay</div>
+            <div class="email-text">support@conxian-labs.com</div>
+        </a>
+
+        <a href="mailto:info@conxian-labs.com" class="panel comms">
+            <div class="role">Public Relations</div>
+            <div class="email-text">info@conxian-labs.com</div>
+        </a>
+
+        <div class="footer">
+            <div>LOC: ZA-GP-MID | HASH: 0x8F...3A</div>
+            <div>
+                <a href="https://github.com/Conxian" class="footer-link">GITHUB</a> // 
+                <a href="/privacy.html" class="footer-link">PRIVACY</a>
+            </div>
         </div>
     </div>
 
-    <footer>
-        <a href="https://github.com/Conxian" class="link">GITHUB REPOSITORY</a> | 
-        <a href="/privacy.html" class="link">PRIVACY POLICY</a> | 
-        &copy; 2026 Conxian-Labs (Pty) Ltd
-    </footer>
 </body>
 </html>
