@@ -2,21 +2,67 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Privacy Policy - Conxian Labs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Protocol | Conxian Labs</title>
+    <link rel="icon" href="Conxian_Logo.jpg" type="image/jpeg">
     <style>
-        body { background-color: #fff; color: #333; font-family: sans-serif; padding: 40px; line-height: 1.6; max-width: 800px; margin: 0 auto; }
-        h1 { border-bottom: 1px solid #ccc; padding-bottom: 10px; }
-        h2 { margin-top: 30px; font-size: 1.2rem; }
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;500;700&display=swap');
+        :root {
+            --bg: #030303;
+            --accent: #D4A017;
+            --primary: #2E403B;
+            --border: rgba(255, 255, 255, 0.08);
+            --panel: rgba(15, 20, 18, 0.7);
+            --text-main: #f0f0f0;
+            --text-dim: #777;
+        }
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'JetBrains Mono', monospace;
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: var(--panel);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            padding: 40px;
+            border-radius: 4px;
+            border-left: 4px solid var(--accent);
+        }
+        h1 { font-size: 1.5rem; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+        h2 { font-size: 1rem; color: var(--accent); margin-top: 30px; text-transform: uppercase; }
+        p { font-size: 0.9rem; font-weight: 300; }
+        strong { color: #fff; }
+        a { color: var(--accent); text-decoration: none; border-bottom: 1px solid transparent; transition: 0.3s; }
+        a:hover { border-bottom: 1px solid var(--accent); }
+        .back-link { margin-top: 40px; display: block; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; }
     </style>
 </head>
 <body>
-    <h1>Privacy Policy</h1>
-    <p><strong>Last Updated:</strong> February 13, 2026</p>
-    <h2>1. No Personal Data Collection</h2>
-    <p>Conxian-Labs (Pty) Ltd builds non-custodial software ("Conxius Wallet"). We do not collect, store, or transmit your private keys, seed phrases, or transaction history. All cryptographic operations occur locally on your device.</p>
-    <h2>2. Infrastructure</h2>
-    <p>Our applications interact with public blockchains (Bitcoin, Stacks). Transaction data broadcast to these networks is public by design.</p>
-    <h2>3. Contact</h2>
-    <p>For privacy inquiries: <a href="mailto:admin@conxian-labs.com">admin@conxian-labs.com</a></p>
+    <div class="container">
+        <h1>Privacy Protocol</h1>
+        <p><strong>System Date:</strong> February 16, 2026</p>
+
+        <h2>1. Zero-Knowledge Philosophy</h2>
+        <p>Conxian-Labs (Pty) Ltd operates on a non-custodial basis. We do not collect, store, or transmit your private keys, seed phrases, or individual transaction histories. Your sovereignty is maintained by ensuring all cryptographic operations occur locally on your device.</p>
+
+        <h2>2. Public Infrastructure</h2>
+        <p>Our applications interact with public decentralized networks (Bitcoin, Stacks). Any transaction data broadcast to these networks is public by design and inherent to the operation of the protocol.</p>
+
+        <h2>3. Data Collection</h2>
+        <p>We do not use tracking cookies or third-party analytics that de-anonymize our users. Any communication with our support or admin emails is handled with strict confidentiality and used solely for the intended purpose.</p>
+
+        <h2>4. Contact</h2>
+        <p>For inquiries regarding our privacy standards: <a href="mailto:admin@conxian-labs.com">admin@conxian-labs.com</a></p>
+
+        <a href="/" class="back-link">← Return to Dashboard</a>
+    </div>
 </body>
 </html>
