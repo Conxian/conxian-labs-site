@@ -9,15 +9,15 @@
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap');
 
         :root {
-            --bg: #030303;
-            --accent: #D4A017; /* Earthy Gold */
-            --accent-dim: #8b6b12;
+            --bg: #FDFBF7;
+            --accent: #C25E00; /* Earthy Gold */
+            --accent-dim: #8b4500;
             --primary: #2E403B; /* Deep Forest Green */
-            --glass: rgba(255, 255, 255, 0.02);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --text-main: #fcfcfc;
-            --text-dim: #999;
-            --grid-line: rgba(212, 160, 23, 0.03);
+            --glass: #FFFFFF;
+            --glass-border: rgba(0, 0, 0, 0.08);
+            --text-main: #121212;
+            --text-dim: #555;
+            --grid-line: rgba(194, 94, 0, 0.05);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -31,8 +31,8 @@
             background-image:
                 linear-gradient(var(--grid-line) 1px, transparent 1px),
                 linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
-                radial-gradient(circle at 20% 30%, rgba(46, 64, 59, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 80% 70%, rgba(212, 160, 23, 0.05) 0%, transparent 40%);
+                radial-gradient(circle at 20% 30%, rgba(46, 64, 59, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(194, 94, 0, 0.03) 0%, transparent 40%);
             background-size: 40px 40px, 40px 40px, 100% 100%, 100% 100%;
         }
 
@@ -51,14 +51,14 @@
             backdrop-filter: blur(16px);
             border: 1px solid var(--glass-border);
             border-radius: 4px; /* Sharper, more institutional */
-            box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.5);
+            box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.1);
             padding: 35px;
             transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
         .glass-panel:hover {
             border-color: rgba(212, 160, 23, 0.2);
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(0, 0, 0, 0.03);
         }
 
         /* Nav Bar */
@@ -123,11 +123,11 @@
         .hero p {
             font-size: 1.05rem;
             line-height: 1.9;
-            color: #bbb;
+            color: #333;
             max-width: 650px;
         }
 
-        .hero b { color: #fff; font-weight: 600; }
+        .hero b { color: #000; font-weight: 600; }
 
         .product-preview {
             display: flex;
@@ -188,12 +188,12 @@
 
         .tech-tag {
             padding: 10px 15px;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(255, 255, 255, 0.5);
             border: 1px solid var(--glass-border);
             border-radius: 2px;
             font-size: 10px;
             text-align: center;
-            color: #fff;
+            color: #000;
             transition: 0.3s;
             cursor: default;
             letter-spacing: 1px;
@@ -237,7 +237,7 @@
 
         .flow-btn.active {
             border-color: var(--accent);
-            color: #fff;
+            color: #000;
             background: var(--primary);
         }
 
@@ -285,7 +285,7 @@
             margin-top: 20px;
             font-size: 8px;
             padding: 4px 10px;
-            background: rgba(212, 160, 23, 0.05);
+            background: rgba(194, 94, 0, 0.03);
             color: var(--accent);
             border: 1px solid rgba(212, 160, 23, 0.2);
             border-radius: 2px;
@@ -328,7 +328,7 @@
         }
 
         .card .label { font-size: 9px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 3px; }
-        .card .value { font-size: 12px; color: #fff; word-break: break-all; transition: 0.3s; }
+        .card .value { font-size: 12px; color: #000; word-break: break-all; transition: 0.3s; }
         .card:hover .value { color: var(--accent); }
 
         /* Footer */
