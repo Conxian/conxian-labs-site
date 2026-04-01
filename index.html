@@ -357,6 +357,31 @@
             .product-preview { order: -1; padding: 50px; border-left: none; border-bottom: 1px solid var(--glass-border); }
             .viz-header { flex-direction: column; align-items: flex-start; gap: 20px; }
         }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+        .nav-logo {
+            font-weight: 700;
+            color: var(--accent);
+            font-size: 1.2rem;
+        }
+        .nav-links a {
+            margin-left: 2rem;
+            text-decoration: none;
+            color: var(--text);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
     </style>
 </head>
 <body>
@@ -367,6 +392,14 @@
             <div class="logo-container">
                 <img src="Conxian-Labs_Logo.jpg" alt="Conxian Labs">
             </div>
+
+            <nav class="nav-links">
+                <a href="#">HOME</a>
+                <a href="https://github.com/Conxian">REPOS</a>
+                <a href="#governance">TRUST</a>
+                <a href="mailto:support@conxian-labs.com">SUPPORT</a>
+            </nav>
+
             <div class="sys-status">
                 <div class="pulse"></div>
                 NODE_ZA_PRIMARY // STATUS: OPERATIONAL // PROTOCOL: SAB_V1
@@ -503,6 +536,26 @@
                 <p>Master Orchestrator. Docker-based orchestration for scaling the Conxian ecosystem and ensuring service synergy.</p>
                 <span class="status-tag">Operational</span>
             </a>
+        </div>
+
+
+        <div id="governance" class="section-title">Institutional Governance</div>
+        <div class="ecosystem-grid">
+            <div class="glass-panel eco-card">
+                <h4>Sovereign Trust</h4>
+                <p>Security is a fundamental business directive. All critical operations are hardware-secured using TEE/StrongBox for finality and MuSig2 for multi-party signatures.</p>
+                <a href="/SECURITY.md" class="status-tag">SECURITY_MD</a>
+            </div>
+            <div class="glass-panel eco-card">
+                <h4>Community Bounty</h4>
+                <p>We leverage a community-led execution model. Open bounties allow developers to claim and build sovereign infrastructure directly within our ecosystem.</p>
+                <a href="/CONTRIBUTING.md" class="status-tag">CONTRIBUTING_MD</a>
+            </div>
+            <div class="glass-panel eco-card">
+                <h4>Legal & License</h4>
+                <p>Conxian-Labs operates under the MIT License for public surfaces, ensuring maximum accessibility while maintaining professional financial governance.</p>
+                <a href="/LICENSE" class="status-tag">LICENSE_MD</a>
+            </div>
         </div>
 
         <div class="action-grid">
