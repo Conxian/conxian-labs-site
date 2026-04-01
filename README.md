@@ -19,7 +19,7 @@ Production / Active
 
 ## Relationship to the Conxian stack
 
-- Portfolio front-door that points users toward key parts of the stack (see [Portfolio Taxonomy](#-portfolio-taxonomy) below).
+- Portfolio front-door and ecosystem orchestrator that points users toward key parts of the stack (see [Portfolio Taxonomy](#-portfolio-taxonomy) below).
 - Key starting points:
   - [Conxius Wallet](https://github.com/Conxian/conxius-wallet)
   - [Conxian Gateway](https://github.com/Conxian/conxian-gateway)
