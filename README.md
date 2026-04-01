@@ -2,9 +2,28 @@
 
 The official landing page for Conxian-Labs (Pty) Ltd — Sovereign Infrastructure for the Bitcoin Renaissance.
 
-**Status:** Production / Active
-**Audience:** Institutional Partners, Developers, Sovereign Individuals
-**Role:** Portfolio Front-Door & Ecosystem Orchestrator
+## Purpose
+
+Provide a public-facing overview of Conxian-Labs, its flagship products, and the Conxian ecosystem narrative.
+
+## Status
+
+Production / Active
+
+## Audience
+
+- Institutional partners
+- Developers
+- Sovereign individuals
+- The general public learning what Conxian is
+
+## Relationship to the Conxian stack
+
+- Portfolio front-door and ecosystem orchestrator that points users toward key parts of the stack (see [Portfolio Taxonomy](#-portfolio-taxonomy) below).
+- Key starting points:
+  - [Conxius Wallet](https://github.com/Conxian/conxius-wallet)
+  - [Conxian Gateway](https://github.com/Conxian/conxian-gateway)
+  - [Conxius Platform](https://github.com/Conxian/conxius-platform)
 
 ## 🌍 Ecosystem Vision
 Conxian-Labs builds sovereign infrastructure that bridges Bitcoin (L1) and Stacks (L2) to enable high-performance, hardware-secured, and automated business settlement (SAB). This repository contains the static landing page representing the unified Conxian Protocol.
