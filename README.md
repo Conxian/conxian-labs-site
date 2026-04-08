@@ -10,9 +10,10 @@ Provide a public-facing overview of Conxian-Labs, its flagship products, and the
 
 Production / Active
 
-## Ownership
+<a id="ownership"></a>
+## Code ownership and reviews
 
-Ownership and review requirements are defined in [`CODEOWNERS`](./CODEOWNERS).
+See [`CODEOWNERS`](./CODEOWNERS) for code ownership rules and review assignment.
 
 ## Audience
 
