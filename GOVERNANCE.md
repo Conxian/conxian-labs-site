@@ -7,12 +7,12 @@ This repository is public. Governance rules must be documented without leaking p
 ## Ownership
 
 - **Repo owners:** defined by `CODEOWNERS`.
-- **Policy owners:** changes to governance, security, and documentation-policy files should be reviewed by the relevant entries in `CODEOWNERS`. Enforcement depends on branch protection settings (for example, requiring CODEOWNER review).
+- **Policy owners:** changes to governance, security, and documentation-policy files (such as `GOVERNANCE.md`, `SECURITY.md`, and `CONTRIBUTING.md`) must be reviewed by the relevant entries in `CODEOWNERS`. Enforcement depends on branch protection settings (for example, requiring CODEOWNER review).
 - **`CODEOWNERS` changes:** updates to `CODEOWNERS` itself should be reviewed by the owners defined in the target branch's existing `CODEOWNERS`.
 
 ## Change approval model
 
-All changes land via pull request and should be reviewed by the appropriate `CODEOWNERS`.
+All changes land via pull request and require review by the appropriate `CODEOWNERS`.
 
 If GitHub branch protection is configured to require CODEOWNER review, GitHub will enforce this requirement.
 

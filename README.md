@@ -46,7 +46,7 @@ The Conxian ecosystem is categorized by its functional role:
 - **Design System:** "Ivory Foundation" — High-contrast, institutional, and earthy aesthetic.
 - **Typography:** 'JetBrains Mono' (Engineering Precision).
 - **Visualization:** SVG-based "Root to Leaf" particle flow representing Vision and Settlement.
-## Governance and security
+## Governance and policies
 
 - Governance: [`GOVERNANCE.md`](./GOVERNANCE.md)
 - Security: [`SECURITY.md`](./SECURITY.md)
