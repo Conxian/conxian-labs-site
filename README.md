@@ -10,6 +10,10 @@ Provide a public-facing overview of Conxian-Labs, its flagship products, and the
 
 Production / Active
 
+## Ownership
+
+Ownership and review requirements are defined in [`CODEOWNERS`](./CODEOWNERS).
+
 ## Audience
 
 - Institutional partners
