@@ -6,11 +6,13 @@
     <title>Conxian Labs | Sovereign Autonomous Business (SAB)</title>
     <link rel="icon" href="Conxian_Logo.jpg" type="image/jpeg">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 
         :root {
             --bg: #FDFBF7;
             --accent: #C25E00; /* Earthy Gold */
+            --accent-blue: #137fec;
+            --radius: 8px;
             --accent-dim: #8b4500;
             --primary: #2E403B; /* Deep Forest Green */
             --glass: #FFFFFF;
@@ -26,7 +28,7 @@
         body {
             background-color: var(--bg);
             color: var(--text-main);
-            font-family: 'JetBrains Mono', monospace;
+            font-family: 'Space Grotesk', 'JetBrains Mono', monospace;
             overflow-x: hidden;
             background-image:
                 linear-gradient(var(--grid-line) 1px, transparent 1px),
@@ -34,6 +36,39 @@
                 radial-gradient(circle at 20% 30%, rgba(46, 64, 59, 0.05) 0%, transparent 40%),
                 radial-gradient(circle at 80% 70%, rgba(194, 94, 0, 0.03) 0%, transparent 40%);
             background-size: 40px 40px, 40px 40px, 100% 100%, 100% 100%;
+        }
+
+
+        [data-theme='dark'] {
+            --bg: #0A0A0A;
+            --accent: #137fec;
+            --accent-dim: #0d5cb3;
+            --primary: #FFFFFF;
+            --glass: #151515;
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-main: #FDFBF7;
+            --text-dim: #AAA;
+            --grid-line: rgba(19, 127, 236, 0.1);
+        }
+
+        .theme-toggle {
+            cursor: pointer;
+            padding: 8px 16px;
+            border-radius: var(--radius);
+            border: 1px solid var(--glass-border);
+            background: var(--glass);
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--accent);
+            color: var(--accent);
         }
 
         .dashboard {
@@ -50,9 +85,9 @@
             background: var(--glass);
             backdrop-filter: blur(16px);
             border: 1px solid var(--glass-border);
-            border-radius: 4px; /* Sharper, more institutional */
+            border-radius: var(--radius); /* Sharper, more institutional */
             box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.1);
-            padding: 35px;
+            padding: 24px;
             transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
@@ -75,7 +110,7 @@
             align-items: center;
             background: #000;
             padding: 12px 25px;
-            border-radius: 2px;
+            border-radius: var(--radius);
             border: 1px solid var(--accent-dim);
         }
 
@@ -182,7 +217,7 @@
 
         .tech-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 12px;
         }
 
@@ -190,7 +225,7 @@
             padding: 10px 15px;
             background: rgba(255, 255, 255, 0.5);
             border: 1px solid var(--glass-border);
-            border-radius: 2px;
+            border-radius: var(--radius);
             font-size: 10px;
             text-align: center;
             color: #000;
@@ -231,7 +266,7 @@
             font-size: 9px;
             cursor: pointer;
             transition: 0.3s;
-            border-radius: 2px;
+            border-radius: var(--radius);
             letter-spacing: 2px;
         }
 
@@ -252,9 +287,30 @@
         .node-group:hover .node-bg { stroke: var(--accent); stroke-width: 2.5; filter: drop-shadow(0 0 10px var(--accent-dim)); }
 
         /* Ecosystem Grid */
+
+        .stats-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .stats-container .label {
+            font-size: 10px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+        .stats-container .value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
         .ecosystem-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 25px;
         }
 
@@ -288,7 +344,7 @@
             background: rgba(194, 94, 0, 0.03);
             color: var(--accent);
             border: 1px solid rgba(212, 160, 23, 0.2);
-            border-radius: 2px;
+            border-radius: var(--radius);
             text-transform: uppercase;
             letter-spacing: 2px;
         }
@@ -307,8 +363,8 @@
             flex-direction: column;
             gap: 6px;
             opacity: 0.8;
-            border-radius: 2px;
-            font-family: 'JetBrains Mono', monospace;
+            border-radius: var(--radius);
+            font-family: 'Space Grotesk', 'JetBrains Mono', monospace;
         }
 
         /* Action Grid */
@@ -364,7 +420,7 @@
             align-items: center;
             padding: 1rem 2rem;
             margin-bottom: 2rem;
-            border-radius: 4px;
+            border-radius: var(--radius);
         }
         .nav-logo {
             font-weight: 700;
@@ -380,6 +436,21 @@
         }
         .nav-links a:hover {
             color: var(--accent);
+        }
+
+
+        @media (max-width: 1024px) {
+            .ecosystem-grid, .tech-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            .ecosystem-grid, .tech-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
     </style>
@@ -400,8 +471,11 @@
                 <a href="mailto:support@conxian-labs.com">SUPPORT</a>
             </nav>
 
+
             <div class="sys-status">
+                <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
                 <div class="pulse"></div>
+
                 NODE_ZA_PRIMARY // STATUS: OPERATIONAL // PROTOCOL: SAB_V1
             </div>
         </div>
@@ -539,6 +613,29 @@
         </div>
 
 
+
+        <div class="section-title">Sovereign Network Infrastructure</div>
+        <div class="ecosystem-grid">
+            <div class="glass-panel eco-card">
+                <div class="stats-container">
+                    <span class="label">Network Layers</span>
+                    <span class="value">15+</span>
+                </div>
+            </div>
+            <div class="glass-panel eco-card">
+                <div class="stats-container">
+                    <span class="label">Enclave Uptime</span>
+                    <span class="value">99.99%</span>
+                </div>
+            </div>
+            <div class="glass-panel eco-card">
+                <div class="stats-container">
+                    <span class="label">Settlement Latency</span>
+                    <span class="value">< 12ms</span>
+                </div>
+            </div>
+        </div>
+
         <div id="governance" class="section-title">Institutional Governance</div>
         <div class="ecosystem-grid">
             <div class="glass-panel eco-card">
@@ -671,6 +768,19 @@
             terminal.appendChild(line);
             if (terminal.childNodes.length > 8) terminal.removeChild(terminal.firstChild);
         }, 3500);
+
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme') || 'light';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
+
+        // Initialize theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
 
         // Initial state
         setFlow('root-leaf');
