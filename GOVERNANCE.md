@@ -14,6 +14,8 @@ This repository is public. Governance rules must be documented without leaking p
 
 All changes land via pull request and should be reviewed by the appropriate `CODEOWNERS`.
 
+If GitHub branch protection is configured to require CODEOWNER review, GitHub will enforce this requirement.
+
 ## Branching
 
 - **`main` branch**: Production branch for the public website.
