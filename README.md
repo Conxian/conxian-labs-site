@@ -45,11 +45,11 @@ The Conxian ecosystem is categorized by its functional role:
 
 ## Ownership
 
-Ownership and review requirements are defined in `CODEOWNERS`.
+Ownership and review requirements are defined in [`CODEOWNERS`](./CODEOWNERS).
 
 ## Governance and security
 
-- Governance: `GOVERNANCE.md`
-- Security: `SECURITY.md`
-- Contributing: `CONTRIBUTING.md`
-- License: `LICENSE` (MIT)
+- Governance: [`GOVERNANCE.md`](./GOVERNANCE.md)
+- Security: [`SECURITY.md`](./SECURITY.md)
+- Contributing: [`CONTRIBUTING.md`](./CONTRIBUTING.md)
+- License: [`LICENSE`](./LICENSE) (MIT)
