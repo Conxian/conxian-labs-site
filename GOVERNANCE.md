@@ -15,7 +15,7 @@ All changes land via pull request and require review by the appropriate `CODEOWN
 
 If GitHub branch protection is configured to require CODEOWNER review, this requirement is enforced by GitHub.
 
-Changes to `CODEOWNERS` itself should be reviewed by current owners (or handled via SAB governance for emergency ownership changes).
+Changes to `CODEOWNERS` itself should be reviewed by the owners defined in the target branch's existing `CODEOWNERS` (or handled via SAB governance for emergency ownership changes).
 
 ## Branching
 
