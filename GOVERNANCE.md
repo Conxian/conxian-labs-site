@@ -11,9 +11,9 @@ This repository is public. Governance rules must be documented without leaking p
 
 ## Change approval model
 
-All changes land via pull request and should be reviewed by the appropriate `CODEOWNERS`.
+All changes land via pull request and require review by the appropriate `CODEOWNERS`.
 
-Changes to `CODEOWNERS` itself should be reviewed by current owners.
+Changes to `CODEOWNERS` itself should be reviewed by current owners (or handled via SAB governance for emergency ownership changes).
 
 ## Branching
 

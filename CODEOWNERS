@@ -2,6 +2,6 @@
 #
 # Notes:
 # - GitHub uses this file to auto-request reviews when a PR touches matching paths.
-# - Entries must be resolvable GitHub usernames or organization teams (format: @org/team).
+# - Use GitHub usernames or organization teams (format: @org/team). Avoid emails and internal aliases so GitHub can auto-request reviews.
 
 * @botshelomokoka @admin-conxian-labs
