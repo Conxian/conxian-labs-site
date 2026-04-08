@@ -2,6 +2,6 @@
 #
 # Notes:
 # - GitHub uses this file to auto-request reviews when a PR touches matching paths.
-# - Prefer listing real GitHub usernames (not internal role aliases).
+# - Entries must be resolvable GitHub usernames or organization teams (format: @org/team).
 
 * @botshelomokoka @admin-conxian-labs
