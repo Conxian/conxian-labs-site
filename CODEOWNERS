@@ -1,3 +1,7 @@
 # Code owners for the conxian-labs-site repository.
+#
+# Notes:
+# - GitHub uses this file to auto-request reviews when a PR touches matching paths.
+# - Use GitHub usernames or organization teams (format: @org/team). Avoid emails and internal aliases so GitHub can auto-request reviews.
 
 * @botshelomokoka @admin-conxian-labs
