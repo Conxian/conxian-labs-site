@@ -8,7 +8,7 @@ This repository is public. Governance rules must be documented without leaking p
 
 - **Repo owners:** defined by `CODEOWNERS`.
 - **Policy owners:** changes to governance, security, and documentation-policy files should be reviewed by the relevant entries in `CODEOWNERS`. Enforcement depends on branch protection settings (for example, requiring CODEOWNER review).
-- **`CODEOWNERS` changes:** updates to `CODEOWNERS` itself should be reviewed by the current repo owners.
+- **`CODEOWNERS` changes:** updates to `CODEOWNERS` itself should be reviewed by the owners defined in the target branch's existing `CODEOWNERS`.
 
 ## Change approval model
 
