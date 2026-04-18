@@ -1,28 +1,38 @@
 # Conxian Labs Site
 
-The official landing page for Conxian-Labs (Pty) Ltd — Sovereign Infrastructure for the Bitcoin Renaissance.
+Official website repository for Conxian-Labs (Pty) Ltd.
 
 ### Purpose
-Official portfolio, trust, and navigation layer for the public Conxian ecosystem. This repository serves as the canonical "front door" and ecosystem orchestrator.
+This repository hosts the public landing page and serves as a navigation hub to the wider Conxian ecosystem.
 
 ### Status
 Active public surface.
 
-### Audience
-Institutional partners, developers, sovereign individuals, and operators.
+### Audience (who should use this now)
+Use this repository if you need:
+- official public-facing site content,
+- links to current ecosystem repositories,
+- governance, contribution, and security policy references.
 
-### Relation to the wider stack
-This repository connects the wider Conxian stack across the site, product UI, wallet, gateway, platform, and developer tooling surfaces.
+For product implementation work (UI, wallet, gateway, platform, SDK), use the respective repositories listed below.
+
+### Maintenance expectations
+- **Actively maintained:** `main` branch content for the public site and core policy docs (`index.html`, `README.md`, `CONTRIBUTING.md`, `SECURITY.md`, `GOVERNANCE.md`).
+- **Issue/PR triage cadence:** best-effort weekly triage for non-security issues and pull requests.
+- **Security reports:** acknowledged within 48–72 hours, as defined in [`SECURITY.md`](./SECURITY.md).
+- **Branch support:** historical/stale branches are not guaranteed ongoing maintenance.
+
+### Naming and branding conventions
+- **Conxian / Conxian Labs** = umbrella organization and public ecosystem brand.
+- **Conxius** = product naming used by some platform and wallet repositories.
+- Mixed naming across linked repositories is intentional and reflects product/repository history.
 
 ---
 
-## Ecosystem Vision
-Conxian-Labs builds sovereign infrastructure that bridges Bitcoin (L1) and Stacks (L2) to enable high-performance, hardware-secured, and automated business settlement (SAB).
-
-## Public Taxonomy
-The Conxian ecosystem is categorized by its functional role:
+## Ecosystem Map
+The Conxian ecosystem is grouped by function:
 - **Site:** Public portfolio and trust layer ([conxian-labs-site](https://github.com/Conxian/conxian-labs-site)).
-- **Product UI:** Direct user interaction layers ([Conxian_UI](https://github.com/Conxian/Conxian_UI)).
+- **Product UI:** User interaction layers ([Conxian_UI](https://github.com/Conxian/Conxian_UI)).
 - **Platform/Core:** Master orchestration ([conxius-platform](https://github.com/Conxian/conxius-platform) / [Conxian](https://github.com/Conxian/Conxian)).
 - **Wallet:** Sovereign access and TEE-secured vaults ([conxius-wallet](https://github.com/Conxian/conxius-wallet)).
 - **Gateway/Rails:** Institutional bridges and unified APIs ([conxian-gateway](https://github.com/Conxian/conxian-gateway)).
@@ -30,15 +40,15 @@ The Conxian ecosystem is categorized by its functional role:
 
 ## Technical Architecture
 - **Tech Stack:** Static HTML5 / CSS3 / Vanilla JavaScript.
-- **Design System:** "Ivory Foundation" — High-contrast, institutional, and earthy aesthetic.
-- **Typography:** 'JetBrains Mono' (Engineering Precision).
-- **Visualization:** SVG-based "Root-to-Leaf" schematic representing Vision and Settlement.
+- **Design System:** "Ivory Foundation" visual standard.
+- **Typography:** 'JetBrains Mono'.
+- **Visualization:** SVG-based "Root-to-Leaf" schematic.
 
-## Governance and Policies
-- **Code Ownership:** See [`CODEOWNERS`](./CODEOWNERS).
+## Contributing and Security
+- **Contributing guide:** [`CONTRIBUTING.md`](./CONTRIBUTING.md)
+- **Security policy/reporting:** [`SECURITY.md`](./SECURITY.md)
+- **Code ownership:** [`CODEOWNERS`](./CODEOWNERS)
 - **Governance:** [`GOVERNANCE.md`](./GOVERNANCE.md)
-- **Security:** [`SECURITY.md`](./SECURITY.md)
-- **Contributing:** [`CONTRIBUTING.md`](./CONTRIBUTING.md)
 - **License:** [`LICENSE`](./LICENSE) (MIT)
 
 ---
