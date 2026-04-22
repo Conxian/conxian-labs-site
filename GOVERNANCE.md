@@ -25,7 +25,7 @@ If GitHub branch protection is configured to require CODEOWNER review, GitHub wi
 Conxian operates under a Zero Secret Egress (ZSE) mandate.
 
 - Public-safe documentation may live in Git.
-- Strategic, legal, operational, and administrative documents that are internal-only must be stored outside of Git (for example: in the Conxian Linear workspace) and referenced from Git with a pointer when needed.
+- Strategic, legal, operational, and administrative documents that are internal-only must be stored outside of Git (for example: in the sovereign coordination layer) and referenced from Git with a pointer when needed.
 
 ## Policies
 
