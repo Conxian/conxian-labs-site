@@ -1,0 +1,11 @@
+{
+  "name": "conxian-labs-site",
+  "version": "1.1.0",
+  "description": "Official website for Conxian Labs",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0"
+  }
+}

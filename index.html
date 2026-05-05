@@ -268,7 +268,7 @@
         /* Product Grid Refined */
         .product-stack-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 24px;
         }
 
@@ -523,10 +523,25 @@
                     <p>Installed wallet product for sovereign custody, signing, and device-level protection.</p>
                     <span class="status-chip">Installed Wallet Product</span>
                 </a>
+                <a href="https://github.com/Conxian/conxian-gateway" class="product-tile">
+                    <h3>Gateway</h3>
+                    <p>Institutional Bridge. High-performance Rust layer for unified Bitcoin-layer access.</p>
+                    <span class="status-chip">Fusion Layer</span>
+                </a>
+                <a href="https://github.com/Conxian/conxian-nexus" class="product-tile">
+                    <h3>Nexus</h3>
+                    <p>Decentralized Risk Oracle. Core settlement and policy reconciliation engine.</p>
+                    <span class="status-chip">Risk Oracle</span>
+                </a>
                 <a href="https://github.com/Conxian/conxius-platform" class="product-tile">
                     <h3>Builder / Agent Infra</h3>
                     <p>Gateway and platform infrastructure for orchestration, automation, and service reliability.</p>
                     <span class="status-chip">Operational Foundations</span>
+                </a>
+                <a href="https://github.com/Conxian/lib-conxian-core" class="product-tile">
+                    <h3>Core</h3>
+                    <p>Protocol Primitives. Shared cryptographic logic and sovereign settlement rules.</p>
+                    <span class="status-chip">Shared Primitives</span>
                 </a>
                 <a href="/sdk" class="product-tile">
                     <h3>Developer Package</h3>
@@ -653,9 +668,9 @@
                     <span class="status-chip">Governance Active</span>
                 </div>
                 <div class="proof-block">
-                    <h4>Security & Release</h4>
-                    <p>Public surfaces avoid sensitive exposure and artifact tracking, with visible release maturity and CI signals.</p>
-                    <span class="status-chip">Release Discipline</span>
+                    <h4>Mainnet Readiness</h4>
+                    <p>Orchestration, gateway, and wallet flows are being cut over to mainnet-ready operation with full audit integrity.</p>
+                    <span class="status-chip">Mainnet Cutover</span>
                 </div>
             </div>
         </section>
@@ -767,9 +782,10 @@
             "> SYNCING_BLOCKCHAIN_STATE...",
             "> ENCLAVE_HEALTH: 100%",
             "> MUSIG2_KEY_ROTATION: OK",
-            "> SAB_DIRECTIVE_SYNCED",
-            "> PROTOCOL_TVL: REFRESHED",
-            "> GATEWAY_LATENCY: 8ms",
+            "> MAINNET_AUDIT: IN_PROGRESS",
+            "> DEPLOYMENT_READINESS: 88%",
+            "> GATEWAY_SETTLEMENT: MAINNET_READY",
+            "> WALLET_SIGNER_CUTOVER: ACTIVE",
             "> SOVEREIGNTY_VERIFIED"
         ];
         const terminal = document.getElementById('terminal');

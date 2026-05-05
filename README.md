@@ -33,10 +33,12 @@ For product implementation work (UI, wallet, gateway, platform, SDK), use the re
 The Conxian ecosystem is grouped by function:
 - **Site:** Public portfolio and trust layer ([conxian-labs-site](https://github.com/Conxian/conxian-labs-site)).
 - **Product UI:** User interaction layers ([Conxian_UI](https://github.com/Conxian/Conxian_UI)).
-- **Platform/Core:** Master orchestration ([conxius-platform](https://github.com/Conxian/conxius-platform) / [Conxian](https://github.com/Conxian/Conxian)).
 - **Wallet:** Sovereign access and TEE-secured vaults ([conxius-wallet](https://github.com/Conxian/conxius-wallet)).
-- **Gateway/Rails:** Institutional bridges and unified APIs ([conxian-gateway](https://github.com/Conxian/conxian-gateway)).
-- **SDK/Core Libraries:** Cross-platform cryptographic primitives ([lib-conclave-sdk](https://github.com/Conxian/lib-conclave-sdk) / [lib-conxian-core](https://github.com/Conxian/lib-conxian-core)).
+- **Gateway:** Institutional bridges and unified Fusion Layer ([conxian-gateway](https://github.com/Conxian/conxian-gateway)).
+- **Nexus:** Decentralized Risk Oracle and policy engine ([conxian-nexus](https://github.com/Conxian/conxian-nexus)).
+- **Platform:** Sovereign orchestration and NixOS control plane ([conxius-platform](https://github.com/Conxian/conxius-platform)).
+- **Core:** Shared protocol primitives and settlement rules ([lib-conxian-core](https://github.com/Conxian/lib-conxian-core)).
+- **SDK:** Cross-platform cryptographic enclave SDK ([lib-conclave-sdk](https://github.com/Conxian/lib-conclave-sdk)).
 
 ## Technical Architecture
 - **Tech Stack:** Static HTML5 / CSS3 / Vanilla JavaScript.
