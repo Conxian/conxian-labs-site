@@ -1,34 +1,25 @@
 # Governance
 
-This repository is governed by the Conxian Sovereign Autonomous Business (SAB).
+This repository is governed by the Conxian Sovereign Autonomous Business (SAB) framework.
 
-This repository is public. Governance rules must be documented without leaking privileged operational details.
+## Ownership & Review
 
-## Ownership
+- **Code Ownership:** Defined in `CODEOWNERS`. All changes require a pass from at least one primary owner.
+- **Policy Enforcement:** Changes to `GOVERNANCE.md`, `SECURITY.md`, and `CONTRIBUTING.md` are treated as high-impact and require consensus from the SAB lead.
+- **Sovereign Controls:** Repository settings, branch protections, and CI gate logic are audited weekly for alignment with the Mainnet-Ready standard.
 
-- **Repo owners:** defined by `CODEOWNERS`.
-- **Policy owners:** changes to governance, security, and documentation-policy files (such as `GOVERNANCE.md`, `SECURITY.md`, and `CONTRIBUTING.md`) must be reviewed by the relevant entries in `CODEOWNERS`. Enforcement depends on branch protection settings (for example, requiring CODEOWNER review).
-- **`CODEOWNERS` changes:** updates to `CODEOWNERS` itself should be reviewed by the owners defined in the target branch's existing `CODEOWNERS`.
+## Change Approval Model
 
-## Change approval model
+1. **Proposal:** Issues are tracked in the sovereign coordination layer (Linear).
+2. **Implementation:** Via descriptive pull requests linking to the relevant issue.
+3. **Verification:** All PRs must pass the institutional design compliance suite (`npm test`).
+4. **Finality:** Merges to `main` signify production-ready state.
 
-All changes land via pull request and require review by the appropriate `CODEOWNERS`.
+## Branching Standard
 
-If GitHub branch protection is configured to require CODEOWNER review, GitHub will enforce this requirement.
+- **main:** Production stable. Strictly protected.
+- **feature/*:** Development paths.
+- **release/*:** Candidate cutovers for mainnet alignment.
 
-## Branching
-
-- **`main` branch**: Production branch for the public website.
-
-## Documentation confidentiality (ZSE)
-
-Conxian operates under a Zero Secret Egress (ZSE) mandate.
-
-- Public-safe documentation may live in Git.
-- Strategic, legal, operational, and administrative documents that are internal-only must be stored outside of Git (for example: in the sovereign coordination layer) and referenced from Git with a pointer when needed.
-
-## Policies
-
-- Contributing guidelines: [`CONTRIBUTING.md`](./CONTRIBUTING.md)
-- Security policy: [`SECURITY.md`](./SECURITY.md)
-- License: [`LICENSE`](./LICENSE) (MIT)
+---
+*CONXIAN-LABS // 2026 // SOVEREIGN AUTONOMOUS BUSINESS (SAB)*
