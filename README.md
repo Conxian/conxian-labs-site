@@ -3,7 +3,8 @@
 Official website repository for Conxian-Labs (Pty) Ltd.
 
 ### Purpose
-This repository hosts the public landing page and serves as a navigation hub to the wider Conxian ecosystem.
+This repository hosts the public landing page and serves as a narrative/discovery surface for the wider Conxian ecosystem.
+It does not define execution authority or lifecycle control for product/platform repositories.
 
 ### Status
 Active public surface.
@@ -22,6 +23,10 @@ For product implementation work (UI, wallet, gateway, platform, SDK), use the re
 - **Security reports:** acknowledged within 48–72 hours, as defined in [`SECURITY.md`](./SECURITY.md).
 - **Branch support:** historical/stale branches are not guaranteed ongoing maintenance.
 
+### Role boundary
+- **This repository:** public narrative, discovery/navigation, and trust-policy references.
+- **Parent initiative + implementation repositories:** execution authority, delivery lifecycle, and operational coordination.
+
 ### Naming and branding conventions
 - **Conxian / Conxian Labs** = umbrella organization and public ecosystem brand.
 - **Conxius** = product naming used by some platform and wallet repositories.
@@ -31,9 +36,9 @@ For product implementation work (UI, wallet, gateway, platform, SDK), use the re
 
 ## Ecosystem Map
 The Conxian ecosystem is grouped by function:
-- **Site:** Public portfolio and trust layer ([conxian-labs-site](https://github.com/Conxian/conxian-labs-site)).
+- **Site:** Public narrative, trust, and navigation surface ([conxian-labs-site](https://github.com/Conxian/conxian-labs-site)).
 - **Product UI:** User interaction layers ([Conxian_UI](https://github.com/Conxian/Conxian_UI)).
-- **Platform/Core:** Master orchestration ([conxius-platform](https://github.com/Conxian/conxius-platform) / [Conxian](https://github.com/Conxian/Conxian)).
+- **Platform/Core:** Execution and lifecycle coordination under the parent initiative model ([conxius-platform](https://github.com/Conxian/conxius-platform) / [Conxian](https://github.com/Conxian/Conxian)).
 - **Wallet:** Sovereign access and TEE-secured vaults ([conxius-wallet](https://github.com/Conxian/conxius-wallet)).
 - **Gateway/Rails:** Institutional bridges and unified APIs ([conxian-gateway](https://github.com/Conxian/conxian-gateway)).
 - **SDK/Core Libraries:** Cross-platform cryptographic primitives ([lib-conclave-sdk](https://github.com/Conxian/lib-conclave-sdk) / [lib-conxian-core](https://github.com/Conxian/lib-conxian-core)).
@@ -42,7 +47,7 @@ The Conxian ecosystem is grouped by function:
 - **Tech Stack:** Static HTML5 / CSS3 / Vanilla JavaScript.
 - **Design System:** "Ivory Foundation" visual standard.
 - **Typography:** 'JetBrains Mono'.
-- **Visualization:** SVG-based "Root-to-Leaf" schematic.
+- **Visualization:** SVG-based repository relationship schematic.
 
 ## Contributing and Security
 - **Contributing guide:** [`CONTRIBUTING.md`](./CONTRIBUTING.md)
@@ -52,4 +57,4 @@ The Conxian ecosystem is grouped by function:
 - **License:** [`LICENSE`](./LICENSE) (MIT)
 
 ---
-*CONXIAN-LABS // 2026 // SOVEREIGN AUTONOMOUS BUSINESS (SAB)*
+*CONXIAN-LABS // 2026 // PUBLIC NARRATIVE SURFACE*
