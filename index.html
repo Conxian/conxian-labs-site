@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conxian Labs | Sovereign Autonomous Business (SAB)</title>
+    <title>Conxian Labs | Public Narrative Surface</title>
     <link rel="icon" href="Conxian_Logo.jpg" type="image/jpeg">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap');
@@ -470,9 +470,9 @@
         <!-- Hero Section -->
         <section class="hero-layout">
             <div class="hero-text">
-                <span class="tag-line">Canonical Front Door</span>
-                <h1>Build and operate the Conxian ecosystem</h1>
-                <p>Conxian-Labs brings together the public-facing platform, product UI, wallet, gateway, and developer surfaces that power the broader Conxian stack.</p>
+                <span class="tag-line">Public Narrative Surface</span>
+                <h1>Explore the Conxian ecosystem</h1>
+                <p>This site provides a public narrative and discovery layer across Conxian repositories. Execution authority and lifecycle control remain with the parent initiative model and implementation repositories.</p>
 
                 <div class="cta-group">
                     <a href="https://github.com/Conxian/conxius-platform" class="btn btn-primary">Explore platform</a>
@@ -491,7 +491,7 @@
                 <div class="terminal-box" id="terminal">
                     <div>> ATTESTATION_SEQUENCE_INIT...</div>
                     <div>> HARDWARE_KEY_BOOT: COMPLETED</div>
-                    <div>> PROTOCOL: CONXIAN_SAB_V1.1</div>
+                    <div>> PROTOCOL: CONXIAN_PUBLIC_V1.1</div>
                     <div>> STATUS: OPERATIONAL</div>
                 </div>
             </div>
@@ -502,13 +502,13 @@
             <div class="section-header-refined">
                 <span class="tag-line">Ecosystem Architecture</span>
                 <h2>Product Stack</h2>
-                <p>We maintain a connected set of public-facing surfaces across platform, product UI, wallet, gateway, and developer tooling, designed for institutional-grade Bitcoin infrastructure.</p>
+                <p>This site maps a connected set of public repositories across platform, product UI, wallet, gateway, and developer tooling for institutional-grade Bitcoin infrastructure.</p>
             </div>
 
             <div class="product-stack-grid">
                 <a href="#" class="product-tile">
                     <h3>Site</h3>
-                    <p>Official portfolio, trust, and navigation layer for the Conxian ecosystem.</p>
+                    <p>Public narrative, trust, and navigation surface for the Conxian repository portfolio.</p>
                     <span class="status-chip">Public Surface</span>
                 </a>
                 <a href="https://github.com/Conxian/Conxian_UI" class="product-tile">
@@ -528,7 +528,7 @@
                 </a>
                 <a href="https://github.com/Conxian/conxius-platform" class="product-tile">
                     <h3>Platform</h3>
-                    <p>Master Orchestrator. Docker-based coordination and ecosystem scaling.</p>
+                    <p>Core platform repository for execution and lifecycle coordination under the parent initiative model.</p>
                     <span class="status-chip">Operational</span>
                 </a>
                 <a href="https://github.com/Conxian/lib-conclave-sdk" class="product-tile">
@@ -576,8 +576,8 @@
         <!-- Visualization - Schematic Style -->
         <section class="schematic-viz">
             <div class="blueprint-grid"></div>
-            <h3>Root-to-Leaf Architecture</h3>
-            <p>Precise mapping of sovereign directives flowing from core infrastructure to the end-user.</p>
+            <h3>Repository Relationship View</h3>
+            <p>Public map of repository relationships and information flow across user-facing components.</p>
 
             <div class="flow-controls" style="margin-bottom: 64px; position: relative; z-index: 10;">
                 <button class="flow-btn active" id="btn-vision" onclick="setFlow('root-leaf')">VISION_FLOW</button>
@@ -594,7 +594,7 @@
                     <g class="node-group root" transform="translate(400,300)">
                         <circle r="40" class="node-bg" />
                         <text y="5" class="node-text" style="font-weight: 700; fill: var(--accent);">LABS</text>
-                        <text y="60" class="node-label">SAB Core Engine</text>
+                        <text y="60" class="node-label">Parent Initiative</text>
                     </g>
                     <g class="node-group leaf" transform="translate(150,150)">
                         <rect x="-40" y="-20" width="80" height="40" class="node-bg" />
@@ -626,7 +626,7 @@
             <div class="section-header-refined">
                 <span class="tag-line">Verification Standards</span>
                 <h2>Proof & Readiness</h2>
-                <p>The public Conxian surface is being aligned around clearer repo roles, stronger governance standards, and a more consistent trust posture.</p>
+                <p>This repository is aligned for public narrative, discovery, and trust documentation, while execution decisions stay in the parent initiative and implementation repositories.</p>
             </div>
             <div class="proof-section">
                 <div class="proof-block">
@@ -682,7 +682,7 @@
             </div>
         </div>
         <div class="footer-legal">
-            <div>&copy; 2026 CONXIAN-LABS (PTY) LTD // SOVEREIGN AUTONOMOUS BUSINESS (SAB)</div>
+            <div>&copy; 2026 CONXIAN-LABS (PTY) LTD // PUBLIC SITE</div>
             <div class="nav-links" style="gap: 24px;">
                 <a href="https://github.com/Conxian">SOURCE_CODE</a>
                 <a href="/privacy.html">PRIVACY_POLICY</a>
@@ -708,10 +708,10 @@
 
             const desc = document.getElementById('flow-desc');
             if (flow === 'root-leaf') {
-                desc.innerText = "Root-to-Leaf: Sovereign directives flowing from core infrastructure to the end-user.";
+                desc.innerText = "Root-to-Leaf: Public repository context flowing from parent initiative to user-facing components.";
                 Object.values(paths).forEach(p => p.classList.add('active'));
             } else {
-                desc.innerText = "Leaf-to-Root: Cryptographic state-finality and settlement returning to the Labs Core.";
+                desc.innerText = "Leaf-to-Root: Feedback and release signals from product surfaces back to parent coordination.";
                 Object.values(paths).forEach(p => p.classList.remove('active'));
             }
         }
@@ -753,7 +753,7 @@
             "> SYNCING_BLOCKCHAIN_STATE...",
             "> ENCLAVE_HEALTH: 100%",
             "> MUSIG2_KEY_ROTATION: OK",
-            "> SAB_DIRECTIVE_SYNCED",
+            "> PUBLIC_INDEX_SYNCED",
             "> PROTOCOL_TVL: REFRESHED",
             "> GATEWAY_LATENCY: 8ms",
             "> SOVEREIGNTY_VERIFIED"

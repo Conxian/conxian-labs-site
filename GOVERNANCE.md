@@ -1,8 +1,10 @@
 # Governance
 
-This repository is governed by the Conxian Sovereign Autonomous Business (SAB).
+This repository is maintained through public GitHub governance for the Conxian Labs site.
 
-This repository is public. Governance rules must be documented without leaking privileged operational details.
+This repository is public. Governance rules here are limited to public contribution, review, and policy expectations.
+
+This repository does not define execution authority or lifecycle governance for other Conxian repositories.
 
 ## Ownership
 
@@ -20,12 +22,10 @@ If GitHub branch protection is configured to require CODEOWNER review, GitHub wi
 
 - **`main` branch**: Production branch for the public website.
 
-## Documentation confidentiality (ZSE)
-
-Conxian operates under a Zero Secret Egress (ZSE) mandate.
+## Public documentation boundary
 
 - Public-safe documentation may live in Git.
-- Strategic, legal, operational, and administrative documents that are internal-only must be stored outside of Git (for example: in the sovereign coordination layer) and referenced from Git with a pointer when needed.
+- Strategic, legal, operational, and administrative material that is internal-only must remain in approved private systems and should not be committed to this repository.
 
 ## Policies
 
