@@ -1,27 +1,24 @@
 # Contributing to Conxian Labs Site
 
-We welcome community contributions that align with our sovereign infrastructure ethos.
+We welcome community contributions that improve the public Conxian Labs site and documentation.
 
-This repository contains the static landing page and navigational hub for Conxian Labs.
+This repository contains the static landing page and public policy documents for Conxian Labs.
 
-## Bounty Workflow
+## Issue Workflow
 
-Many issues in the Conxian ecosystem are open for community claiming via the sovereign coordination layer or GitHub.
+1. Find or open a GitHub issue describing the proposed change.
+2. Comment on the issue if you plan to work on it to reduce duplicate effort.
+3. Submit a pull request with a clear description and linked issue.
 
-1. Locate an issue with a bounty or community-open status.
-2. Follow the claiming instructions provided in the issue description.
-3. Submit a Pull Request with a clear description and link it to the relevant Linear issue.
+## Standards
 
-## Design & Engineering Standards
-
-- **Theme:** Maintain the "Ivory Foundation" aesthetic (#FDFBF7 canvas).
-- **Typography:** Use 'JetBrains Mono' for all technical and institutional copy.
-- **Accessibility:** Ensure **WCAG AAA** compliance for all financial and critical interaction data.
-- **Verification:** All UI changes must pass the local Playwright compliance suite (`npm test`).
+- Maintain the "Ivory Foundation" aesthetic.
+- Ensure WCAG AAA compliance.
+- Use 'JetBrains Mono' for all typography.
 
 ## Pull Request Process
 
-1. Create a descriptive branch for your change (e.g., `feature/add-nexus-link`).
-2. Link your pull request to the relevant Linear issue.
-3. Request review from the owners defined in `CODEOWNERS`.
-4. **ZSE Mandate:** Ensure the change does not introduce secrets, private keys, or privileged operational details.
+1. Create a descriptive branch for your change.
+2. Link your pull request to the relevant GitHub issue.
+3. Request review from the appropriate owners (see `CODEOWNERS`).
+4. Ensure the change does not introduce secrets, private keys, or privileged operational details.

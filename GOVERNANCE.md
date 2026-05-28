@@ -1,25 +1,34 @@
 # Governance
 
-This repository is governed by the Conxian Sovereign Autonomous Business (SAB) framework.
+This repository is maintained through public GitHub governance for the Conxian Labs site.
 
-## Ownership & Review
+This repository is public. Governance rules here are limited to public contribution, review, and policy expectations.
 
-- **Code Ownership:** Defined in `CODEOWNERS`. All changes require a pass from at least one primary owner.
-- **Policy Enforcement:** Changes to `GOVERNANCE.md`, `SECURITY.md`, and `CONTRIBUTING.md` are treated as high-impact and require consensus from the SAB lead.
-- **Sovereign Controls:** Repository settings, branch protections, and CI gate logic are audited weekly for alignment with the Mainnet-Ready standard.
+This repository does not define execution authority or lifecycle governance for other Conxian repositories.
 
-## Change Approval Model
+## Ownership
 
-1. **Proposal:** Issues are tracked in the sovereign coordination layer (Linear).
-2. **Implementation:** Via descriptive pull requests linking to the relevant issue.
-3. **Verification:** All PRs must pass the institutional design compliance suite (`npm test`).
-4. **Finality:** Merges to `main` signify production-ready state.
+- **Repo owners:** defined by `CODEOWNERS`.
+- **Policy owners:** changes to governance, security, and documentation-policy files (such as `GOVERNANCE.md`, `SECURITY.md`, and `CONTRIBUTING.md`) must be reviewed by the relevant entries in `CODEOWNERS`. Enforcement depends on branch protection settings (for example, requiring CODEOWNER review).
+- **`CODEOWNERS` changes:** updates to `CODEOWNERS` itself should be reviewed by the owners defined in the target branch's existing `CODEOWNERS`.
 
-## Branching Standard
+## Change approval model
 
-- **main:** Production stable. Strictly protected.
-- **feature/*:** Development paths.
-- **release/*:** Candidate cutovers for mainnet alignment.
+All changes land via pull request and require review by the appropriate `CODEOWNERS`.
 
----
-*CONXIAN-LABS // 2026 // SOVEREIGN AUTONOMOUS BUSINESS (SAB)*
+If GitHub branch protection is configured to require CODEOWNER review, GitHub will enforce this requirement.
+
+## Branching
+
+- **`main` branch**: Production branch for the public website.
+
+## Public documentation boundary
+
+- Public-safe documentation may live in Git.
+- Strategic, legal, operational, and administrative material that is internal-only must remain in approved private systems and should not be committed to this repository.
+
+## Policies
+
+- Contributing guidelines: [`CONTRIBUTING.md`](./CONTRIBUTING.md)
+- Security policy: [`SECURITY.md`](./SECURITY.md)
+- License: [`LICENSE`](./LICENSE) (MIT)
