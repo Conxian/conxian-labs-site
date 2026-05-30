@@ -3,6 +3,8 @@
 ## Purpose
 
 `conxian-labs-site` is the public narrative and entry surface for the Conxian portfolio.
+Conxian is the protocol/ecosystem context; Conxian Labs is the builder/operator entity for this site and related services.
+Conxian Labs does not hold customer funds or custody user assets.
 
 ## This repo owns
 
@@ -16,6 +18,7 @@
 - shared-core ownership
 - protocol identity
 - reference-client behavior
+- custody of customer funds, user assets, or signing authority
 
 ## Boundary rule
 
