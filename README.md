@@ -45,6 +45,10 @@ The Conxian ecosystem is grouped by function:
 - **Gateway/Rails:** Institutional bridges and unified APIs ([conxian-gateway](https://github.com/Conxian/conxian-gateway)).
 - **SDK/Core Libraries:** Cross-platform cryptographic primitives ([lib-conclave-sdk](https://github.com/Conxian/lib-conclave-sdk) / [lib-conxian-core](https://github.com/Conxian/lib-conxian-core)).
 
+### Preferred Host
+- Preferred public host: `https://www.conxian-labs.com`.
+- Host redirects/canonicalization are enforced at the hosting/DNS layer (outside this repository).
+
 ## Service Endpoints
 - **Gateway:** `https://gateway.conxian-labs.com`
 - **Vault/KMS:** `https://vault.conxian-labs.com`
