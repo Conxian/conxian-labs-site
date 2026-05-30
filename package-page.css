@@ -223,10 +223,17 @@ p {
     gap: 10px;
     margin-top: 14px;
     padding-left: 16px;
+    list-style: none;
 }
 
 .inline-list li {
     color: var(--text-dim);
+}
+
+.inline-list a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 700;
 }
 
 .note {

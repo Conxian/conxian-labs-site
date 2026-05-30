@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conxian Labs | Public Narrative Surface</title>
+    <title>Conxian Labs | Builder & Operator</title>
     <link rel="icon" href="Conxian_Logo.jpg" type="image/jpeg">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap');
@@ -464,6 +464,59 @@
         }
         .code-block .comment { color: #888; }
         .code-block .string { color: var(--accent); }
+        .status-chip {
+            display: inline-block;
+            padding: 4px 12px;
+            background: var(--surface-mid);
+            border-radius: 100px;
+            font-size: 8px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .flow-btn {
+            background: transparent;
+            border: 1.5px solid #444;
+            color: #888;
+            padding: 12px 24px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .flow-btn.active {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        .branch {
+            fill: none;
+            stroke: #333;
+            stroke-width: 1.5;
+            transition: 0.5s;
+        }
+        .branch.active {
+            stroke: var(--accent);
+        }
+        .node-bg {
+            fill: #111;
+            stroke: #444;
+            stroke-width: 1;
+        }
+        .node-text {
+            font-size: 10px;
+            text-anchor: middle;
+            fill: #FFF;
+            letter-spacing: 1px;
+        }
+        .node-label {
+            font-size: 8px;
+            text-anchor: middle;
+            fill: #888;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
     </style>
 </head>
 <body>
@@ -475,8 +528,8 @@
 
         <nav class="nav-links">
             <a href="/">Home</a>
-            <a href="#products">Products</a>
-            <a href="#developers">Developers</a>
+            <a href="#products">Services</a>
+            <a href="#developers">Builders</a>
             <a href="/docs">Docs</a>
             <a href="/pricing">Pricing</a>
             <a href="https://github.com/Conxian">Repositories</a>
@@ -494,70 +547,70 @@
         <!-- Hero Section -->
         <section class="hero-layout">
             <div class="hero-text">
-                <span class="tag-line">Public Narrative Surface</span>
-                <h1>Explore the Conxian ecosystem</h1>
-                <p>Conxian is the protocol, ecosystem, and governance context. Conxian Labs builds and operates this public discovery surface plus supporting software and services. Conxian Labs does not hold customer funds or custody user assets, and signing authority remains with users and organizations.</p>
+                <span class="tag-line">Builder & Operator Surface</span>
+                <h1>Build and operate on the Conxian protocol</h1>
+                <p>Conxian Labs is the builder and operator layer for the Conxian ecosystem. We provide the software, infrastructure, and services that power sovereign business workflows. While we build the tools, the protocol is governed by the ecosystem, and custody of assets always remains with the user.</p>
 
                 <div class="cta-group">
-                    <a href="/docs" class="btn btn-primary">Open docs route map</a>
-                    <a href="https://github.com/Conxian" class="btn btn-secondary">View repositories</a>
+                    <a href="https://github.com/Conxian" class="btn btn-primary">Explore services</a>
+                    <a href="/docs" class="btn btn-secondary">Read the docs</a>
                 </div>
 
                 <div class="trust-strip-hero">
-                    <div class="trust-item-hero">Security-minded engineering</div>
-                    <div class="trust-item-hero">Public repo standards</div>
-                    <div class="trust-item-hero">Release discipline</div>
-                    <div class="trust-item-hero">No asset custody by Labs</div>
+                    <div class="trust-item-hero">Labs Built</div>
+                    <div class="trust-item-hero">Non-Custodial</div>
+                    <div class="trust-item-hero">Institutional Ready</div>
+                    <div class="trust-item-hero">Operator Powered</div>
                 </div>
             </div>
+
             <div class="hero-visual">
-                <img src="Conxius-Wallet_Logo.jpg" alt="Sovereign Vault">
-                <div class="terminal-box" id="terminal">
-                    <div>> ATTESTATION_SEQUENCE_INIT...</div>
-                    <div>> HARDWARE_KEY_BOOT: COMPLETED</div>
-                    <div>> PROTOCOL: CONXIAN_PUBLIC_V1.1</div>
-                    <div>> STATUS: OPERATIONAL</div>
+                <img src="Conxian_Logo.jpg" alt="Conxian">
+                <div id="terminal" class="terminal-box">
+                    <div>> SYNCING_BLOCKCHAIN_STATE...</div>
+                    <div>> ENCLAVE_HEALTH: 100%</div>
+                    <div>> ENDPOINT: gateway.conxian-labs.com</div>
                 </div>
             </div>
         </section>
 
-        <!-- Product Stack - Tonal Background -->
+        <!-- Product Grid - Portfolio Style -->
         <section id="products" class="tonal-section">
             <div class="section-header-refined">
-                <span class="tag-line">Ecosystem Architecture</span>
-                <h2>Product Stack</h2>
-                <p>Conxian Labs operates this site as a public map of the Conxian ecosystem. Protocol and governance authority stay with Conxian repositories, while custody and signing control remain with users and organizations.</p>
+                <span class="tag-line">Managed Infrastructure & Tools</span>
+                <h2>The Builder & Operator Layer</h2>
+                <p>Conxian Labs operates high-performance infrastructure and builds the core implementation layers for the Conxian protocol. Our role is to bridge the gap between protocol-level logic and institutional-grade operations.</p>
             </div>
 
             <div class="product-stack-grid">
                 <a href="#" class="product-tile">
-                    <h3>Site</h3>
-                    <p>Conxian Labs-operated public narrative, trust, and navigation surface for the Conxian repository portfolio.</p>
-                    <span class="status-chip">Public Surface</span>
+                    <h3>Labs Surface</h3>
+                    <p>The primary discovery and navigation surface for Conxian Labs-operated software and infrastructure services.</p>
+                    <span class="status-chip">Operator Surface</span>
                 </a>
                 <a href="https://github.com/Conxian/Conxian_UI" class="product-tile">
                     <h3>Product UI</h3>
-                    <p>Application-facing interaction layers designed for real-world institutional use.</p>
+                    <p>Labs-built interaction layers designed for real-world institutional use and business execution.</p>
                     <span class="status-chip">Active UI</span>
                 </a>
                 <a href="https://github.com/Conxian/conxius-wallet" class="product-tile">
                     <h3>Wallet</h3>
-                    <p>Sovereign Android Vault. Hardware-secured (StrongBox/TEE) signature support.</p>
+                    <p>Sovereign Android Vault. Hardware-secured (StrongBox/TEE) signature support built by Labs.</p>
                     <span class="status-chip">StrongBox Active</span>
                 </a>
                 <a href="https://github.com/Conxian/conxian-gateway" class="product-tile">
                     <h3>Gateway</h3>
-                    <p>Institutional Bridge. High-performance Rust layer for unified Bitcoin-layer access.</p>
+                    <p>Institutional Bridge. High-performance Rust layer for unified Bitcoin-layer access, operated by Labs.</p>
                     <span class="status-chip">15+ Layers</span>
                 </a>
                 <a href="https://github.com/Conxian/conxius-platform" class="product-tile">
-                    <h3>Platform</h3>
-                    <p>Core protocol and ecosystem coordination repository context, separate from this Labs-operated site surface.</p>
-                    <span class="status-chip">Operational</span>
+                    <h3>Protocol Core</h3>
+                    <p>Core protocol and ecosystem coordination repository context. Governed by the ecosystem; separate from Labs-operated services.</p>
+                    <span class="status-chip">Ecosystem Root</span>
                 </a>
                 <a href="https://github.com/Conxian/lib-conclave-sdk" class="product-tile">
                     <h3>SDK</h3>
-                    <p>Headless Enclave SDK. Cryptographic primitives for secure cross-platform execution.</p>
+                    <p>Headless Enclave SDK. Labs-built cryptographic primitives for secure cross-platform execution.</p>
                     <span class="status-chip">Cross-Platform</span>
                 </a>
             </div>
@@ -573,7 +626,7 @@
                 <div class="dev-card">
                     <div class="dev-path-item">
                         <h4>For Users</h4>
-                        <p>Explore the product experience and the surfaces designed for real-world interaction.</p>
+                        <p>Explore the Labs-built product experience and the surfaces designed for real-world interaction.</p>
                         <a href="https://github.com/Conxian/Conxian_UI" class="action-link">Open product UI →</a>
                     </div>
                     <div class="dev-path-item">
@@ -589,7 +642,6 @@
                         <a href="https://github.com/Conxian/lib-conclave-sdk" class="action-link">View SDK repo →</a>
                     </div>
                     <div class="dev-path-item">
-                    <div class="dev-path-item">
                         <h4>Service Integration</h4>
                         <p>Configure your local environment to use the high-performance Conxian Labs endpoints.</p>
                         <div class="code-block" style="margin: 12px 0; padding: 16px; font-size: 0.75rem; text-align: left;">
@@ -600,6 +652,7 @@ nexus.conxian-labs.com</code>
                         <a href="/sdk" class="action-link">View SDK config →</a>
                     </div>
 
+                    <div class="dev-path-item">
                         <h4>For Operators</h4>
                         <p>Use the platform and readiness surfaces to understand deployment-facing components.</p>
                         <a href="https://github.com/Conxian/conxius-platform" class="action-link">Review deployment →</a>
@@ -743,10 +796,10 @@ nexus.conxian-labs.com</code>
 
             const desc = document.getElementById('flow-desc');
             if (flow === 'root-leaf') {
-                desc.innerText = "Root-to-Leaf: Public repository context flowing from Conxian protocol governance into implementation surfaces.";
+                if (desc) desc.innerText = "Root-to-Leaf: Public repository context flowing from Conxian protocol governance into implementation surfaces.";
                 Object.values(paths).forEach(p => p.classList.add('active'));
             } else {
-                desc.innerText = "Leaf-to-Root: Feedback and release signals from product surfaces back to ecosystem coordination repositories.";
+                if (desc) desc.innerText = "Leaf-to-Root: Feedback and release signals from product surfaces back to ecosystem coordination repositories.";
                 Object.values(paths).forEach(p => p.classList.remove('active'));
             }
         }
