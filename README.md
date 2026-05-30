@@ -43,6 +43,12 @@ The Conxian ecosystem is grouped by function:
 - **Gateway/Rails:** Institutional bridges and unified APIs ([conxian-gateway](https://github.com/Conxian/conxian-gateway)).
 - **SDK/Core Libraries:** Cross-platform cryptographic primitives ([lib-conclave-sdk](https://github.com/Conxian/lib-conclave-sdk) / [lib-conxian-core](https://github.com/Conxian/lib-conxian-core)).
 
+## Service Endpoints
+- **Gateway:** `https://gateway.conxian-labs.com`
+- **Vault/KMS:** `https://vault.conxian-labs.com`
+- **Nexus:** `https://nexus.conxian-labs.com`
+
+
 ## Technical Architecture
 - **Tech Stack:** Static HTML5 / CSS3 / Vanilla JavaScript.
 - **Design System:** "Ivory Foundation" visual standard.
