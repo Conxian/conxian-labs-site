@@ -442,6 +442,26 @@
             .product-stack-grid, .footer-main { grid-template-columns: 1fr; }
             .schematic-viz { padding: 48px; }
         }
+        /* Code block style */
+        .code-block {
+            background-color: var(--text-main);
+            color: var(--bg);
+            padding: 24px;
+            border-radius: var(--radius);
+            overflow-x: auto;
+            font-family: "JetBrains Mono", monospace;
+            font-size: 0.82rem;
+            line-height: 1.6;
+            margin: 18px 0;
+            border: 1px solid var(--border);
+            position: relative;
+        }
+        .code-block code {
+            display: block;
+            white-space: pre;
+        }
+        .code-block .comment { color: #888; }
+        .code-block .string { color: var(--accent); }
     </style>
 </head>
 <body>
@@ -565,6 +585,17 @@
                         <a href="https://github.com/Conxian/lib-conclave-sdk" class="action-link">View SDK repo →</a>
                     </div>
                     <div class="dev-path-item">
+                    <div class="dev-path-item">
+                        <h4>Service Integration</h4>
+                        <p>Configure your local environment to use the high-performance Conxian Labs endpoints.</p>
+                        <div class="code-block" style="margin: 12px 0; padding: 16px; font-size: 0.75rem; text-align: left;">
+                            <code>gateway.conxian-labs.com
+vault.conxian-labs.com
+nexus.conxian-labs.com</code>
+                        </div>
+                        <a href="/sdk" class="action-link">View SDK config →</a>
+                    </div>
+
                         <h4>For Operators</h4>
                         <p>Use the platform and readiness surfaces to understand deployment-facing components.</p>
                         <a href="https://github.com/Conxian/conxius-platform" class="action-link">Review deployment →</a>
@@ -756,6 +787,9 @@
             "> PUBLIC_INDEX_SYNCED",
             "> PROTOCOL_TVL: REFRESHED",
             "> GATEWAY_LATENCY: 8ms",
+            "> ENDPOINT: gateway.conxian-labs.com",
+            "> KMS: vault.conxian-labs.com",
+            "> NEXUS: nexus.conxian-labs.com",
             "> SOVEREIGNTY_VERIFIED"
         ];
         const terminal = document.getElementById('terminal');
