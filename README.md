@@ -4,7 +4,7 @@ Official website repository for Conxian-Labs (Pty) Ltd.
 
 ### Purpose
 This repository hosts the public landing page and serves as a narrative/discovery surface for the wider Conxian ecosystem.
-It does not define execution authority or lifecycle control for product/platform repositories.
+Conxian Labs operates this site as a builder/operator service layer and does not define protocol governance authority.
 
 ### Status
 Active public surface.
@@ -24,11 +24,13 @@ For product implementation work (UI, wallet, gateway, platform, SDK), use the re
 - **Branch support:** historical/stale branches are not guaranteed ongoing maintenance.
 
 ### Role boundary
-- **This repository:** public narrative, discovery/navigation, and trust-policy references.
-- **Parent initiative + implementation repositories:** execution authority, delivery lifecycle, and operational coordination.
+- **This repository / Conxian Labs:** public narrative, discovery/navigation, and trust-policy references for Labs-operated software/infrastructure services.
+- **Conxian protocol/ecosystem repositories:** governance context, protocol authority, and implementation lifecycle decisions.
+- **Custody boundary:** Conxian Labs does not hold customer funds or custody user assets; signing control remains with users and organizations.
 
 ### Naming and branding conventions
-- **Conxian / Conxian Labs** = umbrella organization and public ecosystem brand.
+- **Conxian** = protocol, ecosystem, and governance context across public repositories.
+- **Conxian Labs** = builder/operator entity for this site plus software/infrastructure service delivery.
 - **Conxius** = product naming used by some platform and wallet repositories.
 - Mixed naming across linked repositories is intentional and reflects product/repository history.
 
