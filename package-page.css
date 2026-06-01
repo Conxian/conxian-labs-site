@@ -345,3 +345,16 @@ p {
 .code-block .string {
     color: var(--accent);
 }
+
+.nav-links a.active {
+    color: var(--accent);
+    border-bottom: 2px solid var(--accent);
+}
+
+.nav-bar .sys-status {
+    font-size: 0.6875rem;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+    text-transform: uppercase;
+    font-weight: 700;
+}
