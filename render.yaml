@@ -1,0 +1,35 @@
+services:
+  - type: static
+    name: conxian-labs-site
+    env: static
+    buildCommand: "npm install && npm run test" # Ensuring tests pass before deploy
+    publishPath: "."
+    headers:
+      - path: "/*"
+        name: X-Frame-Options
+        value: DENY
+      - path: "/*"
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: "/*"
+        name: Content-Security-Policy
+        value: "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self';"
+    routes:
+      - type: rewrite
+        source: "/sdk/*"
+        destination: "/sdk/index.html"
+      - type: rewrite
+        source: "/docs/*"
+        destination: "/docs/index.html"
+      - type: rewrite
+        source: "/pricing/*"
+        destination: "/pricing/index.html"
+      - type: rewrite
+        source: "/partners/*"
+        destination: "/partners/index.html"
+      - type: rewrite
+        source: "/operators/*"
+        destination: "/operators/index.html"
+      - type: rewrite
+        source: "/enterprise/*"
+        destination: "/enterprise/index.html"

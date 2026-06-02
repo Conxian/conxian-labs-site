@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html class="scroll-smooth" lang="en">
 <head>
+    <script src="./logger.js"></script>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta name="description" content="Official website for Conxian Labs - Technical Infrastructure for Institutional Engineering."/>
     <title>Conxian Labs | Institutional Engineering</title>
     <link rel="canonical" href="https://www.conxian-labs.com/"/>
     <meta property="og:url" content="https://www.conxian-labs.com/"/>
+    <meta property="og:title" content="Conxian Labs | Institutional Engineering"/>
+    <meta property="og:description" content="Technical Infrastructure for Institutional Engineering. Built for precision and scale."/>
+    <meta property="og:image" content="https://www.conxian-labs.com/Conxian-Labs_Logo.jpg"/>
     <link rel="icon" href="Conxian_Logo.jpg" type="image/jpeg">
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet"/>
@@ -407,8 +412,11 @@
         "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
     ];
     const terminalHash = document.getElementById('terminal-hash');
+    Logger.info("TERMINAL", "Cycling terminal hash");
     setInterval(() => {
-        terminalHash.innerText = termHashes[Math.floor(Math.random() * termHashes.length)];
+        const newHash = termHashes[Math.floor(Math.random() * termHashes.length)];
+        terminalHash.innerText = newHash;
+        Logger.debug("TERMINAL", "Hash updated", { hash: newHash });
     }, 5000);
 </script>
 </body>
