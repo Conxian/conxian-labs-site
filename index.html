@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html class="scroll-smooth" lang="en">
 <head>
+    <script src="./logger.js"></script>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>Conxian Labs | Institutional Engineering</title>
@@ -407,6 +408,7 @@
         "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
     ];
     const terminalHash = document.getElementById('terminal-hash');
+    Logger.info("TERMINAL", "Cycling terminal hash");
     setInterval(() => {
         terminalHash.innerText = termHashes[Math.floor(Math.random() * termHashes.length)];
     }, 5000);
