@@ -30,13 +30,13 @@ For product implementation work, use the relevant repository directly.
 
 ## Relationship to the Conxian stack
 
-- `Conxian` is the protocol core.
-- `conxian_ui` is the public web interface layer.
-- `conxius-wallet` is the sovereign wallet and reference client.
-- `conxian-gateway` is the middleware and institutional integration surface.
-- `conxian-nexus` is the synchronization and proof layer.
-- `conxius-platform` is the platform and environment scaffolding layer.
-- `conxius-enclave-sdk` and `lib-conxian-core` provide shared primitives and reusable libraries.
+- [`Conxian`](https://github.com/Conxian/Conxian) is the protocol core.
+- [`conxian_ui`](https://github.com/Conxian/conxian_ui) is the public web interface layer.
+- [`conxius-wallet`](https://github.com/Conxian/conxius-wallet) is the sovereign wallet and reference client.
+- [`conxian-gateway`](https://github.com/Conxian/conxian-gateway) is the middleware and institutional integration surface.
+- [`conxian-nexus`](https://github.com/Conxian/conxian-nexus) is the synchronization and proof layer.
+- [`conxius-platform`](https://github.com/Conxian/conxius-platform) is the platform and environment scaffolding layer.
+- [`conxius-enclave-sdk`](https://github.com/Conxian/conxius-enclave-sdk) and [`lib-conxian-core`](https://github.com/Conxian/lib-conxian-core) provide shared primitives and reusable libraries.
 
 ## Naming and branding conventions
 
@@ -57,9 +57,10 @@ For product implementation work, use the relevant repository directly.
 
 ## Service endpoints
 
-- Gateway: `https://gateway.conxian-labs.com`
-- Vault/KMS: `https://vault.conxian-labs.com`
-- Nexus: `https://nexus.conxian-labs.com`
+- Public status: Gateway, Vault/KMS, and Nexus endpoint hostnames are currently not publicly active/resolvable and should be treated as planned/non-public endpoints.
+- Gateway (planned/non-public): `https://gateway.conxian-labs.com`
+- Vault/KMS (planned/non-public): `https://vault.conxian-labs.com`
+- Nexus (planned/non-public): `https://nexus.conxian-labs.com`
 
 ## Technical architecture
 
