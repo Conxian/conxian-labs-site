@@ -1,72 +1,92 @@
 # Conxian Labs Site
 
-Official website repository for Conxian-Labs (Pty) Ltd.
+Official website repository for Conxian Labs.
 
-### Purpose
-This repository hosts the public landing page and serves as a narrative/discovery surface for the wider Conxian ecosystem.
-Conxian Labs operates this site as a builder/operator service layer and does not define protocol governance authority.
+## Purpose
 
-### Status
-Active public surface.
+Host the public landing page and serve as the narrative, trust, and discovery surface for the wider Conxian ecosystem.
 
-### Audience (who should use this now)
+## Status
+
+**Active public surface.** This repository is maintained as a public information and navigation layer for Conxian Labs and linked ecosystem repositories.
+
+## Scope
+
+This repository contains the public website, related public content, and trust-policy references. It does not define protocol governance authority, product implementation logic, or private internal operations.
+
+## Governance relation
+
+This repository is maintained by Conxian Labs as a builder and operator surface around the public Conxian ecosystem. It does not act as the governance authority for the Conxian protocol.
+
+## Audience
+
 Use this repository if you need:
-- official public-facing site content,
-- links to current ecosystem repositories,
-- governance, contribution, and security policy references.
 
-For product implementation work (UI, wallet, gateway, platform, SDK), use the respective repositories listed below.
+- official public-facing site content
+- links to current ecosystem repositories
+- governance, contribution, and security policy references
 
-### Maintenance expectations
-- **Actively maintained:** `main` branch content for the public site and core policy docs (`index.html`, `README.md`, `CONTRIBUTING.md`, `SECURITY.md`, `GOVERNANCE.md`).
-- **Issue/PR triage cadence:** best-effort weekly triage for non-security issues and pull requests.
-- **Security reports:** acknowledged within 48–72 hours, as defined in [`SECURITY.md`](./SECURITY.md).
-- **Branch support:** historical/stale branches are not guaranteed ongoing maintenance.
+For product implementation work, use the relevant repository directly.
 
-### Role boundary
-- **This repository / Conxian Labs:** public narrative, discovery/navigation, and trust-policy references for Labs-operated software/infrastructure services.
-- **Conxian protocol/ecosystem repositories:** governance context, protocol authority, and implementation lifecycle decisions.
-- **Custody boundary:** Conxian Labs does not hold customer funds or custody user assets; signing control remains with users and organizations.
+## Relationship to the Conxian stack
 
-### Naming and branding conventions
+- `Conxian` is the protocol core.
+- `conxian_ui` is the public web interface layer.
+- `conxius-wallet` is the sovereign wallet and reference client.
+- `conxian-gateway` is the middleware and institutional integration surface.
+- `conxian-nexus` is the synchronization and proof layer.
+- `conxius-platform` is the platform and environment scaffolding layer.
+- `conxius-enclave-sdk` and `lib-conxian-core` provide shared primitives and reusable libraries.
+
+## Naming and branding conventions
+
 - **Conxian** = protocol, ecosystem, and governance context across public repositories.
-- **Conxian Labs** = builder/operator entity for this site plus software/infrastructure service delivery.
+- **Conxian Labs** = builder and operator entity for this site plus software and infrastructure delivery.
 - **Conxius** = product naming used by some platform and wallet repositories.
-- Mixed naming across linked repositories is intentional and reflects product/repository history.
 
----
+## Maintenance expectations
 
-## Ecosystem Map
-The Conxian ecosystem is grouped by function:
-- **Site:** Public narrative, trust, and navigation surface ([conxian-labs-site](https://github.com/Conxian/conxian-labs-site)).
-- **Product UI:** User interaction layers ([Conxian_UI](https://github.com/Conxian/Conxian_UI)).
-- **Platform/Core:** Execution and lifecycle coordination under the parent initiative model ([conxius-platform](https://github.com/Conxian/conxius-platform) / [Conxian](https://github.com/Conxian/Conxian)).
-- **Wallet:** Sovereign access and TEE-secured vaults ([conxius-wallet](https://github.com/Conxian/conxius-wallet)).
-- **Gateway/Rails:** Institutional bridges and unified APIs ([conxian-gateway](https://github.com/Conxian/conxian-gateway)).
-- **SDK/Core Libraries:** Cross-platform cryptographic primitives ([lib-conclave-sdk](https://github.com/Conxian/lib-conclave-sdk) / [lib-conxian-core](https://github.com/Conxian/lib-conxian-core)).
+- `main` hosts the active public site and policy documents.
+- Non-security issues and pull requests are triaged on a best-effort weekly cadence.
+- Security reports are acknowledged according to [SECURITY.md](./SECURITY.md).
+- Historical branches are not guaranteed ongoing maintenance.
 
-### Preferred Host
-- Preferred public host: `https://www.conxian-labs.com`.
-- Host redirects/canonicalization are enforced at the hosting/DNS layer (outside this repository).
+## Preferred host
 
-## Service Endpoints
-- **Gateway:** `https://gateway.conxian-labs.com`
-- **Vault/KMS:** `https://vault.conxian-labs.com`
-- **Nexus:** `https://nexus.conxian-labs.com`
+- Preferred public host: `https://www.conxian-labs.com`
 
+## Service endpoints
 
-## Technical Architecture
-- **Tech Stack:** Static HTML5 / CSS3 / Vanilla JavaScript.
-- **Design System:** "Ivory Foundation" visual standard.
-- **Typography:** 'JetBrains Mono'.
-- **Visualization:** SVG-based repository relationship schematic.
+- Gateway: `https://gateway.conxian-labs.com`
+- Vault/KMS: `https://vault.conxian-labs.com`
+- Nexus: `https://nexus.conxian-labs.com`
 
-## Contributing and Security
-- **Contributing guide:** [`CONTRIBUTING.md`](./CONTRIBUTING.md)
-- **Security policy/reporting:** [`SECURITY.md`](./SECURITY.md)
-- **Code ownership:** [`CODEOWNERS`](./CODEOWNERS)
-- **Governance:** [`GOVERNANCE.md`](./GOVERNANCE.md)
-- **License:** [`LICENSE`](./LICENSE) (MIT)
+## Technical architecture
 
----
-*CONXIAN-LABS // 2026 // PUBLIC NARRATIVE SURFACE*
+- Static HTML5 / CSS3 / Vanilla JavaScript
+- "Ivory Foundation" visual standard
+- `JetBrains Mono` typography
+- SVG-based repository relationship schematic
+
+## Security
+
+Do not disclose vulnerabilities publicly. Use [SECURITY.md](./SECURITY.md) or `security@conxian-labs.com`.
+
+## Policies
+
+- [CONTRIBUTING.md](./CONTRIBUTING.md)
+- [SECURITY.md](./SECURITY.md)
+- [CODEOWNERS](./CODEOWNERS)
+- [GOVERNANCE.md](./GOVERNANCE.md)
+- [LICENSE](./LICENSE)
+- [REPO_OWNERSHIP.md](./REPO_OWNERSHIP.md)
+
+## Contact
+
+- General: [info@conxian-labs.com](mailto:info@conxian-labs.com)
+- Support: [support@conxian-labs.com](mailto:support@conxian-labs.com)
+- Security: [security@conxian-labs.com](mailto:security@conxian-labs.com)
+
+## License
+
+MIT
