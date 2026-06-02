@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="./logger.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Node Not Found | Conxian Labs</title>
+    <link rel="icon" href="./Conxian_Logo.jpg" type="image/jpeg">
+    <link rel="stylesheet" href="./package-page.css">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            text-align: center;
+        }
+        .error-container {
+            max-width: 600px;
+            background: var(--surface);
+            padding: 64px;
+            border-radius: var(--radius);
+            box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.05);
+            border-left: 4px solid var(--accent);
+        }
+        .error-code {
+            font-size: 5rem;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 24px;
+            line-height: 1;
+        }
+        h1 { font-size: 1.5rem; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 0.1em; }
+        p { margin-bottom: 40px; }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-code">404</div>
+        <h1>Routing Error: Node Not Found</h1>
+        <p>The requested surface could not be resolved within the Conxian Labs ecosystem. The path may have been decommissioned or moved to a restricted layer.</p>
+        <a href="/" class="btn btn-primary">Return to Base Layer</a>
+    </div>
+    <script>
+        Logger.warn("ROUTING", "404 Page Hit", { url: window.location.href });
+    </script>
+</body>
+</html>

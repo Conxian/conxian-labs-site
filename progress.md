@@ -35,3 +35,10 @@
   - \`logging.spec.ts\`: 4/4 passed.
 - **Render-Ready**: \`render.yaml\` verified and ready for deployment.
 - **Institutional Alignment**: Logger implementation follows ecosystem standards.
+
+## Functional & Structural Enhancements
+- **Sitemap**: Added `sitemap.xml` covering all public routes.
+- **Robots.txt**: Added `robots.txt` with sitemap reference.
+- **Custom 404**: Added `404.html` with institutional branding and error tracking.
+- **SEO Alignment**: Standardized OpenGraph and Description meta-tags across the entire site.
+- **Telemetry expansion**: Added route-access logging to all sub-pages.

@@ -47,4 +47,16 @@ test.describe('Conxian Labs Logging Verification', () => {
         const errorLog = logs.some(l => l.includes('[FATAL] [GLOBAL] Uncaught Error: Test Error for Logger'));
         expect(errorLog).toBe(true);
     });
+
+    test('all sub-pages should log route access', async ({ page }) => {
+        const PAGES = ['sdk', 'docs', 'pricing', 'partners', 'operators', 'enterprise', 'privacy.html'];
+        for (const p of PAGES) {
+            const logs: string[] = [];
+            page.on('console', msg => logs.push(msg.text()));
+            const url = p.endsWith('.html') ? `${BASE_URL}/${p}` : `${BASE_URL}/${p}/index.html`;
+            await page.goto(url);
+            const routeLog = logs.some(l => l.includes('[INFO] [PAGE_LOAD] Route accessed'));
+            expect(routeLog, `Page ${p} did not log route access`).toBe(true);
+        }
+    });
 });
