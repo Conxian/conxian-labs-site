@@ -1,9 +1,12 @@
 services:
   - type: static
-    name: conxian-labs-site
+    name: conxian-labs-static-v1
     env: static
-    buildCommand: "npm install && npm run test" # Ensuring tests pass before deploy
+    region: oregon
+    buildCommand: "npm install && npm run test"
     publishPath: "."
+    pullRequestPreviewsEnabled: yes
+    autoDeploy: yes
     headers:
       - path: "/*"
         name: X-Frame-Options
@@ -14,6 +17,12 @@ services:
       - path: "/*"
         name: Content-Security-Policy
         value: "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self';"
+      - path: "/*"
+        name: Referrer-Policy
+        value: "strict-origin-when-cross-origin"
+      - path: "/*"
+        name: Permissions-Policy
+        value: "camera=(), microphone=(), geolocations=()"
     routes:
       - type: rewrite
         source: "/sdk/*"
