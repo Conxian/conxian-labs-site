@@ -10,13 +10,7 @@ Host the public landing page and serve as the narrative, trust, and discovery su
 
 **Active public surface.** This repository is maintained as a public information and navigation layer for Conxian Labs and linked ecosystem repositories.
 
-## Scope
-
-This repository contains the public website, related public content, and trust-policy references. It does not define protocol governance authority, product implementation logic, or private internal operations.
-
-## Governance relation
-
-This repository is maintained by Conxian Labs as a builder and operator surface around the public Conxian ecosystem. It does not act as the governance authority for the Conxian protocol.
+There are currently **no published GitHub releases** for this repository. Unless and until that changes, it should be understood as a deployment-tracked public site repository rather than a versioned application release surface.
 
 ## Audience
 
@@ -25,8 +19,17 @@ Use this repository if you need:
 - official public-facing site content
 - links to current ecosystem repositories
 - governance, contribution, and security policy references
+- public trust and discovery material
 
 For product implementation work, use the relevant repository directly.
+
+## Scope
+
+This repository contains the public website, related public content, and trust-policy references. It does not define protocol governance authority, product implementation logic, or private internal operations.
+
+## Governance relation
+
+This repository is maintained by Conxian Labs as a builder and operator surface around the public Conxian ecosystem. It does not act as the governance authority for the Conxian protocol.
 
 ## Relationship to the Conxian stack
 
@@ -51,9 +54,11 @@ For product implementation work, use the relevant repository directly.
 - Security reports are acknowledged according to [SECURITY.md](./SECURITY.md).
 - Historical branches are not guaranteed ongoing maintenance.
 
-## Preferred host
+## Deployment posture
 
 - Preferred public host: `https://www.conxian-labs.com`
+- Treat Gateway, Vault/KMS, and Nexus endpoint hostnames mentioned in this repository as planned or non-public unless explicitly marked active.
+- If formal GitHub releases are later adopted for the site, keep release notes aligned with deployment guidance so public readers can distinguish code changes from live-site changes.
 
 ## Service endpoints
 
