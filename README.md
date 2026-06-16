@@ -2,6 +2,12 @@
 
 Official website repository for Conxian Labs.
 
+## About Conxian
+
+Conxian builds secure infrastructure for wallets, payments, and digital value. We help businesses move, store, manage, and integrate digital transactions through technology designed for reliability, control, and scale.
+
+Our platform brings together user-facing financial experiences with the underlying infrastructure that powers them, making it easier for organizations to operate in a modern digital economy.
+
 ## Purpose
 
 Host the public landing page and serve as the narrative, trust, and discovery surface for the wider Conxian ecosystem.
