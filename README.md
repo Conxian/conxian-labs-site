@@ -1,14 +1,20 @@
 # Conxian Labs Site
 
-Official website repository for Conxian Labs.
+Official website repository for Conxian-Labs.
+
+## About Conxian-Labs
+
+Conxian-Labs is the builder and operator layer around the broader Conxian ecosystem. It maintains the public portfolio, supporting infrastructure, research surfaces, and ecosystem directory that help users, developers, partners, and operators navigate the stack.
+
+Conxian itself is the protocol and DAO-facing layer. Conxian-Labs does not replace protocol ownership; it builds, operates, and supports the surrounding public surfaces that make the ecosystem usable, understandable, and easier to adopt.
 
 ## Purpose
 
-Host the public landing page and serve as the narrative, trust, and discovery surface for the wider Conxian ecosystem.
+Host the Conxian-Labs public site and serve as the portfolio, trust, and discovery surface for the wider Conxian ecosystem.
 
 ## Status
 
-**Active public surface.** This repository is maintained as a public information and navigation layer for Conxian Labs and linked ecosystem repositories.
+**Active public surface.** This repository is maintained as a public information and navigation layer for Conxian-Labs and linked ecosystem repositories.
 
 There are currently **no published GitHub releases** for this repository. Unless and until that changes, it should be understood as a deployment-tracked public site repository rather than a versioned application release surface.
 
@@ -16,36 +22,36 @@ There are currently **no published GitHub releases** for this repository. Unless
 
 Use this repository if you need:
 
-- official public-facing site content
+- Conxian-Labs portfolio and public-facing site content
 - links to current ecosystem repositories
 - governance, contribution, and security policy references
 - public trust and discovery material
 
-For product implementation work, use the relevant repository directly.
+For protocol implementation, wallet behavior, or service-side engineering, use the owning repository directly.
 
 ## Scope
 
-This repository contains the public website, related public content, and trust-policy references. It does not define protocol governance authority, product implementation logic, or private internal operations.
+This repository contains the Labs public website, related public content, and trust-policy references. It does not define protocol governance authority, product implementation logic, or private internal operations.
 
 ## Governance relation
 
-This repository is maintained by Conxian Labs as a builder and operator surface around the public Conxian ecosystem. It does not act as the governance authority for the Conxian protocol.
+This repository is maintained by Conxian-Labs as the builder and operator surface around the public Conxian ecosystem. It does not act as the governance authority for the Conxian protocol or DAO.
 
 ## Relationship to the Conxian stack
 
-- [`Conxian`](https://github.com/Conxian/Conxian) is the protocol core.
-- [`conxian_ui`](https://github.com/Conxian/conxian_ui) is the public web interface layer.
+- [`Conxian`](https://github.com/Conxian/Conxian) is the protocol and DAO-facing core.
+- [`conxian_ui`](https://github.com/Conxian/conxian_ui) is a public interaction and interface layer.
 - [`conxius-wallet`](https://github.com/Conxian/conxius-wallet) is the sovereign wallet and reference client.
-- [`conxian-gateway`](https://github.com/Conxian/conxian-gateway) is the middleware and institutional integration surface.
+- [`conxian-gateway`](https://github.com/Conxian/conxian-gateway) is the middleware and integration surface.
 - [`conxian-nexus`](https://github.com/Conxian/conxian-nexus) is the synchronization and proof layer.
 - [`conxius-platform`](https://github.com/Conxian/conxius-platform) is the platform and environment scaffolding layer.
 - [`conxius-enclave-sdk`](https://github.com/Conxian/conxius-enclave-sdk) and [`lib-conxian-core`](https://github.com/Conxian/lib-conxian-core) provide shared primitives and reusable libraries.
 
 ## Naming and branding conventions
 
-- **Conxian** = protocol, ecosystem, and governance context across public repositories.
-- **Conxian Labs** = builder and operator entity for this site plus software and infrastructure delivery.
-- **Conxius** = product naming used by some platform and wallet repositories.
+- **Conxian** = protocol, DeFi, DAO-facing, and public ecosystem identity.
+- **Conxian-Labs** = builder, operator, company, and portfolio identity.
+- **Conxius** = product naming used by some application, platform, and wallet repositories.
 
 ## Maintenance expectations
 
