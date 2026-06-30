@@ -12,6 +12,7 @@ const PAGES = [
     'partners/index.html',
     'operators/index.html',
     'enterprise/index.html',
+    'research/index.html',
     'privacy.html'
 ];
 
