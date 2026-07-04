@@ -1,0 +1,16 @@
+name: Deployment Signal
+
+on:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: read
+
+jobs:
+  signal-deployment:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+    - name: Signal Render Deployment
+      run: echo "Deployment signaled to Render for Conxian Labs Static Site"

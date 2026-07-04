@@ -4,46 +4,41 @@
     <script src="./logger.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 - Node Not Found | Conxian Labs</title>
-    <link rel="icon" href="./Conxian_Logo.jpg" type="image/jpeg">
-    <link rel="stylesheet" href="./package-page.css">
+    <title>404 // Route Not Found | Conxian Labs</title>
+    <link rel="icon" href="Conxian_Logo.jpg" type="image/jpeg">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;500;700&display=swap');
+        :root {
+            --bg: #FDFBF7;
+            --accent: #C25E00;
+            --text-main: #121212;
+            --text-dim: #555;
+        }
         body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'JetBrains Mono', monospace;
+            height: 100vh;
+            margin: 0;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            padding: 20px;
-            text-align: center;
+            background-image: linear-gradient(rgba(194, 94, 0, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(194, 94, 0, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
         }
-        .error-container {
-            max-width: 600px;
-            background: var(--surface);
-            padding: 64px;
-            border-radius: var(--radius);
-            box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.05);
-            border-left: 4px solid var(--accent);
-        }
-        .error-code {
-            font-size: 5rem;
-            font-weight: 800;
-            color: var(--accent);
-            margin-bottom: 24px;
-            line-height: 1;
-        }
-        h1 { font-size: 1.5rem; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 0.1em; }
-        p { margin-bottom: 40px; }
+        .error-code { font-size: 8rem; font-weight: 700; color: var(--accent); line-height: 1; margin-bottom: 20px; }
+        .error-msg { font-size: 1rem; text-transform: uppercase; letter-spacing: 4px; color: var(--text-dim); margin-bottom: 40px; }
+        .back-link { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; text-decoration: none; color: var(--text-main); border: 1px solid var(--text-main); padding: 12px 24px; border-radius: 4px; transition: 0.3s; }
+        .back-link:hover { background: var(--text-main); color: var(--bg); }
     </style>
 </head>
 <body>
-    <div class="error-container">
-        <div class="error-code">404</div>
-        <h1>Routing Error: Node Not Found</h1>
-        <p>The requested surface could not be resolved within the Conxian Labs ecosystem. The path may have been decommissioned or moved to a restricted layer.</p>
-        <a href="/" class="btn btn-primary">Return to Base Layer</a>
-    </div>
+    <div class="error-code">404</div>
+    <div class="error-msg">Route Terminal Unavailable</div>
+    <a href="/" class="back-link">Return to Dashboard</a>
     <script>
-        Logger.warn("ROUTING", "404 Page Hit", { url: window.location.href });
+        Logger.warn("ROUTING", "404 Route Not Found", { path: window.location.pathname });
     </script>
 </body>
 </html>

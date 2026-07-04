@@ -4,18 +4,18 @@
     <script src="../logger.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Technical documentation and operational guides for the Conxian ecosystem."/>
+    <meta name="description" content="Technical documentation and integration guides for the Conxian ecosystem.">
     <title>Conxian Labs | Docs</title>
     <link rel="canonical" href="https://www.conxian-labs.com/docs">
     <meta property="og:url" content="https://www.conxian-labs.com/docs">
-    <meta property="og:title" content="Conxian Labs | Institutional Engineering">
-    <meta property="og:description" content="Technical Infrastructure for Institutional Engineering.">
+    <meta property="og:title" content="Conxian Labs | Documentation">
+    <meta property="og:description" content="Learn how to integrate the Conclave SDK and use Conxian Labs infrastructure.">
     <meta property="og:image" content="https://www.conxian-labs.com/Conxian-Labs_Logo.jpg">
     <link rel="icon" href="../Conxian_Logo.jpg" type="image/jpeg">
     <link rel="stylesheet" href="../package-page.css">
 </head>
 <body>
-        <header class="nav-bar">
+    <header class="nav-bar">
         <div class="logo-container">
             <img src="../Conxian-Labs_Logo.jpg" alt="Conxian Labs">
         </div>
@@ -33,74 +33,55 @@
 
     <main class="page">
         <section class="hero">
-            <span class="kicker">Documentation Entry</span>
-            <h1>Canonical docs route at <code>/docs</code></h1>
-            <p>This route is the documentation front door for developer, operator, and commercial onboarding references. Conxian Labs is the builder and operator layer for the Conxian ecosystem, providing software, infrastructure, and services. Conxian Labs does not hold customer funds or custody user assets.</p>
+            <span class="kicker">Integration Surface</span>
+            <h1>Technical Documentation</h1>
+            <p>Welcome to the official documentation surface for Conxian Labs. This repository serves as the central hub for technical specifications, API references, and architectural guidance across the ecosystem. Whether you are building with the Conclave SDK or operating a sovereign node, our documentation provides the institutional-grade baseline for your project.</p>
             <div class="hero-actions">
-                <a class="btn btn-primary" href="https://github.com/Conxian/lib-conclave-sdk">SDK repository docs</a>
-                <a class="btn btn-secondary" href="https://github.com/Conxian">Conxian organization repositories</a>
+                <a class="btn btn-primary" href="/sdk">SDK Reference</a>
+                <a class="btn btn-secondary" href="https://github.com/Conxian">Source Repositories</a>
             </div>
         </section>
 
         <section class="section">
-            <h2>Documentation map</h2>
+            <h2>Getting Started</h2>
             <div class="detail-grid">
                 <article class="detail-card">
-                    <span class="badge">Developer</span>
-                    <h3>SDK and integration references</h3>
-                    <p>Start with SDK repository docs and implementation examples for local and hosted paths.</p>
-                    <ul class="inline-list">
-                        <li><a href="/sdk">SDK package overview</a></li>
-                        <li><a href="https://github.com/Conxian/lib-conclave-sdk">lib-conclave-sdk repository</a></li>
-                    </ul>
+                    <h3>Quickstart Guide</h3>
+                    <p>Integrate the SDK in under 10 minutes using our production-ready boilerplate templates.</p>
                 </article>
                 <article class="detail-card">
-                    <span class="badge">Operator</span>
-                    <h3>Runtime and platform operations</h3>
-                    <p>Use platform and gateway repositories for deployment-oriented documentation.</p>
-                    <ul class="inline-list">
-                        <li><a href="https://github.com/Conxian/conxius-platform">conxius-platform</a></li>
-                        <li><a href="https://github.com/Conxian/conxian-gateway">conxian-gateway</a></li>
-                    </ul>
+                    <h3>API Specification</h3>
+                    <p>Comprehensive OpenAPI specifications for Gateway, Nexus, and Fusion endpoints.</p>
                 </article>
                 <article class="detail-card">
-                    <span class="badge">Commercial</span>
-                    <h3>Path-based engagement references</h3>
-                    <p>Use commercial path pages for pricing, enterprise contracting, operators, and partner intake.</p>
-                    <ul class="inline-list">
-                        <li><a href="/pricing">Pricing path</a></li>
-                        <li><a href="/enterprise">Enterprise path</a></li>
-                        <li><a href="/operators">Operators path</a></li>
-                        <li><a href="/partners">Partners path</a></li>
-                    </ul>
+                    <h3>Security Architecture</h3>
+                    <p>Deep dive into the trust model, enclave isolation, and zero-custody guarantees.</p>
                 </article>
             </div>
         </section>
 
         <section class="section">
-            <h2>Service Endpoints</h2>
-            <p class="section-intro">Configure your integration to point to the canonical Conxian Labs service endpoints.</p>
-            <div class="code-block">
-                <code>{
-    <span class="string">"gateway_url"</span>: <span class="string">"https://gateway.conxian-labs.com"</span>,
-    <span class="string">"kms_endpoint"</span>: <span class="string">"https://vault.conxian-labs.com"</span>,
-    <span class="string">"nexus_url"</span>: <span class="string">"https://nexus.conxian-labs.com"</span>
-}</code>
-            </div>
-        </section>
-
-        <section class="section">
-            <h2>Positioning guardrails</h2>
+            <h2>Ecosystem Components</h2>
             <ul class="inline-list">
-                <li><strong>Conxian_UI</strong> is the browser-based app surface.</li>
-                <li><strong>conxius-wallet</strong> is the installed wallet product.</li>
-                <li>The SDK remains open-source; paid scope covers hosted and contracted services.</li>
-                <li>Conxian Labs provides software/infrastructure services, while custody and signing remain with users and organizations.</li>
+                <li><strong>Gateway Fusion:</strong> Learn about our Rust-based middleware for high-throughput settlement.</li>
+                <li><strong>Nexus Proofs:</strong> Documentation on state-root verification and decentralized risk oracles.</li>
+                <li><strong>Sovereign Wallet:</strong> Mobile-native SDK integration for Android StrongBox and iOS Secure Enclave.</li>
+                <li><strong>Clarity Contracts:</strong> Smart contract references for the Stacks (L2) layer.</li>
             </ul>
+        </section>
+
+        <section class="section">
+            <h2>Developer Resources</h2>
+            <p class="section-intro">Beyond technical docs, we provide a suite of tools to accelerate your development cycle.</p>
+            <div class="inline-list">
+                <li><a href="/research">Research Papers:</a> Deep dive into the cryptographic theories powering the protocol.</li>
+                <li><a href="https://github.com/Conxian">GitHub Examples:</a> Fork-ready sample applications and integration harnesses.</li>
+                <li><a href="/pricing">Service Tiers:</a> Understand the boundary between open-source and managed services.</li>
+            </div>
         </section>
     </main>
 
-        <footer class="site-footer">
+    <footer class="site-footer">
         <div class="footer-brand">
             <h4>Conxian Labs</h4>
             <p>© 2026 CONXIAN-LABS (PTY) LTD // INSTITUTIONAL ENGINEERING</p>

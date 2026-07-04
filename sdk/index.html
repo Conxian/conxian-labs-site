@@ -4,18 +4,18 @@
     <script src="../logger.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Conxian Labs Developer SDK and API resources for institutional engineering."/>
+    <meta name="description" content="Conxian Conclave SDK - Open-source sovereign infrastructure and cryptographic primitives for the Conxian ecosystem.">
     <title>Conxian Labs | SDK</title>
     <link rel="canonical" href="https://www.conxian-labs.com/sdk">
     <meta property="og:url" content="https://www.conxian-labs.com/sdk">
-    <meta property="og:title" content="Conxian Labs | Institutional Engineering">
-    <meta property="og:description" content="Technical Infrastructure for Institutional Engineering.">
+    <meta property="og:title" content="Conxian Labs | Conclave SDK">
+    <meta property="og:description" content="Build on the builder and operator layer for Conxian. Open SDK, institutional-grade security.">
     <meta property="og:image" content="https://www.conxian-labs.com/Conxian-Labs_Logo.jpg">
     <link rel="icon" href="../Conxian_Logo.jpg" type="image/jpeg">
     <link rel="stylesheet" href="../package-page.css">
 </head>
 <body>
-        <header class="nav-bar">
+    <header class="nav-bar">
         <div class="logo-container">
             <img src="../Conxian-Labs_Logo.jpg" alt="Conxian Labs">
         </div>
@@ -34,79 +34,70 @@
     <main class="page">
         <section class="hero">
             <span class="kicker">Developer Package</span>
-            <h1>Open SDK, optional paid hosting</h1>
-            <p><strong>/sdk</strong> is the canonical developer entry. The SDK itself is open and freely accessible; paid offerings are hosted operational services layered on top. Conxian Labs is the builder and operator layer for the Conxian ecosystem, providing software, infrastructure, and services. Conxian Labs provides these services, while custody and signing remain with users and organizations. Conxian Labs does not hold customer funds or custody user assets.</p>
+            <h1>Logical Sovereignty via Conclave SDK</h1>
+            <p>The Conclave SDK is the canonical builder surface for the Conxian ecosystem. It provides high-performance cryptographic primitives, enclave orchestration, and sovereign settlement adapters. The SDK is open-source (MIT); paid scope is strictly limited to hosted operational services and enterprise support layers. Conxian Labs never takes custody of user assets or signing control.</p>
             <div class="hero-actions">
-                <a class="btn btn-primary" href="https://github.com/Conxian/lib-conclave-sdk">View SDK repository</a>
-                <a class="btn btn-secondary" href="/pricing">See service pricing</a>
+                <a class="btn btn-primary" href="https://github.com/Conxian/lib-conclave-sdk">View SDK source</a>
+                <a class="btn btn-secondary" href="/docs">Integration Guide</a>
             </div>
         </section>
 
         <section class="section">
             <h2>Package boundary clarity</h2>
-            <p class="section-intro">Protocol and core SDK remain open-source under the Conxian ecosystem context. Commercial scope covers Labs-hosted infrastructure and contracted support only, without taking custody or signing control from users.</p>
+            <p class="section-intro">We maintain a strict separation between open protocol primitives and commercial service layers. Your sovereignty is guaranteed by the code you run.</p>
             <div class="detail-grid">
                 <article class="detail-card">
                     <span class="badge">Open</span>
-                    <h3>SDK source and local integration</h3>
-                    <p>Build, test, and run against the SDK without purchasing a license for the SDK itself.</p>
+                    <h3>lib-conclave-sdk</h3>
+                    <p>Rust-based core with support for MuSig2, Schnorr, Taproot, and BitVM across Android StrongBox and Apple Secure Enclave.</p>
                 </article>
                 <article class="detail-card">
-                    <span class="badge">Usage-based</span>
-                    <h3>Hosted service acceleration</h3>
-                    <p>Use managed APIs, relay capacity, and operational tooling when you prefer a hosted path.</p>
+                    <span class="badge">Production</span>
+                    <h3>Gateway Fusion</h3>
+                    <p>Managed relay and synchronization layer for high-throughput institutional settlement workflows.</p>
                 </article>
                 <article class="detail-card">
-                    <span class="badge">Contracted</span>
-                    <h3>Enterprise and sovereign support</h3>
-                    <p>Add SLAs, architecture reviews, and commercial support agreements for production programs.</p>
+                    <span class="badge">Enterprise</span>
+                    <h3>Sovereign Guard</h3>
+                    <p>Advanced security policies, quorum-based signing, and audit-ready verification for institutional programs.</p>
                 </article>
             </div>
-            <div class="note">SDK download/use is not a paid SKU. Paid scope starts at hosted services or contracted support, and does not transfer custody of funds or user assets to Conxian Labs.</div>
+            <div class="note">SDK usage does not require a commercial license. Paid tiers cover hosted infrastructure (Gateway, Nexus) and contracted SLAs.</div>
         </section>
 
         <section class="section">
-            <h2>Hosted Service Configuration</h2>
-            <p class="section-intro">When using hosted Conxian Labs infrastructure, use the following service endpoints in your SDK configuration.</p>
+            <h2>Production Endpoints</h2>
+            <p class="section-intro">Use these endpoints to connect your local SDK environment to Conxian Labs managed infrastructure.</p>
             <div class="code-block">
                 <code>{
-    <span class="comment">// gateway_url</span>
-    <span class="string">"gateway_url"</span>: <span class="string">"https://gateway.conxian-labs.com"</span>,
-    <span class="comment">// kms_endpoint (optional)</span>
-    <span class="string">"kms_endpoint"</span>: <span class="string">"https://vault.conxian-labs.com"</span>,
-    <span class="comment">// nexus_url (optional)</span>
-    <span class="string">"nexus_url"</span>: <span class="string">"https://nexus.conxian-labs.com"</span>,
-    <span class="string">"api_key"</span>: <span class="string">"your-api-key"</span>
+    "gateway_url": "https://gateway.conxian-labs.com",
+    "vault_url": "https://vault.conxian-labs.com",
+    "nexus_url": "https://nexus.conxian-labs.com",
+    "environment": "mainnet-beta"
 }</code>
             </div>
-            <div class="note">Replace <code>your-api-key</code> with your active Conxian Labs API key from your dashboard.</div>
         </section>
 
         <section class="section">
-            <h2>App vs wallet positioning</h2>
+            <h2>Sovereign Architecture</h2>
             <div class="detail-grid">
                 <article class="detail-card">
-                    <h3>Conxian_UI (browser app)</h3>
-                    <p>Browser-based app surface for user interaction and operational workflows.</p>
+                    <h3>conxian-nexus</h3>
+                    <p>The decentralized risk oracle and proof layer. Ensures state-root integrity across the ecosystem.</p>
                 </article>
                 <article class="detail-card">
-                    <h3>conxius-wallet (installed wallet)</h3>
-                    <p>Installed wallet product for sovereign custody and signing with device-level security controls.</p>
+                    <h3>conxius-wallet</h3>
+                    <p>The flagship mobile application implementing the SDK for local-first sovereign key management.</p>
                 </article>
                 <article class="detail-card">
-                    <h3>SDK role</h3>
-                    <p>Developer primitives used to build against Conxian protocol components and Conxian Labs service layers.</p>
+                    <h3>conxian-gateway</h3>
+                    <p>The Rust-based Fusion layer that bridges application requests to protocol actions.</p>
                 </article>
             </div>
-            <ul class="inline-list">
-                <li><a href="/docs">Read integration docs at /docs</a></li>
-                <li><a href="/enterprise">Enterprise deployment path</a></li>
-                <li><a href="/operators">Operator and sovereign operations path</a></li>
-            </ul>
         </section>
     </main>
 
-        <footer class="site-footer">
+    <footer class="site-footer">
         <div class="footer-brand">
             <h4>Conxian Labs</h4>
             <p>© 2026 CONXIAN-LABS (PTY) LTD // INSTITUTIONAL ENGINEERING</p>
