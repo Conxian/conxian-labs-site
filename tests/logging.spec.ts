@@ -26,6 +26,9 @@ test.describe('Conxian Labs Logging Verification', () => {
         page.on('console', msg => logs.push(msg.text()));
         await page.goto(`${BASE_URL}/index.html`);
 
+        // Increase timeout to wait for the first interval (5s)
+        await page.waitForTimeout(6000);
+
         const terminalLog = logs.some(l => l.includes('[INFO] [TERMINAL] Cycling terminal hash'));
         expect(terminalLog).toBe(true);
     });
