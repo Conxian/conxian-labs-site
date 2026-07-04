@@ -13,7 +13,8 @@ const PAGES = [
     'operators/index.html',
     'enterprise/index.html',
     'research/index.html',
-    'privacy.html'
+    'privacy.html',
+    'terms/index.html'
 ];
 
 test.describe('Conxian Labs Comprehensive Site Verification', () => {
@@ -22,11 +23,11 @@ test.describe('Conxian Labs Comprehensive Site Verification', () => {
         for (const pagePath of PAGES) {
             const url = `${BASE_URL}/${pagePath}`;
             await page.goto(url);
-            // Privacy page title might be different
             if (pagePath === 'privacy.html') {
                 await expect(page).toHaveTitle(/Privacy Protocol/);
+            } else if (pagePath === 'terms/index.html') {
+                await expect(page).toHaveTitle(/Terms/);
             } else {
-                // Fixed expectation to match received variety
                 await expect(page).toHaveTitle(/Conxian/);
             }
         }
@@ -43,37 +44,35 @@ test.describe('Conxian Labs Comprehensive Site Verification', () => {
         expect(newHash).not.toBe(initialHash);
     });
 
-    test('internal links should be valid', async ({ page }) => {
-        await page.goto(`${BASE_URL}/index.html`);
-        // Select all internal links starting with /
-        const navLinks = await page.locator('nav a[href^="/"]').all();
+    test('internal links should be valid across all pages', async ({ page }) => {
+        for (const pagePath of PAGES) {
+            await page.goto(`${BASE_URL}/${pagePath}`);
+            const navLinks = await page.locator('a[href^="/"]').all();
 
-        for (const link of navLinks) {
-            const href = await link.getAttribute('href');
-            if (href && href !== '/') {
-                // Remove leading slash for local file path resolution
-                const relativePath = href.startsWith('/') ? href.substring(1) : href;
-                const fullPath = path.join(process.cwd(), relativePath);
+            for (const link of navLinks) {
+                const href = await link.getAttribute('href');
+                if (href && href !== '/') {
+                    const relativePath = href.startsWith('/') ? href.substring(1) : href;
+                    const fullPath = path.join(process.cwd(), relativePath);
 
-                let exists = false;
-                if (fs.existsSync(fullPath)) {
-                    if (fs.statSync(fullPath).isDirectory()) {
-                        // Check for index.html in directory
-                        exists = fs.existsSync(path.join(fullPath, 'index.html'));
-                    } else {
-                        // File exists directly
-                        exists = true;
+                    let exists = false;
+                    if (fs.existsSync(fullPath)) {
+                        if (fs.statSync(fullPath).isDirectory()) {
+                            exists = fs.existsSync(path.join(fullPath, 'index.html'));
+                        } else {
+                            exists = true;
+                        }
                     }
-                }
 
-                expect(exists, `Link to ${href} is broken (path: ${fullPath})`).toBe(true);
+                    expect(exists, `Link to ${href} on ${pagePath} is broken (path: ${fullPath})`).toBe(true);
+                }
             }
         }
     });
 
     test('sub-pages should follow package-page design system', async ({ page }) => {
-        // SDK page as representative of sub-pages
-        await page.goto(`${BASE_URL}/sdk/index.html`);
+        // Terms page as representative of sub-pages
+        await page.goto(`${BASE_URL}/terms/index.html`);
 
         const bgColor = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
         expect(bgColor).toBe('rgb(253, 251, 247)'); // #FDFBF7
@@ -106,7 +105,6 @@ test.describe('Conxian Labs Comprehensive Site Verification', () => {
         const heroTitle = page.locator('h1');
         await expect(heroTitle).toBeVisible();
 
-        // Check if mobile menu or hiding elements logic works (e.g. search is hidden on mobile)
         const searchBar = page.getByPlaceholder(/Search documentation/i);
         await expect(searchBar).not.toBeVisible();
 
