@@ -52,7 +52,7 @@ test.describe('Conxian Labs Logging Verification', () => {
     });
 
     test('all sub-pages should log route access', async ({ page }) => {
-        const PAGES = ['sdk', 'docs', 'pricing', 'partners', 'operators', 'enterprise', 'research', 'privacy.html'];
+        const PAGES = ['sdk', 'docs', 'pricing', 'partners', 'operators', 'enterprise', 'research', 'privacy.html', 'terms'];
         for (const p of PAGES) {
             const logs: string[] = [];
             page.on('console', msg => logs.push(msg.text()));

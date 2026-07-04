@@ -42,3 +42,6 @@ services:
       - type: rewrite
         source: "/enterprise/*"
         destination: "/enterprise/index.html"
+      - type: rewrite
+        source: "/terms/*"
+        destination: "/terms/index.html"
