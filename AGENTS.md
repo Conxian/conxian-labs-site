@@ -13,7 +13,10 @@
 - **Homepage** (`index.html`): Tailwind CDN + inline styles
 - **Sub-pages** (`sdk/`, `docs/`, `pricing/`, `partners/`, `operators/`, `enterprise/`, `research/`, `terms/`): shared `package-page.css`
 - **Standalone pages** (`privacy.html`, `404.html`): inline CSS (own design)
-- **Shared logging:** `logger.js` (IIFE singleton, loaded via `<script>` tag)
+- **Shared logging:** `logger.js` (IIFE singleton)
+- **Fonts:** Self-hosted JetBrains Mono in `fonts/` (676K, 6 weights) — no Google Fonts CDN
+- **Icons:** `icons.js` — inline SVG replacements (no Material Symbols CDN)
+- **Homepage CSS:** Purged Tailwind via `npm run build:css` (13.9KB, no CDN)
 - **Deploy:** Render static site (`conxian-labs-static-v1`)
 
 ## Design System ("Ivory Foundation")
@@ -42,12 +45,8 @@
 | `/404.html` | `404.html` | ❌ | ❌ |
 
 ## Known Issues
-- **Tailwind CDN in production** — `index.html` loads Tailwind from CDN, causes Google tracking/privacy drift
-- **3 separate CSS implementations** — homepage (Tailwind), sub-pages (package-page.css), privacy/404 (inline)
+- **3 separate CSS implementations** — homepage (purged Tailwind), sub-pages (package-page.css), privacy/404 (inline)
 - **Search bar is decorative only** — no handler or form action
-- **Google Fonts + Material Symbols CDNs** — enable third-party tracking, contradict privacy policy
-- **Homepage "Explore ecosystem" and "View repositories"** both link to same `https://github.com/Conxian`
-- **"Get SDK" button** in header is a `<button>` wrapping an `<a>` — invalid HTML
 
 ## CI/CD
 - `.github/workflows/ci.yml` — build-and-test + security-scan (gitleaks) on push/PR to main

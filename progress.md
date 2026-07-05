@@ -46,6 +46,8 @@
 - **Telemetry expansion**: Added route-access logging to all sub-pages.
 
 ## Known Gaps (Open for future work)
+- **3 separate CSS implementations** — homepage (purged Tailwind), sub-pages (package-page.css), privacy/404 (inline)
+- **Search bar is decorative only** — no handler or form action
 - **Tailwind CDN in production** — index.html loads Tailwind from CDN, enabling Google tracking/privacy drift
 - **3 separate CSS implementations** — homepage (Tailwind CDN), sub-pages (package-page.css), privacy/404 (inline)
 - **Search bar is decorative only** — no handler or form action
