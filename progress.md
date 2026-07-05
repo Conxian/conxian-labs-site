@@ -46,7 +46,8 @@
 - **SEO Alignment**: Standardized OpenGraph and Description meta-tags across the entire site.
 - **Telemetry expansion**: Added route-access logging to all sub-pages.
 
-## Known Gaps (Open for future work)
+## Known Gaps
+- **No automated CSS pipeline** — Tailwind build requires manual npm run build:css when classes change (Open for future work)
 - **3 separate CSS implementations** — homepage, sub-pages, standalone pages use different CSS
 - **No conversion path** — no waitlist, newsletter, or contact capture on site** — homepage (purged Tailwind), sub-pages (package-page.css), privacy/404 (inline)
 - **Search bar is decorative only** — no handler or form action
