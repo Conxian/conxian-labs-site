@@ -4,21 +4,31 @@
  */
 (function() {
   var PAGES = [
-    { title: 'Home', desc: 'Builder and operator layer for the Conxian ecosystem. Public portfolio, infrastructure, and ecosystem directory.', url: '/', keywords: 'portfolio ecosystem directory builder operator' },
-    { title: 'SDK — Conclave SDK', desc: 'Open-source sovereign infrastructure and cryptographic primitives. High-performance enclave orchestration and settlement adapters.', url: '/sdk', keywords: 'sdk conclave cryptography primitives enclave settlement open-source mit developer' },
-    { title: 'Docs — Documentation', desc: 'Technical documentation for the Conxian ecosystem. Integration guides, API references, and architectural overviews.', url: '/docs', keywords: 'documentation docs api reference integration guide architecture' },
-    { title: 'Pricing', desc: 'Transparent pricing for hosted operational services and enterprise support. Open-source SDK is free (MIT).', url: '/pricing', keywords: 'pricing plans enterprise support hosted services cost' },
-    { title: 'Partners', desc: 'Ecosystem partners, integrations, and collaborative initiatives within the Conxian network.', url: '/partners', keywords: 'partners integrations collaboration ecosystem network' },
-    { title: 'Operators', desc: 'Node operators, validators, and infrastructure providers powering the Conxian network.', url: '/operators', keywords: 'operators nodes validators infrastructure providers network' },
-    { title: 'Enterprise', desc: 'Enterprise-grade solutions, institutional services, and sovereign infrastructure deployment for regulated entities.', url: '/enterprise', keywords: 'enterprise institutional sovereign deployment solutions business regulated' },
-    { title: 'Research', desc: 'Research surfaces, technical papers, cryptographic analysis, and protocol studies.', url: '/research', keywords: 'research papers cryptography analysis protocol studies academic' },
-    { title: 'Terms of Service', desc: 'Legal terms governing use of Conxian Labs services, SDK, and infrastructure.', url: '/terms', keywords: 'terms legal service agreement conditions' },
-    { title: 'Privacy Policy', desc: 'How Conxian Labs handles data. No third-party trackers, no surveillance infrastructure.', url: '/privacy', keywords: 'privacy policy data protection no tracking' },
-    { title: 'About — Conxian Labs', desc: 'Team, mission, and institutional background. Ecosystem portfolio overview and contact information.', url: '/about', keywords: 'about team mission contact institutional portfolio' },
-    { title: 'Security — Conxian Labs', desc: 'Security architecture, bug bounty program, audit reports, and responsible disclosure.', url: '/security', keywords: 'security audit bug bounty disclosure vulnerability HSM verification' }
+    { title: 'Home', desc: 'Builder and operator layer for the Conxian ecosystem. Public portfolio, infrastructure, and ecosystem directory.', url: 'index.html', keywords: 'portfolio ecosystem directory builder operator' },
+    { title: 'SDK — Conclave SDK', desc: 'Open-source sovereign infrastructure and cryptographic primitives. High-performance enclave orchestration and settlement adapters.', url: 'sdk/index.html', keywords: 'sdk conclave cryptography primitives enclave settlement open-source mit developer' },
+    { title: 'Docs — Documentation', desc: 'Technical documentation for the Conxian ecosystem. Integration guides, API references, and architectural overviews.', url: 'docs/index.html', keywords: 'documentation docs api reference integration guide architecture' },
+    { title: 'Pricing', desc: 'Transparent pricing for hosted operational services and enterprise support. Open-source SDK is free (MIT).', url: 'pricing/index.html', keywords: 'pricing plans enterprise support hosted services cost' },
+    { title: 'Partners', desc: 'Ecosystem partners, integrations, and collaborative initiatives within the Conxian network.', url: 'partners/index.html', keywords: 'partners integrations collaboration ecosystem network' },
+    { title: 'Operators', desc: 'Node operators, validators, and infrastructure providers powering the Conxian network.', url: 'operators/index.html', keywords: 'operators nodes validators infrastructure providers network' },
+    { title: 'Enterprise', desc: 'Enterprise-grade solutions, institutional services, and sovereign infrastructure deployment for regulated entities.', url: 'enterprise/index.html', keywords: 'enterprise institutional sovereign deployment solutions business regulated' },
+    { title: 'Research', desc: 'Research surfaces, technical papers, cryptographic analysis, and protocol studies.', url: 'research/index.html', keywords: 'research papers cryptography analysis protocol studies academic' },
+    { title: 'Terms of Service', desc: 'Legal terms governing use of Conxian Labs services, SDK, and infrastructure.', url: 'terms/index.html', keywords: 'terms legal service agreement conditions' },
+    { title: 'Privacy Policy', desc: 'How Conxian Labs handles data. No third-party trackers, no surveillance infrastructure.', url: 'privacy/index.html', keywords: 'privacy policy data protection no tracking' },
+    { title: 'About — Conxian Labs', desc: 'Team, mission, and institutional background. Ecosystem portfolio overview and contact information.', url: 'about/index.html', keywords: 'about team mission contact institutional portfolio' },
+    { title: 'Security — Conxian Labs', desc: 'Security architecture, bug bounty program, audit reports, and responsible disclosure.', url: 'security/index.html', keywords: 'security audit bug bounty disclosure vulnerability HSM verification' }
   ];
 
   function normalize(s) { return s.toLowerCase().replace(/[^a-z0-9\s-]/g, ''); }
+
+  function getBaseUrl() {
+      var scripts = document.getElementsByTagName('script');
+      for (var i = 0; i < scripts.length; i++) {
+          if (scripts[i].src.indexOf('search.js') !== -1) {
+              return scripts[i].src.replace('search.js', '');
+          }
+      }
+      return '/';
+  }
 
   function searchFn(query) {
     var q = normalize(query);
@@ -30,16 +40,21 @@
     });
   }
 
-  function createDropdown() {
+  function createDropdown(wrapper) {
+    // Check if one already exists in the wrapper
+    var existing = wrapper.querySelector('.search-results');
+    if (existing) return existing;
+
     var dd = document.createElement('div');
     dd.className = 'search-results';
     dd.style.cssText = 'position:absolute;top:100%;left:0;right:0;margin-top:8px;background:#FFFFFF;border-radius:4px;box-shadow:0 10px 40px rgba(0,0,0,0.1);z-index:100;max-height:320px;overflow-y:auto;display:none;';
+    wrapper.appendChild(dd);
     return dd;
   }
 
-  function renderResult(page) {
+  function renderResult(page, baseUrl) {
     var a = document.createElement('a');
-    a.href = page.url;
+    a.href = baseUrl + page.url;
     a.style.cssText = 'display:block;padding:12px 16px;text-decoration:none;border-bottom:1px solid #F0EDE8;';
     a.innerHTML = '<div style="font-family:JetBrains Mono,monospace;font-size:0.75rem;font-weight:700;color:#121212;margin-bottom:2px;">' + page.title + '</div><div style="font-family:JetBrains Mono,monospace;font-size:0.65rem;color:#555555;line-height:1.4;">' + page.desc + '</div>';
     a.addEventListener('mouseenter', function() { a.style.background = '#F5F2ED'; });
@@ -52,8 +67,8 @@
     var wrapper = input.closest('.relative') || input.closest('.search-bar') || input.parentElement;
     wrapper.style.position = 'relative';
 
-    var dd = createDropdown();
-    wrapper.appendChild(dd);
+    var baseUrl = getBaseUrl();
+    var dd = createDropdown(wrapper);
 
     var selectedIndex = -1;
     var currentResults = [];
@@ -62,7 +77,7 @@
       dd.innerHTML = '';
       if (results.length === 0) { dd.style.display = 'none'; return; }
       results.forEach(function(p, i) {
-        var el = renderResult(p);
+        var el = renderResult(p, baseUrl);
         el.addEventListener('click', function() { dd.style.display = 'none'; });
         dd.appendChild(el);
       });
@@ -81,7 +96,7 @@
       if (e.key === 'ArrowUp') { e.preventDefault(); selectedIndex = Math.max(selectedIndex - 1, -1); updateSelection(); return; }
       if (e.key === 'Enter' && selectedIndex >= 0 && currentResults[selectedIndex]) {
         e.preventDefault();
-        window.location.href = currentResults[selectedIndex].url;
+        window.location.href = baseUrl + currentResults[selectedIndex].url;
       }
     });
 
