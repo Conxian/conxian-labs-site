@@ -15,7 +15,7 @@
 | `production` | Render | `www.conxian-labs.com` | `main` (gated by `deploy.yml`) |
 
 - **Production (Render)**: Auto-deploys via `deploy.yml` signal → Render detects `main` push; pull request previews enabled (Oregon region)
-- **GitHub Pages**: Org-level via `conxian.github.io` repo — covers all project repos, no per-repo environment needed
+- **GitHub Pages**: Org-level via `conxian.github.io` repo — covers all project repos at `pages.conxian-labs.com`, no per-repo environment needed
 
 ## Architecture
 - Static HTML5/CSS3/Vanilla JS — no build step, no framework
@@ -67,7 +67,7 @@
 - `.github/workflows/deploy.yml` — deployment signal on push to main (`environment: production`)
 - `.github/workflows/dependency-review.yml` — on PR when lockfiles change
 - **Render**: auto-deploy from `main` → `conxian-labs-static-v1` (environment: `production`)
-- **GitHub Pages**: org-level (`conxian.github.io`), separate from this repo's pipeline
+- **GitHub Pages**: org-level (`conxian.github.io` → `pages.conxian-labs.com`), separate from this repo's pipeline
 
 ---
 *CONXIAN-LABS // 2026 // SOVEREIGN AUTONOMOUS BUSINESS (SAB)*
