@@ -1,29 +1,58 @@
-# Conxian Labs Design Standards 🎨
+# Conxian Labs Site — Development Context
 
-## Core Theme: Sovereign Earthy (Ivory Foundation)
+## Build & Test
+- **Install:** `npm install`
+- **Test:** `npx playwright test` (or `npm test`)
+- **Test (single file):** `npx playwright test tests/design-compliance.spec.ts`
+- **Debug tests:** `npx playwright test --headed`
+- **Browser install:** `npx playwright install --with-deps chromium`
+- **Node:** v20+
 
-The Conxian Protocol UI follows a high-contrast, institutional, and earthy aesthetic designed for professional financial services and sovereign infrastructure.
+## Architecture
+- Static HTML5/CSS3/Vanilla JS — no build step, no framework
+- **Homepage** (`index.html`): Tailwind CDN + inline styles
+- **Sub-pages** (`sdk/`, `docs/`, `pricing/`, `partners/`, `operators/`, `enterprise/`, `research/`, `terms/`): shared `package-page.css`
+- **Standalone pages** (`privacy.html`, `404.html`): inline CSS (own design)
+- **Shared logging:** `logger.js` (IIFE singleton, loaded via `<script>` tag)
+- **Deploy:** Render static site (`conxian-labs-static-v1`)
 
-### Color Palette
-- **Base Canvas (Background):** `#FDFBF7` (Ivory)
-- **Surface Layers:** `#FFFFFF` (Pure White)
-- **Primary Accent:** `#C25E00` (Earthy Orange/Gold)
-- **Brand Secondary:** `#2E403B` (Deep Forest Green)
-- **Typography (Main):** `#121212` (High-contrast Dark Earth)
-- **Typography (Dim):** `#555555`
+## Design System ("Ivory Foundation")
+- **Background:** `#FDFBF7` (Ivory)
+- **Surface:** `#FFFFFF` (White panels)
+- **Primary accent:** `#C25E00` (Earthy Orange)
+- **Brand secondary:** `#2E403B` (Deep Forest Green)
+- **Text main:** `#121212` | **Text dim:** `#555555`
+- **Font:** JetBrains Mono (all typography)
+- **Border radius:** 4px (sharp institutional)
+- **Logos:** black background, grayscale + brightness filter
 
-### Typography & Grid
-- **Font Family:** 'JetBrains Mono', monospace (for engineering precision).
-- **Grid:** 40px x 40px subtle grid background.
-- **Corner Radius:** 4px (Sharp, institutional).
+## Page Inventory (11 pages)
+| Route | File | Nav? | Footer? |
+|-------|------|------|---------|
+| `/` | `index.html` | ✅ | ✅ (minimal) |
+| `/sdk` | `sdk/index.html` | ✅ | ✅ |
+| `/docs` | `docs/index.html` | ✅ | ✅ |
+| `/pricing` | `pricing/index.html` | ✅ | ✅ |
+| `/partners` | `partners/index.html` | ✅ | ✅ |
+| `/operators` | `operators/index.html` | ✅ | ✅ |
+| `/enterprise` | `enterprise/index.html` | ✅ | ✅ |
+| `/research` | `research/index.html` | ✅ | ✅ |
+| `/terms` | `terms/index.html` | ✅ | ✅ |
+| `/privacy.html` | `privacy.html` | ❌ | ❌ |
+| `/404.html` | `404.html` | ❌ | ❌ |
 
-### Component Guidelines
-- **Logos:** All logo backgrounds MUST be black for aesthetic consistency.
-- **Surfaces:** Use white surfaces with subtle shadows (`0 10px 40px 0 rgba(0, 0, 0, 0.1)`) on the Ivory foundation.
-- **60-30-10 Rule:** Reserve dark brand colors for entry zones; operational zones use the bright Ivory/White foundation.
+## Known Issues
+- **Tailwind CDN in production** — `index.html` loads Tailwind from CDN, causes Google tracking/privacy drift
+- **3 separate CSS implementations** — homepage (Tailwind), sub-pages (package-page.css), privacy/404 (inline)
+- **Search bar is decorative only** — no handler or form action
+- **Google Fonts + Material Symbols CDNs** — enable third-party tracking, contradict privacy policy
+- **Homepage "Explore ecosystem" and "View repositories"** both link to same `https://github.com/Conxian`
+- **"Get SDK" button** in header is a `<button>` wrapping an `<a>` — invalid HTML
 
-### Compliance
-- Maintain **WCAG AAA** contrast ratios for all financial data and critical copy.
+## CI/CD
+- `.github/workflows/ci.yml` — build-and-test + security-scan (gitleaks) on push/PR to main
+- `.github/workflows/deploy.yml` — deployment signal on push to main
+- `.github/workflows/dependency-review.yml` — on PR when lockfiles change
 
 ---
 *CONXIAN-LABS // 2026 // SOVEREIGN AUTONOMOUS BUSINESS (SAB)*

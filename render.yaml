@@ -3,7 +3,7 @@ services:
     name: conxian-labs-static-v1
     env: static
     region: oregon
-    buildCommand: "npm install && npm run test"
+    buildCommand: "npm install"
     publishPath: "."
     pullRequestPreviewsEnabled: yes
     autoDeploy: yes
