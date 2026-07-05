@@ -7,6 +7,7 @@
 - **AGENTS.md**: Updated with full development context (build/test commands, architecture, page inventory, known issues, CI/CD).
 - **Homepage CTA dedup**: "View repositories" button changed to "Enterprise" linking to `/enterprise`.
 - **Invalid HTML fixed**: "Get SDK" `<button>` wrapping an `<a>` replaced with a clean `<a>` tag.
+- **Official Service Established**: Created `conxian-labs-site-official` (srv-d954bv8js32c73fd3lqg) to serve as the canonical deployment surface, ensuring alignment with org-wide hardening standards.
 
 ## Render Audit Findings
 - **Missing Configuration**: No `render.yaml` exists in the repository.
