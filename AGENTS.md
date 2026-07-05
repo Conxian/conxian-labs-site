@@ -10,15 +10,12 @@
 
 ## Deployment Environments
 
-Two environments, both auto-deploy on merge to `main`:
-
-| Environment | Target | URL | Protection |
+| Environment | Target | URL | Branch |
 |---|---|---|---|
-| `github-pages` | GitHub Pages | `conxian.github.io/conxian-labs-site` | Branch policy: `main` only (needs manual recreate) |
-| `production` | Render | `www.conxian-labs.com` | No branch restriction (`deploy.yml` gates on `main`) |
+| `production` | Render | `www.conxian-labs.com` | `main` (gated by `deploy.yml`) |
 
-- **Production (Render)**: Auto-deploys via `deploy.yml` signal → Render detects `main` push; pull request previews enabled (Oregon region); serves `www.conxian-labs.com`
-- **GitHub Pages**: Auto-deploys via `pages-build-deployment` from `main` branch; CNAME `www.conxian-labs.com`
+- **Production (Render)**: Auto-deploys via `deploy.yml` signal → Render detects `main` push; pull request previews enabled (Oregon region)
+- **GitHub Pages**: Org-level via `conxian.github.io` repo — covers all project repos, no per-repo environment needed
 
 ## Architecture
 - Static HTML5/CSS3/Vanilla JS — no build step, no framework
@@ -69,8 +66,8 @@ Two environments, both auto-deploy on merge to `main`:
 - `.github/workflows/ci.yml` — build-and-test + security-scan (gitleaks) on push/PR to main
 - `.github/workflows/deploy.yml` — deployment signal on push to main (`environment: production`)
 - `.github/workflows/dependency-review.yml` — on PR when lockfiles change
-- **GitHub Pages**: `pages-build-deployment` auto-deploys from `main` (environment: `github-pages`)
 - **Render**: auto-deploy from `main` → `conxian-labs-static-v1` (environment: `production`)
+- **GitHub Pages**: org-level (`conxian.github.io`), separate from this repo's pipeline
 
 ---
 *CONXIAN-LABS // 2026 // SOVEREIGN AUTONOMOUS BUSINESS (SAB)*
