@@ -16,6 +16,7 @@
 - **Shared logging:** `logger.js` (IIFE singleton)
 - **Fonts:** Self-hosted JetBrains Mono in `fonts/` (676K, 6 weights) — no Google Fonts CDN
 - **Icons:** `icons.js` — inline SVG replacements (no Material Symbols CDN)
+- **Search:** `search.js` — client-side search across all site pages — inline SVG replacements (no Material Symbols CDN)
 - **Homepage CSS:** Purged Tailwind via `npm run build:css` (13.9KB, no CDN)
 - **Deploy:** Render static site (`conxian-labs-static-v1`)
 
@@ -46,7 +47,6 @@
 
 ## Known Issues
 - **3 separate CSS implementations** — homepage (purged Tailwind), sub-pages (package-page.css), privacy/404 (inline)
-- **Search bar is decorative only** — no handler or form action
 
 ## CI/CD
 - `.github/workflows/ci.yml` — build-and-test + security-scan (gitleaks) on push/PR to main
