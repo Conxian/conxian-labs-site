@@ -14,12 +14,11 @@ Two environments, both auto-deploy on merge to `main`:
 
 | Environment | Target | URL | Protection |
 |---|---|---|---|
-| `github-pages` | GitHub Pages | `www.conxian-labs.com` | Branch policy: `main` only |
-| `production` | Render.com | `conxian-labs.onrender.com` | No branch restriction (`deploy.yml` gates on `main`) |
+| `github-pages` | GitHub Pages | `conxian.github.io/conxian-labs-site` | Branch policy: `main` only (needs manual recreate) |
+| `production` | Render | `www.conxian-labs.com` | No branch restriction (`deploy.yml` gates on `main`) |
 
-- **GitHub Pages**: Auto-deploys via `pages-build-deployment` from `main` branch
-- **Render**: Auto-deploys via `deploy.yml` signal → Render detects `main` push; pull request previews enabled (Oregon region)
-- **render.yaml**: Static site with CSP, security headers, SPA route rewrites
+- **Production (Render)**: Auto-deploys via `deploy.yml` signal → Render detects `main` push; pull request previews enabled (Oregon region); serves `www.conxian-labs.com`
+- **GitHub Pages**: Auto-deploys via `pages-build-deployment` from `main` branch; CNAME `www.conxian-labs.com`
 
 ## Architecture
 - Static HTML5/CSS3/Vanilla JS — no build step, no framework
