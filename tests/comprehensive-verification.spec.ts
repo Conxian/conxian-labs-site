@@ -13,8 +13,10 @@ const PAGES = [
     'operators/index.html',
     'enterprise/index.html',
     'research/index.html',
-    'privacy.html',
-    'terms/index.html'
+    'privacy/index.html',
+    'terms/index.html',
+    'about/index.html',
+    'security/index.html'
 ];
 
 test.describe('Conxian Labs Comprehensive Site Verification', () => {
@@ -23,7 +25,7 @@ test.describe('Conxian Labs Comprehensive Site Verification', () => {
         for (const pagePath of PAGES) {
             const url = `${BASE_URL}/${pagePath}`;
             await page.goto(url);
-            if (pagePath === 'privacy.html') {
+            if (pagePath === 'privacy/index.html') {
                 await expect(page).toHaveTitle(/Privacy Protocol/);
             } else if (pagePath === 'terms/index.html') {
                 await expect(page).toHaveTitle(/Terms/);

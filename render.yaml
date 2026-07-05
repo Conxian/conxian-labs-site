@@ -45,3 +45,16 @@ services:
       - type: rewrite
         source: "/terms/*"
         destination: "/terms/index.html"
+      - type: rewrite
+        source: "/research/*"
+        destination: "/research/index.html"
+      - type: rewrite
+        source: "/about/*"
+        destination: "/about/index.html"
+      - type: rewrite
+        source: "/security/*"
+        destination: "/security/index.html"
+      - type: rewrite
+        source: "/privacy/*"
+        destination: "/privacy/index.html"
+

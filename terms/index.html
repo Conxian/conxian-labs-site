@@ -4,7 +4,7 @@
     <script src="../logger.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Conxian Labs Terms of Service - Institutional engineering standards and service level agreements.">
+    <meta name="description" content="Conxian Labs Terms of Service — Institutional engineering standards and service level agreements.">
     <title>Conxian Labs | Terms</title>
     <link rel="canonical" href="https://www.conxian-labs.com/terms">
     <meta property="og:url" content="https://www.conxian-labs.com/terms">
@@ -13,6 +13,37 @@
     <meta property="og:image" content="https://www.conxian-labs.com/Conxian-Labs_Logo.jpg">
     <link rel="icon" href="../Conxian_Logo.jpg" type="image/jpeg">
     <link rel="stylesheet" href="../package-page.css">
+    <script src="../search.js"></script>
+    <style>
+        .search-bar {
+            display: flex; align-items: center; gap: 0.5rem;
+            margin-right: 1rem;
+        }
+        .search-bar input {
+            background: var(--surface-low, #F6F3F2);
+            border: 1px solid var(--ghost-border, rgba(221,193,178,0.15));
+            border-radius: 999px; padding: 0.4rem 1rem;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+            color: var(--text-main); width: 180px; outline: none;
+            transition: border-color 0.2s;
+        }
+        .search-bar input:focus { border-color: var(--accent); }
+        .search-results {
+            display: none; position: absolute; top: 100%; left: 0; right: 0;
+            background: var(--surface, #FFF); border: 1px solid var(--ghost-border);
+            border-radius: 4px; margin-top: 0.25rem; max-height: 300px;
+            overflow-y: auto; z-index: 100; box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        .search-results.visible { display: block; }
+        .search-result {
+            padding: 0.6rem 1rem; cursor: pointer; border-bottom: 1px solid var(--ghost-border);
+            font-size: 0.7rem;
+        }
+        .search-result:hover, .search-result.active { background: var(--surface-low); }
+        .search-result .title { font-weight: 600; color: var(--text-main); }
+        .search-result .desc { color: var(--text-dim); font-size: 0.65rem; margin-top: 0.15rem; }
+
+    </style>
 </head>
 <body>
     <header class="nav-bar">
@@ -29,7 +60,11 @@
             <a href="/operators">Operators</a>
             <a href="/research">Research</a>
         </nav>
-        <div class="sys-status">SYS_ZA_1 // ACTIVE</div>
+                    <div class="search-bar" style="position:relative;">
+                <input type="text" placeholder="Search..." class="subpage-search-input">
+                <div class="search-results subpage-search-results"></div>
+            </div>
+            <div class="sys-status">SYS_ZA_1 // ACTIVE</div>
     </header>
 
     <main class="page">
@@ -81,14 +116,18 @@
             <p>© 2026 CONXIAN-LABS (PTY) LTD // INSTITUTIONAL ENGINEERING</p>
         </div>
         <div class="footer-links">
+        <div class="footer-links">
             <a href="/">Home</a>
             <a href="/sdk">SDK</a>
             <a href="/docs">Docs</a>
             <a href="/pricing">Pricing</a>
             <a href="/enterprise">Enterprise</a>
+            <a href="/partners">Partners</a>
+            <a href="/operators">Operators</a>
             <a href="/research">Research</a>
-            <a href="/privacy.html">Privacy</a>
-            <a href="/terms" class="active">Terms</a>
+            <a href="/privacy">Privacy</a>
+            <a href="/terms">Terms</a>
+        </div>
         </div>
     </footer>
     <script>

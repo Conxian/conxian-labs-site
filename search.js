@@ -1,7 +1,6 @@
 /**
  * Conxian Labs — Client-Side Search
- * Adds functional search to the homepage search input.
- * Searches across all site pages by title, description, and keywords.
+ * Functional search across all site pages via homepage and sub-page search inputs.
  */
 (function() {
   var PAGES = [
@@ -11,15 +10,17 @@
     { title: 'Pricing', desc: 'Transparent pricing for hosted operational services and enterprise support. Open-source SDK is free (MIT).', url: '/pricing', keywords: 'pricing plans enterprise support hosted services cost' },
     { title: 'Partners', desc: 'Ecosystem partners, integrations, and collaborative initiatives within the Conxian network.', url: '/partners', keywords: 'partners integrations collaboration ecosystem network' },
     { title: 'Operators', desc: 'Node operators, validators, and infrastructure providers powering the Conxian network.', url: '/operators', keywords: 'operators nodes validators infrastructure providers network' },
-    { title: 'Enterprise', desc: 'Enterprise-grade solutions, institutional services, and sovereign infrastructure deployment.', url: '/enterprise', keywords: 'enterprise institutional sovereign deployment solutions business' },
+    { title: 'Enterprise', desc: 'Enterprise-grade solutions, institutional services, and sovereign infrastructure deployment for regulated entities.', url: '/enterprise', keywords: 'enterprise institutional sovereign deployment solutions business regulated' },
     { title: 'Research', desc: 'Research surfaces, technical papers, cryptographic analysis, and protocol studies.', url: '/research', keywords: 'research papers cryptography analysis protocol studies academic' },
     { title: 'Terms of Service', desc: 'Legal terms governing use of Conxian Labs services, SDK, and infrastructure.', url: '/terms', keywords: 'terms legal service agreement conditions' },
-    { title: 'Privacy Policy', desc: 'How Conxian Labs handles data. No third-party trackers, no surveillance infrastructure.', url: '/privacy', keywords: 'privacy policy data protection gdpr no tracking' }
+    { title: 'Privacy Policy', desc: 'How Conxian Labs handles data. No third-party trackers, no surveillance infrastructure.', url: '/privacy', keywords: 'privacy policy data protection no tracking' },
+    { title: 'About — Conxian Labs', desc: 'Team, mission, and institutional background. Ecosystem portfolio overview and contact information.', url: '/about', keywords: 'about team mission contact institutional portfolio' },
+    { title: 'Security — Conxian Labs', desc: 'Security architecture, bug bounty program, audit reports, and responsible disclosure.', url: '/security', keywords: 'security audit bug bounty disclosure vulnerability HSM verification' }
   ];
 
   function normalize(s) { return s.toLowerCase().replace(/[^a-z0-9\s-]/g, ''); }
 
-  function search(query) {
+  function searchFn(query) {
     var q = normalize(query);
     if (q.length < 2) return [];
     return PAGES.filter(function(p) {
@@ -46,11 +47,9 @@
     return a;
   }
 
-  function init() {
-    var input = document.querySelector('input[placeholder*="Search"]');
+  function setupSearch(input) {
     if (!input) return;
-
-    var wrapper = input.closest('.relative') || input.parentElement;
+    var wrapper = input.closest('.relative') || input.closest('.search-bar') || input.parentElement;
     wrapper.style.position = 'relative';
 
     var dd = createDropdown();
@@ -73,7 +72,7 @@
     }
 
     input.addEventListener('input', function() {
-      showResults(search(input.value));
+      showResults(searchFn(input.value));
     });
 
     input.addEventListener('keydown', function(e) {
@@ -101,8 +100,17 @@
     });
 
     input.addEventListener('focus', function() {
-      if (input.value.length >= 2) showResults(search(input.value));
+      if (input.value.length >= 2) showResults(searchFn(input.value));
     });
+  }
+
+  function init() {
+    // Homepage search
+    var homeInput = document.querySelector('input[placeholder*="Search documentation"]');
+    setupSearch(homeInput);
+    // Sub-page searches
+    var subInputs = document.querySelectorAll('.subpage-search-input');
+    subInputs.forEach(function(input) { setupSearch(input); });
   }
 
   if (document.readyState === 'loading') {

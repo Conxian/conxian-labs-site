@@ -4,36 +4,40 @@
     <script src="./logger.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Page not found &mdash; Conxian Labs. The requested route does not exist on this terminal.">
+    <meta name="robots" content="noindex, nofollow">
     <title>404 // Route Not Found | Conxian Labs</title>
+    <link rel="canonical" href="https://www.conxian-labs.com/404.html">
+    <meta property="og:url" content="https://www.conxian-labs.com/404.html">
+    <meta property="og:title" content="404 // Route Not Found | Conxian Labs">
+    <meta property="og:description" content="The requested route does not exist on this terminal.">
+    <meta property="og:image" content="https://www.conxian-labs.com/Conxian-Labs_Logo.jpg">
     <link rel="icon" href="Conxian_Logo.jpg" type="image/jpeg">
     <link rel="stylesheet" href="fonts/fonts.css">
     <link rel="stylesheet" href="css/common.css">
     <style>
-        
-        body {
-            background-color: var(--bg);
-            color: var(--text-main);
-            height: 100vh;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background-image: linear-gradient(rgba(194, 94, 0, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(194, 94, 0, 0.03) 1px, transparent 1px);
-            background-size: 40px 40px;
-        }
-        .error-code { font-size: 8rem; font-weight: 700; color: var(--accent); line-height: 1; margin-bottom: 20px; }
-        .error-msg { font-size: 1rem; text-transform: uppercase; letter-spacing: 4px; color: var(--text-dim); margin-bottom: 40px; }
-        .back-link { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; text-decoration: none; color: var(--text-main); border: 1px solid var(--text-main); padding: 12px 24px; border-radius: 4px; transition: 0.3s; }
-        .back-link:hover { background: var(--text-main); color: var(--bg); }
+        body{margin:0;padding:0;font-family:"JetBrains Mono",monospace;background-color:var(--bg,#FDFBF7);color:var(--text-main,#121212);min-height:100vh;display:flex;flex-direction:column}
+        .nav-bar{display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;border-bottom:1px solid rgba(0,0,0,0.06);background:rgba(255,255,255,0.8);backdrop-filter:blur(12px)}
+        .nav-links{display:flex;gap:1.5rem;flex-wrap:wrap}
+        .nav-links a{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.15em;text-decoration:none;color:var(--text-dim,#555);font-weight:600}
+        .nav-links a:hover{color:var(--accent,#C25E00)}
+        .error-wrap{flex:1;display:flex;justify-content:center;align-items:center;background-image:linear-gradient(rgba(194,94,0,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(194,94,0,0.03) 1px,transparent 1px);background-size:40px 40px}
+        .error-code{font-size:8rem;color:var(--accent,#C25E00);font-weight:700;line-height:1}
+        .error-msg{text-transform:uppercase;letter-spacing:4px;color:var(--text-dim,#555);font-size:0.85rem;margin:1rem 0 2rem}
+        .back-link{text-transform:uppercase;letter-spacing:0.1em;font-size:0.75rem;font-weight:600;color:var(--text-main,#121212);text-decoration:none;border:1px solid var(--text-main,#121212);padding:12px 24px;border-radius:4px;transition:all 0.2s}
+        .back-link:hover{background:var(--text-main,#121212);color:var(--bg,#FDFBF7)}
+        .footer-bar{text-align:center;padding:1rem;font-size:0.6rem;text-transform:uppercase;letter-spacing:0.15em;color:var(--text-dim,#555);border-top:1px solid rgba(0,0,0,0.06)}
     </style>
 </head>
 <body>
-    <div class="error-code">404</div>
-    <div class="error-msg">Route Terminal Unavailable</div>
-    <a href="/" class="back-link">Return to Dashboard</a>
-    <script>
-        Logger.warn("ROUTING", "404 Route Not Found", { path: window.location.pathname });
-    </script>
+    <header class="nav-bar">
+        <div class="logo-container"><img src="Conxian-Labs_Logo.jpg" alt="Conxian Labs"></div>
+        <nav class="nav-links">
+            <a href="/">Home</a><a href="/sdk">SDK</a><a href="/docs">Docs</a><a href="/pricing">Pricing</a><a href="/enterprise">Enterprise</a><a href="/partners">Partners</a><a href="/operators">Operators</a><a href="/about">About</a><a href="/research">Research</a>
+        </nav>
+    </header>
+    <div class="error-wrap"><div style="text-align:center"><div class="error-code">404</div><div class="error-msg">Route Terminal Unavailable</div><a href="/" class="back-link">Return to Dashboard</a></div></div>
+    <div class="footer-bar">© 2026 CONXIAN-LABS (PTY) LTD</div>
+    <script>Logger.warn("ROUTING","404 Route Not Found",{path:window.location.pathname});</script>
 </body>
 </html>

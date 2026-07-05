@@ -19,15 +19,14 @@
 
 ## Architecture
 - Static HTML5/CSS3/Vanilla JS — no build step, no framework
-- **Homepage** (`index.html`): Tailwind CDN + inline styles
-- **Sub-pages** (`sdk/`, `docs/`, `pricing/`, `partners/`, `operators/`, `enterprise/`, `research/`, `terms/`): shared `package-page.css`
-- **Standalone pages** (`privacy.html`, `404.html`): inline CSS (own design)
+- **Homepage** (`index.html`): Purged Tailwind CSS (13.9KB, no CDN)
+- **Sub-pages** (10 pages under `sdk/`, `docs/`, `pricing/`, `partners/`, `operators/`, `enterprise/`, `research/`, `terms/`, `about/`, `security/`, `privacy/`): shared `package-page.css`
+- **Standalone pages** (`404.html`): own design with shared tokens from `css/common.css`
 - **Shared logging:** `logger.js` (IIFE singleton)
 - **Fonts:** Self-hosted JetBrains Mono in `fonts/` (676K, 6 weights) — no Google Fonts CDN
 - **Shared CSS:** `css/common.css` — design tokens, body reset, logo, utility classes
 - **Icons:** `icons.js` — inline SVG replacements (no Material Symbols CDN)
-- **Search:** `search.js` — client-side search across all site pages
-- **Homepage CSS:** Purged Tailwind via `npm run build:css` (13.9KB, no CDN)
+- **Search:** `search.js` — client-side search across all 12 site pages (homepage + all sub-pages)
 - **Deploy:** Render static site (`conxian-labs-static-v1`)
 
 ## Design System ("Ivory Foundation")
@@ -40,10 +39,10 @@
 - **Border radius:** 4px (sharp institutional)
 - **Logos:** black background, grayscale + brightness filter
 
-## Page Inventory (11 pages)
+## Page Inventory (13 pages)
 | Route | File | Nav? | Footer? |
 |-------|------|------|---------|
-| `/` | `index.html` | ✅ | ✅ (minimal) |
+| `/` | `index.html` | ✅ | ✅ (3 columns) |
 | `/sdk` | `sdk/index.html` | ✅ | ✅ |
 | `/docs` | `docs/index.html` | ✅ | ✅ |
 | `/pricing` | `pricing/index.html` | ✅ | ✅ |
@@ -52,14 +51,13 @@
 | `/enterprise` | `enterprise/index.html` | ✅ | ✅ |
 | `/research` | `research/index.html` | ✅ | ✅ |
 | `/terms` | `terms/index.html` | ✅ | ✅ |
-| `/privacy.html` | `privacy.html` | ❌ | ❌ |
-| `/404.html` | `404.html` | ❌ | ❌ |
+| `/about` | `about/index.html` | ✅ | ✅ |
+| `/security` | `security/index.html` | ✅ | ✅ |
+| `/privacy` | `privacy/index.html` | ✅ | ✅ |
+| `/404.html` | `404.html` | ✅ | ✅ (minimal) |
 
 ## Known Issues
 - **`production` environment has no branch protection** — relies solely on `deploy.yml` `branches: [main]` filter
-- **`render.yaml` missing rewrite for `/research/*`** — sub-paths under research return 404
-- **`/privacy` clean URL missing** — only `/privacy.html` works; all other pages use clean paths
-- **Footer links inconsistent** — Terms, Partners, Operators missing from most footers
 - **No automated CSS pipeline** — Tailwind build requires manual `npm run build:css` when classes change
 
 ## CI/CD

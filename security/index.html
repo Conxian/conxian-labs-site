@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="../logger.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Conxian Labs Security — Audit reports, bug bounty program, and cryptographic assurance for sovereign infrastructure.">
+    <title>Conxian Labs | Security</title>
+    <link rel="canonical" href="https://www.conxian-labs.com/security">
+    <meta property="og:url" content="https://www.conxian-labs.com/security">
+    <meta property="og:title" content="Conxian Labs | Security">
+    <meta property="og:description" content="Security audits, bug bounty, and cryptographic assurance for the Conxian ecosystem.">
+    <meta property="og:image" content="https://www.conxian-labs.com/Conxian-Labs_Logo.jpg">
+    <link rel="icon" href="../Conxian_Logo.jpg" type="image/jpeg">
+    <link rel="stylesheet" href="../package-page.css">
+    <script src="../search.js"></script>
+    <style>
+        .search-bar {
+            display: flex; align-items: center; gap: 0.5rem;
+            margin-right: 1rem;
+        }
+        .search-bar input {
+            background: var(--surface-low, #F6F3F2);
+            border: 1px solid var(--ghost-border, rgba(221,193,178,0.15));
+            border-radius: 999px; padding: 0.4rem 1rem;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+            color: var(--text-main); width: 180px; outline: none;
+            transition: border-color 0.2s;
+        }
+        .search-bar input:focus { border-color: var(--accent); }
+        .search-results {
+            display: none; position: absolute; top: 100%; left: 0; right: 0;
+            background: var(--surface, #FFF); border: 1px solid var(--ghost-border);
+            border-radius: 4px; margin-top: 0.25rem; max-height: 300px;
+            overflow-y: auto; z-index: 100; box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        .search-results.visible { display: block; }
+        .search-result {
+            padding: 0.6rem 1rem; cursor: pointer; border-bottom: 1px solid var(--ghost-border);
+            font-size: 0.7rem;
+        }
+        .search-result:hover, .search-result.active { background: var(--surface-low); }
+        .search-result .title { font-weight: 600; color: var(--text-main); }
+        .search-result .desc { color: var(--text-dim); font-size: 0.65rem; margin-top: 0.15rem; }
+
+    </style>
+</head>
+<body>
+    <header class="nav-bar">
+        <div class="logo-container">
+            <img src="../Conxian-Labs_Logo.jpg" alt="Conxian Labs">
+        </div>
+        <nav class="nav-links">
+            <a href="/">Home</a>
+            <a href="/sdk">SDK</a>
+            <a href="/docs">Docs</a>
+            <a href="/pricing">Pricing</a>
+            <a href="/enterprise">Enterprise</a>
+            <a href="/partners">Partners</a>
+            <a href="/operators">Operators</a>
+            <a href="/about">About</a>
+            <a href="/security" class="active">Security</a>
+            <a href="/research">Research</a>
+        </nav>
+                    <div class="search-bar" style="position:relative;">
+                <input type="text" placeholder="Search..." class="subpage-search-input">
+                <div class="search-results subpage-search-results"></div>
+            </div>
+            <div class="sys-status">SYS_ZA_1 // ACTIVE</div>
+    </header>
+
+    <main class="page">
+        <section class="hero">
+            <span class="kicker">Trust &amp; Assurance</span>
+            <h1>Security</h1>
+            <p>Conxian Labs applies institutional-grade security engineering across all production surfaces. Our infrastructure is built for auditability — every component is open-source, every build is reproducible, and every deployment is verifiable.</p>
+        </section>
+
+        <section class="section">
+            <h2>Security Architecture</h2>
+            <div class="detail-grid">
+                <article class="detail-card">
+                    <h3>Non-Custodial by Design</h3>
+                    <p>Conxian Labs never takes custody of user assets or signing control. All key material remains under user sovereignty. The SDK enforces this at the cryptographic boundary.</p>
+                </article>
+                <article class="detail-card">
+                    <h3>Reproducible Builds</h3>
+                    <p>All production artifacts are built deterministically. Any party can verify that deployed binaries match published source code. Build pipelines are public and auditable.</p>
+                </article>
+                <article class="detail-card">
+                    <h3>Formal Verification</h3>
+                    <p>Critical cryptographic paths undergo formal verification. Protocol state transitions are modeled and verified against specification before deployment.</p>
+                </article>
+                <article class="detail-card">
+                    <h3>Hardware Security Modules</h3>
+                    <p>Enterprise deployments leverage Android StrongBox, Apple Secure Enclave, and dedicated HSM infrastructure for key generation and signing operations.</p>
+                </article>
+                <article class="detail-card">
+                    <h3>Supply Chain Integrity</h3>
+                    <p>Dependency trees are pinned, hashed, and reviewed. All third-party code is vendored and audited before integration. SBOMs are published with every release.</p>
+                </article>
+                <article class="detail-card">
+                    <h3>Incident Response</h3>
+                    <p>Dedicated security response team with defined SLAs. Critical vulnerabilities are addressed within 24 hours of confirmed report.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Bug Bounty Program</h2>
+            <p class="section-intro">We maintain a public bug bounty program for responsible disclosure of security vulnerabilities across all Conxian Labs infrastructure.</p>
+            <div class="detail-grid">
+                <article class="detail-card">
+                    <h3>Scope</h3>
+                    <p>All public repositories under <code>github.com/Conxian</code>, the conxian-labs.com domain, and published SDK binaries are in scope.</p>
+                </article>
+                <article class="detail-card">
+                    <h3>Reporting</h3>
+                    <p>Submit findings to <a href="mailto:security@conxian-labs.com">security@conxian-labs.com</a>. Please include reproduction steps affected component, and impact assessment.</p>
+                </article>
+                <article class="detail-card">
+                    <h3>Response SLA</h3>
+                    <p>Initial acknowledgment within 48 hours. Triage and severity assessment within 5 business days. Critical fixes deployed within 24 hours of confirmed report.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Audit Reports</h2>
+            <p class="section-intro">Independent security audits are commissioned for all major protocol components and infrastructure releases.</p>
+            <div class="note">Audit reports are published to <a href="https://github.com/Conxian">github.com/Conxian</a> alongside each major release. For the latest audit artifacts, refer to the relevant repository's <code>/audits</code> directory.</div>
+        </section>
+
+        <section class="section">
+            <h2>Responsible Disclosure</h2>
+            <p class="section-intro">If you discover a security vulnerability, please report it responsibly:</p>
+            <ol style="font-family: 'JetBrains Mono', monospace; color: var(--text-main); line-height: 2; padding-left: 2rem;">
+                <li>Email <strong>security@conxian-labs.com</strong> with detailed findings</li>
+                <li>Allow 90 days for remediation before public disclosure</li>
+                <li>Do not exploit the vulnerability beyond what is necessary to demonstrate impact</li>
+                <li>Do not access, modify, or delete user data without explicit authorization</li>
+            </ol>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-brand">
+            <h4>Conxian Labs</h4>
+            <p>© 2026 CONXIAN-LABS (PTY) LTD // INSTITUTIONAL ENGINEERING</p>
+        </div>
+        <div class="footer-links">
+            <a href="/">Home</a>
+            <a href="/sdk">SDK</a>
+            <a href="/docs">Docs</a>
+            <a href="/pricing">Pricing</a>
+            <a href="/enterprise">Enterprise</a>
+            <a href="/partners">Partners</a>
+            <a href="/operators">Operators</a>
+            <a href="/about">About</a>
+            <a href="/security" class="active">Security</a>
+            <a href="/research">Research</a>
+            <a href="/privacy">Privacy</a>
+            <a href="/terms">Terms</a>
+        </div>
+    </footer>
+    <script>
+        Logger.info("PAGE_LOAD", "Route accessed", { path: window.location.pathname });
+    </script>
+</body>
+</html>

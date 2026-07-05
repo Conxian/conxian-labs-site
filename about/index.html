@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="../logger.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Conxian Labs — Team, mission, and institutional background. Meet the builders behind the Conxian ecosystem infrastructure.">
+    <title>Conxian Labs | About</title>
+    <link rel="canonical" href="https://www.conxian-labs.com/about">
+    <meta property="og:url" content="https://www.conxian-labs.com/about">
+    <meta property="og:title" content="Conxian Labs | About">
+    <meta property="og:description" content="Meet the team building sovereign infrastructure for the Conxian ecosystem.">
+    <meta property="og:image" content="https://www.conxian-labs.com/Conxian-Labs_Logo.jpg">
+    <link rel="icon" href="../Conxian_Logo.jpg" type="image/jpeg">
+    <link rel="stylesheet" href="../package-page.css">
+    <script src="../search.js"></script>
+    <style>
+        .search-bar {
+            display: flex; align-items: center; gap: 0.5rem;
+            margin-right: 1rem;
+        }
+        .search-bar input {
+            background: var(--surface-low, #F6F3F2);
+            border: 1px solid var(--ghost-border, rgba(221,193,178,0.15));
+            border-radius: 999px; padding: 0.4rem 1rem;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+            color: var(--text-main); width: 180px; outline: none;
+            transition: border-color 0.2s;
+        }
+        .search-bar input:focus { border-color: var(--accent); }
+        .search-results {
+            display: none; position: absolute; top: 100%; left: 0; right: 0;
+            background: var(--surface, #FFF); border: 1px solid var(--ghost-border);
+            border-radius: 4px; margin-top: 0.25rem; max-height: 300px;
+            overflow-y: auto; z-index: 100; box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        .search-results.visible { display: block; }
+        .search-result {
+            padding: 0.6rem 1rem; cursor: pointer; border-bottom: 1px solid var(--ghost-border);
+            font-size: 0.7rem;
+        }
+        .search-result:hover, .search-result.active { background: var(--surface-low); }
+        .search-result .title { font-weight: 600; color: var(--text-main); }
+        .search-result .desc { color: var(--text-dim); font-size: 0.65rem; margin-top: 0.15rem; }
+
+    </style>
+</head>
+<body>
+    <header class="nav-bar">
+        <div class="logo-container">
+            <img src="../Conxian-Labs_Logo.jpg" alt="Conxian Labs">
+        </div>
+        <nav class="nav-links">
+            <a href="/">Home</a>
+            <a href="/sdk">SDK</a>
+            <a href="/docs">Docs</a>
+            <a href="/pricing">Pricing</a>
+            <a href="/enterprise">Enterprise</a>
+            <a href="/partners">Partners</a>
+            <a href="/operators">Operators</a>
+            <a href="/about" class="active">About</a>
+            <a href="/research">Research</a>
+        </nav>
+                    <div class="search-bar" style="position:relative;">
+                <input type="text" placeholder="Search..." class="subpage-search-input">
+                <div class="search-results subpage-search-results"></div>
+            </div>
+            <div class="sys-status">SYS_ZA_1 // ACTIVE</div>
+    </header>
+
+    <main class="page">
+        <section class="hero">
+            <span class="kicker">Institutional Background</span>
+            <h1>Conxian Labs</h1>
+            <p>Conxian Labs is the builder and operator layer around the broader Conxian ecosystem. We are a South African engineering organization (CONXIAN-LABS (PTY) LTD) focused on sovereign infrastructure, cryptographic primitives, and institutional-grade tooling for the Bitcoin and Stacks ecosystem.</p>
+        </section>
+
+        <section class="section">
+            <h2>Mission</h2>
+            <p class="section-intro">We build, operate, and support the public surfaces that make the Conxian ecosystem understandable, usable, and easier to adopt — without replacing protocol ownership or custody.</p>
+            <div class="detail-grid">
+                <article class="detail-card">
+                    <h3>Sovereign by Design</h3>
+                    <p>Every component we ship runs under the user's control. No custodial shortcuts, no hidden signing authority. The SDK, gateway, and enclave tooling are all built for self-sovereign operation.</p>
+                </article>
+                <article class="detail-card">
+                    <h3>Open Source First</h3>
+                    <p>Core infrastructure is MIT-licensed. Paid scope is strictly limited to hosted operational services and enterprise support layers. The protocol boundary is public and auditable.</p>
+                </article>
+                <article class="detail-card">
+                    <h3>Institutional Engineering</h3>
+                    <p>We apply institutional-grade engineering standards — formal verification, reproducible builds, audit-ready documentation — to every production surface we operate.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Ecosystem Portfolio</h2>
+            <p class="section-intro">Conxian Labs maintains the following public infrastructure and tooling surfaces:</p>
+            <div class="detail-grid">
+                <article class="detail-card">
+                    <h3>Conclave SDK</h3>
+                    <p>Rust-based cryptographic primitives with MuSig2, Schnorr, Taproot, and BitVM support across Android StrongBox and Apple Secure Enclave.</p>
+                </article>
+                <article class="detail-card">
+                    <h3>Conxius Wallet</h3>
+                    <p>Flagship mobile application implementing the SDK for local-first sovereign key management.</p>
+                </article>
+                <article class="detail-card">
+                    <h3>Conxian Gateway</h3>
+                    <p>Rust-based Fusion layer bridging application requests to protocol actions. Managed relay for high-throughput institutional settlement.</p>
+                </article>
+                <article class="detail-card">
+                    <h3>Conxian Nexus</h3>
+                    <p>Decentralized risk oracle and proof layer ensuring state-root integrity across the ecosystem.</p>
+                </article>
+                <article class="detail-card">
+                    <h3>Conxius Platform</h3>
+                    <p>Operational dashboard and monitoring surface for node operators and infrastructure providers.</p>
+                </article>
+                <article class="detail-card">
+                    <h3>Enclave SDK</h3>
+                    <p>Secure enclave orchestration toolkit for confidential compute and hardware-backed signing workflows.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Contact</h2>
+            <p class="section-intro">For institutional inquiries, partnership discussions, or security disclosures:</p>
+            <div class="detail-grid">
+                <article class="detail-card">
+                    <h3>General</h3>
+                    <p><a href="mailto:info@conxian-labs.com">info@conxian-labs.com</a></p>
+                </article>
+                <article class="detail-card">
+                    <h3>Enterprise</h3>
+                    <p><a href="mailto:enterprise@conxian-labs.com">enterprise@conxian-labs.com</a></p>
+                </article>
+                <article class="detail-card">
+                    <h3>Security</h3>
+                    <p><a href="mailto:security@conxian-labs.com">security@conxian-labs.com</a></p>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-brand">
+            <h4>Conxian Labs</h4>
+            <p>© 2026 CONXIAN-LABS (PTY) LTD // INSTITUTIONAL ENGINEERING</p>
+        </div>
+        <div class="footer-links">
+            <a href="/">Home</a>
+            <a href="/sdk">SDK</a>
+            <a href="/docs">Docs</a>
+            <a href="/pricing">Pricing</a>
+            <a href="/enterprise">Enterprise</a>
+            <a href="/partners">Partners</a>
+            <a href="/operators">Operators</a>
+            <a href="/about" class="active">About</a>
+            <a href="/research">Research</a>
+            <a href="/privacy">Privacy</a>
+            <a href="/terms">Terms</a>
+        </div>
+    </footer>
+    <script>
+        Logger.info("PAGE_LOAD", "Route accessed", { path: window.location.pathname });
+    </script>
+</body>
+</html>
