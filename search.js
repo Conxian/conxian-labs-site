@@ -7,7 +7,7 @@
     { title: 'Home', desc: 'Builder and operator layer for the Conxian ecosystem. Public portfolio, infrastructure, and ecosystem directory.', url: 'index.html', keywords: 'portfolio ecosystem directory builder operator' },
     { title: 'SDK — Conclave SDK', desc: 'Open-source sovereign infrastructure and cryptographic primitives. High-performance enclave orchestration and settlement adapters.', url: 'sdk/index.html', keywords: 'sdk conclave cryptography primitives enclave settlement open-source mit developer' },
     { title: 'Docs — Documentation', desc: 'Technical documentation for the Conxian ecosystem. Integration guides, API references, and architectural overviews.', url: 'docs/index.html', keywords: 'documentation docs api reference integration guide architecture' },
-    { title: 'Pricing', desc: 'Transparent pricing for hosted operational services and enterprise support. Open-source SDK is free (MIT).', url: 'pricing/index.html', keywords: 'pricing plans enterprise support hosted services cost' },
+    { title: 'Pricing & Packaging', desc: 'Commercial packaging guidance for the free MIT SDK, Gateway sandbox and pilot paths, non-custodial Wallet integrations, and scoped enterprise engagements.', url: 'pricing/index.html', keywords: 'pricing packaging plans gateway wallet sdk sandbox pilot x402 lightning invoice stripe white-label white label onboarding metered hosted managed local self-hosted enterprise contract non-custodial custody payment' },
     { title: 'Partners', desc: 'Ecosystem partners, integrations, and collaborative initiatives within the Conxian network.', url: 'partners/index.html', keywords: 'partners integrations collaboration ecosystem network' },
     { title: 'Operators', desc: 'Node operators, validators, and infrastructure providers powering the Conxian network.', url: 'operators/index.html', keywords: 'operators nodes validators infrastructure providers network' },
     { title: 'Enterprise', desc: 'Enterprise-grade solutions, institutional services, and sovereign infrastructure deployment for regulated entities.', url: 'enterprise/index.html', keywords: 'enterprise institutional sovereign deployment solutions business regulated' },
@@ -42,13 +42,18 @@
 
   function createDropdown(wrapper) {
     // Check if one already exists in the wrapper
-    var existing = wrapper.querySelector('.search-results');
-    if (existing) return existing;
-
-    var dd = document.createElement('div');
-    dd.className = 'search-results';
-    dd.style.cssText = 'position:absolute;top:100%;left:0;right:0;margin-top:8px;background:#FFFFFF;border-radius:4px;box-shadow:0 10px 40px rgba(0,0,0,0.1);z-index:100;max-height:320px;overflow-y:auto;display:none;';
-    wrapper.appendChild(dd);
+    var dd = wrapper.querySelector('.search-results');
+    if (!dd) {
+      dd = document.createElement('div');
+      dd.className = 'search-results';
+      dd.style.cssText = 'position:absolute;top:100%;left:0;right:0;margin-top:8px;background:#FFFFFF;border-radius:4px;box-shadow:0 10px 40px rgba(0,0,0,0.1);z-index:100;max-height:320px;overflow-y:auto;display:none;';
+      wrapper.appendChild(dd);
+    }
+    if (dd.tagName.toLowerCase() !== 'section') {
+      dd.setAttribute('role', 'region');
+    }
+    dd.setAttribute('aria-label', 'Search results');
+    dd.setAttribute('aria-live', 'polite');
     return dd;
   }
 
