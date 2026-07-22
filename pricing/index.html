@@ -4,123 +4,522 @@
     <script src="../logger.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Conxian Labs Pricing — Transparent usage-based and contracted commercial models for hosted infrastructure.">
-    <title>Conxian Labs | Pricing</title>
+    <meta name="description" content="Conxian Labs pricing and packaging guidance for the open-source SDK, Gateway pilots, non-custodial Wallet integrations, and scoped enterprise engagements.">
+    <title>Conxian Labs | Pricing &amp; Packaging</title>
     <link rel="canonical" href="https://www.conxian-labs.com/pricing">
     <meta property="og:url" content="https://www.conxian-labs.com/pricing">
-    <meta property="og:title" content="Conxian Labs | Commercial Model">
-    <meta property="og:description" content="Free open-source SDK, metered hosted services, and institutional enterprise tiers.">
+    <meta property="og:title" content="Conxian Labs | Pricing &amp; Packaging">
+    <meta property="og:description" content="Commercial packaging guidance for the MIT SDK, Gateway pilots, non-custodial Wallet integrations, and enterprise engagements.">
     <meta property="og:image" content="https://www.conxian-labs.com/Conxian-Labs_Logo.jpg">
     <link rel="icon" href="../Conxian_Logo.jpg" type="image/jpeg">
     <link rel="stylesheet" href="../package-page.css">
     <script src="../search.js"></script>
-    <style>
-        .search-bar {
-            display: flex; align-items: center; gap: 0.5rem;
-            margin-right: 1rem;
-        }
-        .search-bar input {
-            background: var(--surface-low, #F6F3F2);
-            border: 1px solid var(--ghost-border, rgba(221,193,178,0.15));
-            border-radius: 999px; padding: 0.4rem 1rem;
-            font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
-            color: var(--text-main); width: 180px; outline: none;
-            transition: border-color 0.2s;
-        }
-        .search-bar input:focus { border-color: var(--accent); }
-        .search-results {
-            display: none; position: absolute; top: 100%; left: 0; right: 0;
-            background: var(--surface, #FFF); border: 1px solid var(--ghost-border);
-            border-radius: 4px; margin-top: 0.25rem; max-height: 300px;
-            overflow-y: auto; z-index: 100; box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-        }
-        .search-results.visible { display: block; }
-        .search-result {
-            padding: 0.6rem 1rem; cursor: pointer; border-bottom: 1px solid var(--ghost-border);
-            font-size: 0.7rem;
-        }
-        .search-result:hover, .search-result.active { background: var(--surface-low); }
-        .search-result .title { font-weight: 600; color: var(--text-main); }
-        .search-result .desc { color: var(--text-dim); font-size: 0.65rem; margin-top: 0.15rem; }
-
-    </style>
 </head>
 <body>
     <header class="nav-bar">
         <div class="logo-container">
             <img src="../Conxian-Labs_Logo.jpg" alt="Conxian Labs">
         </div>
-        <nav class="nav-links">
+        <nav class="nav-links" aria-label="Primary navigation">
             <a href="/">Home</a>
             <a href="/sdk">SDK</a>
             <a href="/docs">Docs</a>
-            <a href="/pricing" class="active">Pricing</a>
+            <a href="/pricing" class="active" aria-current="page">Pricing</a>
             <a href="/enterprise">Enterprise</a>
             <a href="/partners">Partners</a>
             <a href="/operators">Operators</a>
             <a href="/research">Research</a>
         </nav>
-                    <div class="search-bar" style="position:relative;">
-                <input type="text" placeholder="Search..." class="subpage-search-input">
-                <div class="search-results subpage-search-results"></div>
-            </div>
-            <div class="sys-status">SYS_ZA_1 // ACTIVE</div>
+        <div class="search-bar">
+            <label class="visually-hidden" for="site-search">Search site</label>
+            <input id="site-search" type="search" placeholder="Search..." class="subpage-search-input" autocomplete="off">
+            <section class="search-results subpage-search-results" aria-label="Search results" aria-live="polite"></section>
+        </div>
+        <div class="sys-status">SYS_ZA_1 // ACTIVE</div>
     </header>
 
-    <main class="page">
-        <section class="hero">
-            <span class="kicker">Commercial Model</span>
-            <h1>Conxian Labs Pricing</h1>
-            <p>We separate protocol access from operational services. The core Conclave SDK and protocol repositories remain open-source. Conxian Labs provides metered infrastructure and premium support for teams requiring production-grade reliability without the overhead of self-hosting the full stack.</p>
+    <main class="page pricing-page">
+        <section class="hero pricing-hero" aria-labelledby="pricing-title">
+            <span class="kicker">Commercial boundary // packaging guidance</span>
+            <h1 id="pricing-title">Price the operating path, not the open protocol.</h1>
+            <p>Conxian Labs separates open-source software from optional operational services. The Conclave SDK is MIT-licensed and free for local development. Gateway access starts with local and sandbox rehearsal, then moves to pilot or contract-scoped operations where readiness and payment rails are actually enabled. Conxius Wallet remains non-custodial and follows a demo and integration-to-launch path.</p>
             <div class="hero-actions">
-                <a class="btn btn-primary" href="/sdk">SDK Details</a>
-                <a class="btn btn-secondary" href="/enterprise">Enterprise Route</a>
+                <a class="btn btn-primary" href="/sdk">Start with the SDK</a>
+                <a class="btn btn-secondary" href="/enterprise">Discuss enterprise scope</a>
             </div>
         </section>
 
-        <section class="section">
-            <h2>Pricing Tiers</h2>
-            <div class="tier-grid">
-                <article class="tier-card">
-                    <span class="badge">Open</span>
-                    <h3>Sovereign Builder</h3>
-                    <p>Ideal for local development and self-hosted sovereign nodes. No license fees for SDK usage.</p>
-                    <ul class="inline-list">
-                        <li>SDK source access</li>
-                        <li>Community documentation</li>
-                        <li>Public research papers</li>
-                    </ul>
-                </article>
-                <article class="tier-card">
-                    <span class="badge">Metered</span>
-                    <h3>Managed Cloud</h3>
-                    <p>Production-ready hosted endpoints for Gateway Fusion and Nexus Proofs. Pay for what you use.</p>
-                    <ul class="inline-list">
-                        <li>High-availability endpoints</li>
-                        <li>Managed relay capacity</li>
-                        <li>Real-time observability</li>
-                    </ul>
-                </article>
-                <article class="tier-card">
-                    <span class="badge">Contracted</span>
-                    <h3>Institutional</h3>
-                    <p>Custom agreements for regulated entities requiring strict SLAs and dedicated engineering support.</p>
-                    <ul class="inline-list">
-                        <li>SLA-backed infrastructure</li>
-                        <li>Quorum-based signing policies</li>
-                        <li>Compliance-ready reporting</li>
-                    </ul>
-                </article>
+        <section class="notice notice-boundary" aria-labelledby="commercial-boundary-title">
+            <div class="notice-heading">
+                <span class="status-pill status-scoped">Read before comparing plans</span>
+                <h2 id="commercial-boundary-title">This is packaging guidance, not a live rate card.</h2>
             </div>
-            <div class="note">Commercial billing applies only to Conxian Labs hosted infrastructure. Conxian Labs never takes custody of user funds or private keys.</div>
+            <p>Nothing on this page claims that a generally available hosted endpoint, fixed public rate, account ledger, credit balance, quota, reconciliation system, or production billing backend already exists. Availability, route enablement, payment handling, and support terms remain dependent on the specific pilot or contract.</p>
+            <div class="notice-grid">
+                <div>
+                    <strong>Free / local</strong>
+                    <span>MIT SDK source and local development remain free. Local Gateway and Wallet workflows do not imply a free hosted service.</span>
+                </div>
+                <div>
+                    <strong>Pilot first</strong>
+                    <span>Gateway is active development and local/self-hosted pilot work; managed access is not presented as a generally available public endpoint.</span>
+                </div>
+                <div>
+                    <strong>Contract or invoice</strong>
+                    <span>Enterprise scope, institutional message and settlement domains, private deployment, and any availability commitments are defined in writing.</span>
+                </div>
+            </div>
         </section>
 
-        <section class="section">
-            <h2>Select your engagement path</h2>
+        <section class="section" id="payment-paths" aria-labelledby="payment-paths-title">
+            <h2 id="payment-paths-title">Payment paths and expectations</h2>
+            <p class="section-intro">The native path depends on the product, route, and readiness state. We publish no invented amount here; the relevant commercial boundary is the mechanism and the agreed scope.</p>
+            <div class="payment-grid">
+                <article class="payment-card">
+                    <span class="status-pill status-free">Free / local</span>
+                    <h3>Open source and local work</h3>
+                    <p>The MIT SDK, source inspection, and local development are free. A self-hosted or local rehearsal is not a promise of hosted capacity, quotas, or production support.</p>
+                </article>
+                <article class="payment-card">
+                    <span class="status-pill status-pilot">Pilot</span>
+                    <h3>Gateway pilot terms</h3>
+                    <p>Pilot access is arranged around the instance, route family, readiness evidence, and onboarding needed for the engagement. Terms are scoped rather than a public self-serve price.</p>
+                </article>
+                <article class="payment-card">
+                    <span class="status-pill status-metered">Metered</span>
+                    <h3>Route-level x402 / Lightning</h3>
+                    <p>Selected premium proof, execution, or settlement operations may use a route-level x402 challenge and Lightning settlement where enabled and configured. This is conditional and does not make every endpoint paid.</p>
+                </article>
+                <article class="payment-card">
+                    <span class="status-pill status-custom">Custom contract</span>
+                    <h3>Enterprise contract / invoice</h3>
+                    <p>Institutional message and settlement domains, private deployments, admin surfaces, compliance or support terms, and any availability commitment are scoped by contract or invoice.</p>
+                </article>
+                <article class="payment-card">
+                    <span class="status-pill status-optional">Optional convenience</span>
+                    <h3>Stripe is not the native rail</h3>
+                    <p>Stripe may be offered as an optional convenience for approved top-ups or subscriptions when a specific engagement supports it. It is not the core native rail for route-level protocol settlement and is not a general availability claim.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="section" id="product-packaging" aria-labelledby="product-packaging-title">
+            <h2 id="product-packaging-title">Product packaging</h2>
+            <p class="section-intro">These levels describe how an engagement can be shaped. They do not create a public endpoint catalog, a guaranteed service level, or a fixed price.</p>
+
+            <section class="product-group" id="sdk-packaging" aria-labelledby="sdk-packaging-title">
+                <div class="product-group-heading">
+                    <div>
+                        <span class="kicker">Product 01 // open core</span>
+                        <h3 id="sdk-packaging-title">Conclave SDK</h3>
+                    </div>
+                    <p>Open-source cryptographic primitives and local-first integration surfaces. Paid scope, when applicable, belongs to adjacent operational or contracted services.</p>
+                </div>
+                <div class="package-grid">
+                    <article class="package-card">
+                        <div class="package-card-top">
+                            <span class="status-pill status-free">Free</span>
+                            <span class="package-code">SDK / local</span>
+                        </div>
+                        <h4>Sandbox</h4>
+                        <p>Use the MIT source, documentation, and local development path to inspect, build, and rehearse integrations.</p>
+                        <ul class="feature-list">
+                            <li>Source and license access</li>
+                            <li>Local-first development</li>
+                            <li>Community and documentation path</li>
+                        </ul>
+                    </article>
+                    <article class="package-card">
+                        <div class="package-card-top">
+                            <span class="status-pill status-scoped">Starting from — scoped</span>
+                            <span class="package-code">SDK / team</span>
+                        </div>
+                        <h4>Team</h4>
+                        <p>Coordinate an integration across a team with scoped onboarding and an optional Gateway pilot path where available.</p>
+                        <ul class="feature-list">
+                            <li>Integration planning and handoff</li>
+                            <li>Pilot access only when arranged</li>
+                            <li>No default hosted endpoint or SLA</li>
+                        </ul>
+                    </article>
+                    <article class="package-card">
+                        <div class="package-card-top">
+                            <span class="status-pill status-custom">Custom contract</span>
+                            <span class="package-code">SDK / institutional</span>
+                        </div>
+                        <h4>Enterprise</h4>
+                        <p>Contract-scoped engineering, deployment, governance, and procurement support around the open SDK boundary.</p>
+                        <ul class="feature-list">
+                            <li>Agreed delivery and deployment scope</li>
+                            <li>Support terms written into the contract</li>
+                            <li>Availability commitments only if written</li>
+                        </ul>
+                    </article>
+                </div>
+            </section>
+
+            <section class="product-group" id="gateway-packaging" aria-labelledby="gateway-packaging-title">
+                <div class="product-group-heading">
+                    <div>
+                        <span class="kicker">Product 02 // pilot lane</span>
+                        <h3 id="gateway-packaging-title">Conxian Gateway</h3>
+                    </div>
+                    <p>Gateway is active development with a local/self-hosted developer path. Metered or enterprise capability is conditional on route enablement, backend configuration, and the engagement.</p>
+                </div>
+                <div class="package-grid">
+                    <article class="package-card">
+                        <div class="package-card-top">
+                            <span class="status-pill status-pilot">Pilot</span>
+                            <span class="package-code">Gateway / sandbox</span>
+                        </div>
+                        <h4>Pilot</h4>
+                        <p>Run the developer sandbox against a Gateway instance you control or have been given access to. This is rehearsal, not settlement readiness.</p>
+                        <ul class="feature-list">
+                            <li>Health and sync visibility</li>
+                            <li>Supported-chain discovery</li>
+                            <li>Local BitVM proof rehearsal</li>
+                        </ul>
+                    </article>
+                    <article class="package-card">
+                        <div class="package-card-top">
+                            <span class="status-pill status-metered">Metered</span>
+                            <span class="package-code">Gateway / selected routes</span>
+                        </div>
+                        <h4>Metered / enabled routes</h4>
+                        <p>Selected premium proof, execution, or settlement routes may be metered through x402 / Lightning where the route and backend are enabled.</p>
+                        <ul class="feature-list">
+                            <li>Route-level payment boundary</li>
+                            <li>No published rate, credit balance, or quota claim</li>
+                            <li>Pilot or contract dependent</li>
+                        </ul>
+                    </article>
+                    <article class="package-card">
+                        <div class="package-card-top">
+                            <span class="status-pill status-custom">Custom contract</span>
+                            <span class="package-code">Gateway / enterprise</span>
+                        </div>
+                        <h4>Enterprise</h4>
+                        <p>Institutional message and settlement domains, admin and control-plane surfaces, private deployment, and scoped service terms belong here.</p>
+                        <ul class="feature-list">
+                            <li>Contract or invoice path</li>
+                            <li>Private deployment and governance scope</li>
+                            <li>Compliance, support, and availability terms only when agreed</li>
+                        </ul>
+                    </article>
+                </div>
+            </section>
+
+            <section class="product-group" id="wallet-packaging" aria-labelledby="wallet-packaging-title">
+                <div class="product-group-heading">
+                    <div>
+                        <span class="kicker">Product 03 // non-custodial client</span>
+                        <h3 id="wallet-packaging-title">Conxius Wallet</h3>
+                    </div>
+                    <p>Wallet is a non-custodial, local-first product surface. Packaging follows demo, integration, and launch readiness; it does not transfer custody or promise a hosted wallet service.</p>
+                </div>
+                <div class="package-grid">
+                    <article class="package-card">
+                        <div class="package-card-top">
+                            <span class="status-pill status-free">Free</span>
+                            <span class="package-code">Wallet / reference</span>
+                        </div>
+                        <h4>Starter</h4>
+                        <p>Explore the reference client and local integration path for non-custodial signing and wallet workflows.</p>
+                        <ul class="feature-list">
+                            <li>Local-first, user-controlled keys</li>
+                            <li>Demo and integration preparation</li>
+                            <li>No custody of user assets</li>
+                        </ul>
+                    </article>
+                    <article class="package-card">
+                        <div class="package-card-top">
+                            <span class="status-pill status-scoped">Starting from — scoped</span>
+                            <span class="package-code">Wallet / integration</span>
+                        </div>
+                        <h4>Growth</h4>
+                        <p>Move from integration toward launch with a scope that is agreed around the client, settlement domains, and readiness evidence.</p>
+                        <ul class="feature-list">
+                            <li>Integration-to-launch planning</li>
+                            <li>Optional approved service add-ons</li>
+                            <li>No blanket support or hosted-wallet promise</li>
+                        </ul>
+                    </article>
+                    <article class="package-card">
+                        <div class="package-card-top">
+                            <span class="status-pill status-custom">Custom contract</span>
+                            <span class="package-code">Wallet / institutional</span>
+                        </div>
+                        <h4>Enterprise</h4>
+                        <p>Contract-scoped integration, deployment, and governance for institutional programs that retain user-controlled custody boundaries.</p>
+                        <ul class="feature-list">
+                            <li>Written launch and deployment scope</li>
+                            <li>Support and procurement terms by contract</li>
+                            <li>White-label discussion is not a default promise</li>
+                        </ul>
+                    </article>
+                </div>
+            </section>
+        </section>
+
+        <section class="section" id="gateway-access" aria-labelledby="gateway-access-title">
+            <h2 id="gateway-access-title">Gateway access matrix</h2>
+            <p class="section-intro">The classifications below are packaging designations based on current source and sandbox evidence. Current route evidence is listed only where the source exposes it. Institutional message and settlement domains are enterprise discovery/manual-review topics, not a live public endpoint catalog or adapter inventory; route presence or a named domain does not imply a verified production adapter, availability, or access commitment.</p>
+            <div class="notice notice-inline">
+                <strong>Readiness boundary:</strong> Gateway is active development. A healthy response shows liveness and sync visibility; it is not settlement readiness. x402 / Lightning payment behavior is route-level and only applies where the required backend and route policy are enabled.
+            </div>
+            <p class="table-scroll-hint" id="gateway-access-scroll-hint">Scroll horizontally to compare columns.</p>
+            <div class="pricing-table-scroll">
+                <table class="pricing-table access-matrix" id="gateway-access-matrix" aria-describedby="gateway-access-caption gateway-access-scroll-hint">
+                    <caption id="gateway-access-caption">Gateway route and capability families by packaging designation</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Designation</th>
+                            <th scope="col">Route evidence / capability domain</th>
+                            <th scope="col">Payment boundary</th>
+                            <th scope="col">Availability boundary</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row"><span class="status-pill status-free">Free / local sandbox</span></th>
+                            <td><code>GET /api/v1/health</code>; <code>GET /api/v1/chains/list</code>; <code>POST /api/v1/chains/bitvm/verify</code> for local BitVM proof rehearsal.</td>
+                            <td>No payment step in the local sandbox. Local access does not imply a free hosted token or URL.</td>
+                            <td>Developer preview, self-hosted, or an instance provided for the pilot. A rehearsal is not production settlement.</td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><span class="status-pill status-metered">Metered</span></th>
+                            <td>Selected proof, execution, and settlement capability families when the relevant route policy is enabled.</td>
+                            <td>Route-level x402 / Lightning only where enabled and configured. No public amount, ledger, credit balance, or quota is implied.</td>
+                            <td>Pilot or contract dependent; this row is a packaging designation, not a public managed endpoint offer.</td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><span class="status-pill status-enterprise">Enterprise-only / scoped</span></th>
+                            <td>Institutional message and settlement domains; admin/control-plane surfaces; private deployment requirements.</td>
+                            <td>Enterprise discovery / manual review. Route presence or a named domain does not imply a verified production adapter, availability, or access commitment.</td>
+                            <td>Private deployment, compliance, support, SLA, and availability terms are enterprise-scoped and are not promised by this page.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="section" id="plan-matrix" aria-labelledby="plan-matrix-title">
+            <h2 id="plan-matrix-title">Plan-level feature matrix</h2>
+            <p class="section-intro">Use this matrix to compare engagement shape, not guaranteed service inventory. “Scoped” means the term must be defined for the specific engagement.</p>
+            <p class="table-scroll-hint" id="plan-matrix-scroll-hint">Scroll horizontally to compare columns.</p>
+            <div class="pricing-table-scroll">
+                <table class="pricing-table plan-matrix" id="plan-feature-matrix" aria-describedby="plan-matrix-caption plan-matrix-scroll-hint">
+                    <caption id="plan-matrix-caption">Source, onboarding, payment, support, deployment, and upgrade guidance across products</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Product</th>
+                            <th scope="col">Level</th>
+                            <th scope="col">Source / license</th>
+                            <th scope="col">Onboarding</th>
+                            <th scope="col">Hosted / managed access</th>
+                            <th scope="col">Payment path</th>
+                            <th scope="col">Support</th>
+                            <th scope="col">White-labeling</th>
+                            <th scope="col">Deployment</th>
+                            <th scope="col">Availability commitment</th>
+                            <th scope="col">Upgrade path</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">SDK</th>
+                            <td>Sandbox</td>
+                            <td>MIT source</td>
+                            <td>Docs and local setup</td>
+                            <td>None implied</td>
+                            <td>Free / local</td>
+                            <td>Community path</td>
+                            <td>Not included</td>
+                            <td>Self-hosted / local</td>
+                            <td>None</td>
+                            <td>Team or Enterprise scope</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">SDK</th>
+                            <td>Team</td>
+                            <td>MIT source; adjacent scope agreed</td>
+                            <td>Scoped integration start</td>
+                            <td>Optional pilot path only</td>
+                            <td>Pilot terms if arranged</td>
+                            <td>Scoped contact</td>
+                            <td>Discuss, not default</td>
+                            <td>Self-hosted or pilot</td>
+                            <td>No default commitment</td>
+                            <td>Enterprise contract</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">SDK</th>
+                            <td>Enterprise</td>
+                            <td>MIT source; contract for services</td>
+                            <td>Procurement and technical discovery</td>
+                            <td>Contract-scoped</td>
+                            <td>Contract / invoice</td>
+                            <td>Contract terms</td>
+                            <td>Contract-scoped discussion</td>
+                            <td>Agreed deployment</td>
+                            <td>Only if written</td>
+                            <td>Custom expansion</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Gateway</th>
+                            <td>Pilot</td>
+                            <td>MIT repository; preview path</td>
+                            <td>Instance and route setup</td>
+                            <td>Provided or self-hosted pilot only</td>
+                            <td>Pilot terms; local path free</td>
+                            <td>Scoped pilot contact</td>
+                            <td>Not promised</td>
+                            <td>Local / self-hosted</td>
+                            <td>Pilot dependent</td>
+                            <td>Metered or Enterprise scope</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Gateway</th>
+                            <td>Metered / enabled routes</td>
+                            <td>MIT repository; enabled routes scoped</td>
+                            <td>Route and backend readiness review</td>
+                            <td>Only where managed access is enabled</td>
+                            <td>x402 / Lightning where enabled</td>
+                            <td>Scoped terms</td>
+                            <td>Not included</td>
+                            <td>Agreed environment</td>
+                            <td>No public commitment</td>
+                            <td>Enterprise contract</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Gateway</th>
+                            <td>Enterprise</td>
+                            <td>MIT repository; institutional scope contracted</td>
+                            <td>Security, procurement, and deployment discovery</td>
+                            <td>Private or managed option if agreed</td>
+                            <td>Contract / invoice; route-specific settlement scope if enabled</td>
+                            <td>Contract terms</td>
+                            <td>Contract-scoped discussion</td>
+                            <td>Private deployment</td>
+                            <td>Only if written</td>
+                            <td>Custom capability scope</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Wallet</th>
+                            <td>Starter</td>
+                            <td>MIT reference client</td>
+                            <td>Demo and local integration</td>
+                            <td>None implied</td>
+                            <td>Free / local</td>
+                            <td>Docs and community path</td>
+                            <td>Not included</td>
+                            <td>User-controlled client</td>
+                            <td>None</td>
+                            <td>Growth or Enterprise scope</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Wallet</th>
+                            <td>Growth</td>
+                            <td>MIT reference client; launch scope agreed</td>
+                            <td>Integration-to-launch planning</td>
+                            <td>Optional service add-ons only if approved</td>
+                            <td>Scoped or approved convenience path</td>
+                            <td>Scoped terms</td>
+                            <td>Discuss, not default</td>
+                            <td>User-controlled client and agreed services</td>
+                            <td>No default commitment</td>
+                            <td>Enterprise contract</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Wallet</th>
+                            <td>Enterprise</td>
+                            <td>MIT reference client; contract for services</td>
+                            <td>Institutional onboarding</td>
+                            <td>Contract-scoped</td>
+                            <td>Contract / invoice</td>
+                            <td>Contract terms</td>
+                            <td>Contract-scoped discussion</td>
+                            <td>Agreed deployment; custody stays user-controlled</td>
+                            <td>Only if written</td>
+                            <td>Custom launch scope</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="section faq-section" id="faq" aria-labelledby="faq-title">
+            <h2 id="faq-title">Frequently asked questions</h2>
+            <div class="faq-list">
+                <details class="faq-item">
+                    <summary>What is free?</summary>
+                    <p>The Conclave SDK source is MIT-licensed and local development is free. Local Gateway and Wallet workflows can be run for development or rehearsal, but that does not create a free hosted service, public token, quota, or production support commitment.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>Do I need a commercial license for the SDK?</summary>
+                    <p>No commercial license is required for the MIT SDK itself. Commercial scope applies to optional managed operations, onboarding, private deployment, or support terms that are separately agreed.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>How do Gateway sandbox and pilot engagements work?</summary>
+                    <p>The current Gateway path is local/self-hosted and pilot first. The developer sandbox covers health, supported-chain discovery, and local verification or rehearsal against an instance you control or have been given access to. It is not a production settlement demo.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>How do x402 and Lightning payments behave?</summary>
+                    <p>Where enabled, selected routes can return a route-level x402 payment challenge and use a configured Lightning adapter for settlement. The implementation boundary is conditional: backend configuration, route policy, payment proof, expiry, and replay handling all matter.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>Is every endpoint paid?</summary>
+                    <p>No. Local development and selected free or public liveness surfaces can remain outside a payment step. Premium proof, execution, or settlement routes may be protected when enabled; the classification is route-level rather than a blanket rule.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>Should I expect per-call pricing, credits, invoices, or a hybrid?</summary>
+                    <p>That depends on the engagement. Route-level x402 / Lightning can support a per-call boundary where enabled; pilot work can use scoped terms; enterprise work can use an invoice; and a hybrid can be agreed. There is no customer-facing usage ledger, credit balance, quota, or reconciliation system claimed by this page.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>Can enterprise customers be invoiced?</summary>
+                    <p>Yes, enterprise scope can be priced and invoiced under a written contract. The contract should define the deployment, routes, support, security or compliance scope, and any availability commitment rather than relying on a generic public rate.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>Is Stripe the payment rail?</summary>
+                    <p>Stripe is only an optional convenience for approved top-ups or subscriptions when a specific engagement supports it. It is not the core native rail for route-level protocol settlement, and current availability is not implied.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>What support is included?</summary>
+                    <p>Open-source users have the documentation and community path. Pilot onboarding and contact points are scoped. Dedicated support, response targets, SLAs, and compliance assistance are not promised unless they are explicitly written into an enterprise agreement.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>Can Conxian Labs white-label the products?</summary>
+                    <p>White-label delivery is not a standard promise. It can be discussed as a feasibility and contract question for a specific program, with no delivery, branding, or support commitment until agreed in writing.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>How do upgrades work?</summary>
+                    <p>Start with local SDK or Wallet work, move to a Gateway or Wallet pilot when an engagement is ready, then expand to metered or enterprise scope only when the route, deployment, and commercial terms are confirmed. An upgrade is not an automatic entitlement to hosted access.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>What does onboarding involve?</summary>
+                    <p>Onboarding can include repository and documentation review, local setup, route selection, instance access, security boundaries, and readiness evidence. The depth is determined by the product and engagement; there is no one-size-fits-all launch promise.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>Does Conxian Labs take custody?</summary>
+                    <p>No. The products are designed around a non-custodial boundary: Conxian Labs does not take custody of user funds, assets, private keys, or signing control. Hosted or managed operations, if agreed, do not change that boundary.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>Is a hosted Gateway endpoint available today?</summary>
+                    <p>No generally available hosted Gateway endpoint is claimed here. Gateway is active development with a local/self-hosted pilot path, and repository documentation treats hosted domains as planned or non-public. Access must be confirmed for the specific pilot or contract.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>Is Wallet ready as a hosted service?</summary>
+                    <p>Wallet is a non-custodial reference client and product surface following demo and integration-to-launch work. This page does not promise a hosted wallet service, broad white-label delivery, quotas, or production readiness beyond the scope documented for a specific engagement.</p>
+                </details>
+            </div>
+        </section>
+
+        <section class="section" id="next-step" aria-labelledby="next-step-title">
+            <h2 id="next-step-title">Choose the next honest step</h2>
             <ul class="inline-list">
-                <li><a href="/enterprise">Need procurement-ready controls? Use /enterprise.</a></li>
-                <li><a href="/operators">Operating a sovereign node? Use /operators.</a></li>
-                <li><a href="/partners">Building for clients? Use /partners.</a></li>
+                <li><a href="/sdk">Build locally with the MIT SDK.</a></li>
+                <li><a href="/docs">Review integration and architecture documentation.</a></li>
+                <li><a href="/enterprise">Ask about a pilot or contract-scoped enterprise path.</a></li>
             </ul>
         </section>
     </main>
@@ -130,7 +529,6 @@
             <h4>Conxian Labs</h4>
             <p>© 2026 CONXIAN-LABS (PTY) LTD // INSTITUTIONAL ENGINEERING</p>
         </div>
-        <div class="footer-links">
         <div class="footer-links">
             <a href="/">Home</a>
             <a href="/sdk">SDK</a>
@@ -142,7 +540,6 @@
             <a href="/research">Research</a>
             <a href="/privacy">Privacy</a>
             <a href="/terms">Terms</a>
-        </div>
         </div>
     </footer>
     <script>
