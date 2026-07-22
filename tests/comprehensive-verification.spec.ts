@@ -9,6 +9,8 @@ const PAGES = [
     'sdk/index.html',
     'docs/index.html',
     'pricing/index.html',
+    'commercial/index.html',
+    'commercial/pilot/index.html',
     'partners/index.html',
     'operators/index.html',
     'enterprise/index.html',

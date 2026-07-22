@@ -25,6 +25,18 @@
         <priority>0.7</priority>
     </url>
     <url>
+        <loc>https://www.conxian-labs.com/commercial</loc>
+        <lastmod>2026-07-22</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.conxian-labs.com/commercial/pilot</loc>
+        <lastmod>2026-07-22</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://www.conxian-labs.com/partners</loc>
         <lastmod>2026-02-16</lastmod>
         <changefreq>monthly</changefreq>

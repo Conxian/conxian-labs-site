@@ -18,7 +18,7 @@ test.describe('Pricing and packaging page', () => {
         await expect(page.getByRole('heading', { name: 'Frequently asked questions' })).toBeVisible();
 
         const productGroups = [
-            ['#sdk-packaging', 'Conclave SDK', ['Sandbox', 'Team', 'Enterprise']],
+            ['#sdk-packaging', 'Conxius Enclave SDK', ['Sandbox', 'Team', 'Enterprise']],
             ['#gateway-packaging', 'Conxian Gateway', ['Pilot', 'Metered / enabled routes', 'Enterprise']],
             ['#wallet-packaging', 'Conxius Wallet', ['Starter', 'Growth', 'Enterprise']],
         ] as const;
@@ -30,6 +30,9 @@ test.describe('Pricing and packaging page', () => {
                 await expect(group.getByRole('heading', { name: level, exact: true })).toBeVisible();
             }
         }
+
+        await expect(page.getByRole('heading', { name: 'Core foundation — outside the paid tiers' })).toBeVisible();
+        await expect(page.locator('#core-foundation')).toContainText('not a paid fourth tier');
 
         await expect(page.locator('footer > .footer-links > .footer-links')).toHaveCount(0);
     });

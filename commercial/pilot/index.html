@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="../../logger.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Scoped pilot brief for evaluating Conxian Gateway, Wallet, Conxius Enclave SDK, and Core with explicit boundaries and evidence checkpoints.">
+    <title>Conxian Labs | Scoped Pilot Brief</title>
+    <link rel="canonical" href="https://www.conxian-labs.com/commercial/pilot">
+    <meta property="og:url" content="https://www.conxian-labs.com/commercial/pilot">
+    <meta property="og:title" content="Conxian Labs | Scoped Pilot Brief">
+    <meta property="og:description" content="A bounded, evidence-led pilot path for the public Gateway, Wallet, Conxius Enclave SDK, and Core surfaces.">
+    <meta property="og:image" content="https://www.conxian-labs.com/Conxian-Labs_Logo.jpg">
+    <link rel="icon" href="../../Conxian_Logo.jpg" type="image/jpeg">
+    <link rel="stylesheet" href="../../package-page.css">
+    <script src="../../search.js"></script>
+</head>
+<body>
+    <header class="nav-bar">
+        <div class="logo-container">
+            <img src="../../Conxian-Labs_Logo.jpg" alt="Conxian Labs">
+        </div>
+        <nav class="nav-links" aria-label="Primary navigation">
+            <a href="/">Home</a>
+            <a href="/sdk">SDK</a>
+            <a href="/docs">Docs</a>
+            <a href="/pricing">Pricing</a>
+            <a href="/enterprise">Enterprise</a>
+            <a href="/partners">Partners</a>
+            <a href="/operators">Operators</a>
+            <a href="/research">Research</a>
+        </nav>
+        <div class="search-bar">
+            <label class="visually-hidden" for="site-search">Search site</label>
+            <input id="site-search" type="search" placeholder="Search..." class="subpage-search-input" autocomplete="off">
+            <section class="search-results subpage-search-results" aria-label="Search results" aria-live="polite"></section>
+        </div>
+        <div class="sys-status">SYS_ZA_1 // ACTIVE</div>
+    </header>
+
+    <main class="page pricing-page">
+        <section class="hero pricing-hero" aria-labelledby="pilot-title">
+            <span class="kicker">Commercial brief // bounded pilot path</span>
+            <h1 id="pilot-title">Evaluate the path before committing to expansion.</h1>
+            <p>A pilot is a time-boxed technical and buyer evaluation of a named use case across the public Conxian software surfaces. It should produce inspectable evidence, expose open gates, and end with a written decision. It is not a production-readiness certification or an open-ended access promise.</p>
+            <div class="hero-actions">
+                <a class="btn btn-primary" href="mailto:enterprise@conxian-labs.com">Discuss a pilot scope</a>
+                <a class="btn btn-secondary" href="/commercial">Back to the buyer brief</a>
+                <a class="btn btn-secondary" href="/pricing">Review packaging guidance</a>
+            </div>
+        </section>
+
+        <section class="notice" aria-labelledby="pilot-posture-title">
+            <div class="notice-heading">
+                <span class="status-pill status-pilot">Pilot posture</span>
+                <h2 id="pilot-posture-title">One use case, named evidence, explicit stop conditions.</h2>
+            </div>
+            <p>The written pilot scope should name the use case, environments, participants, start date, review points, end date, and decision owner before work begins. Any hosted access, payment behavior, support, or availability term must be separately confirmed and written.</p>
+            <div class="notice-grid">
+                <div>
+                    <strong>Bounded duration</strong>
+                    <span>Use time-boxed stages with an agreed end date; do not treat a pilot as indefinite access.</span>
+                </div>
+                <div>
+                    <strong>Evidence checkpoints</strong>
+                    <span>Capture reproducible commands, artifacts, logs, device results, and open gates at each review.</span>
+                </div>
+                <div>
+                    <strong>Exit decision</strong>
+                    <span>Stop, continue with a new scope, or move to contract discovery based on the evidence.</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="pilot-scope" aria-labelledby="pilot-scope-title">
+            <h2 id="pilot-scope-title">Recommended pilot scope</h2>
+            <p class="section-intro">Keep the first engagement narrow enough to reproduce and review. The final scope is agreed with the customer rather than assumed from this page.</p>
+            <ul class="inline-list">
+                <li>One named customer workflow and one decision owner.</li>
+                <li>Only the Gateway, Wallet, SDK, and Core surfaces needed for that workflow.</li>
+                <li>Controlled fixtures, test identities, or non-value-bearing data that the customer is authorized to use.</li>
+                <li>A named local, self-hosted, or explicitly provided evaluation environment.</li>
+                <li>A written evidence pack, open-gate register, and end-of-pilot decision.</li>
+            </ul>
+        </section>
+
+        <section class="section" id="product-boundaries" aria-labelledby="product-boundaries-title">
+            <h2 id="product-boundaries-title">Product boundaries in the pilot</h2>
+            <div class="detail-grid">
+                <article class="detail-card">
+                    <span class="status-pill status-pilot">Gateway // Beta</span>
+                    <h3>Integration rehearsal, not hosted settlement</h3>
+                    <p>Use the local or self-hosted developer path, or an instance explicitly provided for the pilot. Evidence may cover health, supported-chain discovery, and agreed local proof rehearsal. No generally available hosted endpoint or production settlement claim is part of the pilot by default.</p>
+                </article>
+                <article class="detail-card">
+                    <span class="status-pill status-free">Wallet // stable reference</span>
+                    <h3>Non-custodial Android-first client work</h3>
+                    <p>Evaluate the reference client and integration-to-launch path on agreed Android devices and environments. Keys and signing remain user-controlled. The pilot does not create custody, a hosted wallet service, or a mainnet-proof claim.</p>
+                </article>
+                <article class="detail-card">
+                    <span class="status-pill status-pilot">SDK // Beta / conditional</span>
+                    <h3>Local builder evaluation</h3>
+                    <p>Build and inspect the Conxius Enclave SDK against the use case and documented capability matrix. Record unsupported or quarantined areas. The pilot does not grant production readiness or provider enablement.</p>
+                </article>
+                <article class="detail-card">
+                    <span class="status-pill status-free">Core // live foundation</span>
+                    <h3>Shared API and fail-closed evidence</h3>
+                    <p>Use <code>lib-conxian-core</code> as the shared foundation for selected types, invariants, and verification boundaries. Launch and commercial gates remain in progress; Core is not a paid fourth tier or a substitute for dependent-surface evidence.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="section" id="customer-inputs" aria-labelledby="customer-inputs-title">
+            <h2 id="customer-inputs-title">Required customer inputs</h2>
+            <p class="section-intro">The customer owns the business context and must provide the inputs needed to make results meaningful.</p>
+            <ul class="inline-list">
+                <li>Named use case, success owner, technical contact, security contact, and decision maker.</li>
+                <li>Target environments, supported devices, toolchain versions, network assumptions, and access constraints.</li>
+                <li>Authorized fixtures, identities, test data, and any data-handling or retention restrictions.</li>
+                <li>Security, procurement, legal, and compliance requirements that could change the pilot boundary.</li>
+                <li>Required evidence format, review cadence, end date, and the decision that the final review must support.</li>
+            </ul>
+        </section>
+
+        <section class="section" id="success-criteria" aria-labelledby="success-criteria-title">
+            <h2 id="success-criteria-title">Measurable success criteria</h2>
+            <p class="section-intro">Select only the criteria relevant to the written scope. Each criterion should have an owner, a reproducible method, and an evidence artifact.</p>
+            <ul class="inline-list">
+                <li>The agreed integration path builds from a clean checkout on the named toolchain and commit.</li>
+                <li>The team reproduces the selected Gateway health, discovery, or proof-rehearsal flow in the named environment.</li>
+                <li>The Wallet reference flow completes on the agreed Android device set without transferring custody or signing control.</li>
+                <li>The SDK interface needed for the use case is exercised locally, with supported, conditional, and unsupported behavior recorded.</li>
+                <li>Core verification fixtures return the expected success or fail-closed result, with the test vector retained.</li>
+                <li>The final evidence pack records open gates, owner, next decision, and a recommendation to stop, continue, or scope a contract.</li>
+            </ul>
+        </section>
+
+        <section class="section" id="stages" aria-labelledby="stages-title">
+            <h2 id="stages-title">Time-boxed stages and checkpoints</h2>
+            <p class="section-intro">The sequence below is a bounded template. The written scope sets the actual dates, participants, and entry or stop conditions.</p>
+            <div class="detail-grid">
+                <article class="detail-card">
+                    <span class="kicker">Stage 0 // scope</span>
+                    <h3>Baseline and kickoff</h3>
+                    <p>Confirm the use case, surfaces, environments, inputs, evidence format, start date, review dates, end date, and stop conditions.</p>
+                </article>
+                <article class="detail-card">
+                    <span class="kicker">Stage 1 // local evaluation</span>
+                    <h3>Build and inspect</h3>
+                    <p>Reproduce local setup, inspect source and readiness documents, and record the first capability and security boundary results.</p>
+                </article>
+                <article class="detail-card">
+                    <span class="kicker">Stage 2 // bounded rehearsal</span>
+                    <h3>Exercise the workflow</h3>
+                    <p>Run only the agreed Gateway, Wallet, SDK, and Core flows with controlled fixtures and a mid-pilot evidence review.</p>
+                </article>
+                <article class="detail-card">
+                    <span class="kicker">Stage 3 // decision</span>
+                    <h3>Close with an exit path</h3>
+                    <p>Review measurable results, unresolved gates, customer fit, and the next decision before the agreed end date.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="section" id="evidence-checkpoints" aria-labelledby="evidence-checkpoints-title">
+            <h2 id="evidence-checkpoints-title">Evidence checkpoints</h2>
+            <ul class="inline-list">
+                <li><strong>Kickoff:</strong> signed scope, repository commits, toolchain and device matrix, data boundary, and test plan.</li>
+                <li><strong>Mid-pilot:</strong> reproducible commands, test outputs, screenshots or device results where relevant, and an updated open-gate register.</li>
+                <li><strong>Final review:</strong> success-criteria results, known limitations, security and procurement notes, ownership of follow-up work, and exit recommendation.</li>
+            </ul>
+        </section>
+
+        <section class="section" id="non-goals" aria-labelledby="non-goals-title">
+            <h2 id="non-goals-title">Explicit non-goals</h2>
+            <ul class="inline-list">
+                <li>No production settlement, value-bearing signing, or unreviewed mainnet deployment.</li>
+                <li>No custody of funds, assets, private keys, or signing control.</li>
+                <li>No generally available hosted Gateway endpoint, blanket provider enablement, or adapter certification.</li>
+                <li>No uptime, SLA, operational guarantee, support response target, or compliance commitment unless separately written.</li>
+                <li>No custom protocol, broad chain expansion, or new commercial entitlement hidden inside the pilot.</li>
+            </ul>
+        </section>
+
+        <section class="section" id="exit-paths" aria-labelledby="exit-paths-title">
+            <h2 id="exit-paths-title">Exit paths</h2>
+            <div class="detail-grid">
+                <article class="detail-card">
+                    <span class="status-pill status-scoped">Exit A // stop</span>
+                    <h3>Stop with evidence</h3>
+                    <p>Close the pilot when the use case is not a fit, a gate remains open, or the evidence does not justify further work. Retain the final record and no access assumption.</p>
+                </article>
+                <article class="detail-card">
+                    <span class="status-pill status-pilot">Exit B // continue</span>
+                    <h3>Run a new bounded scope</h3>
+                    <p>Continue only with a new scope that names the next capability, evidence, owner, dates, and stop conditions.</p>
+                </article>
+                <article class="detail-card">
+                    <span class="status-pill status-custom">Exit C // contract discovery</span>
+                    <h3>Define institutional terms</h3>
+                    <p>Move to contract discovery for private deployment, procurement, support, compliance, or availability requirements. Those terms are not inherited automatically from the pilot.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="section" id="pilot-proof" aria-labelledby="pilot-proof-title">
+            <h2 id="pilot-proof-title">Pilot proof sources</h2>
+            <ul class="inline-list">
+                <li><a href="https://github.com/Conxian/conxian-gateway" target="_blank" rel="noopener noreferrer">Gateway source and sandbox</a></li>
+                <li><a href="https://github.com/Conxian/conxius-wallet" target="_blank" rel="noopener noreferrer">Wallet reference client</a></li>
+                <li><a href="https://github.com/Conxian/conxius-enclave-sdk" target="_blank" rel="noopener noreferrer">SDK capability and readiness evidence</a></li>
+                <li><a href="https://github.com/Conxian/lib-conxian-core" target="_blank" rel="noopener noreferrer">Core API and fail-closed boundaries</a></li>
+                <li><a href="/commercial">Executive commercial brief</a> and <a href="/pricing">pricing and packaging guidance</a></li>
+            </ul>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-brand">
+            <h4>Conxian Labs</h4>
+            <p>© 2026 CONXIAN-LABS (PTY) LTD // INSTITUTIONAL ENGINEERING</p>
+        </div>
+        <div class="footer-links">
+            <a href="/">Home</a>
+            <a href="/sdk">SDK</a>
+            <a href="/docs">Docs</a>
+            <a href="/pricing">Pricing</a>
+            <a href="/commercial">Commercial</a>
+            <a href="/commercial/pilot">Pilot</a>
+            <a href="/enterprise">Enterprise</a>
+            <a href="/partners">Partners</a>
+            <a href="/operators">Operators</a>
+            <a href="/research">Research</a>
+            <a href="/privacy">Privacy</a>
+            <a href="/terms">Terms</a>
+        </div>
+    </footer>
+    <script>
+        Logger.info("PAGE_LOAD", "Route accessed", { path: window.location.pathname });
+    </script>
+</body>
+</html>

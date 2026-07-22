@@ -9,7 +9,7 @@
     <link rel="canonical" href="https://www.conxian-labs.com/docs">
     <meta property="og:url" content="https://www.conxian-labs.com/docs">
     <meta property="og:title" content="Conxian Labs | Documentation">
-    <meta property="og:description" content="Learn how to integrate the Conclave SDK and use Conxian Labs infrastructure.">
+    <meta property="og:description" content="Learn how to evaluate and integrate the Conxian Gateway, Wallet, Conxius Enclave SDK, and Core software surfaces.">
     <meta property="og:image" content="https://www.conxian-labs.com/Conxian-Labs_Logo.jpg">
     <link rel="icon" href="../Conxian_Logo.jpg" type="image/jpeg">
     <link rel="stylesheet" href="../package-page.css">
@@ -71,7 +71,7 @@
         <section class="hero">
             <span class="kicker">Integration Surface</span>
             <h1>Technical Documentation</h1>
-            <p>Welcome to the official documentation surface for Conxian Labs. This repository serves as the central hub for technical specifications, API references, and architectural guidance across the ecosystem. Whether you are building with the Conclave SDK or operating a sovereign node, our documentation provides the institutional-grade baseline for your project.</p>
+            <p>Welcome to the official documentation surface for Conxian Labs. This repository serves as the central hub for technical specifications, API references, and architectural guidance across the public Gateway, Wallet, Conxius Enclave SDK, and Core surfaces. Use the documentation to evaluate local integrations, understand boundaries, and prepare a scoped pilot or contract discussion.</p>
             <div class="hero-actions">
                 <a class="btn btn-primary" href="/sdk">SDK Reference</a>
                 <a class="btn btn-secondary" href="https://github.com/Conxian">Source Repositories</a>
@@ -83,15 +83,15 @@
             <div class="detail-grid">
                 <article class="detail-card">
                     <h3>Quickstart Guide</h3>
-                    <p>Integrate the SDK in under 10 minutes using our production-ready boilerplate templates.</p>
+                    <p>Start with local-first examples and the current repository instructions, then verify capability and readiness boundaries before planning an integration.</p>
                 </article>
                 <article class="detail-card">
                     <h3>API Specification</h3>
-                    <p>Comprehensive OpenAPI specifications for Gateway, Nexus, and Fusion endpoints.</p>
+                    <p>Review the current Gateway route and capability surface, including the local health, discovery, and proof-rehearsal paths documented by the source repository.</p>
                 </article>
                 <article class="detail-card">
                     <h3>Security Architecture</h3>
-                    <p>Deep dive into the trust model, enclave isolation, and zero-custody guarantees.</p>
+                    <p>Read about trust models, enclave isolation, non-custodial boundaries, and fail-closed verification without treating documentation as a blanket service guarantee.</p>
                 </article>
             </div>
         </section>
@@ -99,10 +99,10 @@
         <section class="section">
             <h2>Ecosystem Components</h2>
             <ul class="inline-list">
-                <li><strong>Gateway Fusion:</strong> Learn about our Rust-based middleware for high-throughput settlement.</li>
-                <li><strong>Nexus Proofs:</strong> Documentation on state-root verification and decentralized risk oracles.</li>
-                <li><strong>Sovereign Wallet:</strong> Mobile-native SDK integration for Android StrongBox and iOS Secure Enclave.</li>
-                <li><strong>Clarity Contracts:</strong> Smart contract references for the Stacks (L2) layer.</li>
+                <li><strong>Conxian Gateway:</strong> Beta and pilot-first integration surface for local discovery, verification, and workflow rehearsal.</li>
+                <li><strong>Conxius Wallet:</strong> Stable, non-custodial, Android-first reference client for demo and integration-to-launch work.</li>
+                <li><strong>Conxius Enclave SDK:</strong> Beta/conditional builder surface for enclave, signing, attestation, and key-management boundaries.</li>
+                <li><strong>lib-conxian-core:</strong> Live shared foundation with stable API and fail-closed verification boundaries; not a paid tier.</li>
             </ul>
         </section>
 
@@ -112,7 +112,9 @@
             <div class="inline-list">
                 <li><a href="/research">Research Papers:</a> Deep dive into the cryptographic theories powering the protocol.</li>
                 <li><a href="https://github.com/Conxian">GitHub Examples:</a> Fork-ready sample applications and integration harnesses.</li>
-                <li><a href="/pricing">Service Tiers:</a> Understand the boundary between open-source and managed services.</li>
+                <li><a href="/commercial">Commercial Brief:</a> Understand the four public surfaces, current boundaries, and buyer entry paths.</li>
+                <li><a href="/commercial/pilot">Scoped Pilot:</a> Review inputs, success criteria, evidence checkpoints, and exit paths.</li>
+                <li><a href="/pricing">Packaging Guidance:</a> Understand the boundary between open-source and scoped services.</li>
             </div>
         </section>
     </main>
@@ -123,18 +125,18 @@
             <p>© 2026 CONXIAN-LABS (PTY) LTD // INSTITUTIONAL ENGINEERING</p>
         </div>
         <div class="footer-links">
-        <div class="footer-links">
             <a href="/">Home</a>
             <a href="/sdk">SDK</a>
             <a href="/docs">Docs</a>
             <a href="/pricing">Pricing</a>
+            <a href="/commercial">Commercial</a>
+            <a href="/commercial/pilot">Pilot</a>
             <a href="/enterprise">Enterprise</a>
             <a href="/partners">Partners</a>
             <a href="/operators">Operators</a>
             <a href="/research">Research</a>
             <a href="/privacy">Privacy</a>
             <a href="/terms">Terms</a>
-        </div>
         </div>
     </footer>
     <script>
