@@ -75,6 +75,9 @@ test.describe('Commercial asset pack', () => {
     });
 
     test('commercial routes are wired consistently and remain usable on mobile', async ({ page }) => {
+        // Route rewrites are deployment-preview behavior; a file-based test cannot verify them
+        // without introducing a fake rewrite server. Validate /commercial and /commercial/pilot
+        // on a Render preview instead of adding local infrastructure that would mask that risk.
         const renderSource = fs.readFileSync(path.join(process.cwd(), 'render.yaml'), 'utf8');
         const searchSource = fs.readFileSync(path.join(process.cwd(), 'search.js'), 'utf8');
         const sitemapSource = fs.readFileSync(path.join(process.cwd(), 'sitemap.xml'), 'utf8');
@@ -106,6 +109,30 @@ test.describe('Commercial asset pack', () => {
             await expect(page.locator('footer')).toBeVisible();
             await expect(page.locator('.subpage-search-input')).toBeVisible();
         }
+    });
+
+    test('buyer-facing footers expose commercial paths without nested wrappers', async ({ page }) => {
+        for (const pagePath of ['docs', 'partners', 'enterprise']) {
+            await page.goto(`${BASE_URL}/${pagePath}/index.html`);
+
+            const footer = page.locator('footer');
+            await expect(page.locator('footer > .footer-links')).toHaveCount(1);
+            await expect(footer.locator('.footer-links .footer-links')).toHaveCount(0);
+            await expect(footer.getByRole('link', { name: 'Commercial', exact: true })).toHaveAttribute('href', '/commercial');
+            await expect(footer.getByRole('link', { name: 'Pilot', exact: true })).toHaveAttribute('href', '/commercial/pilot');
+        }
+    });
+
+    test('Enterprise search metadata is bounded and its Core link is safe', async ({ page }) => {
+        const searchSource = fs.readFileSync(path.join(process.cwd(), 'search.js'), 'utf8');
+
+        expect(searchSource).toContain("desc: 'Deployment discovery, governance, and scoped support for Gateway, Wallet, Conxius Enclave SDK, and Core.'");
+        expect(searchSource).not.toContain('Enterprise-grade solutions, institutional services, and sovereign infrastructure deployment for regulated entities.');
+
+        await page.goto(`${BASE_URL}/enterprise/index.html`);
+        const coreLink = page.locator('a[href="https://github.com/Conxian/lib-conxian-core"]');
+        await expect(coreLink).toHaveAttribute('target', '_blank');
+        await expect(coreLink).toHaveAttribute('rel', 'noopener noreferrer');
     });
 
     test('site search discovers the commercial and pilot briefs', async ({ page }) => {
