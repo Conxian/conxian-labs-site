@@ -4,8 +4,8 @@
  */
 (function() {
   var PAGES = [
-    { title: 'Home', desc: 'Builder and operator layer for the Conxian ecosystem. Public portfolio, infrastructure, and ecosystem directory.', url: 'index.html', keywords: 'portfolio ecosystem directory builder operator' },
-    { title: 'SDK — Conclave SDK', desc: 'Open-source sovereign infrastructure and cryptographic primitives. High-performance enclave orchestration and settlement adapters.', url: 'sdk/index.html', keywords: 'sdk conclave cryptography primitives enclave settlement open-source mit developer' },
+    { title: 'Home', desc: 'Proof-first software stack for the Conxian ecosystem: Gateway, Wallet, Conxius Enclave SDK, and Core, with public portfolio and operator context.', url: 'index.html', keywords: 'gateway wallet sdk conxius enclave sdk core core primitives software stack portfolio ecosystem directory builder operator' },
+    { title: 'SDK — Conxius Enclave SDK', desc: 'Beta/conditional open-source builder surface for cross-platform enclave and key-management boundaries, secure signing, and attestation interfaces.', url: 'sdk/index.html', keywords: 'sdk conxius enclave cross-platform keystore key management secure signing attestation trust reporting beta conditional open-source mit' },
     { title: 'Docs — Documentation', desc: 'Technical documentation for the Conxian ecosystem. Integration guides, API references, and architectural overviews.', url: 'docs/index.html', keywords: 'documentation docs api reference integration guide architecture' },
     { title: 'Pricing', desc: 'Transparent pricing for hosted operational services and enterprise support. Open-source SDK is free (MIT).', url: 'pricing/index.html', keywords: 'pricing plans enterprise support hosted services cost' },
     { title: 'Partners', desc: 'Ecosystem partners, integrations, and collaborative initiatives within the Conxian network.', url: 'partners/index.html', keywords: 'partners integrations collaboration ecosystem network' },
