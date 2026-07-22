@@ -23,11 +23,13 @@
       var name = el.textContent.trim();
       var svg = ICONS[name];
       if (svg) {
-        var wrapper = document.createElement('span');
-        wrapper.className = 'material-symbols-outlined';
+        // Clone the source element so caller-supplied classes, data attributes,
+        // and accessibility attributes survive the inline SVG replacement.
+        var wrapper = el.cloneNode(false);
         wrapper.innerHTML = svg;
-        wrapper.querySelector('svg').setAttribute('width', '1em');
-        wrapper.querySelector('svg').setAttribute('height', '1em');
+        var icon = wrapper.querySelector('svg');
+        icon.setAttribute('width', '1em');
+        icon.setAttribute('height', '1em');
         el.parentNode.replaceChild(wrapper, el);
       }
     });

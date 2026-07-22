@@ -4,12 +4,12 @@
     <script src="./logger.js"></script>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <meta name="description" content="Conxian-Labs is the builder, operator, and portfolio layer around the broader Conxian ecosystem."/>
-    <title>Conxian-Labs | Builder and Operator Layer for the Conxian Ecosystem</title>
+    <meta name="description" content="Conxian-Labs presents a proof-first software stack: Gateway, Wallet, SDK, and Core, with docs, security, research, and enterprise paths."/>
+    <title>Conxian-Labs | Gateway, Wallet, SDK, and Core</title>
     <link rel="canonical" href="https://www.conxian-labs.com/"/>
     <meta property="og:url" content="https://www.conxian-labs.com/"/>
-    <meta property="og:title" content="Conxian-Labs | Builder and Operator Layer for the Conxian Ecosystem"/>
-    <meta property="og:description" content="Conxian-Labs presents the public portfolio, supporting infrastructure, and ecosystem directory around Conxian."/>
+    <meta property="og:title" content="Conxian-Labs | Gateway, Wallet, SDK, and Core"/>
+    <meta property="og:description" content="Explore the public Gateway, Wallet, SDK, and Core software surfaces around the Conxian ecosystem."/>
     <meta property="og:image" content="https://www.conxian-labs.com/Conxian-Labs_Logo.jpg"/>
     <link rel="icon" href="Conxian_Logo.jpg" type="image/jpeg">
     <link rel="stylesheet" href="css/tailwind.css">
@@ -17,15 +17,249 @@
     <link rel="stylesheet" href="css/common.css">
     <script src="icons.js"></script>
     <script src="search.js"></script>
-    
-
 </head>
-<body class="bg-background text-on-background selection:bg-primary selection:text-white overflow-x-hidden">
-<header class="w-full bg-background/90 backdrop-blur-xl sticky top-0 z-50 border-b border-on-background/[0.03]"><nav class="max-w-[1440px] mx-auto flex justify-between items-center px-12 h-24"><div class="flex items-center gap-16"><div class="logo-container"><img src="Conxian-Labs_Logo.jpg" alt="Conxian-Labs"></div><div class="hidden md:flex gap-10 items-center"><a class="mono-text uppercase tracking-widest text-[0.7rem] font-semibold text-on-surface-variant hover:text-primary transition-colors active" href="/">Home</a><a class="mono-text uppercase tracking-widest text-[0.7rem] font-semibold text-on-surface-variant hover:text-primary transition-colors" href="/sdk">SDK</a><a class="mono-text uppercase tracking-widest text-[0.7rem] font-semibold text-on-surface-variant hover:text-primary transition-colors" href="/docs">Docs</a><a class="mono-text uppercase tracking-widest text-[0.7rem] font-semibold text-on-surface-variant hover:text-primary transition-colors" href="/pricing">Pricing</a><a class="mono-text uppercase tracking-widest text-[0.7rem] font-semibold text-on-surface-variant hover:text-primary transition-colors" href="/partners">Partners</a><a class="mono-text uppercase tracking-widest text-[0.7rem] font-semibold text-on-surface-variant hover:text-primary transition-colors" href="/operators">Operators</a><a class="mono-text uppercase tracking-widest text-[0.7rem] font-semibold text-on-surface-variant hover:text-primary transition-colors" href="/enterprise">Enterprise</a><a class="mono-text uppercase tracking-widest text-[0.7rem] font-semibold text-on-surface-variant hover:text-primary transition-colors" href="/research">Research</a></div></div><div class="flex items-center gap-8"><div class="hidden lg:block relative"><span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant text-base">search</span><input class="bg-surface-container-low border-none rounded-full px-12 py-3 text-sm mono-text w-72 focus:ring-1 focus:ring-primary/30 transition-all" placeholder="Search documentation..." type="text"/></div><a href="/sdk" class="bg-on-background text-background px-8 py-3.5 mono-text uppercase text-[0.7rem] font-bold tracking-[0.2em] hover:bg-primary transition-all rounded-lg inline-block">Get SDK</a></div></nav></header>
+<body class="bg-background text-on-background selection:bg-primary selection:text-white">
+<header class="relative w-full bg-background/90 backdrop-blur-xl sticky top-0 z-50 border-b border-on-background/[0.03]">
+    <nav class="max-w-[1440px] mx-auto flex justify-between items-center px-12 h-24" aria-label="Primary navigation">
+        <div class="flex items-center gap-16">
+            <div class="logo-container"><img src="Conxian-Labs_Logo.jpg" alt="Conxian-Labs"></div>
+            <div class="hidden md:flex gap-10 items-center">
+                <a class="mono-text uppercase tracking-widest text-[0.7rem] font-semibold text-on-surface-variant hover:text-primary transition-colors active" href="/">Home</a>
+                <a class="mono-text uppercase tracking-widest text-[0.7rem] font-semibold text-on-surface-variant hover:text-primary transition-colors" href="/sdk">SDK</a>
+                <a class="mono-text uppercase tracking-widest text-[0.7rem] font-semibold text-on-surface-variant hover:text-primary transition-colors" href="/docs">Docs</a>
+                <a class="mono-text uppercase tracking-widest text-[0.7rem] font-semibold text-on-surface-variant hover:text-primary transition-colors" href="/pricing">Pricing</a>
+                <a class="mono-text uppercase tracking-widest text-[0.7rem] font-semibold text-on-surface-variant hover:text-primary transition-colors" href="/partners">Partners</a>
+                <a class="mono-text uppercase tracking-widest text-[0.7rem] font-semibold text-on-surface-variant hover:text-primary transition-colors" href="/operators">Operators</a>
+                <a class="mono-text uppercase tracking-widest text-[0.7rem] font-semibold text-on-surface-variant hover:text-primary transition-colors" href="/enterprise">Enterprise</a>
+                <a class="mono-text uppercase tracking-widest text-[0.7rem] font-semibold text-on-surface-variant hover:text-primary transition-colors" href="/research">Research</a>
+            </div>
+        </div>
+        <div class="flex items-center gap-8">
+            <div class="hidden lg:block relative">
+                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant text-base">search</span>
+                <input class="bg-surface-container-low border-none rounded-full px-12 py-3 text-sm mono-text w-72 focus:ring-1 focus:ring-primary/30 transition-all" placeholder="Search documentation..." type="text"/>
+            </div>
+            <a href="/sdk" class="hidden sm:inline-block bg-on-background text-background px-8 py-3.5 mono-text uppercase text-[0.7rem] font-bold tracking-[0.2em] hover:bg-primary transition-all rounded-lg">Get SDK</a>
+            <button type="button" class="md:hidden p-3 text-on-background bg-surface-container rounded-lg" data-mobile-menu-button aria-controls="mobile-menu" aria-expanded="false" aria-label="Open navigation menu">
+                <span class="material-symbols-outlined menu-trigger-icon text-xl" aria-hidden="true">menu</span>
+                <span class="material-symbols-outlined menu-close-icon hidden text-xl" aria-hidden="true">close</span>
+            </button>
+        </div>
+    </nav>
+    <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 right-0 bg-background border-b border-on-background/[0.03] shadow-sm">
+        <nav class="max-w-[1440px] mx-auto px-12 py-6 grid grid-cols-2 gap-4" aria-label="Mobile navigation">
+            <a class="mono-text uppercase tracking-widest text-[0.7rem] font-semibold text-on-surface-variant hover:text-primary transition-colors" href="/">Home</a>
+            <a class="mono-text uppercase tracking-widest text-[0.7rem] font-semibold text-on-surface-variant hover:text-primary transition-colors" href="#products">Stack</a>
+            <a class="mono-text uppercase tracking-widest text-[0.7rem] font-semibold text-on-surface-variant hover:text-primary transition-colors" href="/sdk">SDK</a>
+            <a class="mono-text uppercase tracking-widest text-[0.7rem] font-semibold text-on-surface-variant hover:text-primary transition-colors" href="/docs">Docs</a>
+            <a class="mono-text uppercase tracking-widest text-[0.7rem] font-semibold text-on-surface-variant hover:text-primary transition-colors" href="/pricing">Pricing</a>
+            <a class="mono-text uppercase tracking-widest text-[0.7rem] font-semibold text-on-surface-variant hover:text-primary transition-colors" href="/partners">Partners</a>
+            <a class="mono-text uppercase tracking-widest text-[0.7rem] font-semibold text-on-surface-variant hover:text-primary transition-colors" href="/operators">Operators</a>
+            <a class="mono-text uppercase tracking-widest text-[0.7rem] font-semibold text-on-surface-variant hover:text-primary transition-colors" href="/enterprise">Enterprise</a>
+            <a class="mono-text uppercase tracking-widest text-[0.7rem] font-semibold text-on-surface-variant hover:text-primary transition-colors" href="/research">Research</a>
+        </nav>
+    </div>
+</header>
+
 <main class="relative">
-<section class="relative max-w-[1440px] mx-auto px-12 pt-32 pb-48 hero-gradient"><div class="grid grid-cols-1 lg:grid-cols-12 gap-24 items-start"><div class="lg:col-span-8"><div class="inline-flex items-center gap-3 px-4 py-1.5 bg-surface-container rounded-full mb-12"><span class="material-symbols-outlined text-accent-emerald text-[1.1rem]" style="font-variation-settings: 'FILL' 1;">terminal</span><span class="mono-text text-[0.7rem] uppercase tracking-[0.15em] font-bold text-on-surface-variant">Labs portfolio and ecosystem directory</span></div><h1 class="text-6xl md:text-[5.5rem] font-semibold tracking-tight leading-[0.95] text-on-background mb-12 max-w-5xl font-headline">The builder and operator layer around the Conxian ecosystem.</h1><p class="text-xl md:text-2xl text-on-surface-variant leading-relaxed max-w-3xl mb-16 font-light">Conxian-Labs presents the public portfolio, supporting infrastructure, <a href="/research" class="text-primary underline underline-offset-4 decoration-primary/30 hover:decoration-primary">research surfaces</a>, and ecosystem directory around Conxian. Conxian itself remains the protocol and DAO-facing layer.</p><div class="flex flex-wrap gap-8"><a href="/sdk" class="bg-primary text-white px-12 py-6 mono-text font-bold uppercase tracking-[0.15em] text-xs flex items-center gap-4 hover:bg-primary-container transition-all shadow-xl shadow-primary/10 rounded-lg">Get Started<span class="material-symbols-outlined text-base">arrow_forward</span></a><a href="/enterprise" class="bg-surface-container-high text-on-background px-12 py-6 mono-text font-bold uppercase tracking-[0.15em] text-xs hover:bg-surface-container transition-all rounded-lg flex items-center">Enterprise</a></div></div><div class="lg:col-span-4 hidden lg:block sticky top-32"><div class="p-10 bg-surface-container rounded-xl shadow-sm"><p class="mono-text text-[0.65rem] uppercase tracking-widest text-on-surface-variant mb-6 flex justify-between">Portfolio Signal<span class="material-symbols-outlined text-xs">fingerprint</span></p><p id="terminal-hash" class="text-xs mono-text break-all text-on-surface mb-12 opacity-60 leading-relaxed bg-background/50 p-4 rounded">protocol / Labs / support / public narrative</p><div class="flex justify-between items-center mono-text text-[0.7rem] font-bold uppercase tracking-widest"><span class="text-on-surface-variant">Status: Active</span><span class="flex items-center gap-3 text-accent-emerald"><span class="w-2 h-2 bg-accent-emerald rounded-full animate-pulse shadow-[0_0_8px_rgba(46,64,59,0.5)]"></span>Live</span></div></div></div></div></section>
-<section class="w-full bg-surface-container-low py-20 border-y border-on-background/[0.02]"><div class="max-w-[1440px] mx-auto px-12 text-center"><span class="mono-text text-[0.7rem] font-bold text-primary uppercase tracking-[0.3em] mb-8 block">Built on open infrastructure</span><div class="flex flex-wrap justify-center items-center gap-10 md:gap-16"><span class="mono-text text-[0.8rem] uppercase font-bold tracking-[0.15em] text-on-surface-variant/50">Bitcoin</span><span class="mono-text text-[0.8rem] uppercase font-bold tracking-[0.15em] text-on-surface-variant/50">Stacks</span><span class="mono-text text-[0.8rem] uppercase font-bold tracking-[0.15em] text-on-surface-variant/50">Rust</span><span class="mono-text text-[0.8rem] uppercase font-bold tracking-[0.15em] text-on-surface-variant/50">Clarity</span><span class="mono-text text-[0.8rem] uppercase font-bold tracking-[0.15em] text-on-surface-variant/50">Taproot</span><span class="mono-text text-[0.8rem] uppercase font-bold tracking-[0.15em] text-on-surface-variant/50">MuSig2</span><span class="mono-text text-[0.8rem] uppercase font-bold tracking-[0.15em] text-on-surface-variant/50">Schnorr</span></div></div></section>
-<section id="about" class="bg-surface-container-low py-48 border-y border-on-background/[0.02]"><div class="max-w-[1440px] mx-auto px-12 grid grid-cols-1 lg:grid-cols-12 gap-20 items-start"><div class="lg:col-span-4"><span class="mono-text text-[0.7rem] font-bold text-primary uppercase tracking-[0.3em] mb-8 block">About Conxian-Labs</span><h2 class="text-5xl md:text-6xl font-bold tracking-tight font-headline leading-[1.05]">Public portfolio, infrastructure, and ecosystem orientation.</h2></div><div class="lg:col-span-8 space-y-8"><p class="text-xl md:text-2xl text-on-surface-variant leading-relaxed font-light max-w-4xl">Conxian-Labs is the builder and operator layer around the broader Conxian ecosystem. We maintain the public portfolio, supporting infrastructure, <a href="/research" class="text-primary underline underline-offset-4 decoration-primary/30 hover:decoration-primary">research surfaces</a>, and ecosystem directory that help users, developers, partners, and operators navigate the stack.</p><p class="text-lg text-on-surface-variant leading-relaxed font-light max-w-4xl">Conxian itself is the protocol and DAO-facing layer. Conxian-Labs does not replace protocol ownership; it builds, operates, and supports the surrounding public surfaces that make the ecosystem understandable, usable, and easier to adopt.</p></div></div></section>
+    <section class="relative max-w-[1440px] mx-auto px-12 pt-32 pb-48 hero-gradient">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-24 items-start">
+            <div class="lg:col-span-8">
+                <div class="inline-flex items-center gap-3 px-4 py-1.5 bg-surface-container rounded-full mb-12">
+                    <span class="material-symbols-outlined text-accent-emerald text-[1.1rem]" style="font-variation-settings: 'FILL' 1;">terminal</span>
+                    <span class="mono-text text-[0.7rem] uppercase tracking-[0.15em] font-bold text-on-surface-variant">Proof-first software stack</span>
+                </div>
+                <h1 class="text-4xl sm:text-5xl md:text-[5.5rem] break-words font-semibold tracking-tight leading-[0.95] text-on-background mb-12 max-w-5xl font-headline">Gateway, Wallet, SDK, and Core for the Conxian ecosystem.</h1>
+                <p class="text-xl md:text-2xl text-on-surface-variant leading-relaxed max-w-3xl mb-16 font-light">Conxian-Labs is the builder and operator layer around the broader Conxian ecosystem. Start with the public software surfaces below, then follow the evidence for the path you need.</p>
+                <div class="flex flex-wrap gap-8">
+                    <a href="#products" class="bg-primary text-white px-12 py-6 mono-text font-bold uppercase tracking-[0.15em] text-xs flex items-center gap-4 hover:bg-primary-container transition-all shadow-xl shadow-primary/10 rounded-lg">Explore the stack<span class="material-symbols-outlined text-base">arrow_forward</span></a>
+                    <a href="/enterprise" class="bg-surface-container-high text-on-background px-12 py-6 mono-text font-bold uppercase tracking-[0.15em] text-xs hover:bg-surface-container transition-all rounded-lg flex items-center">Enterprise</a>
+                </div>
+            </div>
+            <div class="lg:col-span-4 hidden lg:block sticky top-32">
+                <div class="p-10 bg-surface-container rounded-xl shadow-sm">
+                    <p class="mono-text text-[0.65rem] uppercase tracking-widest text-on-surface-variant mb-6 flex justify-between">Stack signal<span class="material-symbols-outlined text-xs">fingerprint</span></p>
+                    <p id="terminal-hash" class="text-xs mono-text break-all text-on-surface mb-12 opacity-60 leading-relaxed bg-background/50 p-4 rounded">gateway / wallet / sdk / core</p>
+                    <div class="flex justify-between items-center mono-text text-[0.7rem] font-bold uppercase tracking-widest"><span class="text-on-surface-variant">Surfaces: Public</span><span class="flex items-center gap-3 text-accent-emerald"><span class="w-2 h-2 bg-accent-emerald rounded-full animate-pulse shadow-[0_0_8px_rgba(46,64,59,0.5)]"></span>Live</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="w-full bg-surface-container-low py-20 border-y border-on-background/[0.02]" aria-label="Open foundations">
+        <div class="max-w-[1440px] mx-auto px-12 text-center">
+            <span class="mono-text text-[0.7rem] font-bold text-primary uppercase tracking-[0.3em] mb-8 block">Open foundations</span>
+            <div class="flex flex-wrap justify-center items-center gap-10 md:gap-16">
+                <span class="mono-text text-[0.8rem] uppercase font-bold tracking-[0.15em] text-on-surface-variant/50">Bitcoin</span>
+                <span class="mono-text text-[0.8rem] uppercase font-bold tracking-[0.15em] text-on-surface-variant/50">Stacks</span>
+                <span class="mono-text text-[0.8rem] uppercase font-bold tracking-[0.15em] text-on-surface-variant/50">Rust</span>
+                <span class="mono-text text-[0.8rem] uppercase font-bold tracking-[0.15em] text-on-surface-variant/50">Clarity</span>
+                <span class="mono-text text-[0.8rem] uppercase font-bold tracking-[0.15em] text-on-surface-variant/50">Taproot</span>
+                <span class="mono-text text-[0.8rem] uppercase font-bold tracking-[0.15em] text-on-surface-variant/50">MuSig2</span>
+                <span class="mono-text text-[0.8rem] uppercase font-bold tracking-[0.15em] text-on-surface-variant/50">Schnorr</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="products" class="bg-background py-48 border-y border-on-background/[0.02]" aria-labelledby="products-heading">
+        <div class="max-w-[1440px] mx-auto px-12">
+            <div class="max-w-4xl mb-20">
+                <span class="mono-text text-[0.7rem] font-bold text-primary uppercase tracking-[0.3em] mb-8 block">The stack</span>
+                <h2 id="products-heading" class="text-5xl md:text-6xl font-bold tracking-tight font-headline leading-[1.05] mb-8">Proof before promises.</h2>
+                <p class="text-xl text-on-surface-variant leading-relaxed font-light">Four public software surfaces, each presented according to its current role and readiness. Read the source, follow the supporting material, and choose the path that fits your work.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <article id="product-gateway" class="bg-surface-container-low p-10 rounded-lg border border-on-background/[0.03] flex flex-col">
+                    <div class="flex justify-between items-center gap-4 mb-8">
+                        <span class="mono-text text-[0.7rem] font-bold text-primary uppercase tracking-[0.2em]">01 // Gateway</span>
+                        <span class="mono-text text-[0.65rem] font-bold text-on-surface-variant uppercase tracking-widest">Beta</span>
+                    </div>
+                    <h3 class="text-3xl font-bold tracking-tight font-headline mb-6">Gateway</h3>
+                    <p class="text-on-surface-variant leading-relaxed font-light flex-grow">Gateway is a conservative Beta integration surface for connecting application workflows to the broader stack. Review the source and current scope before planning an integration.</p>
+                    <a class="mono-text text-[0.7rem] font-bold text-primary uppercase tracking-widest mt-10 inline-flex items-center gap-3 hover:text-primary-container" href="https://github.com/Conxian/conxian-gateway" target="_blank" rel="noopener noreferrer">View Gateway source<span class="material-symbols-outlined text-base">arrow_forward</span></a>
+                </article>
+
+                <article id="product-wallet" class="bg-surface-container-low p-10 rounded-lg border border-on-background/[0.03] flex flex-col">
+                    <div class="flex justify-between items-center gap-4 mb-8">
+                        <span class="mono-text text-[0.7rem] font-bold text-primary uppercase tracking-[0.2em]">02 // Wallet</span>
+                        <span class="mono-text text-[0.65rem] font-bold text-on-surface-variant uppercase tracking-widest">Stable reference client</span>
+                    </div>
+                    <h3 class="text-3xl font-bold tracking-tight font-headline mb-6">Wallet</h3>
+                    <p class="text-on-surface-variant leading-relaxed font-light flex-grow">Wallet is a stable, non-custodial, offline-first reference client for local key workflows. It is software you can inspect and run; it is not a custody service.</p>
+                    <a class="mono-text text-[0.7rem] font-bold text-primary uppercase tracking-widest mt-10 inline-flex items-center gap-3 hover:text-primary-container" href="https://github.com/Conxian/conxius-wallet" target="_blank" rel="noopener noreferrer">View Wallet source<span class="material-symbols-outlined text-base">arrow_forward</span></a>
+                </article>
+
+                <article id="product-sdk" class="bg-surface-container-low p-10 rounded-lg border border-on-background/[0.03] flex flex-col">
+                    <div class="flex justify-between items-center gap-4 mb-8">
+                        <span class="mono-text text-[0.7rem] font-bold text-primary uppercase tracking-[0.2em]">03 // SDK</span>
+                        <span class="mono-text text-[0.65rem] font-bold text-on-surface-variant uppercase tracking-widest">Beta / conditional</span>
+                    </div>
+                    <h3 class="text-3xl font-bold tracking-tight font-headline mb-6">Conxius Enclave SDK</h3>
+                    <p class="text-on-surface-variant leading-relaxed font-light flex-grow">Conxius Enclave SDK is the reusable builder surface for enclave and cryptographic integration work. Treat it as Beta/conditional: review the current source and docs before relying on it for a specific deployment.</p>
+                    <div class="flex flex-wrap gap-6 mt-10">
+                        <a class="mono-text text-[0.7rem] font-bold text-primary uppercase tracking-widest inline-flex items-center gap-3 hover:text-primary-container" href="/sdk">Explore SDK<span class="material-symbols-outlined text-base">arrow_forward</span></a>
+                        <a class="mono-text text-[0.7rem] font-bold text-primary uppercase tracking-widest inline-flex items-center gap-3 hover:text-primary-container" href="https://github.com/Conxian/conxius-enclave-sdk" target="_blank" rel="noopener noreferrer">View SDK source<span class="material-symbols-outlined text-base">arrow_forward</span></a>
+                    </div>
+                </article>
+
+                <article id="product-core" class="bg-surface-container-low p-10 rounded-lg border border-on-background/[0.03] flex flex-col">
+                    <div class="flex justify-between items-center gap-4 mb-8">
+                        <span class="mono-text text-[0.7rem] font-bold text-primary uppercase tracking-[0.2em]">04 // Core</span>
+                        <span class="mono-text text-[0.65rem] font-bold text-on-surface-variant uppercase tracking-widest">Shared foundation</span>
+                    </div>
+                    <h3 class="text-3xl font-bold tracking-tight font-headline mb-6">Core primitives</h3>
+                    <p class="text-on-surface-variant leading-relaxed font-light flex-grow">Core primitives are the live shared software foundation beneath the public stack: reusable libraries for builders, not a separate sales tier or placeholder.</p>
+                    <a class="mono-text text-[0.7rem] font-bold text-primary uppercase tracking-widest mt-10 inline-flex items-center gap-3 hover:text-primary-container" href="https://github.com/Conxian/lib-conxian-core" target="_blank" rel="noopener noreferrer">View Core source<span class="material-symbols-outlined text-base">arrow_forward</span></a>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-surface-container-low py-32 border-y border-on-background/[0.02]" aria-labelledby="pathways-heading">
+        <div class="max-w-[1440px] mx-auto px-12">
+            <div class="max-w-3xl mb-16">
+                <span class="mono-text text-[0.7rem] font-bold text-primary uppercase tracking-[0.3em] mb-8 block">Choose your path</span>
+                <h2 id="pathways-heading" class="text-4xl md:text-5xl font-bold tracking-tight font-headline leading-[1.05]">Go deeper when the work calls for it.</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <a href="/docs" class="bg-background p-8 rounded-lg hover:bg-surface-container transition-colors">
+                    <span class="mono-text text-[0.7rem] font-bold text-primary uppercase tracking-widest">For builders</span>
+                    <h3 class="text-xl font-bold font-headline mt-4 mb-3">Docs and integration context</h3>
+                    <p class="text-sm text-on-surface-variant leading-relaxed">Find the technical material behind the public stack.</p>
+                </a>
+                <a href="/security" class="bg-background p-8 rounded-lg hover:bg-surface-container transition-colors">
+                    <span class="mono-text text-[0.7rem] font-bold text-primary uppercase tracking-widest">For trust review</span>
+                    <h3 class="text-xl font-bold font-headline mt-4 mb-3">Security and disclosure</h3>
+                    <p class="text-sm text-on-surface-variant leading-relaxed">Review security architecture, audits, and responsible disclosure paths.</p>
+                </a>
+                <a href="/research" class="bg-background p-8 rounded-lg hover:bg-surface-container transition-colors">
+                    <span class="mono-text text-[0.7rem] font-bold text-primary uppercase tracking-widest">For researchers</span>
+                    <h3 class="text-xl font-bold font-headline mt-4 mb-3">Research surfaces</h3>
+                    <p class="text-sm text-on-surface-variant leading-relaxed">Follow the technical papers, analysis, and architectural studies.</p>
+                </a>
+                <a href="/enterprise" class="bg-background p-8 rounded-lg hover:bg-surface-container transition-colors">
+                    <span class="mono-text text-[0.7rem] font-bold text-primary uppercase tracking-widest">For operators</span>
+                    <h3 class="text-xl font-bold font-headline mt-4 mb-3">Enterprise context</h3>
+                    <p class="text-sm text-on-surface-variant leading-relaxed">Discuss deployment requirements and institutional programs.</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="bg-surface-container-low py-48 border-y border-on-background/[0.02]" aria-labelledby="about-heading">
+        <div class="max-w-[1440px] mx-auto px-12 grid grid-cols-1 lg:grid-cols-12 gap-20 items-start">
+            <div class="lg:col-span-4">
+                <span class="mono-text text-[0.7rem] font-bold text-primary uppercase tracking-[0.3em] mb-8 block">About Conxian-Labs</span>
+                <h2 id="about-heading" class="text-4xl sm:text-5xl md:text-6xl break-words font-bold tracking-tight font-headline leading-[1.05]">Public portfolio, infrastructure, and ecosystem orientation.</h2>
+            </div>
+            <div class="lg:col-span-8 space-y-8">
+                <p class="text-xl md:text-2xl text-on-surface-variant leading-relaxed font-light max-w-4xl">Conxian-Labs is the builder and operator layer around the broader Conxian ecosystem. We maintain the public portfolio, supporting infrastructure, <a href="/research" class="text-primary underline underline-offset-4 decoration-primary/30 hover:decoration-primary">research surfaces</a>, and ecosystem directory that help users, developers, partners, and operators navigate the stack.</p>
+                <p class="text-lg text-on-surface-variant leading-relaxed font-light max-w-4xl">The public stack is intentionally separated from protocol ownership. Conxian-Labs builds, operates, and supports the surrounding software surfaces that make the ecosystem understandable, usable, and easier to evaluate.</p>
+            </div>
+        </div>
+    </section>
 </main>
-    <footer class="w-full bg-surface-container-low py-12 border-t border-on-background/[0.02]"><div class="max-w-[1440px] mx-auto px-12 flex flex-wrap justify-between gap-8"><div class="flex flex-col gap-4"><div class="logo-container"><img src="Conxian-Labs_Logo.jpg" alt="Conxian-Labs"></div><p class="mono-text text-[0.65rem] text-on-surface-variant uppercase tracking-widest">© 2026 CONXIAN-LABS (PTY) LTD // INSTITUTIONAL ENGINEERING</p></div><div class="flex gap-12"><div class="flex flex-col gap-4"><span class="mono-text text-[0.7rem] font-bold text-primary uppercase tracking-widest">Ecosystem</span><a href="/" class="mono-text text-[0.7rem] text-on-surface-variant hover:text-primary transition-colors">Home</a><a href="/sdk" class="mono-text text-[0.7rem] text-on-surface-variant hover:text-primary transition-colors">SDK</a><a href="/docs" class="mono-text text-[0.7rem] text-on-surface-variant hover:text-primary transition-colors">Docs</a><a href="/pricing" class="mono-text text-[0.7rem] text-on-surface-variant hover:text-primary transition-colors">Pricing</a></div><div class="flex flex-col gap-4"><span class="mono-text text-[0.7rem] font-bold text-primary uppercase tracking-widest">Programs</span><a href="/enterprise" class="mono-text text-[0.7rem] text-on-surface-variant hover:text-primary transition-colors">Enterprise</a><a href="/partners" class="mono-text text-[0.7rem] text-on-surface-variant hover:text-primary transition-colors">Partners</a><a href="/operators" class="mono-text text-[0.7rem] text-on-surface-variant hover:text-primary transition-colors">Operators</a><a href="/research" class="mono-text text-[0.7rem] text-on-surface-variant hover:text-primary transition-colors">Research</a></div><div class="flex flex-col gap-4"><span class="mono-text text-[0.7rem] font-bold text-primary uppercase tracking-widest">Legal</span><a href="/privacy" class="mono-text text-[0.7rem] text-on-surface-variant hover:text-primary transition-colors">Privacy</a><a href="/terms" class="mono-text text-[0.7rem] text-on-surface-variant hover:text-primary transition-colors">Terms</a></div></div></div></footer><script>const hashes = ["protocol / Labs / support / public narrative", "sovereign / autonomous / business / logic", "enclave / secure / verifiable / compute", "bitcoin / stacks / rust / clarity"]; let currentHashIndex = 0; const hashElement = document.getElementById("terminal-hash"); setInterval(() => { currentHashIndex = (currentHashIndex + 1) % hashes.length; const newHash = hashes[currentHashIndex]; if (hashElement) { hashElement.textContent = newHash; if (window.Logger) { window.Logger.info("TERMINAL", "Cycling terminal hash", { hash: newHash }); } } }, 5000); if (window.Logger) { window.Logger.info("PAGE_LOAD", "Route accessed", { path: window.location.pathname }); }</script></body>
+
+<footer class="w-full bg-surface-container-low py-12 border-t border-on-background/[0.02]">
+    <div class="max-w-[1440px] mx-auto px-12 flex flex-wrap justify-between gap-8">
+        <div class="flex flex-col gap-4">
+            <div class="logo-container"><img src="Conxian-Labs_Logo.jpg" alt="Conxian-Labs"></div>
+            <p class="mono-text text-[0.65rem] text-on-surface-variant uppercase tracking-widest">© 2026 CONXIAN-LABS (PTY) LTD // INSTITUTIONAL ENGINEERING</p>
+        </div>
+        <div class="flex gap-12">
+            <div class="flex flex-col gap-4">
+                <span class="mono-text text-[0.7rem] font-bold text-primary uppercase tracking-widest">Ecosystem</span>
+                <a href="/" class="mono-text text-[0.7rem] text-on-surface-variant hover:text-primary transition-colors">Home</a>
+                <a href="/sdk" class="mono-text text-[0.7rem] text-on-surface-variant hover:text-primary transition-colors">SDK</a>
+                <a href="/docs" class="mono-text text-[0.7rem] text-on-surface-variant hover:text-primary transition-colors">Docs</a>
+                <a href="/pricing" class="mono-text text-[0.7rem] text-on-surface-variant hover:text-primary transition-colors">Pricing</a>
+            </div>
+            <div class="flex flex-col gap-4">
+                <span class="mono-text text-[0.7rem] font-bold text-primary uppercase tracking-widest">Programs</span>
+                <a href="/enterprise" class="mono-text text-[0.7rem] text-on-surface-variant hover:text-primary transition-colors">Enterprise</a>
+                <a href="/partners" class="mono-text text-[0.7rem] text-on-surface-variant hover:text-primary transition-colors">Partners</a>
+                <a href="/operators" class="mono-text text-[0.7rem] text-on-surface-variant hover:text-primary transition-colors">Operators</a>
+                <a href="/research" class="mono-text text-[0.7rem] text-on-surface-variant hover:text-primary transition-colors">Research</a>
+            </div>
+            <div class="flex flex-col gap-4">
+                <span class="mono-text text-[0.7rem] font-bold text-primary uppercase tracking-widest">Legal</span>
+                <a href="/privacy" class="mono-text text-[0.7rem] text-on-surface-variant hover:text-primary transition-colors">Privacy</a>
+                <a href="/terms" class="mono-text text-[0.7rem] text-on-surface-variant hover:text-primary transition-colors">Terms</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    const mobileMenuButton = document.querySelector('[data-mobile-menu-button]');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const setMobileMenuState = (isOpen) => {
+        if (!mobileMenuButton || !mobileMenu) return;
+        mobileMenu.classList.toggle('hidden', !isOpen);
+        mobileMenuButton.setAttribute('aria-expanded', String(isOpen));
+        mobileMenuButton.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+        mobileMenuButton.querySelector('.menu-trigger-icon')?.classList.toggle('hidden', isOpen);
+        mobileMenuButton.querySelector('.menu-close-icon')?.classList.toggle('hidden', !isOpen);
+    };
+    mobileMenuButton?.addEventListener('click', () => setMobileMenuState(mobileMenu?.classList.contains('hidden')));
+    mobileMenu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => setMobileMenuState(false)));
+
+    const hashes = ["gateway / wallet / sdk / core", "local / open / verifiable / build", "enclave / secure / reusable / compute", "bitcoin / stacks / rust / clarity"];
+    let currentHashIndex = 0;
+    const hashElement = document.getElementById("terminal-hash");
+    setInterval(() => {
+        currentHashIndex = (currentHashIndex + 1) % hashes.length;
+        const newHash = hashes[currentHashIndex];
+        if (hashElement) {
+            hashElement.textContent = newHash;
+            if (window.Logger) {
+                window.Logger.info("TERMINAL", "Cycling terminal hash", { hash: newHash });
+            }
+        }
+    }, 5000);
+    if (window.Logger) {
+        window.Logger.info("PAGE_LOAD", "Route accessed", { path: window.location.pathname });
+    }
+</script>
+</body>
 </html>
