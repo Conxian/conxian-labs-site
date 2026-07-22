@@ -25,6 +25,12 @@ services:
         value: "camera=(), microphone=(), geolocations=()"
     routes:
       - type: rewrite
+        source: "/commercial/pilot/*"
+        destination: "/commercial/pilot/index.html"
+      - type: rewrite
+        source: "/commercial/*"
+        destination: "/commercial/index.html"
+      - type: rewrite
         source: "/sdk/*"
         destination: "/sdk/index.html"
       - type: rewrite
