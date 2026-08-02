@@ -62,7 +62,8 @@ This repository is maintained by Conxian-Labs as the builder and operator surfac
 
 ## Deployment posture
 
-- Preferred public host: `https://www.conxian-labs.com`
+- **Authoritative production host**: Render (`conxian-labs-static-v1`), deploying from `main` at `https://www.conxian-labs.com`
+- **GitHub Pages**: Retired for this repository. The org-level Pages surface (`conxian.github.io` → `pages.conxian-labs.com`) is a separate concern and does not carry production authority for this site.
 - Treat Gateway, Vault/KMS, and Nexus endpoint hostnames mentioned in this repository as planned or non-public unless explicitly marked active.
 - If formal GitHub releases are later adopted for the site, keep release notes aligned with deployment guidance so public readers can distinguish code changes from live-site changes.
 

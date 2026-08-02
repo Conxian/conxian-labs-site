@@ -1,66 +1,11 @@
 services:
-  - type: static
-    name: conxian-labs-static-v1
-    env: static
+  - type: web
+    name: conxian-labs-site
+    env: node
     region: oregon
     buildCommand: "npm install"
-    publishPath: "."
+    startCommand: "npm start"
+    plan: starter
     pullRequestPreviewsEnabled: yes
     autoDeploy: yes
-    headers:
-      - path: "/*"
-        name: X-Frame-Options
-        value: DENY
-      - path: "/*"
-        name: X-Content-Type-Options
-        value: nosniff
-      - path: "/*"
-        name: Content-Security-Policy
-        value: "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self';"
-      - path: "/*"
-        name: Referrer-Policy
-        value: "strict-origin-when-cross-origin"
-      - path: "/*"
-        name: Permissions-Policy
-        value: "camera=(), microphone=(), geolocations=()"
-    routes:
-      - type: rewrite
-        source: "/commercial/pilot/*"
-        destination: "/commercial/pilot/index.html"
-      - type: rewrite
-        source: "/commercial/*"
-        destination: "/commercial/index.html"
-      - type: rewrite
-        source: "/sdk/*"
-        destination: "/sdk/index.html"
-      - type: rewrite
-        source: "/docs/*"
-        destination: "/docs/index.html"
-      - type: rewrite
-        source: "/pricing/*"
-        destination: "/pricing/index.html"
-      - type: rewrite
-        source: "/partners/*"
-        destination: "/partners/index.html"
-      - type: rewrite
-        source: "/operators/*"
-        destination: "/operators/index.html"
-      - type: rewrite
-        source: "/enterprise/*"
-        destination: "/enterprise/index.html"
-      - type: rewrite
-        source: "/terms/*"
-        destination: "/terms/index.html"
-      - type: rewrite
-        source: "/research/*"
-        destination: "/research/index.html"
-      - type: rewrite
-        source: "/about/*"
-        destination: "/about/index.html"
-      - type: rewrite
-        source: "/security/*"
-        destination: "/security/index.html"
-      - type: rewrite
-        source: "/privacy/*"
-        destination: "/privacy/index.html"
 

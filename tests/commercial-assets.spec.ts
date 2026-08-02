@@ -75,18 +75,13 @@ test.describe('Commercial asset pack', () => {
     });
 
     test('commercial routes are wired consistently and remain usable on mobile', async ({ page }) => {
-        // Route rewrites are deployment-preview behavior; a file-based test cannot verify them
-        // without introducing a fake rewrite server. Validate /commercial and /commercial/pilot
-        // on a Render preview instead of adding local infrastructure that would mask that risk.
-        const renderSource = fs.readFileSync(path.join(process.cwd(), 'render.yaml'), 'utf8');
+        const serverSource = fs.readFileSync(path.join(process.cwd(), 'server.js'), 'utf8');
         const searchSource = fs.readFileSync(path.join(process.cwd(), 'search.js'), 'utf8');
         const sitemapSource = fs.readFileSync(path.join(process.cwd(), 'sitemap.xml'), 'utf8');
         const pricingSource = fs.readFileSync(path.join(process.cwd(), 'pricing/index.html'), 'utf8');
 
-        expect(renderSource).toContain('source: "/commercial/pilot/*"');
-        expect(renderSource).toContain('destination: "/commercial/pilot/index.html"');
-        expect(renderSource).toContain('source: "/commercial/*"');
-        expect(renderSource).toContain('destination: "/commercial/index.html"');
+        expect(serverSource).toContain("'commercial'");
+        expect(serverSource).toContain("'commercial/pilot'");
         expect(searchSource).toContain("url: 'commercial/index.html'");
         expect(searchSource).toContain("url: 'commercial/pilot/index.html'");
         expect(sitemapSource).toContain('https://www.conxian-labs.com/commercial</loc>');
