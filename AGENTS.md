@@ -64,8 +64,7 @@
 ## Known Issues
 - **`production` environment has no branch protection** — relies solely on `deploy.yml` `branches: [main]` filter
 - **No automated CSS pipeline** — Tailwind build requires manual `npm run build:css` when classes change
-- **Render deployment gap** — `render.yaml` defines a Node.js web service, but the live Render service (`conxian-labs-static-v1`) is still a static site. Needs manual migration on Render dashboard or a new service (`conxian-labs-site`) created.
-- **Security headers missing in production** — CSP, X-Frame-Options, Referrer-Policy not present on live responses (Cloudflare proxy in front of Render). Express server applies them locally; production may need Cloudflare-level header config.
+- **Render custom domain pending** — `www.conxian-labs.com` still bound to deleted static site; needs dashboard detach before attaching to new web service
 
 ## CI/CD
 - `.github/workflows/ci.yml` — build-and-test + security-scan (gitleaks) on push/PR to main
@@ -73,6 +72,20 @@
 - `.github/workflows/dependency-review.yml` — on PR when lockfiles change
 - **Render**: auto-deploy from `main` → `conxian-labs-site` (Node.js web service, `environment: production`)
 - **GitHub Pages**: org-level (`conxian.github.io` → `pages.conxian-labs.com`), separate from this repo's pipeline; repo-level Pages retired
+
+## Integration Landscape
+
+| Service | Projects / Resources | Status |
+|---|---|---|
+| **Render** | `conxian-labs-site` (srv-d9ndhr2jnfac73as7te0) — Node.js web, free, Oregon | ✅ Deployed (v1.1.0) |
+| **Supabase** | `Conxian BOS` (yauldfcpswnufgwfvnlr) — PG 17.6, eu-central-1 | ✅ ACTIVE_HEALTHY |
+| **Supabase** | `Conxian-platform` (iczqutrbbfudfzfplymc) — PG 17.6, eu-central-1 | ✅ ACTIVE_HEALTHY |
+| **NEON** | `Gateway` (noisy-cloud-41146057) — PG 18, aws-ap-southeast-1 | ✅ Active |
+| **NEON** | `Conxian Nexus` (orange-paper-76209725) — PG 17, aws-eu-central-1 | ✅ Active |
+
+- **Render custom domain**: `www.conxian-labs.com` pending — needs detach from deleted static site on dashboard
+- **NEON org**: `org-silent-sun-00457600` (personal API key)
+- **Supabase org**: `dmhmarjqzgodyovlhamv` (PAT `sbp_...`)
 
 ---
 *CONXIAN-LABS // 2026 // SOVEREIGN AUTONOMOUS BUSINESS (SAB)*
