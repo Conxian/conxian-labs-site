@@ -42,7 +42,7 @@
 - **Border radius:** 4px (sharp institutional)
 - **Logos:** black background, grayscale + brightness filter
 
-## Page Inventory (13 pages)
+## Page Inventory (15 pages)
 | Route | File | Nav? | Footer? |
 |-------|------|------|---------|
 | `/` | `index.html` | ✅ | ✅ (3 columns) |
@@ -57,6 +57,8 @@
 | `/about` | `about/index.html` | ✅ | ✅ |
 | `/security` | `security/index.html` | ✅ | ✅ |
 | `/privacy` | `privacy/index.html` | ✅ | ✅ |
+| `/commercial` | `commercial/index.html` | ❌ | ✅ |
+| `/commercial/pilot` | `commercial/pilot/index.html` | ❌ | ✅ |
 | `/404.html` | `404.html` | ✅ | ✅ (minimal) |
 
 ## Known Issues

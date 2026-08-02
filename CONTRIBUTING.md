@@ -2,7 +2,7 @@
 
 We welcome community contributions that improve the public Conxian Labs site and documentation.
 
-This repository contains the static landing page and public policy documents for Conxian Labs.
+This repository contains the dynamic Node.js/Express web service and public policy documents for Conxian Labs.
 
 ## Issue Workflow
 
