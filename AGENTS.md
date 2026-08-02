@@ -16,7 +16,7 @@
 | `production` | Render | `www.conxian-labs.com` | `main` (gated by `deploy.yml`) |
 
 - **Production (Render)**: **Authoritative host.** Auto-deploys via `deploy.yml` signal → Render detects `main` push; pull request previews enabled (Oregon region). Service: `conxian-labs-site` (Node.js web service).
-- **GitHub Pages (legacy)**: Formerly active on this repo; now **retired** in favor of Render. The org-level Pages surface (`conxian.github.io` → `pages.conxian-labs.com`) is a separate concern and does not duplicate production authority. This repo's Pages configuration should be disabled to prevent HTTPS certificate conflicts with Render.
+- **GitHub Pages (legacy)**: **Disabled 2026-08-02.** The org-level Pages surface (`conxian.github.io` → `pages.conxian-labs.com`) is a separate concern and does not duplicate production authority.
 
 ## Architecture
 - **Server:** Express.js (Node.js) — dynamic web service with static file serving
@@ -64,6 +64,8 @@
 ## Known Issues
 - **`production` environment has no branch protection** — relies solely on `deploy.yml` `branches: [main]` filter
 - **No automated CSS pipeline** — Tailwind build requires manual `npm run build:css` when classes change
+- **Render deployment gap** — `render.yaml` defines a Node.js web service, but the live Render service (`conxian-labs-static-v1`) is still a static site. Needs manual migration on Render dashboard or a new service (`conxian-labs-site`) created.
+- **Security headers missing in production** — CSP, X-Frame-Options, Referrer-Policy not present on live responses (Cloudflare proxy in front of Render). Express server applies them locally; production may need Cloudflare-level header config.
 
 ## CI/CD
 - `.github/workflows/ci.yml` — build-and-test + security-scan (gitleaks) on push/PR to main
