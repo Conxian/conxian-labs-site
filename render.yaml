@@ -5,7 +5,7 @@ services:
     region: oregon
     buildCommand: "npm install"
     startCommand: "npm start"
-    plan: starter
+    plan: free
     pullRequestPreviewsEnabled: yes
     autoDeploy: yes
 
