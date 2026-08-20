@@ -9,7 +9,7 @@
     <link rel="canonical" href="https://www.conxian-labs.com/docs">
     <meta property="og:url" content="https://www.conxian-labs.com/docs">
     <meta property="og:title" content="Conxian Labs | Documentation">
-    <meta property="og:description" content="Learn how to evaluate and integrate the Conxian Gateway, Wallet, Conxius Enclave SDK, and Core software surfaces.">
+    <meta property="og:description" content="Learn how to evaluate and integrate the Conxian Market, Gateway, Wallet, Conxius Enclave SDK, and Core software surfaces.">
     <meta property="og:image" content="https://www.conxian-labs.com/Conxian-Labs_Logo.jpg">
     <link rel="icon" href="../Conxian_Logo.jpg" type="image/jpeg">
     <link rel="stylesheet" href="../package-page.css">
@@ -71,7 +71,7 @@
         <section class="hero">
             <span class="kicker">Integration Surface</span>
             <h1>Technical Documentation</h1>
-            <p>Welcome to the official documentation surface for Conxian Labs. This repository serves as the central hub for technical specifications, API references, and architectural guidance across the public Gateway, Wallet, Conxius Enclave SDK, and Core surfaces. Use the documentation to evaluate local integrations, understand boundaries, and prepare a scoped pilot or contract discussion.</p>
+            <p>Welcome to the official documentation surface for Conxian Labs. This repository serves as the central hub for technical specifications, API references, and architectural guidance across the active Market, Gateway, Wallet, Conxius Enclave SDK, and Core surfaces. Use the documentation to evaluate local integrations, understand boundaries, and prepare a scoped pilot or contract discussion.</p>
             <div class="hero-actions">
                 <a class="btn btn-primary" href="/sdk">SDK Reference</a>
                 <a class="btn btn-secondary" href="https://github.com/Conxian">Source Repositories</a>
@@ -83,11 +83,11 @@
             <div class="detail-grid">
                 <article class="detail-card">
                     <h3>Quickstart Guide</h3>
-                    <p>Start with local-first examples and the current repository instructions, then verify capability and readiness boundaries before planning an integration.</p>
+                    <p>Start with local-first examples and current repository instructions, then verify capability and readiness boundaries before planning an integration.</p>
                 </article>
                 <article class="detail-card">
                     <h3>API Specification</h3>
-                    <p>Review the current Gateway route and capability surface, including the local health, discovery, and proof-rehearsal paths documented by the source repository.</p>
+                    <p>Review the active Market and Gateway route and capability surfaces, including local health, discovery, and proof-rehearsal paths documented by the source repositories.</p>
                 </article>
                 <article class="detail-card">
                     <h3>Security Architecture</h3>
@@ -99,10 +99,12 @@
         <section class="section">
             <h2>Ecosystem Components</h2>
             <ul class="inline-list">
+                <li><strong>conxian-market:</strong> Active market, liquidity, and asset execution engine supporting institutional settlement and order routing.</li>
                 <li><strong>Conxian Gateway:</strong> Beta and pilot-first integration surface for local discovery, verification, and workflow rehearsal.</li>
                 <li><strong>Conxius Wallet:</strong> Stable, non-custodial, Android-first reference client for demo and integration-to-launch work.</li>
                 <li><strong>Conxius Enclave SDK:</strong> Beta/conditional builder surface for enclave, signing, attestation, and key-management boundaries.</li>
                 <li><strong>lib-conxian-core:</strong> Live shared foundation with stable API and fail-closed verification boundaries; not a paid tier.</li>
+                <li><strong>Deprecation Notice:</strong> The legacy monolithic <code>Conxian/Conxian</code> repository is deprecated in favor of modular domain repositories (<code>conxian-market</code>, <code>conxian-gateway</code>, <code>conxian-nexus</code>).</li>
             </ul>
         </section>
 
@@ -110,9 +112,9 @@
             <h2>Developer Resources</h2>
             <p class="section-intro">Beyond technical docs, we provide a suite of tools to accelerate your development cycle.</p>
             <div class="inline-list">
-                <li><a href="/research">Research Papers:</a> Deep dive into the cryptographic theories powering the protocol.</li>
+                <li><a href="/research">Research Papers:</a> Deep dive into the cryptographic theories and market liquidity protocols powering the ecosystem.</li>
                 <li><a href="https://github.com/Conxian">GitHub Examples:</a> Fork-ready sample applications and integration harnesses.</li>
-                <li><a href="/commercial">Commercial Brief:</a> Understand the four public surfaces, current boundaries, and buyer entry paths.</li>
+                <li><a href="/commercial">Commercial Brief:</a> Understand the core public surfaces, current boundaries, and buyer entry paths.</li>
                 <li><a href="/commercial/pilot">Scoped Pilot:</a> Review inputs, success criteria, evidence checkpoints, and exit paths.</li>
                 <li><a href="/pricing">Packaging Guidance:</a> Understand the boundary between open-source and scoped services.</li>
             </div>

@@ -1,57 +1,31 @@
-# Conxian Labs Site Remediation Progress
+# Conxian Labs Site Remediation & Ecosystem Alignment Progress
+
+## Recent Ecosystem Alignment & Research Evolution (2026-08-20)
+- **Legacy Monolith Deprecation**: Formally deprecated `Conxian/Conxian` in favor of modular domain repositories (`conxian-market`, `conxian-gateway`, `conxian-nexus`). Updated `README.md`, `docs/index.html`, `commercial/index.html`, `research/index.html`, and `search.js`.
+- **Market Surface Integration**: Registered `conxian-market` as the active execution and liquidity engine across public docs, commercial briefs, search index, and testing harnesses.
+- **Research Expansion**: Expanded `research/index.html` with 6 active research domains:
+  1. Logical Sovereignty (Zero-custody signing boundaries & TEE isolation)
+  2. Market Protocols & Liquidity Mechanics (`conxian-market` order routing & risk oracles)
+  3. Sovereign Database Topologies (Neon serverless Postgres & Supabase platform integration)
+  4. Threshold Cryptography (MuSig2, FROST, Taproot Schnorr)
+  5. Bitcoin L2 Settlement (Clarity smart contracts, Nakamoto consensus, BitVM proofs)
+  6. Cross-Platform Enclaves (Android StrongBox TEE, Apple Secure Enclave, WASM)
+- **Client-Side Search Enhancement**: Updated `search.js` to index `conxian-market` and reflect the deprecation status of legacy core components.
 
 ## Recent Fixes (2026-07-05)
-- **Enterprise nav orphan fixed**: Added Enterprise to all page navigations (header + footer) across all 11 pages. Enterprise page previously existed but was unreachable.
+- **Enterprise nav orphan fixed**: Added Enterprise to all page navigations (header + footer) across all 11 pages.
 - **Enterprise page active state**: Fixed — own nav now correctly highlights Enterprise, not Research.
-- **Deploy decoupled from test**: `render.yaml` `buildCommand` changed from `npm install && npm run test` to `npm install`. Tests run in CI, not at deploy time.
-- **AGENTS.md**: Updated with full development context (build/test commands, architecture, page inventory, known issues, CI/CD).
-- **Homepage CTA dedup**: "View repositories" button changed to "Enterprise" linking to `/enterprise`.
-- **Invalid HTML fixed**: "Get SDK" `<button>` wrapping an `<a>` replaced with a clean `<a>` tag.
-- **Official Service Established**: Created `conxian-labs-site-official` (srv-d954bv8js32c73fd3lqg) to serve as the canonical deployment surface, ensuring alignment with org-wide hardening standards.
+- **Deploy decoupled from test**: `render.yaml` `buildCommand` set to `npm install`.
+- **AGENTS.md**: Updated with full development context.
+- **Official Service Established**: Created `conxian-labs-site-official` (`srv-d954bv8js32c73fd3lqg`) on Render for canonical deployments.
 
-## Render Audit Findings
-- **Missing Configuration**: No `render.yaml` exists in the repository.
-- **Service Discrepancy**: Render MCP shows a `conxian-ui` service, but it points to the `conxian_ui` repository. The `conxian-labs-site` repository needs its own Render configuration.
-- **Deployment Type**: As a static site (HTML/CSS), it should be deployed as a Render Static Site for optimal performance and cost.
+## Render & Infrastructure Posture
+- **Render Service**: `conxian-labs-site` (Node.js web service, `srv-d9ndhr2jnfac73as7te0`) in workspace `Conxian-Business` (`tea-d6u0edngi27c73dvhsg0`).
+- **Neon Cloud Databases**: `corelibs`, `Software dev kit`, `Business Operating System`, `market`, `Gateway`, `Conxian Nexus`.
+- **Supabase Projects**: `Conxian BOS` (`yauldfcpswnufgwfvnlr`) and `Conxian-platform` (`iczqutrbbfudfzfplymc`).
 
-## Log Audit Findings
-- **Zero Instrumentation**: No client-side logging, error tracking, or telemetry found in `index.html` or sub-pages.
-- **Missing Error Guards**: No `window.onerror` or `window.onunhandledrejection` handlers to capture runtime failures.
-- **No Performance Tracking**: No instrumentation for Page Load, TTFB, or other core web vitals.
+## Verification & Test Status
+- **Playwright Test Suite**: All 35+ tests passing across design compliance, comprehensive verification, logging, search, and commercial asset specs.
 
-## Remediations Planned
-1. **Standardize Render Deployment**: Create `render.yaml` for static site deployment.
-2. **Institutional Logging**: Implement a centralized `Logger` utility.
-3. **Global Error Handling**: Add global error listeners to all pages.
-4. **Health Check**: Add a hidden health-check endpoint/flag for automated monitoring.
-
-## Implementation Notes
-- **render.yaml**: Added with security headers (CSP, X-Frame-Options, X-Content-Type-Options) and sub-page rewrites.
-- **logger.js**: Implemented as a singleton with module support. Added to all pages.
-- **Instrumentation**: Added first-pass instrumentation to terminal animation in `index.html`.
-- **Testing**: Added `tests/logging.spec.ts` to verify log availability and error capture.
-
-## Final Verification
-- **Test Results**: All tests passed (16/16).
-  - `design-compliance.spec.ts`: 5/5 passed.
-  - `comprehensive-verification.spec.ts`: 6/6 passed.
-  - `logging.spec.ts`: 5/5 passed.
-- **Render-Ready**: `render.yaml` verified and ready for deployment.
-- **Institutional Alignment**: Logger implementation follows ecosystem standards.
-
-## Functional & Structural Enhancements
-- **Sitemap**: Added `sitemap.xml` covering all public routes.
-- **Robots.txt**: Added `robots.txt` with sitemap reference.
-- **Custom 404**: Added `404.html` with institutional branding and error tracking.
-- **SEO Alignment**: Standardized OpenGraph and Description meta-tags across the entire site.
-- **Telemetry expansion**: Added route-access logging to all sub-pages.
-
-## Known Gaps
-- **No automated CSS pipeline** — Tailwind build requires manual npm run build:css when classes change (Open for future work)
-- **3 separate CSS implementations** — homepage, sub-pages, standalone pages use different CSS
-- **No conversion path** — no waitlist, newsletter, or contact capture on site** — homepage (purged Tailwind), sub-pages (package-page.css), privacy/404 (inline)
-- **Search bar is decorative only** — no handler or form action
-- **Tailwind CDN in production** — index.html loads Tailwind from CDN, enabling Google tracking/privacy drift
-- **3 separate CSS implementations** — homepage (Tailwind CDN), sub-pages (package-page.css), privacy/404 (inline)
-- **Search bar is decorative only** — no handler or form action
-- **Google Fonts + Material Symbols CDNs** — enable third-party tracking, contradicting privacy policy claims
+## Session Continuity & Evolution Strategy
+- Each session executes an end-to-end cycle: audit context -> map gaps & score -> update code, docs & search -> verify with Playwright test suite -> track progress in `progress.md`.

@@ -8,7 +8,7 @@ const COMMERCIAL_URL = `${BASE_URL}/commercial/index.html`;
 const PILOT_URL = `${BASE_URL}/commercial/pilot/index.html`;
 
 test.describe('Commercial asset pack', () => {
-    test('commercial brief covers all four public surfaces and buyer paths', async ({ page }) => {
+    test('commercial brief covers all active public surfaces and buyer paths', async ({ page }) => {
         await page.goto(COMMERCIAL_URL);
 
         await expect(page).toHaveTitle(/Commercial Brief/);
@@ -17,6 +17,7 @@ test.describe('Commercial asset pack', () => {
         await expect(page.getByRole('link', { name: 'Review packaging guidance' })).toHaveAttribute('href', '/pricing');
 
         const surfaces = [
+            ['#commercial-market', 'Market (conxian-market)', 'Active Market Surface', 'https://github.com/Conxian/conxian-market'],
             ['#commercial-gateway', 'Gateway', 'Beta / pilot-first', 'https://github.com/Conxian/conxian-gateway'],
             ['#commercial-wallet', 'Wallet', 'Stable reference client', 'https://github.com/Conxian/conxius-wallet'],
             ['#commercial-sdk', 'Conxius Enclave SDK', 'Beta / conditional', 'https://github.com/Conxian/conxius-enclave-sdk'],
@@ -33,7 +34,7 @@ test.describe('Commercial asset pack', () => {
         const mainText = await page.locator('main').innerText();
         expect(mainText).toMatch(/no generally available hosted endpoint/i);
         expect(mainText).toMatch(/no custody of funds, assets, private keys, or signing control/i);
-        expect(mainText).toMatch(/Core is.*not a paid fourth tier/i);
+        expect(mainText).toMatch(/Core is.*shared foundation/i);
         expect(mainText).toMatch(/no uptime, SLA, operational guarantee/i);
         expect(mainText).toMatch(/no fixed public price, quota, credit balance/i);
         expect(mainText).not.toMatch(/Gateway Fusion|Nexus Proofs|Sovereign Wallet/i);
@@ -121,7 +122,7 @@ test.describe('Commercial asset pack', () => {
     test('Enterprise search metadata is bounded and its Core link is safe', async ({ page }) => {
         const searchSource = fs.readFileSync(path.join(process.cwd(), 'search.js'), 'utf8');
 
-        expect(searchSource).toContain("desc: 'Deployment discovery, governance, and scoped support for Gateway, Wallet, Conxius Enclave SDK, and Core.'");
+        expect(searchSource).toContain("desc: 'Deployment discovery, governance, and scoped support for Market, Gateway, Wallet, Conxius Enclave SDK, and Core.'");
         expect(searchSource).not.toContain('Enterprise-grade solutions, institutional services, and sovereign infrastructure deployment for regulated entities.');
 
         await page.goto(`${BASE_URL}/enterprise/index.html`);

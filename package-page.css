@@ -842,3 +842,29 @@ p {
         gap: 18px;
     }
 }
+
+@media (max-width: 768px) {
+    .detail-grid {
+        grid-template-columns: 1fr;
+    }
+    .detail-card {
+        padding: 24px;
+    }
+}
+
+/* Ensure long text, URLs, and code blocks break gracefully on mobile */
+a, p, code, li, span, h1, h2, h3, h4 {
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+@media (max-width: 768px) {
+    .pricing-table-scroll {
+        max-width: 100%;
+        overflow-x: auto;
+    }
+    .notice, .hero, .section {
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+}

@@ -39,13 +39,14 @@ This repository is maintained by Conxian-Labs as the builder and operator surfac
 
 ## Relationship to the Conxian stack
 
-- [`Conxian`](https://github.com/Conxian/Conxian) is the protocol and DAO-facing core.
-- [`conxian_ui`](https://github.com/Conxian/conxian_ui) is a public interaction and interface layer.
-- [`conxius-wallet`](https://github.com/Conxian/conxius-wallet) is the sovereign wallet and reference client.
+- [`conxian-market`](https://github.com/Conxian/conxian-market) is the active market, liquidity, and asset execution engine.
 - [`conxian-gateway`](https://github.com/Conxian/conxian-gateway) is the middleware and integration surface.
 - [`conxian-nexus`](https://github.com/Conxian/conxian-nexus) is the synchronization and proof layer.
+- [`conxius-wallet`](https://github.com/Conxian/conxius-wallet) is the sovereign wallet and reference client.
 - [`conxius-platform`](https://github.com/Conxian/conxius-platform) is the platform and environment scaffolding layer.
 - [`conxius-enclave-sdk`](https://github.com/Conxian/conxius-enclave-sdk) and [`lib-conxian-core`](https://github.com/Conxian/lib-conxian-core) provide shared primitives and reusable libraries.
+- [`conxian_ui`](https://github.com/Conxian/conxian_ui) is a public interaction and interface layer.
+- **[DEPRECATED]** [`Conxian/Conxian`](https://github.com/Conxian/Conxian) is the legacy monolithic repository, now deprecated in favor of modular domain repositories (`conxian-market`, `conxian-gateway`, `conxian-nexus`).
 
 ## Naming and branding conventions
 
@@ -62,7 +63,7 @@ This repository is maintained by Conxian-Labs as the builder and operator surfac
 
 ## Deployment posture
 
-- **Authoritative production host**: Render (`conxian-labs-static-v1`), deploying from `main` at `https://www.conxian-labs.com`
+- **Authoritative production host**: Render (`conxian-labs-site`), deploying from `main` at `https://www.conxian-labs.com`
 - **GitHub Pages**: Retired for this repository. The org-level Pages surface (`conxian.github.io` → `pages.conxian-labs.com`) is a separate concern and does not carry production authority for this site.
 - Treat Gateway, Vault/KMS, and Nexus endpoint hostnames mentioned in this repository as planned or non-public unless explicitly marked active.
 - If formal GitHub releases are later adopted for the site, keep release notes aligned with deployment guidance so public readers can distinguish code changes from live-site changes.
