@@ -4,12 +4,12 @@
     <script src="../logger.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Executive and buyer brief for Conxian Labs Gateway, Wallet, Conxius Enclave SDK, and Core software surfaces.">
+    <meta name="description" content="Executive and buyer brief for Conxian Labs Market, Gateway, Wallet, Conxius Enclave SDK, and Core software surfaces.">
     <title>Conxian Labs | Commercial Brief</title>
     <link rel="canonical" href="https://www.conxian-labs.com/commercial">
     <meta property="og:url" content="https://www.conxian-labs.com/commercial">
     <meta property="og:title" content="Conxian Labs | Commercial Brief">
-    <meta property="og:description" content="A proof-first buyer brief for the public Gateway, Wallet, Conxius Enclave SDK, and Core software surfaces.">
+    <meta property="og:description" content="A proof-first buyer brief for the public Market, Gateway, Wallet, Conxius Enclave SDK, and Core software surfaces.">
     <meta property="og:image" content="https://www.conxian-labs.com/Conxian-Labs_Logo.jpg">
     <link rel="icon" href="../Conxian_Logo.jpg" type="image/jpeg">
     <link rel="stylesheet" href="../package-page.css">
@@ -52,29 +52,36 @@
         <section class="notice" aria-labelledby="posture-title">
             <div class="notice-heading">
                 <span class="status-pill status-scoped">Current public posture</span>
-                <h2 id="posture-title">Four surfaces, four honest readiness boundaries.</h2>
+                <h2 id="posture-title">Five active surfaces, honest readiness boundaries.</h2>
             </div>
             <p>The public portfolio is intentionally evidence-led. Readiness is stated per surface; a repository, demo, or local response is not by itself a hosted-service, settlement, custody, or availability commitment.</p>
             <div class="notice-grid">
+                <div>
+                    <strong>Market</strong>
+                    <span>Active market, liquidity, and asset execution engine. Legacy monolithic <code>Conxian/Conxian</code> is deprecated.</span>
+                </div>
                 <div>
                     <strong>Gateway</strong>
                     <span>Beta and pilot-first integration surface. Local and self-hosted evaluation are the current entry points.</span>
                 </div>
                 <div>
-                    <strong>Wallet</strong>
-                    <span>Stable, non-custodial, Android-first reference client for demo and integration-to-launch work.</span>
-                </div>
-                <div>
-                    <strong>SDK + Core</strong>
-                    <span>SDK is Beta/conditional; Core is live shared foundation and not a paid fourth tier.</span>
+                    <strong>Wallet & SDK + Core</strong>
+                    <span>Wallet is stable reference client; SDK is Beta/conditional; Core is live shared foundation.</span>
                 </div>
             </div>
         </section>
 
         <section class="section" id="commercial-surfaces" aria-labelledby="commercial-surfaces-title">
-            <h2 id="commercial-surfaces-title">Four public software surfaces</h2>
+            <h2 id="commercial-surfaces-title">Active public software surfaces</h2>
             <p class="section-intro">Each surface has a distinct role in evaluation and engagement. Follow the source and readiness evidence before treating a capability as a fit for a specific program.</p>
             <div class="detail-grid">
+                <article class="detail-card" id="commercial-market">
+                    <span class="status-pill status-pilot">Active Market Surface</span>
+                    <h3>Market (conxian-market)</h3>
+                    <p>Conxian Market is the active execution engine for liquidity routing, order matching, and asset settlement. It supersedes the deprecated monolithic <code>Conxian/Conxian</code> protocol core.</p>
+                    <p><strong>Evaluate now:</strong> repository source, market execution specs, and order routing verification harnesses.</p>
+                    <a class="btn btn-secondary" href="https://github.com/Conxian/conxian-market" target="_blank" rel="noopener noreferrer">Market proof source</a>
+                </article>
                 <article class="detail-card" id="commercial-gateway">
                     <span class="status-pill status-pilot">Beta / pilot-first</span>
                     <h3>Gateway</h3>
@@ -103,7 +110,7 @@
                     <span class="status-pill status-free">Live shared foundation</span>
                     <h3>Core</h3>
                     <p><code>lib-conxian-core</code> is the live shared software and credibility foundation beneath the public stack. It exposes stable API and fail-closed verification boundaries while launch and commercial gates remain in progress.</p>
-                    <p><strong>Commercial boundary:</strong> Core is shared foundation software, not a paid fourth tier or a promise that every dependent surface is ready.</p>
+                    <p><strong>Commercial boundary:</strong> Core is shared foundation software, not a paid tier or a promise that every dependent surface is ready.</p>
                     <a class="btn btn-secondary" href="https://github.com/Conxian/lib-conxian-core" target="_blank" rel="noopener noreferrer">Core proof source</a>
                 </article>
             </div>
@@ -113,7 +120,7 @@
             <h2 id="evaluate-now-title">What can be evaluated now</h2>
             <p class="section-intro">Evaluation should produce evidence that a buyer, engineering team, and security reviewer can inspect together.</p>
             <ul class="inline-list">
-                <li>Review the four source repositories and the readiness material linked from them.</li>
+                <li>Review active source repositories (including <code>conxian-market</code> and <code>conxian-gateway</code>) and readiness material linked from them.</li>
                 <li>Build and inspect the Conxius Enclave SDK locally against the documented capability boundary.</li>
                 <li>Run a Wallet reference-client or integration rehearsal on the agreed Android environment without transferring custody.</li>
                 <li>Rehearse the Gateway developer path locally or against an instance explicitly provided for a pilot.</li>
@@ -127,7 +134,7 @@
                 <strong>Buyer boundary:</strong> Public source and a successful local rehearsal do not create a commercial entitlement or readiness certification.
             </div>
             <ul class="inline-list">
-                <li>No generally available hosted Gateway endpoint or production settlement service is represented.</li>
+                <li>No generally available hosted Gateway or Market endpoint or production settlement service is represented.</li>
                 <li>No custody of funds, assets, private keys, or signing control is represented.</li>
                 <li>No blanket provider enablement, adapter coverage, mainnet proof, or production-readiness claim is represented.</li>
                 <li>No uptime, SLA, operational guarantee, support response target, or compliance commitment exists unless written for the engagement.</li>
@@ -162,7 +169,8 @@
         <section class="section" id="proof-links" aria-labelledby="proof-links-title">
             <h2 id="proof-links-title">Proof links</h2>
             <ul class="inline-list">
-                <li><a href="https://github.com/Conxian/conxian-gateway" target="_blank" rel="noopener noreferrer">Conxian Gateway repository</a> — current source, sandbox, and readiness context.</li>
+                <li><a href="https://github.com/Conxian/conxian-market" target="_blank" rel="noopener noreferrer">Conxian Market repository</a> — market, liquidity, and asset execution source.</li>
+                <li><a href="https://github.com/Conxian/conxian-gateway" target="_blank" rel="noopener noreferrer">Conxian Gateway repository</a> — current middleware source, sandbox, and readiness context.</li>
                 <li><a href="https://github.com/Conxian/conxius-wallet" target="_blank" rel="noopener noreferrer">Conxius Wallet repository</a> — reference client, release, and security context.</li>
                 <li><a href="https://github.com/Conxian/conxius-enclave-sdk" target="_blank" rel="noopener noreferrer">Conxius Enclave SDK repository</a> — capability matrix and production-enablement boundaries.</li>
                 <li><a href="https://github.com/Conxian/lib-conxian-core" target="_blank" rel="noopener noreferrer">lib-conxian-core repository</a> — shared primitives, API, and fail-closed boundaries.</li>

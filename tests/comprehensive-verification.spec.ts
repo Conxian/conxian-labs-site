@@ -76,6 +76,13 @@ test.describe('Conxian Labs Comprehensive Site Verification', () => {
         }
     });
 
+    test('docs page should state conxian-market and deprecation posture', async ({ page }) => {
+        await page.goto(`${BASE_URL}/docs/index.html`);
+        await expect(page.locator('main')).toContainText('conxian-market');
+        await expect(page.locator('main')).toContainText('Conxian/Conxian');
+        await expect(page.locator('main')).toContainText('deprecated');
+    });
+
     test('mobile navigation should open and close', async ({ page }) => {
         await page.setViewportSize({ width: 375, height: 667 });
         await page.goto(`${BASE_URL}/index.html`);
