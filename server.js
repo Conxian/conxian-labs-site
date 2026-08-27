@@ -66,6 +66,26 @@ app.get("/api/health", (req, res) => {
   });
 });
 
+app.get("/api/services", (req, res) => {
+  res.json({
+    platform: "Conxian Business-as-a-Platform (BaaP)",
+    status: "operational",
+    architecture: "Modular Sovereign Infrastructure Layer",
+    coreServices: [
+      { name: "Conxian Market", repo: "Conxian/conxian-market", type: "Liquidity & Execution Engine", status: "Active" },
+      { name: "Conxian Gateway", repo: "Conxian/conxian-gateway", type: "Middleware & Access Control", status: "Active" },
+      { name: "Conxian Nexus", repo: "Conxian/conxian-nexus", type: "Risk Oracle & Proof Layer", status: "Active" },
+      { name: "Conxius Wallet", repo: "Conxian/conxius-wallet", type: "Non-Custodial Reference Client", status: "Active" },
+      { name: "Conxius Enclave SDK", repo: "Conxian/conxius-enclave-sdk", type: "Cross-Platform Signing Abstraction", status: "Active" }
+    ],
+    infrastructureTopology: {
+      renderHost: "conxian-labs-site (srv-d9ndhr2jnfac73as7te0)",
+      neonDatabases: ["corelibs", "Software dev kit", "Business Operating System", "market", "Gateway", "Conxian Nexus"],
+      supabaseProjects: ["Conxian BOS (yauldfcpswnufgwfvnlr)", "Conxian-platform (iczqutrbbfudfzfplymc)"]
+    }
+  });
+});
+
 app.get("/api/site-map", (req, res) => {
   const routes = pageMetadata.map(p => ({
     route: `/${p.route}`,
