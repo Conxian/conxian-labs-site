@@ -75,6 +75,28 @@ This repository is maintained by Conxian-Labs as the builder and operator surfac
 - Vault/KMS (planned/non-public): `https://vault.conxian-labs.com`
 - Nexus (planned/non-public): `https://nexus.conxian-labs.com`
 
+
+## Business-as-a-Platform (BaaP) Architecture
+
+Conxian operates as an integrated **Business-as-a-Platform (BaaP)** ecosystem powering sovereign autonomous business execution, risk management, asset settlement, and cryptographic trust boundaries.
+
+### Domain Posture Alignment
+- **`conxian.com`**: Primary Protocol, DAO-facing, & Business-as-a-Platform Governance Hub.
+- **`conxian-labs.com`**: Builder, Operator, Enterprise Solutions, & Infrastructure Support Layer.
+
+### 6 Core Platform Service Pillars
+1. **Business Operating System (BOS)**: Sovereign Autonomous Business (SAB) execution engine, state orchestration, and enterprise workflow governance.
+2. **Conxian Nexus**: Decentralized risk oracle, real-time risk verification, compliance monitoring, and cross-chain state proof layer.
+3. **Gateway (Fusion & Sentinel)**: High-throughput API middleware, unified JWT/Enclave authentication (`Fusion`), and secret filtering (`Sentinel`).
+4. **Conxian Market**: Nakamoto-ready settlement engine, sovereign asset exchange, and liquidity management.
+5. **Conxius Enclave SDK**: Cross-platform enclave key management and hardware attestation interface (MuSig2, Schnorr, Taproot, BitVM, Android TEE, Apple Secure Enclave, WASM).
+6. **Corelibs**: Shared cryptographic primitives, security specifications, and core protocol libraries (`lib-conxian-core`).
+
+### Dynamic API Discovery Endpoints
+- `GET /api/health`: Platform runtime health, Node version, and deployment status.
+- `GET /api/site-map`: Programmatic route directory across all public surfaces.
+- `GET /api/services`: Live BaaP service pillar directory and operational capabilities.
+
 ## Technical architecture
 
 - Static HTML5 / CSS3 / Vanilla JavaScript
