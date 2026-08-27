@@ -19,10 +19,34 @@
 - **AGENTS.md**: Updated with full development context.
 - **Official Service Established**: Created `conxian-labs-site-official` (`srv-d954bv8js32c73fd3lqg`) on Render for canonical deployments.
 
-## Render & Infrastructure Posture
-- **Render Service**: `conxian-labs-site` (Node.js web service, `srv-d9ndhr2jnfac73as7te0`) in workspace `Conxian-Business` (`tea-d6u0edngi27c73dvhsg0`).
-- **Neon Cloud Databases**: `corelibs`, `Software dev kit`, `Business Operating System`, `market`, `Gateway`, `Conxian Nexus`.
-- **Supabase Projects**: `Conxian BOS` (`yauldfcpswnufgwfvnlr`) and `Conxian-platform` (`iczqutrbbfudfzfplymc`).
+## Org-Wide Service & Infrastructure Topology Audit (2026-08-27)
+- **Production Web Hosting (Render)**:
+  - Active Primary Web Service: `conxian-labs-site` (`srv-d9ndhr2jnfac73as7te0`), Oregon (`us-west-1`), Node.js runtime (`npm start`), workspace `My Workspace` (`tea-d4ufhh8gjchc73c80mu0`), live URL: `https://conxian-labs-site-xhqq.onrender.com`.
+  - Preview Web Service: `conxian-labs-site PR #64` (`srv-da82godbedkc73eqbsj0`).
+- **Neon Cloud Postgres Infrastructure** (Org `org-silent-sun-00457600`):
+  1. `corelibs` (`sparkling-sunset-69236559`) — PG 18, `aws-us-east-2`.
+  2. `Software dev kit` (`weathered-night-98492579`) — PG 18, `aws-us-east-2`.
+  3. `Business Operating System` (`noisy-flower-17484435`) — PG 18, `aws-us-east-2`.
+  4. `market` (`small-math-44741750`) — PG 18, `aws-eu-central-1`.
+  5. `Gateway` (`noisy-cloud-41146057`) — PG 18, `aws-ap-southeast-1`.
+  6. `Conxian Nexus` (`orange-paper-76209725`) — PG 17, `aws-eu-central-1`.
+- **Site Core Architecture & Public Surfaces**:
+  - Express.js dynamic web server (`server.js`) serving 15 clean public routes (`/`, `/sdk`, `/docs`, `/pricing`, `/partners`, `/operators`, `/enterprise`, `/research`, `/terms`, `/about`, `/security`, `/privacy`, `/commercial`, `/commercial/pilot`, `/404.html`).
+  - Client-side zero-dependency search engine (`search.js`) indexing all 15 public surfaces.
+  - Telemetry logging engine (`logger.js`) capturing route loads, terminal hash cycling, and client errors.
+  - Institutional styling via `package-page.css` and shared CSS (`css/common.css`), enforcing "Ivory Foundation" palette (#FDFBF7 canvas, #121212 text, #C25E00 accent).
+
+## Systemic API & Sitemap Upgrades (2026-08-27)
+- **CI Fix (`server.js`)**: Defined `staticPages` array alias for `pageMetadata` to prevent runtime `ReferenceError` during `/api/site-map` dynamic evaluation.
+- **Express Server Realignment (`server.js`)**:
+  - Upgraded `/api/health` to serve uptime, process node version, environment, service name, and ecosystem database topology mapping.
+  - Upgraded `/api/site-map` to dynamically serve descriptions, route priorities, and total surface counts across all 14 public routes.
+- **XML Sitemap Standardization (`sitemap.xml`)**:
+  - Reformatted XML structure with standard 2-space indentation, updated `<lastmod>` timestamps to 2026-08-27, and ensured uniform `<changefreq>` and `<priority>` fields.
+- **Automated Verification Expansion (`tests/comprehensive-verification.spec.ts`)**:
+  - Added Playwright test cases validating JSON schema and response data for `/api/health` and `/api/site-map`.
+  - Added Playwright test case validating XML formatting and route coverage for `sitemap.xml`.
+  - Executed full test suite: **39/39 Playwright tests passing**.
 
 ## Verification & Test Status
 - **Playwright Test Suite**: All 35+ tests passing across design compliance, comprehensive verification, logging, search, and commercial asset specs.

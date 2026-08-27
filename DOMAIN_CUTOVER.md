@@ -4,7 +4,7 @@
 
 To serve all services correctly from a **Business-as-a-Platform (BaaP)** operational perspective, the organization enforces a strict domain topology that separates the **Protocol / Governance Layer** from the **Builder / Operator Layer**:
 
-*   **`conxian.com` / `conxian.org` (Protocol & BaaP Governance Hub)**:
+*   **`conxian.org` (Protocol & Ecosystem Governance Portal)**:
     - **Identity**: Sovereign Protocol, DAO Governance, BaaP Orchestration Hub, On-chain Settlement, and Public Identity.
     - **Routing Target**: Serves protocol specifications, DAO governance portals, ecosystem registry, and public discovery endpoints.
 *   **`conxian-labs.com` (Builder & Operator Layer)**:
