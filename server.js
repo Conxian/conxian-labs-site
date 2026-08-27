@@ -66,32 +66,64 @@ app.get("/api/health", (req, res) => {
   });
 });
 
-app.get("/api/services", (req, res) => {
+app.get('/api/services', (req, res) => {
   res.json({
-    platform: "Conxian Business-as-a-Platform (BaaP)",
-    status: "operational",
-    architecture: "Modular Sovereign Infrastructure Layer",
-    coreServices: [
-      { name: "Conxian Market", repo: "Conxian/conxian-market", type: "Liquidity & Execution Engine", status: "Active" },
-      { name: "Conxian Gateway", repo: "Conxian/conxian-gateway", type: "Middleware & Access Control", status: "Active" },
-      { name: "Conxian Nexus", repo: "Conxian/conxian-nexus", type: "Risk Oracle & Proof Layer", status: "Active" },
-      { name: "Conxius Wallet", repo: "Conxian/conxius-wallet", type: "Non-Custodial Reference Client", status: "Active" },
-      { name: "Conxius Enclave SDK", repo: "Conxian/conxius-enclave-sdk", type: "Cross-Platform Signing Abstraction", status: "Active" }
-    ],
-    infrastructureTopology: {
-      renderHost: "conxian-labs-site (srv-d9ndhr2jnfac73as7te0)",
-      neonDatabases: ["corelibs", "Software dev kit", "Business Operating System", "market", "Gateway", "Conxian Nexus"],
-      supabaseProjects: ["Conxian BOS (yauldfcpswnufgwfvnlr)", "Conxian-platform (iczqutrbbfudfzfplymc)"]
-    }
+    platform: 'Conxian Business-as-a-Platform (BaaP)',
+    domains: {
+      governance: 'conxian.com',
+      operator: 'conxian-labs.com'
+    },
+    services: [
+      {
+        id: 'bos',
+        name: 'Business Operating System (BOS)',
+        description: 'Sovereign Autonomous Business execution engine, state orchestration, and enterprise workflow governance.',
+        status: 'active',
+        route: '/enterprise'
+      },
+      {
+        id: 'nexus',
+        name: 'Conxian Nexus Risk Oracle',
+        description: 'Decentralized risk oracle, real-time verification, compliance monitoring, and cross-chain state proofs.',
+        status: 'active',
+        route: '/research'
+      },
+      {
+        id: 'gateway',
+        name: 'Gateway (Fusion & Sentinel)',
+        description: 'High-throughput API middleware, unified JWT/Enclave authentication (Fusion), and secret filtering (Sentinel).',
+        status: 'active',
+        route: '/docs'
+      },
+      {
+        id: 'market',
+        name: 'Conxian Market Settlement Engine',
+        description: 'Nakamoto-ready settlement engine, sovereign asset exchange, and liquidity pool management.',
+        status: 'active',
+        route: '/commercial'
+      },
+      {
+        id: 'sdk',
+        name: 'Conxius Enclave SDK',
+        description: 'Cross-platform enclave key management and hardware attestation interface (MuSig2, Schnorr, Taproot, BitVM, TEE).',
+        status: 'active',
+        route: '/sdk'
+      },
+      {
+        id: 'corelibs',
+        name: 'Corelibs Cryptographic Library',
+        description: 'Shared cryptographic primitives, security specifications, and core protocol libraries (lib-conxian-core).',
+        status: 'active',
+        route: '/docs'
+      }
+    ]
   });
 });
 
-app.get("/api/site-map", (req, res) => {
-  const routes = pageMetadata.map(p => ({
-    route: `/${p.route}`,
-    title: p.title,
-    description: p.desc,
-    priority: p.priority
+app.get('/api/site-map', (req, res) => {
+  const routes = staticPages.map(r => ({
+    route: `/${r}`,
+    title: r ? r.charAt(0).toUpperCase() + r.slice(1) : 'Home',
   }));
   res.json({ routes, total: routes.length });
 });
