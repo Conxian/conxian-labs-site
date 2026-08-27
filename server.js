@@ -35,6 +35,8 @@ const pageMetadata = [
   { route: "terms", title: "Terms of Service", desc: "Legal terms governing infrastructure use", priority: 0.3 }
 ];
 
+const staticPages = pageMetadata.map(p => p.route);
+
 for (const p of pageMetadata) {
   const indexPath = path.join(__dirname, p.route, "index.html");
   if (fs.existsSync(indexPath)) {
@@ -66,64 +68,36 @@ app.get("/api/health", (req, res) => {
   });
 });
 
-app.get('/api/services', (req, res) => {
+app.get("/api/services", (req, res) => {
   res.json({
-    platform: 'Conxian Business-as-a-Platform (BaaP)',
+    platform: "Conxian Business-as-a-Platform (BaaP)",
+    status: "operational",
     domains: {
-      governance: 'conxian.com',
-      operator: 'conxian-labs.com'
+      governance: "conxian.com",
+      operator: "conxian-labs.com"
     },
     services: [
-      {
-        id: 'bos',
-        name: 'Business Operating System (BOS)',
-        description: 'Sovereign Autonomous Business execution engine, state orchestration, and enterprise workflow governance.',
-        status: 'active',
-        route: '/enterprise'
-      },
-      {
-        id: 'nexus',
-        name: 'Conxian Nexus Risk Oracle',
-        description: 'Decentralized risk oracle, real-time verification, compliance monitoring, and cross-chain state proofs.',
-        status: 'active',
-        route: '/research'
-      },
-      {
-        id: 'gateway',
-        name: 'Gateway (Fusion & Sentinel)',
-        description: 'High-throughput API middleware, unified JWT/Enclave authentication (Fusion), and secret filtering (Sentinel).',
-        status: 'active',
-        route: '/docs'
-      },
-      {
-        id: 'market',
-        name: 'Conxian Market Settlement Engine',
-        description: 'Nakamoto-ready settlement engine, sovereign asset exchange, and liquidity pool management.',
-        status: 'active',
-        route: '/commercial'
-      },
-      {
-        id: 'sdk',
-        name: 'Conxius Enclave SDK',
-        description: 'Cross-platform enclave key management and hardware attestation interface (MuSig2, Schnorr, Taproot, BitVM, TEE).',
-        status: 'active',
-        route: '/sdk'
-      },
-      {
-        id: 'corelibs',
-        name: 'Corelibs Cryptographic Library',
-        description: 'Shared cryptographic primitives, security specifications, and core protocol libraries (lib-conxian-core).',
-        status: 'active',
-        route: '/docs'
-      }
-    ]
+      { id: "bos", name: "Business Operating System (BOS)", type: "State Orchestration & Governance", status: "active", route: "/enterprise" },
+      { id: "nexus", name: "Conxian Nexus Risk Oracle", type: "Decentralized Proof & Oracle Layer", status: "active", route: "/research" },
+      { id: "gateway", name: "Gateway (Fusion & Sentinel)", type: "Middleware & Access Control", status: "active", route: "/docs" },
+      { id: "market", name: "Conxian Market Settlement Engine", type: "Nakamoto-Ready Liquidity Engine", status: "active", route: "/commercial" },
+      { id: "sdk", name: "Conxius Enclave SDK", type: "Cross-Platform Hardware Signing Abstraction", status: "active", route: "/sdk" },
+      { id: "corelibs", name: "Corelibs Cryptographic Library", type: "Shared Protocol Cryptographic Primitives", status: "active", route: "/docs" }
+    ],
+    infrastructureTopology: {
+      renderHost: "conxian-labs-site (srv-d9ndhr2jnfac73as7te0)",
+      neonDatabases: ["corelibs", "Software dev kit", "Business Operating System", "market", "Gateway", "Conxian Nexus"],
+      supabaseProjects: ["Conxian BOS (yauldfcpswnufgwfvnlr)", "Conxian-platform (iczqutrbbfudfzfplymc)"]
+    }
   });
 });
 
-app.get('/api/site-map', (req, res) => {
-  const routes = staticPages.map(r => ({
-    route: `/${r}`,
-    title: r ? r.charAt(0).toUpperCase() + r.slice(1) : 'Home',
+app.get("/api/site-map", (req, res) => {
+  const routes = pageMetadata.map(p => ({
+    route: `/${p.route}`,
+    title: p.title,
+    description: p.desc,
+    priority: p.priority
   }));
   res.json({ routes, total: routes.length });
 });

@@ -37,6 +37,7 @@
   - Institutional styling via `package-page.css` and shared CSS (`css/common.css`), enforcing "Ivory Foundation" palette (#FDFBF7 canvas, #121212 text, #C25E00 accent).
 
 ## Systemic API & Sitemap Upgrades (2026-08-27)
+- **CI Fix (`server.js`)**: Defined `staticPages` array alias for `pageMetadata` to prevent runtime `ReferenceError` during `/api/site-map` dynamic evaluation.
 - **Express Server Realignment (`server.js`)**:
   - Upgraded `/api/health` to serve uptime, process node version, environment, service name, and ecosystem database topology mapping.
   - Upgraded `/api/site-map` to dynamically serve descriptions, route priorities, and total surface counts across all 14 public routes.
