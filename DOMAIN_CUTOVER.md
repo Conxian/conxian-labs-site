@@ -4,10 +4,10 @@
 
 To serve all services correctly from a **Business-as-a-Platform (BaaP)** operational perspective, the organization enforces a strict domain topology that separates the **Protocol / Governance Layer** from the **Builder / Operator Layer**:
 
-*   **`conxian.com` (Protocol & Ecosystem Domain)**:
-    - **Identity**: Sovereign Protocol, DAO Governance, On-chain Settlement, and Public Identity.
-    - **Routing Target**: Serves protocol specifications, DAO governance portals, and public discovery endpoints.
-*   **`conxian-labs.com` (Builder & Operator Surface)**:
+*   **`conxian.com` / `conxian.org` (Protocol & BaaP Governance Hub)**:
+    - **Identity**: Sovereign Protocol, DAO Governance, BaaP Orchestration Hub, On-chain Settlement, and Public Identity.
+    - **Routing Target**: Serves protocol specifications, DAO governance portals, ecosystem registry, and public discovery endpoints.
+*   **`conxian-labs.com` (Builder & Operator Layer)**:
     - **Identity**: Conxian Labs — Builder, Operator, Enterprise Integrator, and Portfolio Host.
     - **Routing Target**: Serves institutional SDK distribution, commercial pilot onboarding, developer documentation, and active web services hosted on Render.
 
@@ -17,7 +17,8 @@ To serve all services correctly from a **Business-as-a-Platform (BaaP)** operati
 
 | Domain / Subdomain | Target Service / Host | Infrastructure Provider | Status & Purpose |
 | :--- | :--- | :--- | :--- |
-| `conxian.com` | Protocol Apex Router | DNS / Edge Gateway | Protocol identity, DAO portal, apex routing |
+| `conxian.com` | Protocol Apex Router | DNS / Edge Gateway | Protocol & BaaP Governance Hub, DAO portal, apex routing |
+| `conxian.org` | Ecosystem Portal | DNS / Edge Gateway | Ecosystem directory & public protocol hub |
 | `www.conxian.com` | Ecosystem Entry | DNS / Edge Gateway | Public protocol & ecosystem landing |
 | `conxian-labs.com` | `conxian-labs-site` | Render (`srv-d9ndhr2jnfac73as7te0`) | Apex redirect to `www.conxian-labs.com` |
 | `www.conxian-labs.com` | `conxian-labs-site` | Render (`srv-d9ndhr2jnfac73as7te0`) | **Authoritative Live Web Service** (Node.js/Express) |
