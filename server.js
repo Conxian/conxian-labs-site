@@ -1,7 +1,7 @@
-const express = require('express');
-const compression = require('compression');
-const path = require('path');
-const fs = require('fs');
+const express = require("express");
+const compression = require("compression");
+const path = require("path");
+const fs = require("fs");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -9,25 +9,36 @@ const PORT = process.env.PORT || 3000;
 app.use(compression());
 
 app.use((req, res, next) => {
-  res.setHeader('X-Frame-Options', 'DENY');
-  res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
-  res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
-  res.setHeader('Content-Security-Policy',
+  res.setHeader("X-Frame-Options", "DENY");
+  res.setHeader("X-Content-Type-Options", "nosniff");
+  res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
+  res.setHeader("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
+  res.setHeader("Content-Security-Policy",
     "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self';");
   next();
 });
 
-const staticPages = [
-  '', 'sdk', 'docs', 'pricing', 'partners', 'operators',
-  'enterprise', 'research', 'terms', 'about', 'security', 'privacy',
-  'commercial', 'commercial/pilot'
+const pageMetadata = [
+  { route: "", title: "Home", desc: "Proof-first software stack for the Conxian ecosystem", priority: 1.0 },
+  { route: "sdk", title: "SDK — Conxius Enclave SDK", desc: "Cross-platform enclave and key-management boundaries", priority: 0.9 },
+  { route: "docs", title: "Docs — Documentation", desc: "Technical documentation for the Conxian ecosystem", priority: 0.8 },
+  { route: "pricing", title: "Pricing & Packaging", desc: "Commercial packaging and plan matrix", priority: 0.7 },
+  { route: 'commercial', title: "Commercial Brief", desc: "Executive buyer brief and ecosystem readiness", priority: 0.8 },
+  { route: 'commercial/pilot', title: "Scoped Pilot Brief", desc: "Bounded pilot narrative and evaluation criteria", priority: 0.8 },
+  { route: "partners", title: "Partners", desc: "Ecosystem partners and collaborative initiatives", priority: 0.6 },
+  { route: "operators", title: "Operators", desc: "Node operators and infrastructure providers", priority: 0.6 },
+  { route: "enterprise", title: "Enterprise", desc: "Institutional deployment discovery and governance", priority: 0.6 },
+  { route: "research", title: "Research", desc: "Research surfaces and cryptographic papers", priority: 0.6 },
+  { route: "about", title: "About — Conxian Labs", desc: "Builder and operator layer around Conxian", priority: 0.5 },
+  { route: "security", title: "Security — Conxian Labs", desc: "Security posture and vulnerability disclosure", priority: 0.5 },
+  { route: "privacy", title: "Privacy Policy", desc: "Data protection and privacy commitments", priority: 0.3 },
+  { route: "terms", title: "Terms of Service", desc: "Legal terms governing infrastructure use", priority: 0.3 }
 ];
 
-for (const route of staticPages) {
-  const indexPath = path.join(__dirname, route, 'index.html');
+for (const p of pageMetadata) {
+  const indexPath = path.join(__dirname, p.route, "index.html");
   if (fs.existsSync(indexPath)) {
-    app.get(`/${route}`, (req, res) => {
+    app.get(`/${p.route}`, (req, res) => {
       res.sendFile(indexPath);
     });
   }
@@ -35,30 +46,39 @@ for (const route of staticPages) {
 
 app.use(express.static(path.join(__dirname), {
   index: false,
-  dotfiles: 'deny',
+  dotfiles: "deny",
 }));
 
 // Dynamic API endpoints
-app.get('/api/health', (req, res) => {
+app.get("/api/health", (req, res) => {
   res.json({
-    status: 'healthy',
+    status: "healthy",
+    service: "conxian-labs-site",
     timestamp: new Date().toISOString(),
-    version: require('./package.json').version,
+    uptime: process.uptime(),
+    environment: process.env.NODE_ENV || "development",
+    version: require("./package.json").version,
     node: process.version,
+    infrastructure: {
+      provider: "Render",
+      databases: ["corelibs", "Software dev kit", "Business Operating System", "market", "Gateway", "Conxian Nexus"]
+    }
   });
 });
 
-app.get('/api/site-map', (req, res) => {
-  const routes = staticPages.map(r => ({
-    route: `/${r}`,
-    title: r ? r.charAt(0).toUpperCase() + r.slice(1) : 'Home',
+app.get("/api/site-map", (req, res) => {
+  const routes = pageMetadata.map(p => ({
+    route: `/${p.route}`,
+    title: p.title,
+    description: p.desc,
+    priority: p.priority
   }));
-  res.json({ routes });
+  res.json({ routes, total: routes.length });
 });
 
 // SPA-style fallback for 404
 app.use((req, res) => {
-  res.status(404).sendFile(path.join(__dirname, '404.html'));
+  res.status(404).sendFile(path.join(__dirname, "404.html"));
 });
 
 app.listen(PORT, () => {

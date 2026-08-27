@@ -229,4 +229,43 @@ test.describe('Conxian Labs Comprehensive Site Verification', () => {
         await page.goto(`${BASE_URL}/index.html`);
         await expect(searchBar).toBeVisible();
     });
+    test("server API endpoints /api/health and /api/site-map structure", async ({ request }) => {
+        // Express app module testing via API request context or local server spawn
+        const server = require("../server.js");
+        const http = require("http");
+
+        await new Promise((resolve) => {
+            const s = http.createServer(server);
+            s.listen(0, async () => {
+                const port = s.address().port;
+
+                // Test /api/health
+                const healthRes = await fetch(`http://localhost:${port}/api/health`);
+                expect(healthRes.status).toBe(200);
+                const healthJson = await healthRes.json();
+                expect(healthJson.status).toBe("healthy");
+                expect(healthJson.service).toBe("conxian-labs-site");
+                expect(healthJson.infrastructure.provider).toBe("Render");
+                expect(healthJson.infrastructure.databases).toContain("market");
+
+                // Test /api/site-map
+                const mapRes = await fetch(`http://localhost:${port}/api/site-map`);
+                expect(mapRes.status).toBe(200);
+                const mapJson = await mapRes.json();
+                expect(mapJson.total).toBe(14);
+                expect(mapJson.routes.some(r => r.route === "/commercial/pilot")).toBe(true);
+
+                s.close(resolve);
+            });
+        });
+    });
+
+    test("sitemap.xml has valid formatting and covers all 14 surfaces", async () => {
+        const sitemapContent = fs.readFileSync(path.join(process.cwd(), "sitemap.xml"), "utf8");
+        expect(sitemapContent).toContain('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">');
+        expect(sitemapContent).toContain("<loc>https://www.conxian-labs.com/commercial/pilot</loc>");
+        expect(sitemapContent).toContain("<lastmod>2026-08-27</lastmod>");
+        const urlCount = (sitemapContent.match(/<url>/g) || []).length;
+        expect(urlCount).toBe(14);
+    });
 });
