@@ -1,5 +1,10 @@
 # Conxian Labs Site Remediation & Ecosystem Alignment Progress
 
+## Org-Wide Asset Purge & Active Modular Core Alignment (2026-09-12)
+- **Deleted Asset Purge**: Purged all lingering references and deprecation notices for deleted legacy assets (`Conxian/Conxian` and `stackorbit`/`stacksorbit`) across `README.md`, `docs/index.html`, `research/index.html`, `commercial/index.html`, and `search.js`.
+- **Active Modular Core Focus**: Refocused all site surfaces exclusively on the active modular stack (`lib-conxian-core`, `conxian-gateway`, `conxian-nexus`, `conxian-market`, and `conxian-business`).
+- **Test Suite Realignment**: Updated Playwright test suites (`tests/comprehensive-verification.spec.ts` and `tests/search-functionality.spec.ts`) to verify active modular stack components instead of deleted legacy assets. All 39 Playwright tests passing.
+
 ## Recent Ecosystem Alignment & Research Evolution (2026-08-20)
 - **Legacy Monolith Deprecation**: Formally deprecated `Conxian/Conxian` in favor of modular domain repositories (`conxian-market`, `conxian-gateway`, `conxian-nexus`). Updated `README.md`, `docs/index.html`, `commercial/index.html`, `research/index.html`, and `search.js`.
 - **Market Surface Integration**: Registered `conxian-market` as the active execution and liquidity engine across public docs, commercial briefs, search index, and testing harnesses.

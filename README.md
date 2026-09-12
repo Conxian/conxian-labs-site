@@ -46,7 +46,6 @@ This repository is maintained by Conxian-Labs as the builder and operator surfac
 - [`conxius-platform`](https://github.com/Conxian/conxius-platform) is the platform and environment scaffolding layer.
 - [`conxius-enclave-sdk`](https://github.com/Conxian/conxius-enclave-sdk) and [`lib-conxian-core`](https://github.com/Conxian/lib-conxian-core) provide shared primitives and reusable libraries.
 - [`conxian_ui`](https://github.com/Conxian/conxian_ui) is a public interaction and interface layer.
-- **[DEPRECATED]** [`Conxian/Conxian`](https://github.com/Conxian/Conxian) is the legacy monolithic repository, now deprecated in favor of modular domain repositories (`conxian-market`, `conxian-gateway`, `conxian-nexus`).
 
 ## Naming and branding conventions
 
