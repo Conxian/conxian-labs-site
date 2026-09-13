@@ -1,6 +1,16 @@
+# Dependencies
 node_modules/
+
+# OS and system files
 .DS_Store
+
+# Environment and secrets
 .env
+.env.*
+!.env.example
+!.env.*.example
+
+# Test and build artifacts
 playwright-report/
 test-results/
 verify_styles.py
