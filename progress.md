@@ -58,3 +58,13 @@
 
 ## Session Continuity & Evolution Strategy
 - Each session executes an end-to-end cycle: audit context -> map gaps & score -> update code, docs & search -> verify with Playwright test suite -> track progress in `progress.md`.
+
+## Master Reconnaissance & Architecture Review Completed (2026-09-15)
+- **Strict Domain Separation Enforced**:
+  - `conxian.org` (Protocol & Open-Source Surface): `nexus.conxian.org`, `gateway.conxian.org`, `sdk.conxian.org`, `platform.conxian.org`, `market.conxian.org`.
+  - `conxian-labs.com` (Corporate & B2B Operations Surface): `bos.conxian-labs.com`, `www.conxian-labs.com`.
+  - Updated `DOMAIN_CUTOVER.md`, `README.md`, and Express dynamic server API (`server.js` `/api/services`).
+- **12-Repo Topology Baseline Established**: Indexed `lib-conxian-core`, `conxian-nexus`, `conxian-gateway`, `conxius-enclave-sdk`, `conxius-platform`, `conxian-market`, `conxian-business`, `conxius-wallet`, `conxian_ui`, `conxian-labs-site`, `conxius-docs`, and `conxian-infrastructure`.
+- **Platform Dependency Review**: Mapped Rust primitive dependencies across core repos and verified pure Bitcoin L1 + ISO 20022 + Stacks L2 settlement posture.
+- **B2B Deployment Simulation**: Defined end-to-end client journey, `.env` flags, ISO 20022 message transformation flow, and specified `conxian-cli` pre-flight validator.
+- **Verification**: Executed 39/39 Playwright tests successfully.

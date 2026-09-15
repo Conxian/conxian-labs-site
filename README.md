@@ -67,12 +67,20 @@ This repository is maintained by Conxian-Labs as the builder and operator surfac
 - Treat Gateway, Vault/KMS, and Nexus endpoint hostnames mentioned in this repository as planned or non-public unless explicitly marked active.
 - If formal GitHub releases are later adopted for the site, keep release notes aligned with deployment guidance so public readers can distinguish code changes from live-site changes.
 
-## Service endpoints
+## Service Endpoints & Strict Domain Routing
 
-- Public status: Gateway, Vault/KMS, and Nexus endpoint hostnames are currently not publicly active/resolvable and should be treated as planned/non-public endpoints.
-- Gateway (planned/non-public): `https://gateway.conxian-labs.com`
-- Vault/KMS (planned/non-public): `https://vault.conxian-labs.com`
-- Nexus (planned/non-public): `https://nexus.conxian-labs.com`
+Conxian maintains a strict legal and architectural firewall separating the open-source protocol distribution surface (`conxian.org`) from the corporate B2B entity (`conxian-labs.com`):
+
+### Protocol & Developer Surface (`conxian.org`)
+- `nexus.conxian.org`: `conxian-nexus` (Decentralized Risk Oracle & Proof Synchronization)
+- `gateway.conxian.org`: `conxian-gateway` (Middleware, Fusion Auth & Sentinel Secret Filter)
+- `sdk.conxian.org`: `conxius-enclave-sdk` (Hardware Enclave Key Management & Signing SDK)
+- `platform.conxian.org`: `conxius-platform` (Platform Environment & Container Orchestration)
+- `market.conxian.org`: `conxian_market` (Nakamoto-Ready Settlement & Liquidity Engine)
+
+### Corporate & Operations Surface (`conxian-labs.com`)
+- `bos.conxian-labs.com`: `conxian-business` (Business Operating System Execution Engine)
+- `www.conxian-labs.com`: `conxian-labs-site` (Authoritative Builder & Operator Surface on Render)
 
 
 ## Business-as-a-Platform (BaaP) Architecture
