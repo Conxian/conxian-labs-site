@@ -1,5 +1,10 @@
 # Conxian Labs Site Remediation & Ecosystem Alignment Progress
 
+## Org-Wide Asset Purge & Active Modular Core Alignment (2026-09-12)
+- **Deleted Asset Purge**: Purged all lingering references and deprecation notices for deleted legacy assets (`Conxian/Conxian` and `stackorbit`/`stacksorbit`) across `README.md`, `docs/index.html`, `research/index.html`, `commercial/index.html`, and `search.js`.
+- **Active Modular Core Focus**: Refocused all site surfaces exclusively on the active modular stack (`lib-conxian-core`, `conxian-gateway`, `conxian-nexus`, `conxian-market`, and `conxian-business`).
+- **Test Suite Realignment**: Updated Playwright test suites (`tests/comprehensive-verification.spec.ts` and `tests/search-functionality.spec.ts`) to verify active modular stack components instead of deleted legacy assets. All 39 Playwright tests passing.
+
 ## Recent Ecosystem Alignment & Research Evolution (2026-08-20)
 - **Legacy Monolith Deprecation**: Formally deprecated `Conxian/Conxian` in favor of modular domain repositories (`conxian-market`, `conxian-gateway`, `conxian-nexus`). Updated `README.md`, `docs/index.html`, `commercial/index.html`, `research/index.html`, and `search.js`.
 - **Market Surface Integration**: Registered `conxian-market` as the active execution and liquidity engine across public docs, commercial briefs, search index, and testing harnesses.
@@ -53,3 +58,13 @@
 
 ## Session Continuity & Evolution Strategy
 - Each session executes an end-to-end cycle: audit context -> map gaps & score -> update code, docs & search -> verify with Playwright test suite -> track progress in `progress.md`.
+
+## Master Reconnaissance & Architecture Review Completed (2026-09-15)
+- **Strict Domain Separation Enforced**:
+  - `conxian.org` (Protocol & Open-Source Surface): `nexus.conxian.org`, `gateway.conxian.org`, `sdk.conxian.org`, `platform.conxian.org`, `market.conxian.org`.
+  - `conxian-labs.com` (Corporate & B2B Operations Surface): `bos.conxian-labs.com`, `www.conxian-labs.com`.
+  - Updated `DOMAIN_CUTOVER.md`, `README.md`, and Express dynamic server API (`server.js` `/api/services`).
+- **12-Repo Topology Baseline Established**: Indexed `lib-conxian-core`, `conxian-nexus`, `conxian-gateway`, `conxius-enclave-sdk`, `conxius-platform`, `conxian-market`, `conxian-business`, `conxius-wallet`, `conxian_ui`, `conxian-labs-site`, `conxius-docs`, and `conxian-infrastructure`.
+- **Platform Dependency Review**: Mapped Rust primitive dependencies across core repos and verified pure Bitcoin L1 + ISO 20022 + Stacks L2 settlement posture.
+- **B2B Deployment Simulation**: Defined end-to-end client journey, `.env` flags, ISO 20022 message transformation flow, and specified `conxian-cli` pre-flight validator.
+- **Verification**: Executed 39/39 Playwright tests successfully.

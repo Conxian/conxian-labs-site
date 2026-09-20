@@ -73,17 +73,26 @@ app.get("/api/services", (req, res) => {
     platform: "Conxian Business-as-a-Platform (BaaP)",
     status: "operational",
     domains: {
-      governance: "conxian.org",
-      protocol: "conxian.com",
-      operator: "conxian-labs.com"
+      protocol: "conxian.org",
+      corporate: "conxian-labs.com"
+    },
+    routingMatrix: {
+      "conxian-nexus": "nexus.conxian.org",
+      "conxian-gateway": "gateway.conxian.org",
+      "conxius-enclave-sdk": "sdk.conxian.org",
+      "conxius-platform": "platform.conxian.org",
+      "conxian_market": "market.conxian.org",
+      "conxian-business": "bos.conxian-labs.com",
+      "conxian-labs-site": "www.conxian-labs.com"
     },
     services: [
-      { id: "bos", name: "Business Operating System (BOS)", type: "State Orchestration & Governance", status: "active", route: "/enterprise" },
-      { id: "nexus", name: "Conxian Nexus Risk Oracle", type: "Decentralized Proof & Oracle Layer", status: "active", route: "/research" },
-      { id: "gateway", name: "Gateway (Fusion & Sentinel)", type: "Middleware & Access Control", status: "active", route: "/docs" },
-      { id: "market", name: "Conxian Market Settlement Engine", type: "Nakamoto-Ready Liquidity Engine", status: "active", route: "/commercial" },
-      { id: "sdk", name: "Conxius Enclave SDK", type: "Cross-Platform Hardware Signing Abstraction", status: "active", route: "/sdk" },
-      { id: "corelibs", name: "Corelibs Cryptographic Library", type: "Shared Protocol Cryptographic Primitives", status: "active", route: "/docs" }
+      { id: "bos", name: "Business Operating System (BOS)", type: "State Orchestration & Governance", status: "active", host: "bos.conxian-labs.com", route: "/enterprise" },
+      { id: "nexus", name: "Conxian Nexus Risk Oracle", type: "Decentralized Proof & Oracle Layer", status: "active", host: "nexus.conxian.org", route: "/research" },
+      { id: "gateway", name: "Gateway (Fusion & Sentinel)", type: "Middleware & Access Control", status: "active", host: "gateway.conxian.org", route: "/docs" },
+      { id: "market", name: "Conxian Market Settlement Engine", type: "Nakamoto-Ready Liquidity Engine", status: "active", host: "market.conxian.org", route: "/commercial" },
+      { id: "sdk", name: "Conxius Enclave SDK", type: "Cross-Platform Hardware Signing Abstraction", status: "active", host: "sdk.conxian.org", route: "/sdk" },
+      { id: "platform", name: "Conxius Platform Scaffolding", type: "Platform Environment & Container Runner", status: "active", host: "platform.conxian.org", route: "/operators" },
+      { id: "corelibs", name: "Corelibs Cryptographic Library", type: "Shared Protocol Cryptographic Primitives", status: "active", host: "sdk.conxian.org", route: "/docs" }
     ],
     infrastructureTopology: {
       renderHost: "conxian-labs-site (srv-d9ndhr2jnfac73as7te0)",
