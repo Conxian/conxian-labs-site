@@ -76,11 +76,10 @@ test.describe('Conxian Labs Comprehensive Site Verification', () => {
         }
     });
 
-    test('docs page should state conxian-market and deprecation posture', async ({ page }) => {
+    test('docs page should state conxian-market and active ecosystem components', async ({ page }) => {
         await page.goto(`${BASE_URL}/docs/index.html`);
         await expect(page.locator('main')).toContainText('conxian-market');
-        await expect(page.locator('main')).toContainText('Conxian/Conxian');
-        await expect(page.locator('main')).toContainText('deprecated');
+        await expect(page.locator('main')).toContainText('lib-conxian-core');
     });
 
     test('mobile navigation should open and close', async ({ page }) => {

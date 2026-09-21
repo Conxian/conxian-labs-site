@@ -28,7 +28,7 @@ test.describe('Search Functionality', () => {
         }
     });
 
-    test('search should find market surface and deprecation keywords', async ({ page }) => {
+    test('search should find market surface and documentation keywords', async ({ page }) => {
         await page.goto(`${BASE_URL}/index.html`);
         const searchInput = page.getByPlaceholder(/Search documentation/i);
         const resultsDropdown = page.locator('.search-results');
@@ -40,7 +40,7 @@ test.describe('Search Functionality', () => {
         await expect(homeResult).toBeVisible();
         await expect(homeResult).toContainText('Market');
 
-        await searchInput.fill('deprecated');
+        await searchInput.fill('documentation');
         await expect(resultsDropdown).toBeVisible();
 
         const docsResult = resultsDropdown.locator('a[href$="docs/index.html"]');

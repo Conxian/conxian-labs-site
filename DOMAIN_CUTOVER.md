@@ -2,29 +2,35 @@
 
 ## 1. Domain Topology & Strategic Narrative Distinction
 
-To serve all services correctly from a **Business-as-a-Platform (BaaP)** operational perspective, the organization enforces a strict domain topology that separates the **Protocol / Governance Layer** from the **Builder / Operator Layer**:
+To serve all services correctly from a **Business-as-a-Platform (BaaP)** operational perspective, the organization enforces a strict legal and architectural firewall that separates the **Open-Source Protocol / Dev Surface (`conxian.org`)** from the **Corporate / Operations Surface (`conxian-labs.com`)**:
 
-*   **`conxian.org` (Protocol & Ecosystem Governance Portal)**:
-    - **Identity**: Sovereign Protocol, DAO Governance, BaaP Orchestration Hub, On-chain Settlement, and Public Identity.
-    - **Routing Target**: Serves protocol specifications, DAO governance portals, ecosystem registry, and public discovery endpoints.
-*   **`conxian-labs.com` (Builder & Operator Layer)**:
-    - **Identity**: Conxian Labs — Builder, Operator, Enterprise Integrator, and Portfolio Host.
-    - **Routing Target**: Serves institutional SDK distribution, commercial pilot onboarding, developer documentation, and active web services hosted on Render.
+*   **`conxian.org` (Protocol & Developer Distribution Surface)**:
+    - **Identity**: Pure technology distribution, open-source protocol primitives, WASM/OCI registries, and public identity. No corporate marketing.
+    - **Subdomain Routing Matrix**:
+      - `nexus.conxian.org` -> `conxian-nexus` (Decentralized Risk Oracle & Proof Synchronization)
+      - `gateway.conxian.org` -> `conxian-gateway` (API Middleware, Fusion JWT/Enclave Auth & Sentinel Secret Filter)
+      - `sdk.conxian.org` -> `conxius-enclave-sdk` (Cross-Platform Enclave Hardware Signing Abstraction)
+      - `platform.conxian.org` -> `conxius-platform` (Platform Environment & Container Scaffolding)
+      - `market.conxian.org` -> `conxian_market` (Nakamoto-Ready Settlement & Liquidity Engine)
+*   **`conxian-labs.com` (Corporate, Governance, & B2B Operations Surface)**:
+    - **Identity**: Conxian Labs — Builder, Operator, Enterprise Solutions, B2B Sales, Legal, and Infrastructure Support.
+    - **Subdomain Routing Matrix**:
+      - `bos.conxian-labs.com` -> `conxian-business` (Business Operating System / BOS Execution Engine)
+      - `www.conxian-labs.com` -> `conxian-labs-site` (Authoritative Public Site & Portfolio surface on Render)
 
 ---
 
-## 2. Business-as-a-Platform (BaaP) Service Routing Matrix
+## 2. Strict Service Routing Matrix
 
-| Domain / Subdomain | Target Service / Host | Infrastructure Provider | Status & Purpose |
+| Subdomain / Route | Target Repository | Domain Layer | Purpose |
 | :--- | :--- | :--- | :--- |
-| `conxian.com` | Protocol Apex Router | DNS / Edge Gateway | Protocol & BaaP Governance Hub, DAO portal, apex routing |
-| `conxian.org` | Ecosystem Portal | DNS / Edge Gateway | Ecosystem directory & public protocol hub |
-| `www.conxian.com` | Ecosystem Entry | DNS / Edge Gateway | Public protocol & ecosystem landing |
-| `conxian-labs.com` | `conxian-labs-site` | Render (`srv-d9ndhr2jnfac73as7te0`) | Apex redirect to `www.conxian-labs.com` |
-| `www.conxian-labs.com` | `conxian-labs-site` | Render (`srv-d9ndhr2jnfac73as7te0`) | **Authoritative Live Web Service** (Node.js/Express) |
-| `gateway.conxian-labs.com` | `Gateway` (`noisy-cloud-41146057`) | Neon PG 18 (ap-southeast-1) | Middleware & integration API (Planned/Private) |
-| `vault.conxian-labs.com` | `Software dev kit` / KMS | Neon PG 18 (us-east-2) | Enclave KMS & Key Management (Planned/Private) |
-| `nexus.conxian-labs.com` | `Conxian Nexus` (`orange-paper-76209725`)| Neon PG 17 (eu-central-1) | Proof & State Synchronization (Planned/Private) |
+| `nexus.conxian.org` | `conxian-nexus` | `conxian.org` | Decentralized Risk Oracle & Proof Sync |
+| `gateway.conxian.org` | `conxian-gateway` | `conxian.org` | Middleware API, Fusion Auth & Sentinel Filter |
+| `sdk.conxian.org` | `conxius-enclave-sdk` | `conxian.org` | Hardware Enclave KMS & Signing SDK |
+| `platform.conxian.org` | `conxius-platform` | `conxian.org` | Platform Scaffolding & Container Runner |
+| `market.conxian.org` | `conxian_market` | `conxian.org` | Nakamoto Settlement Engine & Order Liquidity |
+| `bos.conxian-labs.com` | `conxian-business` | `conxian-labs.com` | Business Operating System (BOS) Engine |
+| `www.conxian-labs.com` | `conxian-labs-site` | `conxian-labs-site` | Authoritative Web Service (Render Node.js/Express) |
 
 ---
 
