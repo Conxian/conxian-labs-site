@@ -7,7 +7,7 @@ To serve all services correctly from a **Business-as-a-Platform (BaaP)** operati
 *   **`conxian.org` (Protocol & Developer Distribution Surface)**:
     - **Identity**: Pure technology distribution, open-source protocol primitives, WASM/OCI registries, and public identity. No corporate marketing.
     - **Subdomain Routing Matrix**:
-      - `nexus.conxian.org` -> `conxian-nexus` (Decentralized Risk Oracle & Proof Synchronization)
+      - `nexus.conxian.org` -> `conxian-nexus` (Decentralized Proof & Price Oracle & Proof Synchronization)
       - `gateway.conxian.org` -> `conxian-gateway` (API Middleware, Fusion JWT/Enclave Auth & Sentinel Secret Filter)
       - `sdk.conxian.org` -> `conxius-enclave-sdk` (Cross-Platform Enclave Hardware Signing Abstraction)
       - `platform.conxian.org` -> `conxius-platform` (Platform Environment & Container Scaffolding)
@@ -24,7 +24,7 @@ To serve all services correctly from a **Business-as-a-Platform (BaaP)** operati
 
 | Subdomain / Route | Target Repository | Domain Layer | Purpose |
 | :--- | :--- | :--- | :--- |
-| `nexus.conxian.org` | `conxian-nexus` | `conxian.org` | Decentralized Risk Oracle & Proof Sync |
+| `nexus.conxian.org` | `conxian-nexus` | `conxian.org` | Decentralized Proof & Price Oracle & Proof Sync |
 | `gateway.conxian.org` | `conxian-gateway` | `conxian.org` | Middleware API, Fusion Auth & Sentinel Filter |
 | `sdk.conxian.org` | `conxius-enclave-sdk` | `conxian.org` | Hardware Enclave KMS & Signing SDK |
 | `platform.conxian.org` | `conxius-platform` | `conxian.org` | Platform Scaffolding & Container Runner |
