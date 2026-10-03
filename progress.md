@@ -10,7 +10,7 @@
 - **Market Surface Integration**: Registered `conxian-market` as the active execution and liquidity engine across public docs, commercial briefs, search index, and testing harnesses.
 - **Research Expansion**: Expanded `research/index.html` with 6 active research domains:
   1. Logical Sovereignty (Zero-custody signing boundaries & TEE isolation)
-  2. Market Protocols & Liquidity Mechanics (`conxian-market` order routing & risk oracles)
+  2. Market Protocols & Liquidity Mechanics (`conxian-market` order routing & proof & price oracles)
   3. Sovereign Database Topologies (Neon serverless Postgres & Supabase platform integration)
   4. Threshold Cryptography (MuSig2, FROST, Taproot Schnorr)
   5. Bitcoin L2 Settlement (Clarity smart contracts, Nakamoto consensus, BitVM proofs)
