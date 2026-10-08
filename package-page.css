@@ -285,16 +285,18 @@ p {
 .inline-list li {
     color: var(--text-dim);
     font-size: 0.9rem;
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
+    position: relative;
+    padding-left: 24px;
+    line-height: 1.6;
 }
 
 .inline-list li::before {
     content: "::";
     color: var(--accent);
     font-weight: 700;
-    margin-top: 2px;
+    position: absolute;
+    left: 0;
+    top: 0;
 }
 
 .inline-list a {
