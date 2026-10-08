@@ -1,5 +1,16 @@
 # Conxian Labs Site Remediation & Ecosystem Alignment Progress
 
+## Org-Wide Research Expansion & CXIP-1317 Alignment (2026-10-07)
+- **CXIP-1317 Proposal Integration**: Integrated Conxian Org-Wide Upgrade and Refinement Proposal (CXIP-1317) into `research/index.html` as an active governance and technical research pillar.
+- **BaaP & Modular Core Architecture**: Detailed research domains across all 6 platform service pillars (`lib-conxian-core`, `conxian-gateway`, `conxian-nexus`, `conxian-market`, `conxian-business`, `conxius-wallet`) plus `conxius-enclave-sdk`.
+- **Org-Wide Rules Execution**: Documented active enforcement of org and repository rules:
+  - Complete purge and retirement of legacy monolith assets.
+  - Domain Posture Compliance (`conxian.org` protocol vs `conxian-labs.com` corporate B2B).
+  - Zero Secret Egress (ZSE) compile-time and CI scanning standards.
+  - Multi-region Neon Serverless PostgreSQL and Supabase database topologies.
+  - ISO 20022 messaging transformation for Bitcoin L1 / Stacks L2 settlement.
+- **Search Engine Index Update**: Updated `search.js` to index CXIP-1317, BaaP, ZSE, ISO 20022, and related org-wide proposal search terms.
+
 ## Org-Wide Asset Purge & Active Modular Core Alignment (2026-09-12)
 - **Deleted Asset Purge**: Purged all lingering references and deprecation notices for deleted legacy assets (`Conxian/Conxian` and `stackorbit`/`stacksorbit`) across `README.md`, `docs/index.html`, `research/index.html`, `commercial/index.html`, and `search.js`.
 - **Active Modular Core Focus**: Refocused all site surfaces exclusively on the active modular stack (`lib-conxian-core`, `conxian-gateway`, `conxian-nexus`, `conxian-market`, and `conxian-business`).
@@ -54,7 +65,7 @@
   - Executed full test suite: **39/39 Playwright tests passing**.
 
 ## Verification & Test Status
-- **Playwright Test Suite**: All 35+ tests passing across design compliance, comprehensive verification, logging, search, and commercial asset specs.
+- **Playwright Test Suite**: All 39 tests passing across design compliance, comprehensive verification, logging, search, and commercial asset specs.
 
 ## Session Continuity & Evolution Strategy
 - Each session executes an end-to-end cycle: audit context -> map gaps & score -> update code, docs & search -> verify with Playwright test suite -> track progress in `progress.md`.

@@ -4,12 +4,12 @@
     <script src="../logger.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Conxian Labs Research — Protocol analysis, cryptographic engineering, market execution, sovereign database topology, and sovereign infrastructure theory.">
+    <meta name="description" content="Conxian Labs Research — Org-wide protocol theory, CXIP-1317 refinement proposals, Business-as-a-Platform (BaaP) architecture, zero-secret egress, sovereign database topology, and active modular stack research.">
     <title>Conxian Labs | Research</title>
     <link rel="canonical" href="https://www.conxian-labs.com/research">
     <meta property="og:url" content="https://www.conxian-labs.com/research">
-    <meta property="og:title" content="Conxian Labs | Research Surfaces">
-    <meta property="og:description" content="Advancing logical sovereignty through open protocol research, market liquidity mechanics, and institutional-grade engineering.">
+    <meta property="og:title" content="Conxian Labs | Research & Protocol Analysis">
+    <meta property="og:description" content="Advancing logical sovereignty through CXIP-1317 org-wide upgrade proposals, Business-as-a-Platform (BaaP) specifications, and active modular stack research.">
     <meta property="og:image" content="https://www.conxian-labs.com/Conxian-Labs_Logo.jpg">
     <link rel="icon" href="../Conxian_Logo.jpg" type="image/jpeg">
     <link rel="stylesheet" href="../package-page.css">
@@ -43,6 +43,33 @@
         .search-result .title { font-weight: 600; color: var(--text-main); }
         .search-result .desc { color: var(--text-dim); font-size: 0.65rem; margin-top: 0.15rem; }
 
+        .proposal-card {
+            background: var(--surface, #FFFFFF);
+            border-left: 3px solid var(--accent, #C25E00);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+        .proposal-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-main);
+        }
+        .proposal-meta {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            margin-bottom: 1rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .badge {
+            background: var(--surface-low, #F6F3F2);
+            color: var(--accent, #C25E00);
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
@@ -60,18 +87,18 @@
             <a href="/operators">Operators</a>
             <a href="/research" class="active">Research</a>
         </nav>
-                    <div class="search-bar" style="position:relative;">
-                <input type="text" placeholder="Search..." class="subpage-search-input">
-                <div class="search-results subpage-search-results"></div>
-            </div>
-            <div class="sys-status">SYS_ZA_1 // ACTIVE</div>
+        <div class="search-bar" style="position:relative;">
+            <input type="text" placeholder="Search..." class="subpage-search-input">
+            <div class="search-results subpage-search-results"></div>
+        </div>
+        <div class="sys-status">SYS_ZA_1 // ACTIVE</div>
     </header>
 
     <main class="page">
         <section class="hero">
             <span class="kicker">Research + Analysis Surface</span>
             <h1>Protocol Theory and Sovereign Implementation</h1>
-            <p>Conxian Labs publishes deep-dive analysis on market execution, protocol coordination, cryptographic primitives, sovereign database topologies, and institutional settlement topology. Our research informs the design of the Conclave SDK, <code>conxian-market</code>, and sets the standard for sovereign infrastructure operations. All research is published under open licenses to foster ecosystem-wide transparency and reproducibility.</p>
+            <p>Conxian Labs publishes deep-dive analysis on market execution, protocol coordination, cryptographic primitives, sovereign database topologies, and institutional settlement topology. Our research drives the evolution of the Conxian ecosystem, informing the design of the Conxius Enclave SDK, <code>conxian-market</code>, <code>conxian-gateway</code>, <code>conxian-nexus</code>, and <code>conxian-business</code>. All research outputs are published under open licenses to foster ecosystem-wide transparency, reproducibility, and formal verification.</p>
             <div class="hero-actions">
                 <a class="btn btn-primary" href="https://github.com/Conxian">Research Repositories</a>
                 <a class="btn btn-secondary" href="/docs">Technical Docs</a>
@@ -79,41 +106,80 @@
         </section>
 
         <section class="section">
-            <h2>Active Domains</h2>
+            <h2>Ecosystem Refinement & Governance Proposal</h2>
+            <div class="proposal-card">
+                <div class="proposal-meta">
+                    <span class="badge">CXIP-1317</span>
+                    <span><strong>Status:</strong> Active Proposal & Architecture Specification</span>
+                    <span><strong>Target:</strong> Org-Wide Protocol Upgrade & Refinement</span>
+                </div>
+                <h3>Conxian Org-Wide Upgrade and Refinement Proposal (CXIP-1317)</h3>
+                <p>CXIP-1317 codifies the structural transition from legacy monolithic architectures to a fully decoupled, high-performance Business-as-a-Platform (BaaP) ecosystem. It establishes formal rules for org-wide repository governance, security boundaries, and modular communication protocols across all active surfaces.</p>
+                <ul class="inline-list" style="margin-top: 1rem;">
+                    <li><strong>Monolith Purge & Decoupling:</strong> Complete retirement and org-wide purge of legacy monolith assets in favor of targeted domain micro-components.</li>
+                    <li><strong>Strict Domain Firewall:</strong> Strict operational separation between the open protocol surface (<code>conxian.org</code>) and corporate B2B services (<code>conxian-labs.com</code>).</li>
+                    <li><strong>Zero Secret Egress (ZSE):</strong> Enforcing compile-time secret isolation, immutable CI workflow scanning (Gitleaks), and fail-closed key management.</li>
+                    <li><strong>ISO 20022 Integration:</strong> Standardizing financial message transformation for seamless institutional settlement over Bitcoin L1 and Nakamoto Stacks L2.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Active Research Domains & Platform Pillars</h2>
             <div class="detail-grid">
                 <article class="detail-card">
-                    <h3>Logical Sovereignty</h3>
-                    <p>Analysis of zero-custody signing boundaries, TEE device-level isolation, and fail-closed security for institutional workflows.</p>
+                    <h3>1. Business Operating System (BOS) Execution</h3>
+                    <p>Research into <code>conxian-business</code> state orchestration, Sovereign Autonomous Business (SAB) execution models, and automated enterprise workflow governance under strict audit constraints.</p>
                 </article>
                 <article class="detail-card">
-                    <h3>Market Protocols & Liquidity Mechanics</h3>
-                    <p>Research into <code>conxian-market</code> order routing, decentralized proof & price oracle telemetry, and non-custodial asset settlement.</p>
+                    <h3>2. Proof & Price Oracle Networks</h3>
+                    <p>Analysis of <code>conxian-nexus</code> decentralized oracle networks, real-time proof verification, compliance monitoring, and cross-chain state proof synchronization.</p>
                 </article>
                 <article class="detail-card">
-                    <h3>Sovereign Database Topologies</h3>
-                    <p>Evaluating multi-region Neon serverless Postgres branch topologies and Supabase platform primitives for high-availability business operating systems.</p>
+                    <h3>3. Middleware & Secret Filtering</h3>
+                    <p>Evaluating <code>conxian-gateway</code> high-throughput API routing, unified JWT/Enclave authentication via <code>Fusion</code>, and real-time secret sanitization via <code>Sentinel</code>.</p>
                 </article>
                 <article class="detail-card">
-                    <h3>Threshold Cryptography</h3>
-                    <p>Research into MuSig2, FROST, Taproot Schnorr signatures, and distributed key generation for quorum-based protocol actions.</p>
+                    <h3>4. Market Liquidity & Nakamoto Settlement</h3>
+                    <p>Research into <code>conxian-market</code> order matching algorithms, non-custodial asset exchange, sovereign liquidity pools, and BitVM zero-knowledge settlement.</p>
                 </article>
                 <article class="detail-card">
-                    <h3>Bitcoin L2 Settlement</h3>
-                    <p>Optimizing Clarity smart contracts, Nakamoto consensus, and BitVM zero-knowledge proofs for high-throughput institutional settlement.</p>
+                    <h3>5. Cross-Platform Enclaves & Signing</h3>
+                    <p>Hardware security abstractions in <code>conxius-enclave-sdk</code> spanning Android StrongBox TEE, Apple Secure Enclave, and WASM runtimes with MuSig2, FROST, and Taproot Schnorr signatures.</p>
                 </article>
                 <article class="detail-card">
-                    <h3>Cross-Platform Enclaves</h3>
-                    <p>Hardware security abstractions spanning Android StrongBox TEE, Apple Secure Enclave, and WASM runtime environments via <code>lib-conclave-sdk</code>.</p>
+                    <h3>6. Core Cryptographic Primitives</h3>
+                    <p>Formally verified Rust primitives in <code>lib-conxian-core</code> providing zero-allocation cryptographic operations, memory safety, and protocol-wide type definitions.</p>
+                </article>
+                <article class="detail-card">
+                    <h3>7. Sovereign Database Topologies</h3>
+                    <p>Evaluating multi-region Neon serverless Postgres branch topologies and Supabase platform primitives for high-availability distributed ledger state execution.</p>
+                </article>
+                <article class="detail-card">
+                    <h3>8. Sovereign Reference Client Architecture</h3>
+                    <p>Designing <code>conxius-wallet</code> as an uncompromised, zero-custody reference client interface for direct on-device transaction crafting and verification.</p>
                 </article>
             </div>
         </section>
 
         <section class="section">
-            <h2>Publications</h2>
+            <h2>Org-Wide Standards Execution & Rules</h2>
+            <p class="section-intro">All engineering and research activities across the Conxian organization adhere strictly to enforced operational rules and architectural standards.</p>
+            <div class="inline-list">
+                <li><strong>Legacy Asset Governance:</strong> Legacy assets are permanently deprecated and purged across codebases, site surfaces, and documentation. All efforts focus exclusively on active modular components.</li>
+                <li><strong>Domain Posture Compliance:</strong> Protocol endpoints (Nexus, Gateway, SDK, Platform, Market) resolve strictly under <code>conxian.org</code>, while operational services (BOS, Site) resolve under <code>conxian-labs.com</code>.</li>
+                <li><strong>Zero Secret Egress (ZSE) Enforcement:</strong> Strict <code>.gitignore</code> templates, automated secret scanning in GitHub Actions, and environment template whitelisting across all repositories.</li>
+                <li><strong>Institutional UX Standards:</strong> Adherence to the "Ivory Foundation" design system with 17.5:1 contrast ratios, JetBrains Mono typography, 4px institutional borders, and zero-line tonal shifts.</li>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Publications & Output Artifacts</h2>
             <p class="section-intro">Our research outputs are categorized by their application within the ecosystem lifecycle.</p>
             <ul class="inline-list">
+                <li><strong>CXIP Specifications:</strong> Conxian Improvement Proposals detailing protocol upgrades, wire formats, and governance rules.</li>
                 <li><strong>Theoretical Papers:</strong> High-level protocol analysis, market liquidity proofs, and cryptographic verifications.</li>
-                <li><strong>Implementation Specs:</strong> Engineering-ready specifications for Market, SDK, Gateway, and Database integration components.</li>
+                <li><strong>Implementation Specs:</strong> Engineering-ready specifications for Market, SDK, Gateway, BOS, and Database integration components.</li>
                 <li><strong>Operating Models:</strong> Research into sovereign runtime governance, operator accountability, and modular core architecture.</li>
             </ul>
         </section>
@@ -124,7 +190,7 @@
             <div class="inline-list">
                 <li><strong>Verification:</strong> All research is accompanied by deterministic testing harnesses and automated verification suites.</li>
                 <li><strong>Collaboration:</strong> We actively engage with academic and industry partners on protocol and market execution improvements.</li>
-                <li><strong>Standardization:</strong> Contributing to BIPs, Stacks SIPs, and ecosystem-wide interoperability standards.</li>
+                <li><strong>Standardization:</strong> Contributing to BIPs, Stacks SIPs, ISO 20022 extensions, and ecosystem-wide interoperability standards.</li>
             </div>
         </section>
     </main>
