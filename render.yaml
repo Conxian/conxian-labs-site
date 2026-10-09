@@ -6,6 +6,15 @@ services:
     buildCommand: "npm install"
     startCommand: "npm start"
     plan: free
+    healthCheckPath: /api/health
     pullRequestPreviewsEnabled: yes
     autoDeploy: yes
+    envVars:
+      # Managed SaaS Gateway subscriber onboarding (Merchant of Record).
+      # Set to the Lemon Squeezy / Paddle checkout URL to accept credit cards;
+      # when unset, only the x402 crypto payment path is advertised.
+      - key: MERCHANT_CHECKOUT_URL
+        sync: false
+      - key: MANAGED_GATEWAY_ENDPOINT
+        value: "https://api.conxian-labs.com/v1/agent"
 
