@@ -7,6 +7,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(compression());
+app.use(express.json());
 
 app.use((req, res, next) => {
   res.setHeader("X-Frame-Options", "DENY");
@@ -87,7 +88,7 @@ app.get("/api/services", (req, res) => {
     },
     services: [
       { id: "bos", name: "Business Operating System (BOS)", type: "State Orchestration & Governance", status: "active", host: "bos.conxian-labs.com", route: "/enterprise" },
-      { id: "nexus", name: "Conxian Nexus Risk Oracle", type: "Decentralized Proof & Oracle Layer", status: "active", host: "nexus.conxian.org", route: "/research" },
+      { id: "nexus", name: "Conxian Nexus Proof & Price Oracle", type: "Decentralized Proof & Oracle Layer", status: "active", host: "nexus.conxian.org", route: "/research" },
       { id: "gateway", name: "Gateway (Fusion & Sentinel)", type: "Middleware & Access Control", status: "active", host: "gateway.conxian.org", route: "/docs" },
       { id: "market", name: "Conxian Market Settlement Engine", type: "Nakamoto-Ready Liquidity Engine", status: "active", host: "market.conxian.org", route: "/commercial" },
       { id: "sdk", name: "Conxius Enclave SDK", type: "Cross-Platform Hardware Signing Abstraction", status: "active", host: "sdk.conxian.org", route: "/sdk" },
@@ -110,6 +111,59 @@ app.get("/api/site-map", (req, res) => {
     priority: p.priority
   }));
   res.json({ routes, total: routes.length });
+});
+
+// ── Managed SaaS Gateway onboarding surface ────────────────────────────────
+// Config-driven subscriber onboarding for indie AI agent developers. The
+// Merchant-of-Record checkout URL (Lemon Squeezy / Paddle) is injected via
+// MERCHANT_CHECKOUT_URL; when absent, only the x402 crypto path is offered.
+const MANAGED_TIER = {
+  id: "managed",
+  name: "Managed SaaS Gateway",
+  monthlyUsd: 99,
+  perCallUsd: 0.001,
+  endpoint: "https://api.conxian-labs.com/v1/agent",
+  features: [
+    "Instant high-throughput endpoint provisioning",
+    "Pre-configured TEE/Nitro attestation verification",
+    "x402 (HTTP 402) + ERC-8183 job-card escrow",
+    "Multi-tenant API keys with rate limiting",
+  ],
+};
+
+app.get("/api/pricing/managed", (req, res) => {
+  res.json({
+    ...MANAGED_TIER,
+    checkoutUrl: process.env.MERCHANT_CHECKOUT_URL || null,
+    x402PaymentPointer: "$conxian.com/market/subscription/managed",
+  });
+});
+
+app.post("/api/onboarding/subscribe", (req, res) => {
+  const { tier, email } = req.body || {};
+  if (tier !== "managed") {
+    return res.status(400).json({ error: "Unsupported tier", code: "unsupported_tier" });
+  }
+  if (!email || typeof email !== "string" || !email.includes("@")) {
+    return res.status(400).json({ error: "A valid email is required", code: "invalid_email" });
+  }
+
+  const checkoutUrl = process.env.MERCHANT_CHECKOUT_URL || null;
+  res.status(200).json({
+    tier: MANAGED_TIER.id,
+    checkoutUrl,
+    x402Demand: {
+      scheme: "x402",
+      currency: "sats",
+      amount: "0",
+      resourceId: "subscription-managed",
+      paymentPointer: "$conxian.com/market/subscription/managed",
+      description: "Conxian Managed SaaS Gateway — monthly subscription",
+    },
+    next: checkoutUrl
+      ? "Complete checkout to receive a managed API key via webhook"
+      : "x402 crypto path: issue a payment demand against the payment pointer",
+  });
 });
 
 // SPA-style fallback for 404
