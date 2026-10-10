@@ -120,8 +120,14 @@ app.get("/api/site-map", (req, res) => {
 const MANAGED_TIER = {
   id: "managed",
   name: "Managed SaaS Gateway",
-  monthlyUsd: 99,
-  perCallUsd: 0.001,
+  // Single source of truth for managed pricing is the gateway billing engine:
+  //   conxian-gateway/internal/engine/src/billing.rs
+  //   (MANAGED_GATEWAY_BASE_FEE_CENTS / RELAY_MESSAGE_COST_CENTS /
+  //    RWA_VERIFICATION_COST_CENTS / SETTLEMENT_OP_COST_CENTS).
+  monthlyUsd: 200,
+  perRelayMessageUsd: 0.01,
+  perRwaVerificationUsd: 0.05,
+  perSettlementOpUsd: 0.1,
   endpoint: "https://api.conxian-labs.com/v1/agent",
   features: [
     "Instant high-throughput endpoint provisioning",
