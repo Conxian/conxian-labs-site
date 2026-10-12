@@ -2,19 +2,17 @@
 
 ## 1. Domain Topology & Strategic Narrative Distinction
 
-To serve all services correctly from a **Business-as-a-Platform (BaaP)** operational perspective, the organization enforces a strict three-tier domain topology separating the **Primary Protocol & Governance Hub (`conxian.com`)**, the **Open-Source Protocol / Dev Surface (`conxian.org`)**, and the **Corporate / Operations Surface (`conxian-labs.com`)**:
+To serve all services correctly from a **Business-as-a-Platform (BaaP)** operational perspective, the organization enforces a strict two-tier domain topology separating the **Open-Source Protocol / Dev Surface (`conxian.org`)** and the **Corporate / Operations Surface (`conxian-labs.com`)**:
 
-*   **`conxian.com` (Primary Protocol & BaaP Governance Hub)**:
-    - **Identity**: Ecosystem-wide protocol governance, DAO-facing posture, and Business-as-a-Platform (BaaP) unified identity.
 *   **`conxian.org` (Protocol & Developer Distribution Surface)**:
-    - **Identity**: Pure technology distribution, open-source protocol primitives, WASM/OCI registries, and public identity. No corporate marketing.
+    - **Identity**: Pure technology distribution, open-source protocol primitives, WASM/OCI registries, public governance identity, and developer documentation. No corporate marketing.
     - **Subdomain Routing Matrix**:
       - `nexus.conxian.org` -> `conxian-nexus` (Decentralized Proof & Price Oracle & Proof Synchronization)
       - `gateway.conxian.org` -> `conxian-gateway` (API Middleware, Fusion JWT/Enclave Auth & Sentinel Secret Filter)
       - `sdk.conxian.org` -> `conxius-enclave-sdk` (Cross-Platform Enclave Hardware Signing Abstraction)
       - `platform.conxian.org` -> `conxius-platform` (Platform Environment & Container Scaffolding)
       - `market.conxian.org` -> `conxian_market` (Nakamoto-Ready Settlement & Liquidity Engine)
-*   **`conxian-labs.com` (Corporate, Governance, & B2B Operations Surface)**:
+*   **`conxian-labs.com` (Corporate & B2B Operations Surface)**:
     - **Identity**: Conxian Labs — Builder, Operator, Enterprise Solutions, B2B Sales, Legal, and Infrastructure Support.
     - **Subdomain Routing Matrix**:
       - `bos.conxian-labs.com` -> `conxian-business` (Business Operating System / BOS Execution Engine)
@@ -26,7 +24,6 @@ To serve all services correctly from a **Business-as-a-Platform (BaaP)** operati
 
 | Subdomain / Route | Target Repository | Domain Layer | Purpose |
 | :--- | :--- | :--- | :--- |
-| `conxian.com` | `conxian` | `conxian.com` | Primary Protocol, DAO Governance & BaaP Hub |
 | `nexus.conxian.org` | `conxian-nexus` | `conxian.org` | Decentralized Proof & Price Oracle & Proof Sync |
 | `gateway.conxian.org` | `conxian-gateway` | `conxian.org` | Middleware API, Fusion Auth & Sentinel Filter |
 | `sdk.conxian.org` | `conxius-enclave-sdk` | `conxian.org` | Hardware Enclave KMS & Signing SDK |

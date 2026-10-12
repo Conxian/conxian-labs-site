@@ -41,9 +41,8 @@ This repository is maintained by Conxian-Labs as the builder and operator surfac
 
 The Conxian ecosystem is natively anchored to **Bitcoin L1** and operates under a strict **Zero-Token Policy**: there are no native protocol tokens, speculative tokenomics, or staking mechanisms.
 
-The ecosystem enforces a three-tier domain posture:
-- **`conxian.com` (Primary Protocol & Governance Hub)**: Ecosystem-wide protocol governance, DAO-facing posture, and Business-as-a-Platform (BaaP) unified identity.
-- **`conxian.org` (Open-Source Protocol Surface)**: Open-source public goods, Rust-based Zero-Knowledge (ZK) state verification, stateless routing, and SDK primitives under permissive MIT licensing.
+The ecosystem enforces a strict two-tier domain posture:
+- **`conxian.org` (Open-Source Protocol Surface)**: Open-source public goods, Rust-based Zero-Knowledge (ZK) state verification, stateless routing, public governance identity, and SDK primitives under permissive MIT licensing.
 - **`conxian-labs.com` (Corporate & B2B Operations Surface)**: Commercial builder/operator layer providing SLA-backed APIs, ISO 20022 financial message translation, managed node orchestration, and enterprise security auditing.
 
 ## 2026 Core Execution Targets
@@ -104,8 +103,8 @@ Conxian maintains a strict legal and architectural firewall separating the open-
 Conxian operates as an integrated **Business-as-a-Platform (BaaP)** ecosystem powering sovereign autonomous business execution, risk management, asset settlement, and cryptographic trust boundaries.
 
 ### Domain Posture Alignment
-- **`conxian.com`**: Primary Protocol, DAO-facing, & Business-as-a-Platform Governance Hub.
-- **`conxian-labs.com`**: Builder, Operator, Enterprise Solutions, & Infrastructure Support Layer.
+- **`conxian.org`**: Open-Source Protocol, Public Governance, & Developer Distribution Surface.
+- **`conxian-labs.com`**: Builder, Operator, Enterprise Solutions, & B2B Infrastructure Support Surface.
 
 ### 6 Core Platform Service Pillars
 1. **Business Operating System (BOS)**: Sovereign Autonomous Business (SAB) execution engine, state orchestration, and enterprise workflow governance.
