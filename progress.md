@@ -1,5 +1,10 @@
 # Conxian Labs Site Remediation & Ecosystem Alignment Progress
 
+## Org-Wide Branch Convergence & BaaP Topology Alignment (2026-10-12)
+- **Three-Tier Domain Topology Alignment**: Aligned site topology and documentation across `DOMAIN_CUTOVER.md`, `server.js`, and `search.js` to establish `conxian.com` as the Primary Protocol, DAO Governance & BaaP Hub, `conxian.org` as the Open-Source Protocol & Developer Distribution Surface, and `conxian-labs.com` as the Corporate / Operations Surface.
+- **Search Engine Index Refinement**: Updated `search.js` keywords across `Home`, `Docs`, and `Research` to index `conxian.com` and governance hub terms.
+- **Full Verification**: Ran complete Playwright verification suite across all 39 test cases (design compliance, search functionality, API health, and logging), achieving 100% pass rate with zero regressions.
+
 ## Org-Wide Research Expansion & CXIP-1317 Alignment (2026-10-07)
 - **CXIP-1317 Proposal Integration**: Integrated Conxian Org-Wide Upgrade and Refinement Proposal (CXIP-1317) into `research/index.html` as an active governance and technical research pillar.
 - **BaaP & Modular Core Architecture**: Detailed research domains across all 6 platform service pillars (`lib-conxian-core`, `conxian-gateway`, `conxian-nexus`, `conxian-market`, `conxian-business`, `conxius-wallet`) plus `conxius-enclave-sdk`.
