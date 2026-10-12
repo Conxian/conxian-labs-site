@@ -97,6 +97,28 @@
         </section>
 
         <section class="section">
+            <h2>Architecture & Integration Specifications</h2>
+            <div class="detail-grid">
+                <article class="detail-card">
+                    <h3>ISO 20022 Gateway Translation</h3>
+                    <p><code>conxian-gateway</code> translates financial messaging standards (ISO 20022 pacs, camt, pain XML/JSON formats) directly into tokenless routing instructions. Includes rate-limiting, API key auth middleware, and audit logs.</p>
+                </article>
+                <article class="detail-card">
+                    <h3>Android StrongBox TEE KMS</h3>
+                    <p><code>conxius-enclave-sdk</code> provides hardware-backed key isolation utilizing Android StrongBox TEE. Supports zero-custody key generation, hardware attestation, and offline Taproot Schnorr and MuSig2 signing.</p>
+                </article>
+                <article class="detail-card">
+                    <h3>Bitcoin L1 zkVM State Proofs</h3>
+                    <p><code>conxian-nexus</code> implements stateless Bitcoin L1 state verification compiled for 2026 zkVM provers (SP1, RISC Zero). Operates under a strict Zero-Token Policy without native protocol tokens or staking.</p>
+                </article>
+                <article class="detail-card">
+                    <h3>Enterprise SLA Node Orchestration</h3>
+                    <p><code>conxius-platform</code> provides multi-tenant deployment automation, cloud CI/CD pipelines (AWS/GCP), and SLA orchestration for high-availability managed infrastructure.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="section">
             <h2>Ecosystem Components</h2>
             <ul class="inline-list">
                 <li><strong>conxian-market:</strong> Active market, liquidity, and asset execution engine supporting institutional settlement and order routing.</li>

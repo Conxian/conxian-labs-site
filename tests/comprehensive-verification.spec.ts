@@ -252,10 +252,9 @@ test.describe('Conxian Labs Comprehensive Site Verification', () => {
                 expect(servicesRes.status).toBe(200);
                 const servicesJson = await servicesRes.json();
                 expect(servicesJson.status).toBe("operational");
-                expect(servicesJson.domains.governance).toBe("conxian.com");
                 expect(servicesJson.domains.protocol).toBe("conxian.org");
                 expect(servicesJson.domains.corporate).toBe("conxian-labs.com");
-                expect(servicesJson.routingMatrix["conxian"]).toBe("conxian.com");
+                expect(servicesJson.routingMatrix["conxian-nexus"]).toBe("nexus.conxian.org");
 
                 // Test /api/site-map
                 const mapRes = await fetch(`http://localhost:${port}/api/site-map`);

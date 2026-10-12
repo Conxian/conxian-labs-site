@@ -79,12 +79,10 @@ app.get("/api/services", (req, res) => {
     platform: "Conxian Business-as-a-Platform (BaaP)",
     status: "operational",
     domains: {
-      governance: "conxian.com",
       protocol: "conxian.org",
       corporate: "conxian-labs.com"
     },
     routingMatrix: {
-      "conxian": "conxian.com",
       "conxian-nexus": "nexus.conxian.org",
       "conxian-gateway": "gateway.conxian.org",
       "conxius-enclave-sdk": "sdk.conxian.org",
