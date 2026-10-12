@@ -47,6 +47,11 @@ for (const p of pageMetadata) {
   }
 }
 
+// Redirect /bos path to /enterprise (BOS discovery & execution surface)
+app.get("/bos", (req, res) => {
+  res.redirect(301, "/enterprise");
+});
+
 app.use(express.static(path.join(__dirname), {
   index: false,
   dotfiles: "deny",
