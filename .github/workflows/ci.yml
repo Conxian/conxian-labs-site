@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, staged, dev ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, staged, dev ]
 
 permissions:
   contents: read
@@ -25,6 +25,9 @@ jobs:
 
     - name: Install dependencies
       run: npm install
+
+    - name: Verify managed onboarding API boundaries
+      run: npm run test:api
 
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps chromium
