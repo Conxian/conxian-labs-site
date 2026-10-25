@@ -1,5 +1,16 @@
 # Domain Cutover & Business-as-a-Platform (BaaP) Alignment Guide
 
+## Current qualification — 25 October 2026
+
+The routing tables and provider identifiers below are historical design references,
+not executable cutover instructions or verified current service bindings. Live
+Cloudflare records point the Labs apex and www/control hosts at Vercel, while the
+Labs Render origin is independently reachable. This conflicts with the intended
+Labs-site placement below; Platform #1167 and Business #1349 own reconciliation.
+Do not apply the historical Namecheap/Render DNS settings from this file without
+verified ownership, source revision, authentication/state and rollback evidence.
+No DNS or production deployment changes are included in this candidate.
+
 ## 1. Domain Topology & Strategic Narrative Distinction
 
 To serve all services correctly from a **Business-as-a-Platform (BaaP)** operational perspective, the organization enforces a strict two-tier domain topology separating the **Open-Source Protocol / Dev Surface (`conxian.org`)** and the **Corporate / Operations Surface (`conxian-labs.com`)**:

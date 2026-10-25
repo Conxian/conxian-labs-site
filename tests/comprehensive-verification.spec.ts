@@ -251,7 +251,9 @@ test.describe('Conxian Labs Comprehensive Site Verification', () => {
                 const servicesRes = await fetch(`http://localhost:${port}/api/services`);
                 expect(servicesRes.status).toBe(200);
                 const servicesJson = await servicesRes.json();
-                expect(servicesJson.status).toBe("operational");
+                expect(servicesJson.status).toBe("unverified");
+                expect(servicesJson.productionSupported).toBe(false);
+                expect(servicesJson.scope).toBe("reference-catalog");
                 expect(servicesJson.domains.protocol).toBe("conxian.org");
                 expect(servicesJson.domains.corporate).toBe("conxian-labs.com");
                 expect(servicesJson.routingMatrix["conxian-nexus"]).toBe("nexus.conxian.org");

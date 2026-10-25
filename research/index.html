@@ -98,7 +98,7 @@
         <section class="hero">
             <span class="kicker">Research + Analysis Surface</span>
             <h1>Protocol Theory and Sovereign Implementation</h1>
-            <p>Conxian Labs publishes deep-dive analysis on market execution, protocol coordination, cryptographic primitives, sovereign database topologies, and institutional settlement topology. Our research drives the evolution of the Conxian ecosystem, informing the design of the Conxius Enclave SDK, <code>conxian-market</code>, <code>conxian-gateway</code>, <code>conxian-nexus</code>, and <code>conxian-business</code>. All research outputs are published under open licenses to foster ecosystem-wide transparency, reproducibility, and formal verification.</p>
+            <p>Conxian Labs publishes deep-dive analysis on market execution, protocol coordination, cryptographic primitives, sovereign database topologies, and institutional settlement topology. Our research drives the evolution of the Conxian ecosystem, informing the design of the Conxius Enclave SDK, <code>conxian-market</code>, <code>conxian-gateway</code>, <code>conxian-nexus</code>, and <code>conxian-business</code>. Research references support reproducibility; each source and repository license governs reuse. Publication does not establish formal verification or production acceptance.</p>
             <div class="hero-actions">
                 <a class="btn btn-primary" href="https://github.com/Conxian">Research Repositories</a>
                 <a class="btn btn-secondary" href="/docs">Technical Docs</a>
@@ -114,15 +114,15 @@
                     <span><strong>Boundary:</strong> .org Open Core vs .com Commercial</span>
                 </div>
                 <h3>Sovereign Bitcoin L1 Architecture & Institutional Mandate</h3>
-                <p>The Conxian ecosystem is natively anchored to Bitcoin L1. The protocol operates under a strict <strong>Zero-Token Policy</strong>: there are no native protocol tokens, speculative tokenomics, or staking mechanisms. All state verification and routing logic remain pure, deterministic public goods.</p>
+                <p>The Conxian ecosystem is rooted in Bitcoin L1. Its <strong>Zero-Token Policy</strong> excludes a native Conxian token and native staking incentives. External assets, bridges and independently evidenced staking adapters remain in scope; each operation requires its own acceptance evidence.</p>
                 <div class="detail-grid" style="margin-top: 1.5rem;">
                     <article class="detail-card">
                         <h3>The Open Core (<code>conxian.org</code>)</h3>
-                        <p>Public goods, Rust-based Zero-Knowledge (ZK) state verification, stateless routing, and open-source SDK primitives available under permissive MIT licensing.</p>
+                        <p>Protocol references, verification research, routing and SDK primitives. Each repository license is authoritative; Nexus is BUSL-1.1 source available, so this is not a uniformly MIT-licensed stack.</p>
                     </article>
                     <article class="detail-card">
                         <h3>Commercial Surface (<code>conxian-labs.com</code>)</h3>
-                        <p>SLA-backed APIs, managed infrastructure orchestration, ISO 20022 TradFi compliance bridges, bespoke security auditing, and institutional deployment support.</p>
+                        <p>Managed-service discovery, ISO 20022 integration research and scoped enterprise evaluation. Availability, security acceptance and SLA commitments require independent operational evidence.</p>
                     </article>
                 </div>
             </div>
@@ -133,7 +133,7 @@
             <p class="section-intro">Four core repository targets drive the org-wide architecture alignment across verification, routing, hardware security, and enterprise orchestration.</p>
             <div class="proposal-card" style="margin-bottom: 1rem;">
                 <h3>Target A: <code>conxian-nexus</code> (The Verification Engine)</h3>
-                <p>Universal ZK state verification rooted in Bitcoin L1. Deprecating legacy tokenized state assumptions and expanding the Rust core to support modern 2026 zkVM proving environments (e.g., <strong>SP1</strong>, <strong>RISC Zero</strong>) for lightweight, open-source Bitcoin state proofs.</p>
+                <p>State observation, proof and administrative interfaces rooted in Bitcoin L1. <strong>SP1</strong> and <strong>RISC Zero</strong> remain research directions; this target does not establish a deployed universal zkVM verifier.</p>
             </div>
             <div class="proposal-card" style="margin-bottom: 1rem;">
                 <h3>Target B: <code>conxian-gateway</code> (The Commercial Bridge)</h3>
@@ -141,11 +141,11 @@
             </div>
             <div class="proposal-card" style="margin-bottom: 1rem;">
                 <h3>Target C: <code>conxius-enclave-sdk</code> (Hardware Security)</h3>
-                <p>Non-custodial cryptographic boundary formally integrating Android StrongBox TEE for strict offline-first key isolation, secure signing, and clean SDK abstractions for institutional white-glove security audits.</p>
+                <p>Non-custodial key-management, signing and attestation interfaces. Hardware support, provider trust, replay protection and independent security acceptance must be qualified for each operation.</p>
             </div>
             <div class="proposal-card">
                 <h3>Target D: <code>conxius-platform</code> (Enterprise Orchestration)</h3>
-                <p>Deployment scaffolding for the commercial tier, providing multi-tenant management dashboards, automated multi-cloud CI/CD pipelines (AWS/GCP), and SLA orchestration for high-availability Nexus nodes.</p>
+                <p>Deployment scaffolding, dashboards and lifecycle contracts for evaluation. Builds do not establish accepted multi-cloud operations, high availability or managed-node SLAs.</p>
             </div>
         </section>
 
@@ -193,7 +193,7 @@
                 </article>
                 <article class="detail-card">
                     <h3>6. Core Cryptographic Primitives</h3>
-                    <p>Formally verified Rust primitives in <code>lib-conxian-core</code> providing zero-allocation cryptographic operations, memory safety, and protocol-wide type definitions.</p>
+                    <p>Rust cryptographic primitives and shared type definitions in <code>lib-conxian-core</code>. Test results and individual proof artifacts qualify specific operations; this is not a blanket formal-verification claim.</p>
                 </article>
                 <article class="detail-card">
                     <h3>7. Sovereign Database Topologies</h3>
@@ -211,7 +211,7 @@
             <p class="section-intro">All engineering and research activities across the Conxian organization adhere strictly to enforced operational rules and architectural standards.</p>
             <div class="inline-list">
                 <li><strong>Legacy Asset Governance:</strong> Legacy assets are permanently deprecated and purged across codebases, site surfaces, and documentation. All efforts focus exclusively on active modular components.</li>
-                <li><strong>Domain Posture Compliance:</strong> Protocol endpoints (Nexus, Gateway, SDK, Platform, Market) resolve strictly under <code>conxian.org</code>, while operational services (BOS, Site) resolve under <code>conxian-labs.com</code>.</li>
+                <li><strong>Domain Posture Compliance:</strong> The intended protocol and corporate domain map requires verified provider bindings, authentication/state checks and rollback evidence. Conflicting Labs/control ownership remains tracked under Platform #1167 and Business #1349.</li>
                 <li><strong>Zero Secret Egress (ZSE) Enforcement:</strong> Strict <code>.gitignore</code> templates, automated secret scanning in GitHub Actions, and environment template whitelisting across all repositories.</li>
                 <li><strong>Institutional UX Standards:</strong> Adherence to the "Ivory Foundation" design system with 17.5:1 contrast ratios, JetBrains Mono typography, 4px institutional borders, and zero-line tonal shifts.</li>
             </div>

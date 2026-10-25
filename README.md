@@ -39,18 +39,23 @@ This repository is maintained by Conxian-Labs as the builder and operator surfac
 
 ## Strategic Boundary & Zero-Token Mandate
 
-The Conxian ecosystem is natively anchored to **Bitcoin L1** and operates under a strict **Zero-Token Policy**: there are no native protocol tokens, speculative tokenomics, or staking mechanisms.
+The Conxian ecosystem is rooted in **Bitcoin L1** and introduces no native Conxian token, native staking incentive or speculative tokenomics. External assets, bridges and independently evidenced staking adapters remain in scope; their availability requires operation-specific evidence.
 
 The ecosystem enforces a strict two-tier domain posture:
-- **`conxian.org` (Open-Source Protocol Surface)**: Open-source public goods, Rust-based Zero-Knowledge (ZK) state verification, stateless routing, public governance identity, and SDK primitives under permissive MIT licensing.
-- **`conxian-labs.com` (Corporate & B2B Operations Surface)**: Commercial builder/operator layer providing SLA-backed APIs, ISO 20022 financial message translation, managed node orchestration, and enterprise security auditing.
+- **`conxian.org` (Protocol & Developer Surface)**: Technical references, public governance identity, reusable primitives and independently evidenced verification. Each repository's license is authoritative; Nexus is BUSL-1.1 source available, so the ecosystem is not uniformly MIT licensed.
+- **`conxian-labs.com` (Corporate & B2B Operations Surface)**: Builder/operator information, managed-service discovery and scoped enterprise evaluation. Actual managed availability, entitlement and SLA commitments require separate operational acceptance.
 
 ## 2026 Core Execution Targets
 
-- **`conxian-nexus` (Verification Engine)**: Universal ZK state verification rooted in Bitcoin L1, utilizing modern zkVM proving environments (SP1, RISC Zero).
+- **`conxian-nexus` (Verification Engine)**: State observation/proof and administrative workflow interfaces. SP1/RISC Zero are research directions; this site does not establish a deployed universal zkVM verifier.
 - **`conxian-gateway` (Commercial Bridge)**: Enterprise middleware translating ISO 20022 messaging (XML/JSON) to tokenless routing with rate limiting, API key middleware, and audit logging.
-- **`conxius-enclave-sdk` (Hardware Security)**: Android StrongBox TEE hardware isolation for offline-first non-custodial key management and signing.
-- **`conxius-platform` (Enterprise Orchestration)**: Multi-tenant management dashboards, automated multi-cloud CI/CD (AWS/GCP), and SLA orchestration for high-availability node deployments.
+- **`conxius-enclave-sdk` (Hardware Security)**: Non-custodial key-management, signing and attestation interfaces; actual device/provider/trust/replay and independent security evidence qualify each operation.
+- **`conxius-platform` (Enterprise Orchestration)**: Platform scaffolding, telemetry and lifecycle contracts. A dashboard build does not establish multi-cloud availability or an accepted SLA.
+
+The domain declarations below are intended placement, not proof of live routing.
+The current map contains conflicting Labs/control ownership declarations tracked
+under Platform #1167 and Business #1349; qualified source, auth/state and rollback
+read-back are required before any cutover.
 
 ## Relationship to the Conxian stack
 
