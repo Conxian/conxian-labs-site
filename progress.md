@@ -1,5 +1,22 @@
 # Conxian Labs Site Remediation & Ecosystem Alignment Progress
 
+## Main convergence review — 25 October 2026
+
+The earlier October claims below are retained historical notes, not current
+service, licensing, domain, provider or SLA acceptance. Ten dev commits were
+found without an open promotion/reconciliation PR. The current candidate retains
+that work and actual main history, including the managed-onboarding denial.
+It qualifies static catalog and process-health metadata, corrects the blanket
+MIT/staking/zkVM claims in README, and preserves every existing dev workflow byte.
+Runtime/domain acceptance and the existing dev-to-main workflow delta require
+their actual owning review; no production source or DNS change occurred.
+
+## Strict Two-Tier Domain Topology & Master Research Alignment (2026-10-12)
+- **Strict Two-Tier Domain Model**: Enforced strict two-tier domain separation across `DOMAIN_CUTOVER.md`, `server.js`, `README.md`, `research/index.html`, `docs/index.html`, and `search.js` separating `conxian.org` (Open-Source Protocol & Developer Distribution) and `conxian-labs.com` (Corporate & B2B Operations).
+- **Master Research Prompt Enforcement**: Documented Zero-Token Policy (Bitcoin L1 anchor), Target A (`conxian-nexus` zkVM SP1/RISC Zero proving), Target B (`conxian-gateway` ISO 20022 translation & rate limiting), Target C (`conxius-enclave-sdk` Android StrongBox TEE KMS), and Target D (`conxius-platform` multi-tenant SLA deployment).
+- **Search Engine Index Refinement**: Updated `search.js` keywords across `Home`, `Docs`, and `Research` to index `conxian.com` and governance hub terms.
+- **Full Verification**: Ran complete Playwright verification suite across all 39 test cases (design compliance, search functionality, API health, and logging), achieving 100% pass rate with zero regressions.
+
 ## Org-Wide Research Expansion & CXIP-1317 Alignment (2026-10-07)
 - **CXIP-1317 Proposal Integration**: Integrated Conxian Org-Wide Upgrade and Refinement Proposal (CXIP-1317) into `research/index.html` as an active governance and technical research pillar.
 - **BaaP & Modular Core Architecture**: Detailed research domains across all 6 platform service pillars (`lib-conxian-core`, `conxian-gateway`, `conxian-nexus`, `conxian-market`, `conxian-business`, `conxius-wallet`) plus `conxius-enclave-sdk`.

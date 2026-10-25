@@ -1,18 +1,29 @@
 # Domain Cutover & Business-as-a-Platform (BaaP) Alignment Guide
 
+## Current qualification — 25 October 2026
+
+The routing tables and provider identifiers below are historical design references,
+not executable cutover instructions or verified current service bindings. Live
+Cloudflare records point the Labs apex and www/control hosts at Vercel, while the
+Labs Render origin is independently reachable. This conflicts with the intended
+Labs-site placement below; Platform #1167 and Business #1349 own reconciliation.
+Do not apply the historical Namecheap/Render DNS settings from this file without
+verified ownership, source revision, authentication/state and rollback evidence.
+No DNS or production deployment changes are included in this candidate.
+
 ## 1. Domain Topology & Strategic Narrative Distinction
 
-To serve all services correctly from a **Business-as-a-Platform (BaaP)** operational perspective, the organization enforces a strict legal and architectural firewall that separates the **Open-Source Protocol / Dev Surface (`conxian.org`)** from the **Corporate / Operations Surface (`conxian-labs.com`)**:
+To serve all services correctly from a **Business-as-a-Platform (BaaP)** operational perspective, the organization enforces a strict two-tier domain topology separating the **Open-Source Protocol / Dev Surface (`conxian.org`)** and the **Corporate / Operations Surface (`conxian-labs.com`)**:
 
 *   **`conxian.org` (Protocol & Developer Distribution Surface)**:
-    - **Identity**: Pure technology distribution, open-source protocol primitives, WASM/OCI registries, and public identity. No corporate marketing.
+    - **Identity**: Pure technology distribution, open-source protocol primitives, WASM/OCI registries, public governance identity, and developer documentation. No corporate marketing.
     - **Subdomain Routing Matrix**:
       - `nexus.conxian.org` -> `conxian-nexus` (Decentralized Proof & Price Oracle & Proof Synchronization)
       - `gateway.conxian.org` -> `conxian-gateway` (API Middleware, Fusion JWT/Enclave Auth & Sentinel Secret Filter)
       - `sdk.conxian.org` -> `conxius-enclave-sdk` (Cross-Platform Enclave Hardware Signing Abstraction)
       - `platform.conxian.org` -> `conxius-platform` (Platform Environment & Container Scaffolding)
       - `market.conxian.org` -> `conxian_market` (Nakamoto-Ready Settlement & Liquidity Engine)
-*   **`conxian-labs.com` (Corporate, Governance, & B2B Operations Surface)**:
+*   **`conxian-labs.com` (Corporate & B2B Operations Surface)**:
     - **Identity**: Conxian Labs — Builder, Operator, Enterprise Solutions, B2B Sales, Legal, and Infrastructure Support.
     - **Subdomain Routing Matrix**:
       - `bos.conxian-labs.com` -> `conxian-business` (Business Operating System / BOS Execution Engine)
