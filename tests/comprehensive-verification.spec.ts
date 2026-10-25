@@ -228,7 +228,7 @@ test.describe('Conxian Labs Comprehensive Site Verification', () => {
         await page.goto(`${BASE_URL}/index.html`);
         await expect(searchBar).toBeVisible();
     });
-    test("server API endpoints /api/health and /api/site-map structure", async ({ request }) => {
+    test("server API endpoints /api/health, /api/services, and /api/site-map structure", async ({ request }) => {
         // Express app module testing via API request context or local server spawn
         const server = require("../server.js");
         const http = require("http");
@@ -246,6 +246,17 @@ test.describe('Conxian Labs Comprehensive Site Verification', () => {
                 expect(healthJson.service).toBe("conxian-labs-site");
                 expect(healthJson.infrastructure.provider).toBe("Render");
                 expect(healthJson.infrastructure.databases).toContain("market");
+
+                // Test /api/services
+                const servicesRes = await fetch(`http://localhost:${port}/api/services`);
+                expect(servicesRes.status).toBe(200);
+                const servicesJson = await servicesRes.json();
+                expect(servicesJson.status).toBe("unverified");
+                expect(servicesJson.productionSupported).toBe(false);
+                expect(servicesJson.scope).toBe("reference-catalog");
+                expect(servicesJson.domains.protocol).toBe("conxian.org");
+                expect(servicesJson.domains.corporate).toBe("conxian-labs.com");
+                expect(servicesJson.routingMatrix["conxian-nexus"]).toBe("nexus.conxian.org");
 
                 // Test /api/site-map
                 const mapRes = await fetch(`http://localhost:${port}/api/site-map`);

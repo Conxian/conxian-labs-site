@@ -47,6 +47,11 @@ for (const p of pageMetadata) {
   }
 }
 
+// Redirect /bos path to /enterprise (BOS discovery & execution surface)
+app.get("/bos", (req, res) => {
+  res.redirect(301, "/enterprise");
+});
+
 app.use(express.static(path.join(__dirname), {
   index: false,
   dotfiles: "deny",
@@ -54,8 +59,11 @@ app.use(express.static(path.join(__dirname), {
 
 // Dynamic API endpoints
 app.get("/api/health", (req, res) => {
+  res.setHeader("Cache-Control", "no-store");
   res.json({
     status: "healthy",
+    scope: "web-process",
+    dependenciesVerified: false,
     service: "conxian-labs-site",
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),
@@ -63,6 +71,7 @@ app.get("/api/health", (req, res) => {
     version: require("./package.json").version,
     node: process.version,
     infrastructure: {
+      status: "unverified",
       provider: "Render",
       databases: ["corelibs", "Software dev kit", "Business Operating System", "market", "Gateway", "Conxian Nexus"]
     }
@@ -70,9 +79,13 @@ app.get("/api/health", (req, res) => {
 });
 
 app.get("/api/services", (req, res) => {
+  res.setHeader("Cache-Control", "no-store");
   res.json({
     platform: "Conxian Business-as-a-Platform (BaaP)",
-    status: "operational",
+    status: "unverified",
+    scope: "reference-catalog",
+    productionSupported: false,
+    routingStatus: "intended-unverified",
     domains: {
       protocol: "conxian.org",
       corporate: "conxian-labs.com"
@@ -94,8 +107,10 @@ app.get("/api/services", (req, res) => {
       { id: "sdk", name: "Conxius Enclave SDK", type: "Cross-Platform Hardware Signing Abstraction", status: "active", host: "sdk.conxian.org", route: "/sdk" },
       { id: "platform", name: "Conxius Platform Scaffolding", type: "Platform Environment & Container Runner", status: "active", host: "platform.conxian.org", route: "/operators" },
       { id: "corelibs", name: "Corelibs Cryptographic Library", type: "Shared Protocol Cryptographic Primitives", status: "active", host: "sdk.conxian.org", route: "/docs" }
-    ],
+    ].map(service => ({ ...service, status: "unverified", productionSupported: false })),
     infrastructureTopology: {
+      status: "historical-reference",
+      verified: false,
       renderHost: "conxian-labs-site (srv-d9ndhr2jnfac73as7te0)",
       neonDatabases: ["corelibs", "Software dev kit", "Business Operating System", "market", "Gateway", "Conxian Nexus"],
       supabaseProjects: ["Conxian BOS (yauldfcpswnufgwfvnlr)", "Conxian-platform (iczqutrbbfudfzfplymc)"]
@@ -113,35 +128,30 @@ app.get("/api/site-map", (req, res) => {
   res.json({ routes, total: routes.length });
 });
 
-// ── Managed SaaS Gateway onboarding surface ────────────────────────────────
-// Config-driven subscriber onboarding for indie AI agent developers. The
-// Merchant-of-Record checkout URL (Lemon Squeezy / Paddle) is injected via
-// MERCHANT_CHECKOUT_URL; when absent, only the x402 crypto path is offered.
+// Managed pricing remains a design reference until payment, entitlement and
+// runtime provisioning have independently verifiable integration evidence.
 const MANAGED_TIER = {
   id: "managed",
   name: "Managed SaaS Gateway",
-  // Single source of truth for managed pricing is the gateway billing engine:
-  //   conxian-gateway/internal/engine/src/billing.rs
-  //   (MANAGED_GATEWAY_BASE_FEE_CENTS / RELAY_MESSAGE_COST_CENTS /
-  //    RWA_VERIFICATION_COST_CENTS / SETTLEMENT_OP_COST_CENTS).
+  schemaVersion: 1,
+  pricingStatus: "reference-only",
+  availability: "unavailable",
+  productionSupported: false,
   monthlyUsd: 200,
   perRelayMessageUsd: 0.01,
   perRwaVerificationUsd: 0.05,
   perSettlementOpUsd: 0.1,
-  endpoint: "https://api.conxian-labs.com/v1/agent",
-  features: [
-    "Instant high-throughput endpoint provisioning",
-    "Pre-configured TEE/Nitro attestation verification",
-    "x402 (HTTP 402) + ERC-8183 job-card escrow",
-    "Multi-tenant API keys with rate limiting",
-  ],
+  endpoint: null,
+  features: [],
 };
 
 app.get("/api/pricing/managed", (req, res) => {
+  res.setHeader("Cache-Control", "no-store");
   res.json({
     ...MANAGED_TIER,
-    checkoutUrl: process.env.MERCHANT_CHECKOUT_URL || null,
-    x402PaymentPointer: "$conxian.com/market/subscription/managed",
+    checkoutUrl: null,
+    x402PaymentPointer: null,
+    qualificationRequired: ["payment", "entitlement", "runtime-provisioning"],
   });
 });
 
@@ -154,21 +164,15 @@ app.post("/api/onboarding/subscribe", (req, res) => {
     return res.status(400).json({ error: "A valid email is required", code: "invalid_email" });
   }
 
-  const checkoutUrl = process.env.MERCHANT_CHECKOUT_URL || null;
-  res.status(200).json({
+  res.setHeader("Cache-Control", "no-store");
+  return res.status(503).json({
+    error: "Managed subscriptions are not available",
+    code: "subscription_unavailable",
     tier: MANAGED_TIER.id,
-    checkoutUrl,
-    x402Demand: {
-      scheme: "x402",
-      currency: "sats",
-      amount: "0",
-      resourceId: "subscription-managed",
-      paymentPointer: "$conxian.com/market/subscription/managed",
-      description: "Conxian Managed SaaS Gateway — monthly subscription",
-    },
-    next: checkoutUrl
-      ? "Complete checkout to receive a managed API key via webhook"
-      : "x402 crypto path: issue a payment demand against the payment pointer",
+    availability: "unavailable",
+    checkoutUrl: null,
+    x402Demand: null,
+    next: "Contact the commercial team for a scoped evaluation",
   });
 });
 
@@ -177,9 +181,11 @@ app.use((req, res) => {
   res.status(404).sendFile(path.join(__dirname, "404.html"));
 });
 
-app.listen(PORT, () => {
-  console.log(`Conxian-Labs dynamic server running on port ${PORT}`);
-  console.log(`Health check: http://localhost:${PORT}/api/health`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Conxian-Labs dynamic server running on port ${PORT}`);
+    console.log(`Health check: http://localhost:${PORT}/api/health`);
+  });
+}
 
 module.exports = app;

@@ -97,6 +97,28 @@
         </section>
 
         <section class="section">
+            <h2>Architecture & Integration Specifications</h2>
+            <div class="detail-grid">
+                <article class="detail-card">
+                    <h3>ISO 20022 Gateway Translation</h3>
+                    <p><code>conxian-gateway</code> translates financial messaging standards (ISO 20022 pacs, camt, pain XML/JSON formats) directly into tokenless routing instructions. Includes rate-limiting, API key auth middleware, and audit logs.</p>
+                </article>
+                <article class="detail-card">
+                    <h3>Android StrongBox TEE KMS</h3>
+                    <p><code>conxius-enclave-sdk</code> exposes non-custodial key-management, attestation and signing interfaces. Device/provider support, trust, replay protection and independent security evidence must qualify each operation.</p>
+                </article>
+                <article class="detail-card">
+                    <h3>Bitcoin L1 zkVM State Proofs</h3>
+                    <p><code>conxian-nexus</code> exposes state observation, proof and administrative interfaces. SP1/RISC Zero are research directions, not an accepted deployed universal verifier. No native Conxian token or staking incentive is introduced; independently evidenced external adapters remain in scope. Nexus is BUSL-1.1 source available.</p>
+                </article>
+                <article class="detail-card">
+                    <h3>Enterprise SLA Node Orchestration</h3>
+                    <p><code>conxius-platform</code> provides platform scaffolding, telemetry and lifecycle contracts. A dashboard build does not establish multi-cloud availability, managed provisioning or an accepted SLA.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="section">
             <h2>Ecosystem Components</h2>
             <ul class="inline-list">
                 <li><strong>conxian-market:</strong> Active market, liquidity, and asset execution engine supporting institutional settlement and order routing.</li>
