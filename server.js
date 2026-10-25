@@ -59,8 +59,11 @@ app.use(express.static(path.join(__dirname), {
 
 // Dynamic API endpoints
 app.get("/api/health", (req, res) => {
+  res.setHeader("Cache-Control", "no-store");
   res.json({
     status: "healthy",
+    scope: "web-process",
+    dependenciesVerified: false,
     service: "conxian-labs-site",
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),
@@ -68,6 +71,7 @@ app.get("/api/health", (req, res) => {
     version: require("./package.json").version,
     node: process.version,
     infrastructure: {
+      status: "unverified",
       provider: "Render",
       databases: ["corelibs", "Software dev kit", "Business Operating System", "market", "Gateway", "Conxian Nexus"]
     }
@@ -75,9 +79,13 @@ app.get("/api/health", (req, res) => {
 });
 
 app.get("/api/services", (req, res) => {
+  res.setHeader("Cache-Control", "no-store");
   res.json({
     platform: "Conxian Business-as-a-Platform (BaaP)",
-    status: "operational",
+    status: "unverified",
+    scope: "reference-catalog",
+    productionSupported: false,
+    routingStatus: "intended-unverified",
     domains: {
       protocol: "conxian.org",
       corporate: "conxian-labs.com"
@@ -99,8 +107,10 @@ app.get("/api/services", (req, res) => {
       { id: "sdk", name: "Conxius Enclave SDK", type: "Cross-Platform Hardware Signing Abstraction", status: "active", host: "sdk.conxian.org", route: "/sdk" },
       { id: "platform", name: "Conxius Platform Scaffolding", type: "Platform Environment & Container Runner", status: "active", host: "platform.conxian.org", route: "/operators" },
       { id: "corelibs", name: "Corelibs Cryptographic Library", type: "Shared Protocol Cryptographic Primitives", status: "active", host: "sdk.conxian.org", route: "/docs" }
-    ],
+    ].map(service => ({ ...service, status: "unverified", productionSupported: false })),
     infrastructureTopology: {
+      status: "historical-reference",
+      verified: false,
       renderHost: "conxian-labs-site (srv-d9ndhr2jnfac73as7te0)",
       neonDatabases: ["corelibs", "Software dev kit", "Business Operating System", "market", "Gateway", "Conxian Nexus"],
       supabaseProjects: ["Conxian BOS (yauldfcpswnufgwfvnlr)", "Conxian-platform (iczqutrbbfudfzfplymc)"]

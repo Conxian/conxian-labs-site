@@ -17,6 +17,46 @@ after(async () => {
 const post = body => fetch(`${base}/api/onboarding/subscribe`, {
   method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body),
 });
+test("service catalog preserves intended routes without claiming verified deployments", async () => {
+  const response = await fetch(`${base}/api/services`);
+  assert.equal(response.status, 200);
+  assert.equal(response.headers.get("cache-control"), "no-store");
+  const body = await response.json();
+  assert.equal(body.status, "unverified");
+  assert.equal(body.scope, "reference-catalog");
+  assert.equal(body.productionSupported, false);
+  assert.equal(body.routingStatus, "intended-unverified");
+  assert.deepEqual(body.services.map(({ id, route }) => [id, route]), [
+    ["bos", "/enterprise"], ["nexus", "/research"], ["gateway", "/docs"],
+    ["market", "/commercial"], ["sdk", "/sdk"], ["platform", "/operators"], ["corelibs", "/docs"],
+  ]);
+  for (const service of body.services) {
+    assert.equal(service.status, "unverified");
+    assert.equal(service.productionSupported, false);
+  }
+  assert.equal(body.infrastructureTopology.status, "historical-reference");
+  assert.equal(body.infrastructureTopology.verified, false);
+  assert.equal(body.routingMatrix["conxian-business"], "bos.conxian-labs.com");
+});
+test("health verifies only this web process", async () => {
+  const response = await fetch(`${base}/api/health`);
+  assert.equal(response.status, 200);
+  assert.equal(response.headers.get("cache-control"), "no-store");
+  const body = await response.json();
+  assert.equal(body.status, "healthy");
+  assert.equal(body.scope, "web-process");
+  assert.equal(body.dependenciesVerified, false);
+  assert.equal(body.infrastructure.status, "unverified");
+});
+test("BOS discovery redirect and published site map remain accessible", async () => {
+  const response = await fetch(`${base}/bos`, { redirect: "manual" });
+  assert.equal(response.status, 301);
+  assert.equal(response.headers.get("location"), "/enterprise");
+  const siteMap = await (await fetch(`${base}/api/site-map`)).json();
+  assert.equal(siteMap.total, siteMap.routes.length);
+  assert.ok(siteMap.routes.some(({ route }) => route === "/enterprise"));
+  assert.equal((await fetch(`${base}/enterprise`)).status, 200);
+});
 test("pricing preserves reference amounts without a live offer or payment pointer", async () => {
   const response = await fetch(`${base}/api/pricing/managed`);
   assert.equal(response.status, 200);
