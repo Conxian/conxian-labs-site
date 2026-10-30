@@ -45,14 +45,14 @@ To serve all services correctly from a **Business-as-a-Platform (BaaP)** operati
 
 ---
 
-## 3. Namecheap DNS Settings for `conxian-labs.com`
+## 3. Cloudflare DNS Settings for `conxian-labs.com`
 
-To map `conxian-labs.com` to the live Render web service (`conxian-labs-site`):
+Apex redirects to `www` via Vercel; `www` serves `conxian-labs-site` on Render (one-voice model: `docs/DOMAIN_ALIGNMENT_ISSUES.md` in `conxian-business`).
 
 ### Root Domain: `conxian-labs.com`
 *   **Type:** A Record
 *   **Host:** `@`
-*   **Value:** `216.24.57.1` (Render Anycast IP)
+*   **Value:** `76.76.21.21` (Vercel — apex redirect to `www`)
 *   **TTL:** Automatic
 
 ### WWW Subdomain: `www.conxian-labs.com`
