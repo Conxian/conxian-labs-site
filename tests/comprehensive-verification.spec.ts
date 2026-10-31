@@ -14,6 +14,7 @@ const PAGES = [
     'partners/index.html',
     'operators/index.html',
     'enterprise/index.html',
+    'bos/index.html',
     'research/index.html',
     'privacy/index.html',
     'terms/index.html',
@@ -262,20 +263,22 @@ test.describe('Conxian Labs Comprehensive Site Verification', () => {
                 const mapRes = await fetch(`http://localhost:${port}/api/site-map`);
                 expect(mapRes.status).toBe(200);
                 const mapJson = await mapRes.json();
-                expect(mapJson.total).toBe(14);
+                expect(mapJson.total).toBe(15);
                 expect(mapJson.routes.some(r => r.route === "/commercial/pilot")).toBe(true);
+                expect(mapJson.routes.some(r => r.route === "/bos")).toBe(true);
 
                 s.close(resolve);
             });
         });
     });
 
-    test("sitemap.xml has valid formatting and covers all 14 surfaces", async () => {
+    test("sitemap.xml has valid formatting and covers all 15 surfaces", async () => {
         const sitemapContent = fs.readFileSync(path.join(process.cwd(), "sitemap.xml"), "utf8");
         expect(sitemapContent).toContain('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">');
         expect(sitemapContent).toContain("<loc>https://www.conxian-labs.com/commercial/pilot</loc>");
+        expect(sitemapContent).toContain("<loc>https://www.conxian-labs.com/bos</loc>");
         expect(sitemapContent).toContain("<lastmod>2026-08-27</lastmod>");
         const urlCount = (sitemapContent.match(/<url>/g) || []).length;
-        expect(urlCount).toBe(14);
+        expect(urlCount).toBe(15);
     });
 });
