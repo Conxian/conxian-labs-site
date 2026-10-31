@@ -17,5 +17,11 @@
     "@playwright/browser-chromium": "^1.60.0",
     "compression": "^1.8.1",
     "express": "^5.2.1"
+  },
+  "overrides": {
+    "proxy-addr": "2.0.8",
+    "body-parser": "2.4.0",
+    "compression": "1.8.2",
+    "source-map-js": "1.2.2"
   }
 }
