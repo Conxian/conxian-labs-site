@@ -28,6 +28,7 @@ const pageMetadata = [
   { route: 'commercial/pilot', title: "Scoped Pilot Brief", desc: "Bounded pilot narrative and evaluation criteria", priority: 0.8 },
   { route: "partners", title: "Partners", desc: "Ecosystem partners and collaborative initiatives", priority: 0.6 },
   { route: "operators", title: "Operators", desc: "Node operators and infrastructure providers", priority: 0.6 },
+  { route: "bos", title: "BOS — Business Operating System", desc: "Public-safe operating model, knowledge graph, and framework", priority: 0.7 },
   { route: "enterprise", title: "Enterprise", desc: "Institutional deployment discovery and governance", priority: 0.6 },
   { route: "research", title: "Research", desc: "Research surfaces and cryptographic papers", priority: 0.6 },
   { route: "about", title: "About — Conxian Labs", desc: "Builder and operator layer around Conxian", priority: 0.5 },
@@ -46,11 +47,6 @@ for (const p of pageMetadata) {
     });
   }
 }
-
-// Redirect /bos path to /enterprise (BOS discovery & execution surface)
-app.get("/bos", (req, res) => {
-  res.redirect(301, "/enterprise");
-});
 
 app.use(express.static(path.join(__dirname), {
   index: false,
@@ -100,7 +96,7 @@ app.get("/api/services", (req, res) => {
       "conxian-labs-site": "www.conxian-labs.com"
     },
     services: [
-      { id: "bos", name: "Business Operating System (BOS)", type: "State Orchestration & Governance", status: "active", host: "bos.conxian-labs.com", route: "/enterprise" },
+      { id: "bos", name: "Business Operating System (BOS)", type: "State Orchestration & Governance", status: "active", host: "bos.conxian-labs.com", route: "/bos" },
       { id: "nexus", name: "Conxian Nexus Proof & Price Oracle", type: "Decentralized Proof & Oracle Layer", status: "active", host: "nexus.conxian.org", route: "/research" },
       { id: "gateway", name: "Gateway (Fusion & Sentinel)", type: "Middleware & Access Control", status: "active", host: "gateway.conxian.org", route: "/docs" },
       { id: "market", name: "Conxian Market Settlement Engine", type: "Nakamoto-Ready Liquidity Engine", status: "active", host: "market.conxian.org", route: "/commercial" },

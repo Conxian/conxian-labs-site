@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="../logger.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Conxian Labs Business Operating System (BOS) — the public-safe operating model, knowledge graph, and framework governing the Conxian ecosystem.">
+    <title>Conxian Labs | BOS</title>
+    <link rel="canonical" href="https://www.conxian-labs.com/bos">
+    <meta property="og:url" content="https://www.conxian-labs.com/bos">
+    <meta property="og:title" content="Conxian Labs | Business Operating System">
+    <meta property="og:description" content="Public-safe operating model, knowledge graph, and framework governing the Conxian ecosystem.">
+    <meta property="og:image" content="https://www.conxian-labs.com/Conxian-Labs_Logo.jpg">
+    <link rel="icon" href="../Conxian_Logo.jpg" type="image/jpeg">
+    <link rel="stylesheet" href="../package-page.css">
+    <script src="../search.js"></script>
+    <style>
+        .search-bar {
+            display: flex; align-items: center; gap: 0.5rem;
+            margin-right: 1rem;
+        }
+        .search-bar input {
+            background: var(--surface-low, #F6F3F2);
+            border: 1px solid var(--ghost-border, rgba(221,193,178,0.15));
+            border-radius: 999px; padding: 0.4rem 1rem;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+            color: var(--text-main); width: 180px; outline: none;
+            transition: border-color 0.2s;
+        }
+        .search-bar input:focus { border-color: var(--accent); }
+        .search-results {
+            display: none; position: absolute; top: 100%; left: 0; right: 0;
+            background: var(--surface, #FFF); border: 1px solid var(--ghost-border);
+            border-radius: 4px; margin-top: 0.25rem; max-height: 300px;
+            overflow-y: auto; z-index: 100; box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        .search-results.visible { display: block; }
+        .search-result {
+            padding: 0.6rem 1rem; cursor: pointer; border-bottom: 1px solid var(--ghost-border);
+            font-size: 0.7rem;
+        }
+        .search-result:hover, .search-result.active { background: var(--surface-low); }
+        .search-result .title { font-weight: 600; color: var(--text-main); }
+        .search-result .desc { color: var(--text-dim); font-size: 0.65rem; margin-top: 0.15rem; }
+        .bos-cycle {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+            color: var(--text-dim); padding: 1rem; border: 1px solid var(--ghost-border);
+            border-radius: 6px; background: var(--surface-low); overflow-x: auto; white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+    <header class="nav-bar">
+        <div class="logo-container">
+            <img src="../Conxian-Labs_Logo.jpg" alt="Conxian Labs">
+        </div>
+        <nav class="nav-links">
+            <a href="/">Home</a>
+            <a href="/sdk">SDK</a>
+            <a href="/docs">Docs</a>
+            <a href="/pricing">Pricing</a>
+            <a href="/bos" class="active">BOS</a>
+            <a href="/enterprise">Enterprise</a>
+            <a href="/partners">Partners</a>
+            <a href="/operators">Operators</a>
+            <a href="/research">Research</a>
+        </nav>
+                    <div class="search-bar" style="position:relative;">
+                <input type="text" placeholder="Search..." class="subpage-search-input">
+                <div class="search-results subpage-search-results"></div>
+            </div>
+            <div class="sys-status">SYS_ZA_1 // ACTIVE</div>
+    </header>
+
+    <main class="page">
+        <section class="hero">
+            <span class="kicker">Business Operating System</span>
+            <h1>The public-safe operating model for Conxian</h1>
+            <p>The BOS is Conxian's machine-ingestible knowledge graph, framework, and research-cycle operating model. It is the canonical coordination surface for ecosystem inventory, gap mapping, comparable scoring, selection, implementation traceability, and evidence review — public-safe by design, with restricted legal, financial, identity, custody, and credential material kept out of Git.</p>
+            <div class="hero-actions">
+                <a class="btn btn-primary" href="https://github.com/Conxian/conxian-business" target="_blank" rel="noopener noreferrer">Canonical BOS repository</a>
+                <a class="btn btn-secondary" href="#operating-model">Operating model</a>
+            </div>
+        </section>
+
+        <section class="section" id="domains">
+            <h2>Domain Separation Firewall</h2>
+            <p class="section-intro">The BOS enforces a strict boundary between the developer protocol surface and the corporate governance surface.</p>
+            <div class="detail-grid">
+                <article class="detail-card">
+                    <h3>conxian.org — Protocol</h3>
+                    <p>Developer surfaces: <code>nexus</code>, <code>gateway</code>, <code>sdk</code>, <code>platform</code>, <code>market</code>, <code>wallet</code>. No SLA; community best-effort support.</p>
+                </article>
+                <article class="detail-card">
+                    <h3>conxian-labs.com — Governance</h3>
+                    <p>Corporate surfaces: <code>www</code>, <code>bos</code>, <code>api</code>, <code>status</code>. The BOS lives here as the public governance entry point.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="section" id="operating-model">
+            <h2>Operating Model</h2>
+            <p class="section-intro">The public-safe research-cycle lifecycle. GitHub Issues, PRs, and the authorized organization Project are the coordination surface.</p>
+            <div class="bos-cycle">inventory → gap map → score → selected initiative → implementation/evidence → review → next-cycle refresh</div>
+            <ul class="inline-list">
+                <li><strong>One authority issue</strong> owns each cycle; existing implementation and acceptance trackers remain authoritative for their scope.</li>
+                <li><strong>Public-safe artifacts</strong> at each phase gate: authority issue, verified gap statement, 100-point rubric scores, selection decision, implementation evidence.</li>
+                <li><strong>Restricted material</strong> (legal, financial, identity, custody, recovery, secrets, PII) never enters Git, issues, PRs, or Projects.</li>
+            </ul>
+        </section>
+
+        <section class="section">
+            <h2>Knowledge Framework</h2>
+            <p class="section-intro">Agentic-first, machine-readable knowledge architecture (Version 4.5) designed for AI consumption and autonomous action.</p>
+            <div class="detail-grid">
+                <article class="detail-card">
+                    <h3>Structured over prose</h3>
+                    <p>YAML/JSON tables and typed entities with <code>created</code>, <code>updated</code>, <code>version</code>, and <code>status</code>.</p>
+                </article>
+                <article class="detail-card">
+                    <h3>Query-first mapping</h3>
+                    <p>Agent questions map directly to sections (CI failures, secrets, ownership, decisions, vulnerabilities, deployments).</p>
+                </article>
+                <article class="detail-card">
+                    <h3>Cross-referenced</h3>
+                    <p>Relations link entities across repositories, decisions, vulnerabilities, and deployment surfaces.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Canonical BOS documents</h2>
+            <p class="section-intro">Single source of truth lives in the <code>conxian-business</code> repository.</p>
+            <ul class="inline-list">
+                <li><a href="https://github.com/Conxian/conxian-business/blob/main/BOS_KNOWLEDGE_GRAPH.md" target="_blank" rel="noopener noreferrer">Knowledge Graph</a> — live topology, session updates, and decisions.</li>
+                <li><a href="https://github.com/Conxian/conxian-business/blob/main/docs/BOS_KNOWLEDGE_FRAMEWORK.md" target="_blank" rel="noopener noreferrer">Knowledge Framework</a> — the machine-readable entity schema and query mapping.</li>
+                <li><a href="https://github.com/Conxian/conxian-business/blob/main/docs/GITHUB_FIRST_BOS_OPERATING_MODEL.md" target="_blank" rel="noopener noreferrer">Operating Model</a> — the public-safe research-cycle lifecycle and phase gates.</li>
+                <li><a href="https://github.com/Conxian/conxian-business/blob/main/docs/BOS_RESEARCH_CANDIDATE_LEDGER.md" target="_blank" rel="noopener noreferrer">Research Candidate Ledger</a> — the scored candidate registry.</li>
+                <li><a href="https://github.com/Conxian/conxian-business/blob/main/docs/RESEARCH_IMPLEMENTATION_RECONCILIATION_2026_10_15.md" target="_blank" rel="noopener noreferrer">Implementation Reconciliation</a> — current dated coordination and phase map.</li>
+            </ul>
+        </section>
+
+        <section class="section">
+            <h2>Per-repository buildout</h2>
+            <p class="section-intro">Each repository has a BOS-level business role, governance controls, and a prioritized build/repair list.</p>
+            <ul class="inline-list">
+                <li><a href="https://github.com/Conxian/conxian-business/blob/main/docs/CONXIAN_LABS_SITE_BOS_BUILDOUT.md" target="_blank" rel="noopener noreferrer">conxian-labs-site</a></li>
+                <li><a href="https://github.com/Conxian/conxian-business/blob/main/docs/CONXIAN_GATEWAY_BOS_BUILDOUT.md" target="_blank" rel="noopener noreferrer">conxian-gateway</a></li>
+                <li><a href="https://github.com/Conxian/conxian-business/blob/main/docs/CONXIAN_NEXUS_BOS_BUILDOUT.md" target="_blank" rel="noopener noreferrer">conxian-nexus</a></li>
+                <li><a href="https://github.com/Conxian/conxian-business/blob/main/docs/CONXIUS_ENCLAVE_SDK_BOS_BUILDOUT.md" target="_blank" rel="noopener noreferrer">conxius-enclave-sdk</a></li>
+                <li><a href="https://github.com/Conxian/conxian-business/blob/main/docs/CONXIUS_PLATFORM_BOS_BUILDOUT.md" target="_blank" rel="noopener noreferrer">conxius-platform</a></li>
+                <li><a href="https://github.com/Conxian/conxian-business/blob/main/docs/CONXIUS_WALLET_BOS_BUILDOUT.md" target="_blank" rel="noopener noreferrer">conxius-wallet</a></li>
+                <li><a href="https://github.com/Conxian/conxian-business/blob/main/docs/LIB_CONXIAN_CORE_BOS_BUILDOUT.md" target="_blank" rel="noopener noreferrer">lib-conxian-core</a></li>
+            </ul>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-brand">
+            <h4>Conxian Labs</h4>
+            <p>© 2026 CONXIAN-LABS (PTY) LTD // INSTITUTIONAL ENGINEERING</p>
+        </div>
+        <div class="footer-links">
+            <a href="/">Home</a>
+            <a href="/sdk">SDK</a>
+            <a href="/docs">Docs</a>
+            <a href="/pricing">Pricing</a>
+            <a href="/bos">BOS</a>
+            <a href="/enterprise">Enterprise</a>
+            <a href="/partners">Partners</a>
+            <a href="/operators">Operators</a>
+            <a href="/research">Research</a>
+            <a href="/privacy">Privacy</a>
+            <a href="/terms">Terms</a>
+        </div>
+    </footer>
+    <script>
+        Logger.info("PAGE_LOAD", "Route accessed", { path: window.location.pathname });
+    </script>
+</body>
+</html>
