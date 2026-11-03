@@ -102,3 +102,28 @@ test("health and static pricing remain accessible", async () => {
     await response.arrayBuffer();
   }
 });
+test("a configured checkout alone does not advertise an offer without a delivery endpoint", async () => {
+  process.env.MERCHANT_CHECKOUT_URL = "https://checkout.example.invalid/managed";
+  delete process.env.MANAGED_GATEWAY_ENDPOINT;
+  const body = await (await fetch(`${base}/api/pricing/managed`)).json();
+  assert.equal(body.productionSupported, false);
+  assert.equal(body.availability, "unavailable");
+  assert.equal(body.checkoutUrl, null);
+  assert.equal((await post({ tier: "managed", email: "buyer@example.invalid" })).status, 503);
+});
+test("a fully configured deployment advertises checkout without claiming entitlement", async () => {
+  process.env.MERCHANT_CHECKOUT_URL = "https://checkout.example.invalid/managed";
+  process.env.MANAGED_GATEWAY_ENDPOINT = "https://api.conxian-labs.com/v1/agent";
+  const pricing = await (await fetch(`${base}/api/pricing/managed`)).json();
+  assert.equal(pricing.productionSupported, true);
+  assert.equal(pricing.availability, "available");
+  assert.equal(pricing.checkoutUrl, "https://checkout.example.invalid/managed");
+  const response = await post({ tier: "managed", email: "buyer@example.invalid" });
+  assert.equal(response.status, 200);
+  const body = await response.json();
+  assert.equal(body.checkoutUrl, "https://checkout.example.invalid/managed");
+  assert.equal(body.entitlement, "pending-checkout");
+  for (const field of ["apiKey", "license", "provisioned"]) assert.equal(body[field], undefined);
+  process.env.MERCHANT_CHECKOUT_URL = "https://checkout.example.invalid/managed";
+  delete process.env.MANAGED_GATEWAY_ENDPOINT;
+});
