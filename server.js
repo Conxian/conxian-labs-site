@@ -124,31 +124,49 @@ app.get("/api/site-map", (req, res) => {
   res.json({ routes, total: routes.length });
 });
 
-// Managed pricing remains a design reference until payment, entitlement and
-// runtime provisioning have independently verifiable integration evidence.
+// Managed pricing stays a design reference until this deployment can both take
+// payment and deliver the service. A Merchant-of-Record checkout URL alone is
+// not a qualified offer, so the tier is available only when a hosted checkout
+// (Lemon Squeezy / Paddle) AND the managed gateway delivery endpoint are both
+// configured; otherwise the tier remains unavailable. Values are read at request
+// time so a redeploy that changes the configuration takes effect.
+function configuredUrl(name) {
+  const value = process.env[name];
+  return typeof value === "string" && value.length > 0 ? value : null;
+}
+
 const MANAGED_TIER = {
   id: "managed",
   name: "Managed SaaS Gateway",
   schemaVersion: 1,
-  pricingStatus: "reference-only",
-  availability: "unavailable",
-  productionSupported: false,
   monthlyUsd: 200,
   perRelayMessageUsd: 0.01,
   perRwaVerificationUsd: 0.05,
   perSettlementOpUsd: 0.1,
-  endpoint: null,
-  features: [],
 };
+
+function managedTierView() {
+  const checkoutUrl = configuredUrl("MERCHANT_CHECKOUT_URL");
+  const endpoint = configuredUrl("MANAGED_GATEWAY_ENDPOINT");
+  const available = checkoutUrl !== null && endpoint !== null;
+  return {
+    ...MANAGED_TIER,
+    pricingStatus: available ? "live" : "reference-only",
+    availability: available ? "available" : "unavailable",
+    productionSupported: available,
+    endpoint: available ? endpoint : null,
+    features: available
+      ? ["managed-gateway-endpoint", "metered-relay", "rwa-verification", "settlement-ops"]
+      : [],
+    checkoutUrl: available ? checkoutUrl : null,
+    x402PaymentPointer: null,
+    qualificationRequired: available ? ["payment", "entitlement"] : ["payment", "entitlement", "runtime-provisioning"],
+  };
+}
 
 app.get("/api/pricing/managed", (req, res) => {
   res.setHeader("Cache-Control", "no-store");
-  res.json({
-    ...MANAGED_TIER,
-    checkoutUrl: null,
-    x402PaymentPointer: null,
-    qualificationRequired: ["payment", "entitlement", "runtime-provisioning"],
-  });
+  res.json(managedTierView());
 });
 
 app.post("/api/onboarding/subscribe", (req, res) => {
@@ -161,14 +179,28 @@ app.post("/api/onboarding/subscribe", (req, res) => {
   }
 
   res.setHeader("Cache-Control", "no-store");
-  return res.status(503).json({
-    error: "Managed subscriptions are not available",
-    code: "subscription_unavailable",
+  const view = managedTierView();
+  if (!view.productionSupported) {
+    return res.status(503).json({
+      error: "Managed subscriptions are not available",
+      code: "subscription_unavailable",
+      tier: MANAGED_TIER.id,
+      availability: "unavailable",
+      checkoutUrl: null,
+      x402Demand: null,
+      next: "Contact the commercial team for a scoped evaluation",
+    });
+  }
+
+  // Hand the buyer off to the Merchant-of-Record hosted checkout. This returns a
+  // checkout target only; it never reports a completed purchase, entitlement or
+  // provisioned key — those are minted by the gateway webhook after settlement.
+  return res.status(200).json({
     tier: MANAGED_TIER.id,
-    availability: "unavailable",
-    checkoutUrl: null,
-    x402Demand: null,
-    next: "Contact the commercial team for a scoped evaluation",
+    availability: "available",
+    checkoutUrl: view.checkoutUrl,
+    entitlement: "pending-checkout",
+    next: "Complete checkout; your managed API key is issued after payment settles",
   });
 });
 
