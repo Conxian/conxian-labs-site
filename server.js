@@ -107,7 +107,7 @@ app.get("/api/services", (req, res) => {
     infrastructureTopology: {
       status: "historical-reference",
       verified: false,
-      renderHost: "conxian-labs-site (srv-d9ndhr2jnfac73as7te0)",
+      renderHost: "conxian-labs-site (srv-db9l01fbtjjs73c4e2vg)",
       neonDatabases: ["corelibs", "Software dev kit", "Business Operating System", "market", "Gateway", "Conxian Nexus"],
       supabaseProjects: ["Conxian BOS (yauldfcpswnufgwfvnlr)", "Conxian-platform (iczqutrbbfudfzfplymc)"]
     }

@@ -53,8 +53,9 @@ their actual owning review; no production source or DNS change occurred.
 - **Official Service Established**: Created `conxian-labs-site-official` (`srv-d954bv8js32c73fd3lqg`) on Render for canonical deployments.
 
 ## Org-Wide Service & Infrastructure Topology Audit (2026-08-27)
+> **Correction (2026-11-03):** the Render service/workspace identifiers below were superseded. Current: `conxian-labs-site` = `srv-db9l01fbtjjs73c4e2vg`, workspace `Conxian-Business` = `tea-d6u0edngi27c73dvhsg0`, URL `https://conxian-labs-site.onrender.com`. The historical values (`srv-d9ndhr2jnfac73as7te0`, `tea-d4ufhh8gjchc73c80mu0`, `conxian-labs-site-xhqq.onrender.com`) no longer resolve.
 - **Production Web Hosting (Render)**:
-  - Active Primary Web Service: `conxian-labs-site` (`srv-d9ndhr2jnfac73as7te0`), Oregon (`us-west-1`), Node.js runtime (`npm start`), workspace `My Workspace` (`tea-d4ufhh8gjchc73c80mu0`), live URL: `https://conxian-labs-site-xhqq.onrender.com`.
+  - Active Primary Web Service: `conxian-labs-site` (`srv-db9l01fbtjjs73c4e2vg`), Oregon, Node.js runtime (`npm start`), workspace `Conxian-Business` (`tea-d6u0edngi27c73dvhsg0`), live URL: `https://conxian-labs-site.onrender.com`.
   - Preview Web Service: `conxian-labs-site PR #64` (`srv-da82godbedkc73eqbsj0`).
 - **Neon Cloud Postgres Infrastructure** (Org `org-silent-sun-00457600`):
   1. `corelibs` (`sparkling-sunset-69236559`) — PG 18, `aws-us-east-2`.

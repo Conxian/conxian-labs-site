@@ -7,7 +7,7 @@
 - **Test (single file):** `npx playwright test tests/design-compliance.spec.ts`
 - **Debug tests:** `npx playwright test --headed`
 - **Browser install:** `npx playwright install --with-deps chromium`
-- **Node:** v20+
+- **Node:** v24 (matches `actions/setup-node` in CI and the Render runtime)
 
 ## Deployment Environments
 
@@ -64,7 +64,7 @@
 ## Known Issues
 - **`production` environment has no branch protection** — relies solely on `deploy.yml` `branches: [main]` filter
 - **No automated CSS pipeline** — Tailwind build requires manual `npm run build:css` when classes change
-- **Render custom domain pending** — `www.conxian-labs.com` still bound to deleted static site; needs dashboard detach before attaching to new web service
+- **Custom domain ownership split** — `www.conxian-labs.com` (DNS-only CNAME) and the apex (proxied CNAME, redirects to `www`) both resolve to `conxian-labs-site.onrender.com`; `control.conxian-labs.com` remains on Vercel (`conxius-platform`). Reconciliation of the control/apex split is tracked under Platform #1167 / Business #1349.
 
 ## CI/CD
 - `.github/workflows/ci.yml` — build-and-test + security-scan (gitleaks) on push/PR to main
@@ -77,13 +77,13 @@
 
 | Service | Projects / Resources | Status |
 |---|---|---|
-| **Render** | `conxian-labs-site` (srv-d9ndhr2jnfac73as7te0) — Node.js web, free, Oregon | ✅ Deployed (v1.1.0) |
+| **Render** | `conxian-labs-site` (srv-db9l01fbtjjs73c4e2vg) — Node.js web, free, Oregon | ✅ Deployed (v1.1.0) |
 | **Supabase** | `Conxian BOS` (yauldfcpswnufgwfvnlr) — PG 17.6, eu-central-1 | ✅ ACTIVE_HEALTHY |
 | **Supabase** | `Conxian-platform` (iczqutrbbfudfzfplymc) — PG 17.6, eu-central-1 | ✅ ACTIVE_HEALTHY |
 | **NEON** | `Gateway` (noisy-cloud-41146057) — PG 18, aws-ap-southeast-1 | ✅ Active |
 | **NEON** | `Conxian Nexus` (orange-paper-76209725) — PG 17, aws-eu-central-1 | ✅ Active |
 
-- **Render custom domain**: `www.conxian-labs.com` pending — needs detach from deleted static site on dashboard
+- **Render custom domain**: `www.conxian-labs.com` resolves to `conxian-labs-site.onrender.com` (DNS-only CNAME); the apex `conxian-labs.com` is a proxied CNAME to the same origin and redirects to `www`. `control.conxian-labs.com` remains on Vercel.
 - **NEON org**: `org-silent-sun-00457600` (personal API key)
 - **Supabase org**: `dmhmarjqzgodyovlhamv` (PAT `sbp_...`)
 
