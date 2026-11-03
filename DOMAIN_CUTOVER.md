@@ -47,27 +47,27 @@ To serve all services correctly from a **Business-as-a-Platform (BaaP)** operati
 
 ## 3. Cloudflare DNS Settings for `conxian-labs.com`
 
-Apex redirects to `www` via Vercel; `www` serves `conxian-labs-site` on Render (one-voice model: `docs/DOMAIN_ALIGNMENT_ISSUES.md` in `conxian-business`).
+> **Correction (2026-11-03):** the settings below were superseded. Current live records: `conxian-labs.com` (apex) is a **proxied CNAME** to `conxian-labs-site.onrender.com` that redirects to `www`; `www` is a **DNS-only CNAME** to the same Render origin. `control.conxian-labs.com` remains a proxied CNAME to Vercel. The historical Vercel apex A-record (`76.76.21.21`) and the `conxian-labs-site-xhqq.onrender.com` target no longer resolve.
 
 ### Root Domain: `conxian-labs.com`
-*   **Type:** A Record
+*   **Type:** CNAME Record
 *   **Host:** `@`
-*   **Value:** `76.76.21.21` (Vercel — apex redirect to `www`)
-*   **TTL:** Automatic
+*   **Value:** `conxian-labs-site.onrender.com` (Render — apex redirect to `www`)
+*   **Proxied:** Yes
 
 ### WWW Subdomain: `www.conxian-labs.com`
 *   **Type:** CNAME Record
 *   **Host:** `www`
-*   **Value:** `conxian-labs-site-xhqq.onrender.com`
-*   **TTL:** Automatic
+*   **Value:** `conxian-labs-site.onrender.com`
+*   **Proxied:** No
 
 ---
 
 ## 4. Render Instance & Infrastructure Configuration
 
-### Service: `conxian-labs-site` (`srv-d9ndhr2jnfac73as7te0`)
+### Service: `conxian-labs-site` (`srv-db9l01fbtjjs73c4e2vg`)
 *   **Status**: Active Production Web Service (Node.js)
-*   **Workspace**: `My Workspace` (`tea-d4ufhh8gjchc73c80mu0`)
+*   **Workspace**: `Conxian-Business` (`tea-d6u0edngi27c73dvhsg0`)
 *   **Region**: Oregon
 *   **Build Command**: `npm install`
 *   **Start Command**: `npm start`
