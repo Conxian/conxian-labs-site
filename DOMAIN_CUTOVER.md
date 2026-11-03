@@ -4,7 +4,8 @@
 
 The routing tables and provider identifiers below are historical design references,
 not executable cutover instructions or verified current service bindings. Live
-Cloudflare records point the Labs apex and www/control hosts at Vercel, while the
+Cloudflare records point the Labs apex and www hosts at Render (the `control` host
+is a Cloudflare redirect to `bos`), while the
 Labs Render origin is independently reachable. This conflicts with the intended
 Labs-site placement below; Platform #1167 and Business #1349 own reconciliation.
 Do not apply the historical Namecheap/Render DNS settings from this file without
@@ -47,7 +48,7 @@ To serve all services correctly from a **Business-as-a-Platform (BaaP)** operati
 
 ## 3. Cloudflare DNS Settings for `conxian-labs.com`
 
-> **Correction (2026-11-03):** the settings below were superseded. Current live records: `conxian-labs.com` (apex) is a **proxied CNAME** to `conxian-labs-site.onrender.com` that redirects to `www`; `www` is a **DNS-only CNAME** to the same Render origin. `control.conxian-labs.com` remains a proxied CNAME to Vercel. The historical Vercel apex A-record (`76.76.21.21`) and the `conxian-labs-site-xhqq.onrender.com` target no longer resolve.
+> **Correction (2026-11-03):** the settings below were superseded. Current live records: `conxian-labs.com` (apex) is a **proxied CNAME** to `conxian-labs-site.onrender.com` that redirects to `www`; `www` is a **proxied CNAME** to the same Render origin. `control.conxian-labs.com` is a proxied CNAME to `conxian-business.onrender.com` that 301-redirects to `bos`. The historical Vercel apex A-record (`76.76.21.21`), the `cname.vercel-dns.com` targets, and the `conxian-labs-site-xhqq.onrender.com` target no longer resolve.
 
 ### Root Domain: `conxian-labs.com`
 *   **Type:** CNAME Record
