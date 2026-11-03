@@ -64,7 +64,7 @@
 ## Known Issues
 - **`production` environment has no branch protection** — relies solely on `deploy.yml` `branches: [main]` filter
 - **No automated CSS pipeline** — Tailwind build requires manual `npm run build:css` when classes change
-- **Custom domain ownership split** — `www.conxian-labs.com` (DNS-only CNAME) and the apex (proxied CNAME, redirects to `www`) both resolve to `conxian-labs-site.onrender.com`; `control.conxian-labs.com` remains on Vercel (`conxius-platform`). Reconciliation of the control/apex split is tracked under Platform #1167 / Business #1349.
+- **Custom domain ownership split** — `www.conxian-labs.com` (proxied CNAME) and the apex (proxied CNAME, redirects to `www`) both resolve to `conxian-labs-site.onrender.com`; `control.conxian-labs.com` is now a Cloudflare 301 redirect to `bos.conxian-labs.com` (Vercel removed 2026-11-03).
 
 ## CI/CD
 - `.github/workflows/ci.yml` — build-and-test + security-scan (gitleaks) on push/PR to main
@@ -83,7 +83,7 @@
 | **NEON** | `Gateway` (noisy-cloud-41146057) — PG 18, aws-ap-southeast-1 | ✅ Active |
 | **NEON** | `Conxian Nexus` (orange-paper-76209725) — PG 17, aws-eu-central-1 | ✅ Active |
 
-- **Render custom domain**: `www.conxian-labs.com` resolves to `conxian-labs-site.onrender.com` (DNS-only CNAME); the apex `conxian-labs.com` is a proxied CNAME to the same origin and redirects to `www`. `control.conxian-labs.com` remains on Vercel.
+- **Render custom domain**: `www.conxian-labs.com` resolves to `conxian-labs-site.onrender.com` (proxied CNAME); the apex `conxian-labs.com` is a proxied CNAME to the same origin and redirects to `www`. `control.conxian-labs.com` is a Cloudflare 301 redirect to `bos.conxian-labs.com` (Vercel removed 2026-11-03).
 - **NEON org**: `org-silent-sun-00457600` (personal API key)
 - **Supabase org**: `dmhmarjqzgodyovlhamv` (PAT `sbp_...`)
 
