@@ -29,6 +29,7 @@
             <a href="/partners">Partners</a>
             <a href="/operators">Operators</a>
             <a href="/research">Research</a>
+            <a href="/status">Status</a>
         </nav>
         <div class="search-bar">
             <label class="visually-hidden" for="site-search">Search site</label>
@@ -246,8 +247,16 @@
                             <li>Managed API keys + per-tenant rate limiting</li>
                         </ul>
                         <p class="package-cta">
-                            <a class="btn btn-primary" href="/sdk">Onboard an agent</a>
+                            <a class="btn btn-secondary" href="/sdk">Onboard an agent</a>
                         </p>
+                        <form class="managed-purchase" data-managed-purchase novalidate>
+                            <label for="managed-email">Request managed access</label>
+                            <div class="managed-purchase-row">
+                                <input id="managed-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@company.com" required>
+                                <button class="btn btn-primary" type="submit">Continue</button>
+                            </div>
+                            <p class="managed-purchase-status" data-managed-status role="status" aria-live="polite"></p>
+                        </form>
                     </article>
                 </div>
             </section>
@@ -598,12 +607,52 @@
             <a href="/partners">Partners</a>
             <a href="/operators">Operators</a>
             <a href="/research">Research</a>
+            <a href="/status">Status</a>
             <a href="/privacy">Privacy</a>
             <a href="/terms">Terms</a>
         </div>
     </footer>
     <script>
         Logger.info("PAGE_LOAD", "Route accessed", { path: window.location.pathname });
+
+        (function () {
+            const form = document.querySelector('[data-managed-purchase]');
+            if (!form) return;
+            const status = form.querySelector('[data-managed-status]');
+            const input = form.querySelector('input[name="email"]');
+
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                const email = (input.value || '').trim();
+                if (!email || !email.includes('@')) {
+                    status.dataset.state = 'error';
+                    status.textContent = 'Enter a valid email address to continue.';
+                    return;
+                }
+                status.dataset.state = '';
+                status.textContent = 'Checking availability…';
+                try {
+                    const res = await fetch('/api/onboarding/subscribe', {
+                        method: 'POST',
+                        headers: { 'content-type': 'application/json' },
+                        body: JSON.stringify({ tier: 'managed', email })
+                    });
+                    const body = await res.json();
+                    if (res.ok && body.checkoutUrl) {
+                        status.dataset.state = 'ok';
+                        status.textContent = 'Redirecting to secure checkout…';
+                        window.location.assign(body.checkoutUrl);
+                        return;
+                    }
+                    status.dataset.state = 'error';
+                    status.textContent = body.next || body.error || 'Managed access is not available right now.';
+                    if (window.Logger) window.Logger.info('MANAGED_ONBOARDING', 'Managed tier unavailable', { status: res.status, code: body.code });
+                } catch (err) {
+                    status.dataset.state = 'error';
+                    status.textContent = 'Could not reach onboarding. Please try again later.';
+                }
+            });
+        })();
     </script>
 </body>
 </html>
