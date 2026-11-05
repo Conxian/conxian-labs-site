@@ -14,30 +14,10 @@
     <link rel="icon" href="../Conxian_Logo.jpg" type="image/jpeg">
     <link rel="stylesheet" href="../package-page.css">
     <script src="../search.js"></script>
+    <link rel="stylesheet" href="../css/site.css">
 </head>
 <body>
-    <header class="nav-bar">
-        <div class="logo-container">
-            <img src="../Conxian-Labs_Logo.jpg" alt="Conxian Labs">
-        </div>
-        <nav class="nav-links" aria-label="Primary navigation">
-            <a href="/">Home</a>
-            <a href="/sdk">SDK</a>
-            <a href="/docs">Docs</a>
-            <a href="/pricing" class="active" aria-current="page">Pricing</a>
-            <a href="/enterprise">Enterprise</a>
-            <a href="/partners">Partners</a>
-            <a href="/operators">Operators</a>
-            <a href="/research">Research</a>
-            <a href="/status">Status</a>
-        </nav>
-        <div class="search-bar">
-            <label class="visually-hidden" for="site-search">Search site</label>
-            <input id="site-search" type="search" placeholder="Search..." class="subpage-search-input" autocomplete="off">
-            <section class="search-results subpage-search-results" aria-label="Search results" aria-live="polite"></section>
-        </div>
-        <div class="sys-status">SYS_ZA_1 // PUBLIC</div>
-    </header>
+    <header id="cx-nav"></header>
 
     <main class="page pricing-page">
         <section class="hero pricing-hero" aria-labelledby="pricing-title">
@@ -70,6 +50,59 @@
                 <div>
                     <strong>Contract or invoice</strong>
                     <span>Enterprise scope, institutional message and settlement domains, private deployment, and any availability commitments are defined in writing.</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="plans" aria-labelledby="plans-title">
+            <h2 id="plans-title">Plans</h2>
+            <p class="section-intro">Start free and scale to managed or dedicated infrastructure. Managed tiers are billed monthly; metered usage is billed on top of the base. Where a managed tier is not yet purchasable, it is marked unavailable rather than accepting payment.</p>
+            <div class="cx-pricing">
+                <div class="cx-tier">
+                    <span class="cx-tier-name">Community</span>
+                    <span class="cx-tier-price">$0<span>/mo</span></span>
+                    <ul>
+                        <li>Open-source Enclave SDK &amp; Core</li>
+                        <li>Self-hosted Wallet</li>
+                        <li>Public sandbox endpoints</li>
+                        <li>Community support</li>
+                    </ul>
+                    <a class="cx-btn cx-btn--ghost cx-tier-cta" href="https://bos.conxian-labs.com/sign-up">Create free account</a>
+                </div>
+                <div class="cx-tier cx-tier--featured">
+                    <span class="cx-badge">Most popular</span>
+                    <span class="cx-tier-name">Managed gateway</span>
+                    <span class="cx-tier-price">$200<span>/mo + usage</span></span>
+                    <ul>
+                        <li>Managed gateway endpoint</li>
+                        <li>Metered relay &amp; settlement ops</li>
+                        <li>RWA verification</li>
+                        <li>Console, API keys &amp; usage</li>
+                    </ul>
+                    <a class="cx-btn cx-btn--primary cx-tier-cta" href="/console">Provision in console</a>
+                    <p class="cx-tier-note" style="font-size:0.72rem;color:var(--cx-dim);margin-top:0.6rem">Activates once hosted checkout and provisioning are configured.</p>
+                </div>
+                <div class="cx-tier">
+                    <span class="cx-tier-name">Business</span>
+                    <span class="cx-tier-price">$2,500<span>/mo</span></span>
+                    <ul>
+                        <li>Dedicated managed gateway</li>
+                        <li>ISO 20022 normalizer</li>
+                        <li>Business-hours SEV1 SLA</li>
+                        <li>Wallet distribution</li>
+                    </ul>
+                    <a class="cx-btn cx-btn--ghost cx-tier-cta" href="/enterprise">Talk to us</a>
+                </div>
+                <div class="cx-tier">
+                    <span class="cx-tier-name">Enterprise</span>
+                    <span class="cx-tier-price">Custom</span>
+                    <ul>
+                        <li>Dedicated sovereign node</li>
+                        <li>Private TEE execution</li>
+                        <li>24/7 dedicated SLA</li>
+                        <li>Bring-your-own vault</li>
+                    </ul>
+                    <a class="cx-btn cx-btn--ghost cx-tier-cta" href="mailto:enterprise@conxian-labs.com">Contact sales</a>
                 </div>
             </div>
         </section>
@@ -590,28 +623,7 @@
         </section>
     </main>
 
-    <footer class="site-footer">
-        <div class="footer-brand">
-            <h4>Conxian Labs</h4>
-            <p>© 2026 CONXIAN LABS · Enterprise No. K2026884014 // INSTITUTIONAL ENGINEERING</p>
-        </div>
-        <div class="footer-links">
-            <a href="/">Home</a>
-            <a href="/sdk">SDK</a>
-            <a href="/docs">Docs</a>
-            <a href="/pricing">Pricing</a>
-            <a href="/bos">BOS</a>
-            <a href="/commercial">Commercial</a>
-            <a href="/commercial/pilot">Pilot</a>
-            <a href="/enterprise">Enterprise</a>
-            <a href="/partners">Partners</a>
-            <a href="/operators">Operators</a>
-            <a href="/research">Research</a>
-            <a href="/status">Status</a>
-            <a href="/privacy">Privacy</a>
-            <a href="/terms">Terms</a>
-        </div>
-    </footer>
+    <footer id="cx-footer"></footer>
     <script>
         Logger.info("PAGE_LOAD", "Route accessed", { path: window.location.pathname });
 
@@ -654,5 +666,6 @@
             });
         })();
     </script>
+    <script src="../nav.js"></script>
 </body>
 </html>

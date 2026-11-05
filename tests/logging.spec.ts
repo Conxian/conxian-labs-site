@@ -21,16 +21,14 @@ test.describe('Conxian Labs Logging Verification', () => {
         expect(initLog).toBe(true);
     });
 
-    test('should log terminal hash cycling', async ({ page }) => {
+    test('should render the live status card and log the route', async ({ page }) => {
         const logs: string[] = [];
         page.on('console', msg => logs.push(msg.text()));
         await page.goto(`${BASE_URL}/index.html`);
 
-        // Increase timeout to wait for the first interval (5s)
-        await page.waitForTimeout(6000);
-
-        const terminalLog = logs.some(l => l.includes('[INFO] [TERMINAL] Cycling terminal hash'));
-        expect(terminalLog).toBe(true);
+        await expect(page.locator('#hero-status')).toBeVisible();
+        const routeLog = logs.some(l => l.includes('[INFO] [PAGE_LOAD] Route accessed'));
+        expect(routeLog).toBe(true);
     });
 
     test('should capture global errors', async ({ page }) => {
@@ -52,7 +50,7 @@ test.describe('Conxian Labs Logging Verification', () => {
     });
 
     test('all sub-pages should log route access', async ({ page }) => {
-        const PAGES = ['sdk', 'docs', 'pricing', 'commercial', 'commercial/pilot', 'partners', 'operators', 'enterprise', 'research', 'privacy/index.html', 'terms', 'about', 'security'];
+        const PAGES = ['sdk', 'docs', 'pricing', 'commercial', 'commercial/pilot', 'partners', 'operators', 'enterprise', 'research', 'privacy/index.html', 'terms', 'about', 'security', 'status', 'get-started', 'console'];
         for (const p of PAGES) {
             const logs: string[] = [];
             page.on('console', msg => logs.push(msg.text()));
