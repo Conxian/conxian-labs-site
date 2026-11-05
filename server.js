@@ -33,6 +33,7 @@ const pageMetadata = [
   { route: "research", title: "Research", desc: "Research surfaces and cryptographic papers", priority: 0.6 },
   { route: "about", title: "About — Conxian Labs", desc: "Builder and operator layer around Conxian", priority: 0.5 },
   { route: "security", title: "Security — Conxian Labs", desc: "Security posture and vulnerability disclosure", priority: 0.5 },
+  { route: "status", title: "Status — Conxian Labs", desc: "Live reachability of the public Conxian service surfaces", priority: 0.6 },
   { route: "privacy", title: "Privacy Policy", desc: "Data protection and privacy commitments", priority: 0.3 },
   { route: "terms", title: "Terms of Service", desc: "Legal terms governing infrastructure use", priority: 0.3 }
 ];
@@ -54,6 +55,73 @@ app.use(express.static(path.join(__dirname), {
 }));
 
 // Dynamic API endpoints
+// Live service registry. Each entry is probed at request time so the public
+// catalog reflects real reachability rather than a static declaration. Only
+// public HTTPS hosts are probed; results are cached briefly to bound egress.
+const SERVICE_REGISTRY = [
+  { id: "bos", name: "Business Operating System (BOS)", role: "State orchestration & governance", host: "bos.conxian-labs.com", probe: "https://bos.conxian-labs.com/api/health", expect: [200], route: "/bos" },
+  { id: "gateway", name: "Gateway (Fusion & Sentinel)", role: "Middleware & access control", host: "gateway.conxian.org", probe: "https://gateway.conxian.org/api/v1/health", expect: [200], route: "/docs" },
+  { id: "nexus", name: "Conxian Nexus Proof & Price Oracle", role: "Proof & oracle layer", host: "nexus.conxian.org", probe: "https://nexus.conxian.org/health", expect: [200], route: "/research" },
+  { id: "market", name: "Conxian Market Settlement Engine", role: "Settlement & fee-model SDK", host: "market.conxian.org", probe: "https://market.conxian.org/api/health", expect: [200], route: "/commercial" },
+  { id: "sdk", name: "Conxius Enclave SDK", role: "Cross-platform hardware signing", host: "sdk.conxian.org", probe: "https://sdk.conxian.org/api/health", expect: [200], route: "/sdk" },
+  { id: "corelibs", name: "Corelibs Cryptographic Primitives", role: "Shared protocol primitives", host: "docs.conxian.org", probe: "https://docs.conxian.org/api/health", expect: [200], route: "/docs" },
+  { id: "platform", name: "Conxius Platform", role: "Platform environment & container runner", host: "platform.conxian.org", probe: "https://platform.conxian.org/api/health", expect: [200], route: "/operators" },
+];
+
+const PROBE_CACHE_MS = 30000;
+let probeCache = { at: 0, results: null };
+
+async function probeService(service) {
+  const started = Date.now();
+  try {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 6000);
+    const response = await fetch(service.probe, { method: "GET", signal: controller.signal, redirect: "manual" });
+    clearTimeout(timer);
+    const latencyMs = Date.now() - started;
+    const ok = service.expect.includes(response.status);
+    let detail = null;
+    try {
+      const text = (await response.text()).slice(0, 400);
+      if (text.trim().startsWith("{")) detail = JSON.parse(text);
+    } catch {
+      detail = null;
+    }
+    return { ...service, reachable: ok, httpStatus: response.status, latencyMs, detail, checkedAt: new Date().toISOString() };
+  } catch (error) {
+    return { ...service, reachable: false, httpStatus: null, latencyMs: Date.now() - started, detail: { error: String(error && error.name ? error.name : error) }, checkedAt: new Date().toISOString() };
+  }
+}
+
+async function serviceSnapshot() {
+  const now = Date.now();
+  if (probeCache.results && now - probeCache.at < PROBE_CACHE_MS) {
+    return { ...probeCache.results, cached: true };
+  }
+  const results = await Promise.all(SERVICE_REGISTRY.map(probeService));
+  const reachable = results.filter((r) => r.reachable).length;
+  const snapshot = {
+    generatedAt: new Date().toISOString(),
+    total: results.length,
+    reachable,
+    degraded: results.length - reachable,
+    overall: reachable === results.length ? "operational" : reachable === 0 ? "major-outage" : "partial-outage",
+    services: results.map(({ probe, expect, ...rest }) => rest),
+    cached: false,
+  };
+  probeCache = { at: now, results: snapshot };
+  return snapshot;
+}
+
+app.get("/api/status", async (req, res) => {
+  res.setHeader("Cache-Control", "no-store");
+  try {
+    res.json(await serviceSnapshot());
+  } catch (error) {
+    res.status(500).json({ error: "status-probe-failed", detail: String(error) });
+  }
+});
+
 app.get("/api/health", (req, res) => {
   res.setHeader("Cache-Control", "no-store");
   res.json({
