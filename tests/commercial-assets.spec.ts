@@ -103,7 +103,7 @@ test.describe('Commercial asset pack', () => {
             expect(widths.documentScrollWidth).toBeLessThanOrEqual(widths.documentClientWidth);
             expect(widths.bodyScrollWidth).toBeLessThanOrEqual(widths.bodyClientWidth);
             await expect(page.locator('footer')).toBeVisible();
-            await expect(page.locator('.subpage-search-input')).toBeVisible();
+            await expect(page.locator('#cx-nav .subpage-search-input')).toBeVisible();
         }
     });
 
@@ -112,10 +112,11 @@ test.describe('Commercial asset pack', () => {
             await page.goto(`${BASE_URL}/${pagePath}/index.html`);
 
             const footer = page.locator('footer');
-            await expect(page.locator('footer > .footer-links')).toHaveCount(1);
-            await expect(footer.locator('.footer-links .footer-links')).toHaveCount(0);
-            await expect(footer.getByRole('link', { name: 'Commercial', exact: true })).toHaveAttribute('href', '/commercial');
-            await expect(footer.getByRole('link', { name: 'Pilot', exact: true })).toHaveAttribute('href', '/commercial/pilot');
+            await expect(page.locator('footer .cx-foot-cols')).toHaveCount(1);
+            await expect(footer.locator('.cx-foot-cols .cx-foot-cols')).toHaveCount(0);
+            await expect(footer.getByRole('link', { name: 'Company', exact: true })).toHaveCount(0);
+            await expect(footer.getByRole('link', { name: 'Pricing', exact: true })).toHaveAttribute('href', '/pricing');
+            await expect(footer.getByRole('link', { name: 'Market', exact: true })).toHaveAttribute('href', '/commercial');
         }
     });
 

@@ -19,7 +19,10 @@ const PAGES = [
     'privacy/index.html',
     'terms/index.html',
     'about/index.html',
-    'security/index.html'
+    'security/index.html',
+    'status/index.html',
+    'get-started/index.html',
+    'console/index.html'
 ];
 
 test.describe('Conxian Labs Comprehensive Site Verification', () => {
@@ -38,43 +41,53 @@ test.describe('Conxian Labs Comprehensive Site Verification', () => {
         }
     });
 
-    test('landing page terminal hash should animate', async ({ page }) => {
+    test('landing page shows a live status card', async ({ page }) => {
         await page.goto(`${BASE_URL}/index.html`);
-        const initialHash = await page.textContent('#terminal-hash');
-
-        // Wait for animation interval + buffer
-        await page.waitForTimeout(6000);
-
-        const newHash = await page.textContent('#terminal-hash');
-        expect(newHash).not.toBe(initialHash);
+        await expect(page.locator('#hero-status')).toBeVisible();
+        // Fails visible: under file:// the fetch rejects and the card says so.
+        await expect(page.locator('#hero-status-line')).not.toBeEmpty();
     });
 
-    test('homepage should expose the four proof-first stack surfaces', async ({ page }) => {
+    test('homepage should expose the product surfaces and provisioning path', async ({ page }) => {
         await page.goto(`${BASE_URL}/index.html`);
 
-        await expect(page.getByRole('link', { name: 'Explore the stack' })).toHaveAttribute('href', '#products');
-        await expect(page.locator('main').getByRole('link', { name: 'Enterprise', exact: true }).first()).toHaveAttribute('href', '/enterprise');
+        await expect(page.getByRole('link', { name: 'Get started free' }).first()).toBeVisible();
+        await expect(page.getByRole('link', { name: 'Open console' }).first()).toHaveAttribute('href', '/console');
+        await expect(page.getByRole('link', { name: 'See pricing' }).first()).toHaveAttribute('href', '/pricing');
 
         const products = page.locator('#products');
         await expect(products).toBeVisible();
 
         const surfaces = [
-            ['gateway', 'Gateway', 'https://github.com/Conxian/conxian-gateway', 'Beta'],
-            ['wallet', 'Wallet', 'https://github.com/Conxian/conxius-wallet', 'Stable reference client'],
-            ['sdk', 'Conxius Enclave SDK', 'https://github.com/Conxian/conxius-enclave-sdk', 'Beta / conditional'],
-            ['core', 'Core primitives', 'https://github.com/Conxian/lib-conxian-core', 'Shared foundation']
+            ['Managed gateway', '/docs'],
+            ['Enclave SDK', '/sdk'],
+            ['Conxius Wallet', '/enterprise'],
+            ['Nexus node', '/research'],
+            ['Market engine', '/commercial'],
+            ['Core library', '/docs'],
         ] as const;
 
-        for (const [id, heading, sourceUrl, maturity] of surfaces) {
-            const card = products.locator(`#product-${id}`);
-            await expect(card.getByRole('heading', { name: heading, exact: true })).toBeVisible();
-            await expect(card).toContainText(maturity);
-            await expect(card.locator(`a[href="${sourceUrl}"]`)).toBeVisible();
+        for (const [heading, href] of surfaces) {
+            const card = products.getByRole('heading', { name: heading, exact: true });
+            await expect(card).toBeVisible();
+            await expect(card.locator('xpath=..').locator(`a[href="${href}"]`)).toBeVisible();
         }
 
-        for (const href of ['/docs', '/security', '/research', '/enterprise']) {
-            await expect(page.locator(`main a[href="${href}"]`).first()).toBeVisible();
-        }
+        // Conversion sections present
+        await expect(page.locator('#pricing-preview')).toBeVisible();
+        await expect(page.locator('#cx-nav')).toBeVisible();
+        await expect(page.locator('#cx-footer')).toBeVisible();
+    });
+
+    test('customer journey and console pages expose provisioning and cancellation', async ({ page }) => {
+        await page.goto(`${BASE_URL}/get-started/index.html`);
+        await expect(page.getByRole('heading', { name: /From sign-up to a running service/i })).toBeVisible();
+        await expect(page.locator('main').getByRole('link', { name: 'Create free account' }).first()).toHaveAttribute('href', 'https://bos.conxian-labs.com/sign-up');
+
+        await page.goto(`${BASE_URL}/console/index.html`);
+        await expect(page.getByRole('heading', { name: /Provision, manage, and cancel/i })).toBeVisible();
+        await expect(page.locator('main').getByRole('link', { name: 'Sign in to console' }).first()).toHaveAttribute('href', 'https://bos.conxian-labs.com/sign-in');
+        await expect(page.locator('main')).toContainText('cancel');
     });
 
     test('docs page should state conxian-market and active ecosystem components', async ({ page }) => {
@@ -87,34 +100,19 @@ test.describe('Conxian Labs Comprehensive Site Verification', () => {
         await page.setViewportSize({ width: 375, height: 667 });
         await page.goto(`${BASE_URL}/index.html`);
 
-        const menuButton = page.locator('[data-mobile-menu-button]');
-        const menuIcon = menuButton.locator('.menu-trigger-icon');
-        const closeIcon = menuButton.locator('.menu-close-icon');
-        const mobileMenu = page.locator('#mobile-menu');
+        const menuButton = page.locator('#cx-burger');
+        const mobileMenu = page.locator('#cx-mobile');
         await expect(menuButton).toBeVisible();
         await expect(menuButton).toHaveAttribute('aria-expanded', 'false');
-        await expect(menuButton).toHaveAttribute('aria-label', 'Open navigation menu');
-        await expect(menuIcon).toHaveClass(/menu-trigger-icon/);
-        await expect(menuIcon).toHaveAttribute('aria-hidden', 'true');
-        await expect(closeIcon).toHaveClass(/menu-close-icon/);
-        await expect(closeIcon).toHaveAttribute('aria-hidden', 'true');
-        await expect(menuIcon).toBeVisible();
-        await expect(closeIcon).not.toBeVisible();
-        expect(await menuButton.locator('.material-symbols-outlined:visible').count()).toBe(1);
         await expect(mobileMenu).not.toBeVisible();
 
         await menuButton.click();
         await expect(menuButton).toHaveAttribute('aria-expanded', 'true');
-        await expect(menuButton).toHaveAttribute('aria-label', 'Close navigation menu');
-        await expect(menuIcon).not.toBeVisible();
-        await expect(closeIcon).toBeVisible();
-        expect(await menuButton.locator('.material-symbols-outlined:visible').count()).toBe(1);
         await expect(mobileMenu).toBeVisible();
-        await expect(mobileMenu.getByRole('link', { name: 'Stack', exact: true })).toHaveAttribute('href', '#products');
+        await expect(mobileMenu.getByRole('link', { name: 'Pricing', exact: true })).toHaveAttribute('href', '/pricing');
 
         await menuButton.click();
         await expect(menuButton).toHaveAttribute('aria-expanded', 'false');
-        await expect(menuButton).toHaveAttribute('aria-label', 'Open navigation menu');
         await expect(mobileMenu).not.toBeVisible();
     });
 
@@ -194,11 +192,11 @@ test.describe('Conxian Labs Comprehensive Site Verification', () => {
         const bgColor = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
         expect(bgColor).toBe('rgb(253, 251, 247)'); // #FDFBF7
 
-        const logoBg = await page.evaluate(() => {
-            const container = document.querySelector('.logo-container');
-            return container ? getComputedStyle(container).backgroundColor : null;
+        const brandText = await page.evaluate(() => {
+            const el = document.querySelector('.cx-brand-text');
+            return el ? el.textContent : null;
         });
-        expect(logoBg).toBe('rgb(0, 0, 0)');
+        expect(brandText).toContain('CONXIAN');
 
         const fontFamily = await page.evaluate(() => getComputedStyle(document.body).fontFamily);
         expect(fontFamily).toContain('JetBrains Mono');
@@ -207,13 +205,13 @@ test.describe('Conxian Labs Comprehensive Site Verification', () => {
     test('main navigation elements presence', async ({ page }) => {
         await page.goto(`${BASE_URL}/index.html`);
 
-        // Header
-        await expect(page.locator('header')).toBeVisible();
-        // Footer
-        await expect(page.locator('footer')).toBeVisible();
-
-        // Search bar
-        await expect(page.getByPlaceholder(/Search documentation/i)).toBeVisible();
+        // Header (shared shell)
+        await expect(page.locator('#cx-nav')).toBeVisible();
+        // Footer (shared shell)
+        await expect(page.locator('#cx-footer')).toBeVisible();
+        // Auth pair present
+        await expect(page.locator('#cx-nav').getByRole('link', { name: 'Sign in' })).toBeVisible();
+        await expect(page.locator('#cx-nav').getByRole('link', { name: 'Get started free' })).toBeVisible();
     });
 
     test('viewport responsiveness check', async ({ page }) => {
@@ -222,12 +220,12 @@ test.describe('Conxian Labs Comprehensive Site Verification', () => {
         const heroTitle = page.locator('h1');
         await expect(heroTitle).toBeVisible();
 
-        const searchBar = page.getByPlaceholder(/Search documentation/i);
-        await expect(searchBar).not.toBeVisible();
+        const burger = page.locator('#cx-burger');
+        await expect(burger).toBeVisible();
 
         await page.setViewportSize({ width: 1440, height: 900 }); // Desktop
         await page.goto(`${BASE_URL}/index.html`);
-        await expect(searchBar).toBeVisible();
+        await expect(burger).not.toBeVisible();
     });
     test("server API endpoints /api/health, /api/services, and /api/site-map structure", async ({ request }) => {
         // Express app module testing via API request context or local server spawn
@@ -263,24 +261,28 @@ test.describe('Conxian Labs Comprehensive Site Verification', () => {
                 const mapRes = await fetch(`http://localhost:${port}/api/site-map`);
                 expect(mapRes.status).toBe(200);
                 const mapJson = await mapRes.json();
-                expect(mapJson.total).toBe(16);
+                expect(mapJson.total).toBe(18);
                 expect(mapJson.routes.some(r => r.route === "/commercial/pilot")).toBe(true);
                 expect(mapJson.routes.some(r => r.route === "/bos")).toBe(true);
                 expect(mapJson.routes.some(r => r.route === "/status")).toBe(true);
+                expect(mapJson.routes.some(r => r.route === "/get-started")).toBe(true);
+                expect(mapJson.routes.some(r => r.route === "/console")).toBe(true);
 
                 s.close(resolve);
             });
         });
     });
 
-    test("sitemap.xml has valid formatting and covers all 16 surfaces", async () => {
+    test("sitemap.xml has valid formatting and covers all 18 surfaces", async () => {
         const sitemapContent = fs.readFileSync(path.join(process.cwd(), "sitemap.xml"), "utf8");
         expect(sitemapContent).toContain('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">');
         expect(sitemapContent).toContain("<loc>https://www.conxian-labs.com/commercial/pilot</loc>");
         expect(sitemapContent).toContain("<loc>https://www.conxian-labs.com/bos</loc>");
         expect(sitemapContent).toContain("<loc>https://www.conxian-labs.com/status</loc>");
+        expect(sitemapContent).toContain("<loc>https://www.conxian-labs.com/get-started</loc>");
+        expect(sitemapContent).toContain("<loc>https://www.conxian-labs.com/console</loc>");
         expect(sitemapContent).toContain("<lastmod>2026-08-27</lastmod>");
         const urlCount = (sitemapContent.match(/<url>/g) || []).length;
-        expect(urlCount).toBe(16);
+        expect(urlCount).toBe(18);
     });
 });

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="../logger.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="The Conxian console: provision managed gateways and nodes, manage keys and billing, and cancel services. Self-serve infrastructure control.">
+  <title>Console | Conxian Labs</title>
+  <link rel="canonical" href="https://www.conxian-labs.com/console">
+  <meta property="og:title" content="Console | Conxian Labs">
+  <meta property="og:description" content="Provision, manage and cancel Conxian services from the console.">
+  <link rel="icon" href="/Conxian_Logo.jpg" type="image/jpeg">
+  <link rel="stylesheet" href="../css/site.css">
+  <style>
+    .cx-console-hero { padding: 4.5rem 0 3rem; }
+    .cx-console-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-top: 2.5rem; }
+    .cx-console-card { background: var(--cx-surface); border: 1px solid var(--cx-line); border-radius: 14px; padding: 1.8rem; display: flex; flex-direction: column; gap: 0.7rem; }
+    .cx-console-card h3 { font-family: var(--cx-mono); font-size: 0.9rem; }
+    .cx-console-card p { font-size: 0.82rem; color: var(--cx-dim); line-height: 1.6; }
+    .cx-console-card .cx-btn { margin-top: auto; align-self: flex-start; }
+    .cx-panel { background: var(--cx-surface); border: 1px solid var(--cx-line); border-radius: 14px; overflow: hidden; margin-top: 2rem; }
+    .cx-panel-row { display: grid; grid-template-columns: 1.4fr 1fr 1fr auto; gap: 1rem; align-items: center; padding: 1rem 1.4rem; border-bottom: 1px solid var(--cx-line); font-size: 0.82rem; }
+    .cx-panel-row:last-child { border-bottom: 0; }
+    .cx-panel-head { font-family: var(--cx-mono); font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cx-dim); background: var(--cx-surface-low); }
+    .cx-pill { font-family: var(--cx-mono); font-size: 0.62rem; letter-spacing: 0.06em; text-transform: uppercase; border-radius: 999px; padding: 0.25rem 0.6rem; }
+    .cx-pill--live { background: rgba(31,138,76,0.12); color: var(--cx-ok); }
+    .cx-pill--pending { background: rgba(201,138,0,0.14); color: var(--cx-warn); }
+    .cx-pill--off { background: rgba(85,85,85,0.1); color: var(--cx-dim); }
+    @media (max-width: 900px) {
+      .cx-console-actions { grid-template-columns: 1fr; }
+      .cx-panel-row { grid-template-columns: 1fr 1fr; }
+      .cx-panel-head { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header id="cx-nav"></header>
+  <main id="cx-main">
+    <section class="cx-wrap cx-console-hero">
+      <span class="cx-kicker">Console</span>
+      <h1 class="cx-h2">Provision, manage, and cancel your services.</h1>
+      <p class="cx-lead">The Conxian console is where you create a managed gateway, issue API keys, watch usage and billing, and cancel. Sign in to reach it; if you do not have an account yet, create one first.</p>
+      <div class="cx-btn-row">
+        <a class="cx-btn cx-btn--primary" href="https://bos.conxian-labs.com/sign-in">Sign in to console</a>
+        <a class="cx-btn cx-btn--ghost" href="https://bos.conxian-labs.com/sign-up">Create account</a>
+      </div>
+    </section>
+
+    <section class="cx-band cx-band--low">
+      <div class="cx-wrap">
+        <span class="cx-kicker">What you can do</span>
+        <h2 class="cx-h2">Everything you need to operate.</h2>
+        <div class="cx-console-actions">
+          <div class="cx-console-card">
+            <span class="cx-card-num">PROVISION</span>
+            <h3>Create a managed gateway</h3>
+            <p>Pick a region and plan, and provision a managed gateway endpoint. Keys are issued once payment settles.</p>
+            <a class="cx-btn cx-btn--dark" href="https://bos.conxian-labs.com/sign-in">Open console</a>
+          </div>
+          <div class="cx-console-card">
+            <span class="cx-card-num">MANAGE</span>
+            <h3>Keys, usage, and billing</h3>
+            <p>Issue and rotate API keys, inspect metered usage, and see your current plan and next invoice.</p>
+            <a class="cx-btn cx-btn--ghost" href="https://bos.conxian-labs.com/sign-in">Open console</a>
+          </div>
+          <div class="cx-console-card">
+            <span class="cx-card-num">CONTROL</span>
+            <h3>Change or cancel</h3>
+            <p>Upgrade, downgrade, or cancel a service at any time. Cancellation stops billing at the end of the period.</p>
+            <a class="cx-btn cx-btn--ghost" href="https://bos.conxian-labs.com/sign-in">Open console</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cx-band">
+      <div class="cx-wrap">
+        <span class="cx-kicker">Example view</span>
+        <h2 class="cx-h2">Your services at a glance.</h2>
+        <p class="cx-lead">This is an illustration of the console layout. Live data appears after you sign in.</p>
+        <div class="cx-panel" role="table" aria-label="Example services table">
+          <div class="cx-panel-row cx-panel-head" role="row">
+            <span role="columnheader">Service</span><span role="columnheader">Region</span><span role="columnheader">Plan</span><span role="columnheader">State</span>
+          </div>
+          <div class="cx-panel-row" role="row">
+            <span role="cell">Managed Gateway</span><span role="cell">EU (Frankfurt)</span><span role="cell">Indie</span><span role="cell"><span class="cx-pill cx-pill--live">Active</span></span>
+          </div>
+          <div class="cx-panel-row" role="row">
+            <span role="cell">Nexus Node</span><span role="cell">US (Virginia)</span><span role="cell">Free</span><span role="cell"><span class="cx-pill cx-pill--pending">Provisioning</span></span>
+          </div>
+          <div class="cx-panel-row" role="row">
+            <span role="cell">Marketplace keys</span><span role="cell">—</span><span role="cell">—</span><span role="cell"><span class="cx-pill cx-pill--off">Not configured</span></span>
+          </div>
+        </div>
+        <div class="cx-btn-row">
+          <a class="cx-btn cx-btn--primary" href="https://bos.conxian-labs.com/sign-in">Sign in to console</a>
+          <a class="cx-btn cx-btn--ghost" href="/get-started">See the full journey</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer id="cx-footer"></footer>
+  <script src="../nav.js"></script>
+  <script>if(window.Logger){Logger.info("PAGE_LOAD","Route accessed",{path:window.location.pathname});}</script>
+</body>
+</html>

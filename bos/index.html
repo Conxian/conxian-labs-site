@@ -48,30 +48,10 @@
             border-radius: 6px; background: var(--surface-low); overflow-x: auto; white-space: nowrap;
         }
     </style>
+    <link rel="stylesheet" href="../css/site.css">
 </head>
 <body>
-    <header class="nav-bar">
-        <div class="logo-container">
-            <img src="../Conxian-Labs_Logo.jpg" alt="Conxian Labs">
-        </div>
-        <nav class="nav-links">
-            <a href="/">Home</a>
-            <a href="/sdk">SDK</a>
-            <a href="/docs">Docs</a>
-            <a href="/pricing">Pricing</a>
-            <a href="/bos" class="active">BOS</a>
-            <a href="/enterprise">Enterprise</a>
-            <a href="/partners">Partners</a>
-            <a href="/operators">Operators</a>
-            <a href="/research">Research</a>
-            <a href="/status">Status</a>
-        </nav>
-                    <div class="search-bar" style="position:relative;">
-                <input type="text" placeholder="Search..." class="subpage-search-input">
-                <div class="search-results subpage-search-results"></div>
-            </div>
-            <div class="sys-status">SYS_ZA_1 // PUBLIC</div>
-    </header>
+    <header id="cx-nav"></header>
 
     <main class="page">
         <section class="hero">
@@ -156,28 +136,10 @@
         </section>
     </main>
 
-    <footer class="site-footer">
-        <div class="footer-brand">
-            <h4>Conxian Labs</h4>
-            <p>© 2026 CONXIAN LABS · Enterprise No. K2026884014 // INSTITUTIONAL ENGINEERING</p>
-        </div>
-        <div class="footer-links">
-            <a href="/">Home</a>
-            <a href="/sdk">SDK</a>
-            <a href="/docs">Docs</a>
-            <a href="/pricing">Pricing</a>
-            <a href="/bos">BOS</a>
-            <a href="/enterprise">Enterprise</a>
-            <a href="/partners">Partners</a>
-            <a href="/operators">Operators</a>
-            <a href="/research">Research</a>
-            <a href="/status">Status</a>
-            <a href="/privacy">Privacy</a>
-            <a href="/terms">Terms</a>
-        </div>
-    </footer>
+    <footer id="cx-footer"></footer>
     <script>
         Logger.info("PAGE_LOAD", "Route accessed", { path: window.location.pathname });
     </script>
+    <script src="../nav.js"></script>
 </body>
 </html>

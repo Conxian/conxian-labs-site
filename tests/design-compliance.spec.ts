@@ -21,20 +21,12 @@ test.describe('Conxian Labs Design Compliance', () => {
         expect(fontFamily).toContain('JetBrains Mono');
     });
 
-    test('should have black background for logo container', async ({ page }) => {
-        const logoBg = await page.evaluate(() => {
-            const container = document.querySelector('.logo-container');
-            return container ? getComputedStyle(container).backgroundColor : null;
+    test('should render the accent brand mark', async ({ page }) => {
+        const markBg = await page.evaluate(() => {
+            const mark = document.querySelector('.cx-brand-mark');
+            return mark ? getComputedStyle(mark).backgroundColor : null;
         });
-        expect(logoBg).toBe('rgb(0, 0, 0)');
-    });
-
-    test('should have sharp institutional corners (4px)', async ({ page }) => {
-        const radius = await page.evaluate(() => {
-            const container = document.querySelector('.logo-container');
-            return container ? getComputedStyle(container).borderRadius : null;
-        });
-        expect(radius).toBe('4px');
+        expect(markBg).toBe('rgb(194, 94, 0)');
     });
 
     test('should maintain high contrast for dim text', async ({ page }) => {
