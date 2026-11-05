@@ -51,7 +51,7 @@ test.describe('Conxian Labs Comprehensive Site Verification', () => {
     test('homepage should expose the product surfaces and provisioning path', async ({ page }) => {
         await page.goto(`${BASE_URL}/index.html`);
 
-        await expect(page.getByRole('link', { name: 'Get started free' }).first()).toBeVisible();
+        await expect(page.getByRole('link', { name: 'Request access' }).first()).toBeVisible();
         await expect(page.getByRole('link', { name: 'Open console' }).first()).toHaveAttribute('href', '/console');
         await expect(page.getByRole('link', { name: 'See pricing' }).first()).toHaveAttribute('href', '/pricing');
 
@@ -81,8 +81,8 @@ test.describe('Conxian Labs Comprehensive Site Verification', () => {
 
     test('customer journey and console pages expose provisioning and cancellation', async ({ page }) => {
         await page.goto(`${BASE_URL}/get-started/index.html`);
-        await expect(page.getByRole('heading', { name: /From sign-up to a running service/i })).toBeVisible();
-        await expect(page.locator('main').getByRole('link', { name: 'Create free account' }).first()).toHaveAttribute('href', 'https://bos.conxian-labs.com/sign-up');
+        await expect(page.getByRole('heading', { name: /From request to a running service/i })).toBeVisible();
+        await expect(page.locator('main').getByRole('link', { name: 'Request access' }).first()).toHaveAttribute('href', /mailto:labs@conxian-labs\.com/);
 
         await page.goto(`${BASE_URL}/console/index.html`);
         await expect(page.getByRole('heading', { name: /Provision, manage, and cancel/i })).toBeVisible();
@@ -211,7 +211,7 @@ test.describe('Conxian Labs Comprehensive Site Verification', () => {
         await expect(page.locator('#cx-footer')).toBeVisible();
         // Auth pair present
         await expect(page.locator('#cx-nav').getByRole('link', { name: 'Sign in' })).toBeVisible();
-        await expect(page.locator('#cx-nav').getByRole('link', { name: 'Get started free' })).toBeVisible();
+        await expect(page.locator('#cx-nav').getByRole('link', { name: 'Request access' })).toBeVisible();
     });
 
     test('viewport responsiveness check', async ({ page }) => {

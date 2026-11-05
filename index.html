@@ -4,12 +4,12 @@
     <script src="./logger.js"></script>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <meta name="description" content="Conxian Labs: self-serve Bitcoin-native infrastructure. Managed gateway, enclave SDK, wallet, and nodes with a console, transparent pricing, and live status."/>
+    <meta name="description" content="Conxian Labs: Bitcoin-native infrastructure. Managed gateway, enclave SDK, wallet, and nodes with a console, transparent pricing, and live status."/>
     <title>Conxian Labs | Bitcoin-native infrastructure you can provision</title>
     <link rel="canonical" href="https://www.conxian-labs.com/"/>
     <meta property="og:url" content="https://www.conxian-labs.com/"/>
     <meta property="og:title" content="Conxian Labs | Bitcoin-native infrastructure you can provision"/>
-    <meta property="og:description" content="Self-serve managed gateway, enclave SDK, wallet, and nodes. Create an account, choose a plan, provision, and monitor."/>
+    <meta property="og:description" content="Managed gateway, enclave SDK, wallet, and nodes. Request an account, choose a plan, provision, and monitor."/>
     <meta property="og:image" content="https://www.conxian-labs.com/Conxian-Labs_Logo.jpg"/>
     <link rel="icon" href="Conxian_Logo.jpg" type="image/jpeg">
     <link rel="stylesheet" href="css/tailwind.css">
@@ -32,13 +32,13 @@
                     <span class="mono-text text-[0.7rem] uppercase tracking-[0.15em] font-bold text-on-surface-variant">Bitcoin-native cloud infrastructure</span>
                 </div>
                 <h1 class="text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight leading-[1.02] text-on-background mb-8 font-headline">Provision Bitcoin-native infrastructure in minutes.</h1>
-                <p class="text-xl text-on-surface-variant leading-relaxed max-w-2xl mb-10 font-light">Conxian Labs gives you a managed gateway, enclave SDK, non-custodial wallet, and verification nodes — with a self-serve console, transparent pricing, and a live status page. Create an account and start free.</p>
+                <p class="text-xl text-on-surface-variant leading-relaxed max-w-2xl mb-10 font-light">Conxian Labs gives you a managed gateway, enclave SDK, non-custodial wallet, and verification nodes — with transparent pricing and a live status page. Accounts are provisioned on request while the self-serve checkout is being completed.</p>
                 <div class="cx-btn-row" style="margin-top:0">
-                    <a class="cx-btn cx-btn--primary" href="https://bos.conxian-labs.com/sign-up">Get started free</a>
+                    <a class="cx-btn cx-btn--primary" href="/get-started">Request access</a>
                     <a class="cx-btn cx-btn--ghost" href="/console">Open console</a>
                     <a class="cx-btn cx-btn--ghost" href="/pricing">See pricing</a>
                 </div>
-                <p class="mono-text text-[0.68rem] uppercase tracking-widest text-on-surface-variant" style="margin-top:1.2rem">No card required to create an account · Cancel any time</p>
+                <p class="mono-text text-[0.68rem] uppercase tracking-widest text-on-surface-variant" style="margin-top:1.2rem">Access provisioned by the team · Cancel any time</p>
             </div>
             <aside class="cx-card" aria-label="Live platform status">
                 <div style="display:flex;justify-content:space-between;align-items:center">
@@ -94,14 +94,14 @@
             <span class="cx-kicker">How it works</span>
             <h2 class="cx-h2">Four steps to production.</h2>
             <div class="cx-steps">
-                <div class="cx-step"><h3>Create your account</h3><p>Sign up at the console with email and a strong password. Free; no card required.</p></div>
+                <div class="cx-step"><h3>Request access</h3><p>Ask the team for an account at the console. Free to create; no card required to evaluate.</p></div>
                 <div class="cx-step"><h3>Choose a plan</h3><p>Start free or pick a managed tier with clear, monthly pricing.</p></div>
                 <div class="cx-step"><h3>Provision</h3><p>Create a managed gateway or connect your own node. Keys are issued after payment settles.</p></div>
                 <div class="cx-step"><h3>Go live</h3><p>Monitor usage and status from the console. Upgrade or cancel any time.</p></div>
             </div>
             <div class="cx-btn-row">
                 <a class="cx-btn cx-btn--dark" href="/get-started">See the full journey</a>
-                <a class="cx-btn cx-btn--ghost" href="https://bos.conxian-labs.com/sign-up">Create account</a>
+                <a class="cx-btn cx-btn--ghost" href="/console">Open console</a>
             </div>
         </div>
     </section>
@@ -147,9 +147,9 @@
     <section class="cx-band cx-band--low">
         <div class="cx-wrap" style="text-align:center">
             <h2 class="cx-h2">Ready to provision?</h2>
-            <p class="cx-lead" style="margin:0 auto 0.5rem">Create a free account and reach the console in under a minute.</p>
+            <p class="cx-lead" style="margin:0 auto 0.5rem">Request access and the team provisions your console account.</p>
             <div class="cx-btn-row" style="justify-content:center">
-                <a class="cx-btn cx-btn--primary" href="https://bos.conxian-labs.com/sign-up">Get started free</a>
+                <a class="cx-btn cx-btn--primary" href="/get-started">Request access</a>
                 <a class="cx-btn cx-btn--ghost" href="/console">Open console</a>
                 <a class="cx-btn cx-btn--ghost" href="/status">View status</a>
             </div>
@@ -161,23 +161,26 @@
 
 <script src="nav.js"></script>
 <script>
-    // Hero status card: mirrors /api/status and fails visible.
+    // Hero status card: mirrors /api/status and fails visible. A surface is
+    // "verified" only when its own runtime answers; subdomains served by the
+    // public site host are labelled as aliases rather than healthy services.
     (function () {
         var line = document.getElementById("hero-status-line");
         var list = document.getElementById("hero-status-list");
         fetch("/api/status").then(function (r) { return r.json(); }).then(function (d) {
             if (!line || !list) return;
             var overall = d.overall || "unknown";
-            var label = overall === "operational" ? "All systems operational"
-                : overall === "partial-outage" ? "Partial outage — " + d.reachable + "/" + d.total + " reachable"
-                : overall === "major-outage" ? "Major outage"
+            var label = overall === "operational" ? "All services verified"
+                : overall === "partial-outage" ? "Partial verification — " + d.verified + "/" + d.total + " verified"
+                : overall === "major-outage" ? "No service verified"
                 : "Status unknown";
             line.textContent = label;
             list.innerHTML = (d.services || []).map(function (s) {
-                var color = s.reachable ? "#1f8a4c" : "#c98a00";
+                var state = s.verified ? "verified" : (s.alias ? "alias" : (s.reachable ? "unverified" : "unreachable"));
+                var color = s.verified ? "#1f8a4c" : (s.alias ? "#C25E00" : "#B00020");
                 return '<div style="display:flex;justify-content:space-between;font-size:0.72rem;font-family:var(--cx-mono)">' +
                     '<span style="color:var(--cx-dim)">' + s.id + '</span>' +
-                    '<span style="color:' + color + '">' + (s.reachable ? "reachable" : "degraded") + '</span></div>';
+                    '<span style="color:' + color + '">' + state + '</span></div>';
             }).join("");
         }).catch(function () {
             if (line) line.textContent = "Status unavailable — see the status page.";
