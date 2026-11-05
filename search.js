@@ -23,7 +23,9 @@
     { title: 'Privacy Policy', desc: 'How Conxian Labs handles data. No third-party trackers, no surveillance infrastructure.', url: 'privacy/index.html', keywords: 'privacy policy data protection no tracking' },
     { title: 'About — Conxian Labs', desc: 'Team, mission, and institutional background. Ecosystem portfolio overview and contact information.', url: 'about/index.html', keywords: 'about team mission contact institutional portfolio' },
     { title: 'Security — Conxian Labs', desc: 'Security architecture, bug bounty program, audit reports, and responsible disclosure.', url: 'security/index.html', keywords: 'security audit bug bounty disclosure vulnerability HSM verification' },
-    { title: 'Status — Conxian Labs', desc: 'Live reachability of the public Conxian service surfaces — Gateway, Nexus, Market, SDK, BOS, Corelibs and Platform, probed in real time.', url: 'status/index.html', keywords: 'status uptime health reachability operational outage gateway nexus market sdk bos corelibs platform live probe' }
+    { title: 'Status — Conxian Labs', desc: 'Live reachability of the public Conxian service surfaces — Gateway, Nexus, Market, SDK, BOS, Corelibs and Platform, probed in real time.', url: 'status/index.html', keywords: 'status uptime health reachability operational outage gateway nexus market sdk bos corelibs platform live probe' },
+    { title: 'Get Started — Conxian Labs', desc: 'The self-serve customer journey: create an account, choose a plan, provision a managed gateway, and go live.', url: 'get-started/index.html', keywords: 'get started signup sign up onboarding journey provision account plan managed gateway console free trial' },
+    { title: 'Console — Conxian Labs', desc: 'Provision, manage, and cancel Conxian services. Keys, usage, and billing in one place.', url: 'console/index.html', keywords: 'console dashboard provision create cancel billing keys usage api keys manage services' }
   ];
 
   function normalize(s) { return s.toLowerCase().replace(/[^a-z0-9\s-]/g, ''); }
@@ -76,6 +78,8 @@
   }
 
   function setupSearch(input) {
+    if (!input || input.dataset.searchBound === '1') return;
+    input.dataset.searchBound = '1';
     if (!input) return;
     var wrapper = input.closest('.relative') || input.closest('.search-bar') || input.parentElement;
     wrapper.style.position = 'relative';
@@ -140,6 +144,8 @@
     var subInputs = document.querySelectorAll('.subpage-search-input');
     subInputs.forEach(function(input) { setupSearch(input); });
   }
+
+  window.Search = { init: init };
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
