@@ -35,14 +35,17 @@
         .status-card .row { display: flex; align-items: center; gap: 0.75rem; }
         .status-card .dot { width: 10px; height: 10px; border-radius: 999px; background: var(--text-dim); flex: 0 0 auto; }
         .status-card .dot.up { background: #2E7D32; }
+        .status-card .dot.alias { background: #C25E00; }
         .status-card .dot.down { background: #B00020; }
         .status-card h3 { font-size: 1rem; margin: 0; }
         .status-card .role { color: var(--text-dim); font-size: 0.7rem; margin: 0.35rem 0 0.75rem; }
         .status-card .meta { display: flex; gap: 1rem; font-size: 0.68rem; color: var(--text-dim); flex-wrap: wrap; }
         .status-card .meta code { color: var(--text-main); }
+        .status-card .alias-note { margin: 0.75rem 0 0; font-size: 0.68rem; color: #C25E00; }
         .status-note { margin-top: 2rem; color: var(--text-dim); font-size: 0.72rem; }
         .state-pill { margin-left: auto; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 700; }
         .state-pill.up { color: #2E7D32; }
+        .state-pill.alias { color: #C25E00; }
         .state-pill.down { color: #B00020; }
     </style>
     <link rel="stylesheet" href="../css/site.css">
@@ -65,7 +68,7 @@
             </div>
             <div id="status-grid" class="status-grid" aria-live="polite"></div>
             <p class="status-note">
-                Source: <code>GET /api/status</code> — the Conxian Labs site probes each service's public health endpoint (6s timeout) and caches the result for 30 seconds. Reachability is not a hosted-service, settlement or custody commitment.
+                Source: <code>GET /api/status</code> — the Conxian Labs site probes each surface's public health endpoint (12s timeout) and caches the result for 30 seconds. <strong>Verified</strong> means the surface's own runtime answered with its expected identity. <strong>Alias</strong> means the host answered but is served by the public site host, not an independent runtime. <strong>Safety mode</strong> means the runtime is up but has paused value-bearing operations. Reachability is not a hosted-service, settlement or custody commitment.
             </p>
         </section>
     </main>
@@ -86,13 +89,16 @@
         function render(data) {
             overallDot.className = 'overall-dot ' + (data.overall || '');
             overallLabel.textContent = LABELS[data.overall] || 'Unknown';
-            overallMeta.textContent = data.reachable + '/' + data.total + ' reachable · checked ' + new Date(data.generatedAt).toLocaleTimeString();
+            overallMeta.textContent = data.verified + '/' + data.total + ' verified · ' + data.aliases + ' alias' + (data.aliases === 1 ? '' : 'es') + ' · ' + data.down + ' unreachable · checked ' + new Date(data.generatedAt).toLocaleTimeString();
             grid.innerHTML = '';
             for (const svc of data.services) {
                 const card = document.createElement('article');
                 card.className = 'status-card';
-                const status = svc.reachable ? 'up' : 'down';
-                const label = svc.reachable ? 'Operational' : 'Unreachable';
+                let status, label;
+                if (svc.verified) { status = 'up'; label = 'Verified'; }
+                else if (svc.alias) { status = 'alias'; label = 'Alias'; }
+                else if (svc.safetyMode) { status = 'alias'; label = 'Safety mode'; }
+                else { status = 'down'; label = svc.reachable ? 'Unverified' : 'Unreachable'; }
                 card.innerHTML =
                     '<div class="row">' +
                         '<span class="dot ' + status + '"></span>' +
@@ -104,13 +110,22 @@
                         '<span>host <code></code></span>' +
                         '<span>http <code></code></span>' +
                         '<span>latency <code></code></span>' +
-                    '</div>';
+                    '</div>' +
+                    '<p class="alias-note" hidden></p>';
                 card.querySelector('h3').textContent = svc.name;
                 card.querySelector('.role').textContent = svc.role;
                 const metaCodes = card.querySelectorAll('.meta code');
                 metaCodes[0].textContent = svc.host;
                 metaCodes[1].textContent = svc.httpStatus == null ? '—' : svc.httpStatus;
                 metaCodes[2].textContent = svc.latencyMs + 'ms';
+                const note = card.querySelector('.alias-note');
+                if (svc.alias) {
+                    note.hidden = false;
+                    note.textContent = 'Served by the public site host, not an independent runtime' + (svc.servedService ? ' (responds as "' + svc.servedService + '")' : '') + '. Reachable, not independently verified.';
+                } else if (svc.safetyMode) {
+                    note.hidden = false;
+                    note.textContent = 'Runtime is up but reporting safety mode; value-bearing operations are paused.';
+                }
                 grid.appendChild(card);
             }
         }
