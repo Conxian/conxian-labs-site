@@ -43,7 +43,25 @@ jobs:
 
     - name: Run Gitleaks
       run: |
+        set -euo pipefail
         VERSION="8.18.2"
-        # Download and run gitleaks binary directly to avoid organization license requirement of the JS action wrapper
-        curl -sSL "https://github.com/gitleaks/gitleaks/releases/download/v${VERSION}/gitleaks_${VERSION}_linux_x64.tar.gz" | tar xz
+        ARCHIVE="gitleaks_${VERSION}_linux_x64.tar.gz"
+        URL="https://github.com/gitleaks/gitleaks/releases/download/v${VERSION}/${ARCHIVE}"
+        # Download the release archive with retries and verify it is a real gzip
+        # before extracting. GitHub intermittently serves an HTML error page,
+        # which previously produced "gzip: stdin: not in gzip format" failures.
+        for attempt in 1 2 3 4 5; do
+          curl -sSL --retry 5 --retry-all-errors --retry-delay 3 "$URL" -o "$ARCHIVE"
+          if gzip -t "$ARCHIVE" 2>/dev/null; then
+            break
+          fi
+          echo "::warning::gitleaks download attempt ${attempt} was not a valid archive; retrying"
+          rm -f "$ARCHIVE"
+          sleep $((attempt * 3))
+        done
+        if [ ! -s "$ARCHIVE" ] || ! gzip -t "$ARCHIVE" 2>/dev/null; then
+          echo "::error::Unable to download a valid gitleaks archive from ${URL}"
+          exit 1
+        fi
+        tar xzf "$ARCHIVE"
         ./gitleaks detect --source . -v
