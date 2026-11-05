@@ -86,7 +86,7 @@
       '<a class="cx-status-pill" href="' + STATUS_PAGE + '" id="cx-status-pill">' +
       '<span class="cx-dot" id="cx-status-dot"></span><span id="cx-status-text">Status</span></a>' +
       '<a class="cx-signin" href="' + CONSOLE + '/sign-in">Sign in</a>' +
-      '<a class="cx-cta" href="' + CONSOLE + '/sign-up">Get started free</a>' +
+      '<a class="cx-cta" href="/get-started">Request access</a>' +
       '<button class="cx-burger" type="button" aria-label="Open menu" aria-expanded="false" id="cx-burger">☰</button>' +
       "</div></div>" +
       '<div class="cx-mobile" id="cx-mobile" hidden>' +
@@ -94,7 +94,7 @@
       '<a href="/docs">Core</a><a href="/research">Nexus</a><a href="/commercial">Market</a>' +
       '<a href="/pricing">Pricing</a><a href="/status">Status</a>' +
       '<a href="' + CONSOLE + '/sign-in">Sign in</a>' +
-      '<a class="cx-mobile-cta" href="' + CONSOLE + '/sign-up">Get started free</a></div>';
+      '<a class="cx-mobile-cta" href="/get-started">Request access</a></div>';
 
     var burger = document.getElementById("cx-burger");
     var mobile = document.getElementById("cx-mobile");

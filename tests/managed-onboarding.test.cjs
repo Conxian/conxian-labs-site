@@ -28,11 +28,18 @@ test("service catalog preserves intended routes without claiming verified deploy
   assert.equal(body.routingStatus, "intended-unverified");
   assert.deepEqual(body.services.map(({ id, route }) => [id, route]), [
     ["bos", "/bos"], ["nexus", "/research"], ["gateway", "/docs"],
-    ["market", "/commercial"], ["sdk", "/sdk"], ["platform", "/operators"], ["corelibs", "/docs"],
+    ["market", "/commercial"], ["sdk", "/sdk"], ["corelibs", "/docs"],
   ]);
   for (const service of body.services) {
-    assert.equal(service.status, "unverified");
     assert.equal(service.productionSupported, false);
+  }
+  // Surfaces published as subdomains but served by the public site host are
+  // catalogued as aliases, not as independently verified deployments.
+  for (const id of ["market", "sdk", "corelibs"]) {
+    assert.equal(body.services.find(service => service.id === id).status, "alias");
+  }
+  for (const id of ["bos", "nexus", "gateway"]) {
+    assert.equal(body.services.find(service => service.id === id).status, "active");
   }
   assert.equal(body.infrastructureTopology.status, "historical-reference");
   assert.equal(body.infrastructureTopology.verified, false);
