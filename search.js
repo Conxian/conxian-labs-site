@@ -22,7 +22,8 @@
     { title: 'Terms of Service', desc: 'Legal terms governing use of Conxian Labs services, SDK, and infrastructure.', url: 'terms/index.html', keywords: 'terms legal service agreement conditions' },
     { title: 'Privacy Policy', desc: 'How Conxian Labs handles data. No third-party trackers, no surveillance infrastructure.', url: 'privacy/index.html', keywords: 'privacy policy data protection no tracking' },
     { title: 'About — Conxian Labs', desc: 'Team, mission, and institutional background. Ecosystem portfolio overview and contact information.', url: 'about/index.html', keywords: 'about team mission contact institutional portfolio' },
-    { title: 'Security — Conxian Labs', desc: 'Security architecture, bug bounty program, audit reports, and responsible disclosure.', url: 'security/index.html', keywords: 'security audit bug bounty disclosure vulnerability HSM verification' }
+    { title: 'Security — Conxian Labs', desc: 'Security architecture, bug bounty program, audit reports, and responsible disclosure.', url: 'security/index.html', keywords: 'security audit bug bounty disclosure vulnerability HSM verification' },
+    { title: 'Status — Conxian Labs', desc: 'Live reachability of the public Conxian service surfaces — Gateway, Nexus, Market, SDK, BOS, Corelibs and Platform, probed in real time.', url: 'status/index.html', keywords: 'status uptime health reachability operational outage gateway nexus market sdk bos corelibs platform live probe' }
   ];
 
   function normalize(s) { return s.toLowerCase().replace(/[^a-z0-9\s-]/g, ''); }
