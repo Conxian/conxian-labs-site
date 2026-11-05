@@ -870,3 +870,44 @@ a, p, code, li, span, h1, h2, h3, h4 {
         overflow-x: hidden;
     }
 }
+
+/* Managed purchase hand-off (pricing page) */
+.managed-purchase {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--ghost-border);
+}
+.managed-purchase label {
+    display: block;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-dim);
+    margin-bottom: 0.5rem;
+}
+.managed-purchase-row {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+.managed-purchase input {
+    flex: 1 1 180px;
+    min-width: 0;
+    background: var(--surface-low, #F6F3F2);
+    border: 1px solid var(--ghost-border);
+    border-radius: var(--radius);
+    padding: 0.55rem 0.8rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text-main);
+    outline: none;
+}
+.managed-purchase input:focus { border-color: var(--accent); }
+.managed-purchase-status {
+    margin-top: 0.6rem;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    min-height: 1em;
+}
+.managed-purchase-status[data-state="ok"] { color: var(--accent-dim); }
+.managed-purchase-status[data-state="error"] { color: #B00020; }
