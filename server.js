@@ -19,6 +19,31 @@ app.use((req, res, next) => {
   next();
 });
 
+// Product subdomains are all served by this one site host (see the Cloudflare
+// `conxian-proxy` Worker). Landing every one of them on the same homepage
+// presents four products as one undifferentiated surface, so route each host
+// to its own product page. The Worker forwards the original host in
+// X-Forwarded-Host; direct Render access has no such header and keeps the
+// homepage.
+const HOST_LANDING_ROUTES = {
+  "sdk.conxian.org": "/sdk",
+  "market.conxian.org": "/commercial",
+  "wallet.conxian.org": "/enterprise",
+  "docs.conxian.org": "/docs",
+};
+
+app.use((req, res, next) => {
+  if (req.method !== "GET" && req.method !== "HEAD") return next();
+  if (req.path !== "/" && req.path !== "/index.html") return next();
+  const forwarded = String(req.headers["x-forwarded-host"] || "")
+    .split(",")[0]
+    .trim()
+    .toLowerCase();
+  const target = HOST_LANDING_ROUTES[forwarded];
+  if (!target) return next();
+  res.redirect(302, target);
+});
+
 const pageMetadata = [
   { route: "", title: "Home", desc: "Proof-first software stack for the Conxian ecosystem", priority: 1.0 },
   { route: "sdk", title: "SDK — Conxius Enclave SDK", desc: "Cross-platform enclave and key-management boundaries", priority: 0.9 },

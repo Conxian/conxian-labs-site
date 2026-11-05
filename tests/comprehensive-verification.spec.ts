@@ -59,12 +59,12 @@ test.describe('Conxian Labs Comprehensive Site Verification', () => {
         await expect(products).toBeVisible();
 
         const surfaces = [
-            ['Managed gateway', '/docs'],
-            ['Enclave SDK', '/sdk'],
-            ['Conxius Wallet', '/enterprise'],
-            ['Nexus node', '/research'],
-            ['Market engine', '/commercial'],
-            ['Core library', '/docs'],
+            ['Managed gateway', '/docs#gateway'],
+            ['Enclave SDK', '/sdk#integration-scope'],
+            ['Conxius Wallet', '/enterprise#capabilities'],
+            ['Nexus node', '/research#domains'],
+            ['Market engine', '/commercial#market'],
+            ['Core library', '/docs#core'],
         ] as const;
 
         for (const [heading, href] of surfaces) {
@@ -167,19 +167,33 @@ test.describe('Conxian Labs Comprehensive Site Verification', () => {
             for (const link of navLinks) {
                 const href = await link.getAttribute('href');
                 if (href && href !== '/') {
-                    const relativePath = href.startsWith('/') ? href.substring(1) : href;
+                    // In-page anchors (e.g. /docs#gateway) address a section of a
+                    // real page, so resolve the path portion and verify the
+                    // fragment actually exists on the target page.
+                    const [pathname, fragment] = href.split('#');
+                    const relativePath = pathname.startsWith('/') ? pathname.substring(1) : pathname;
                     const fullPath = path.join(process.cwd(), relativePath);
 
                     let exists = false;
+                    let target = fullPath;
                     if (fs.existsSync(fullPath)) {
                         if (fs.statSync(fullPath).isDirectory()) {
-                            exists = fs.existsSync(path.join(fullPath, 'index.html'));
+                            target = path.join(fullPath, 'index.html');
+                            exists = fs.existsSync(target);
                         } else {
                             exists = true;
                         }
                     }
 
                     expect(exists, `Link to ${href} on ${pagePath} is broken (path: ${fullPath})`).toBe(true);
+
+                    if (fragment && fs.existsSync(target) && path.extname(target) === '.html') {
+                        const markup = fs.readFileSync(target, 'utf8');
+                        expect(
+                            markup.includes(`id="${fragment}"`) || markup.includes(`name="${fragment}"`),
+                            `Anchor #${fragment} in ${href} (from ${pagePath}) does not exist on ${relativePath}`,
+                        ).toBe(true);
+                    }
                 }
             }
         }
