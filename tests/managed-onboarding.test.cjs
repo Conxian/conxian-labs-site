@@ -134,3 +134,66 @@ test("a fully configured deployment advertises checkout without claiming entitle
   process.env.MERCHANT_CHECKOUT_URL = "https://checkout.example.invalid/managed";
   delete process.env.MANAGED_GATEWAY_ENDPOINT;
 });
+
+const postAccess = body => fetch(`${base}/api/onboarding/request-access`, {
+  method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body),
+});
+
+test("request-access fails closed when online intake is unconfigured", async () => {
+  delete process.env.ACCESS_REQUEST_ENDPOINT;
+  const response = await postAccess({ email: "buyer@example.invalid", organization: "ACME", need: "gateway" });
+  assert.equal(response.status, 503);
+  assert.equal(response.headers.get("cache-control"), "no-store");
+  const body = await response.json();
+  assert.equal(body.received, false);
+  assert.equal(body.code, "intake_not_configured");
+  assert.match(body.fallbackUrl, /^mailto:labs@conxian-labs\.com/);
+  // The response must not echo the submitted personal data.
+  assert.equal(JSON.stringify(body).includes("buyer@example.invalid"), false);
+  assert.equal(JSON.stringify(body).includes("ACME"), false);
+});
+
+test("request-access validates the email before any intake call", async () => {
+  const response = await postAccess({ email: "invalid" });
+  assert.equal(response.status, 400);
+  assert.equal((await response.json()).code, "invalid_email");
+});
+
+test("request-access reports received only after the intake accepts", async () => {
+  const http = require("node:http");
+  const intake = http.createServer((req, res) => {
+    assert.equal(req.method, "POST");
+    res.statusCode = 204;
+    res.end();
+  });
+  await new Promise(resolve => intake.listen(0, "127.0.0.1", resolve));
+  process.env.ACCESS_REQUEST_ENDPOINT = `http://127.0.0.1:${intake.address().port}/intake`;
+  try {
+    const response = await postAccess({ email: "buyer@example.invalid" });
+    assert.equal(response.status, 200);
+    const body = await response.json();
+    assert.equal(body.received, true);
+    for (const field of ["apiKey", "entitlement", "provisioned", "license"]) assert.equal(body[field], undefined);
+  } finally {
+    intake.close();
+    delete process.env.ACCESS_REQUEST_ENDPOINT;
+  }
+});
+
+test("request-access does not claim receipt when the intake rejects", async () => {
+  const http = require("node:http");
+  const intake = http.createServer((req, res) => { res.statusCode = 500; res.end(); });
+  await new Promise(resolve => intake.listen(0, "127.0.0.1", resolve));
+  process.env.ACCESS_REQUEST_ENDPOINT = `http://127.0.0.1:${intake.address().port}/intake`;
+  try {
+    const response = await postAccess({ email: "buyer@example.invalid" });
+    assert.equal(response.status, 502);
+    const body = await response.json();
+    assert.equal(body.received, false);
+    assert.equal(body.code, "intake_failed");
+    assert.match(body.fallbackUrl, /^mailto:/);
+  } finally {
+    intake.close();
+    delete process.env.ACCESS_REQUEST_ENDPOINT;
+  }
+});

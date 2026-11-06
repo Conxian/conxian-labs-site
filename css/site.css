@@ -329,6 +329,20 @@
 .cx-badges { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.5rem; }
 .cx-badge-chip { font-family: var(--cx-mono); font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; border: 1px solid var(--cx-line); border-radius: 999px; padding: 0.35rem 0.8rem; color: var(--cx-dim); }
 
+/* Gated access-request intake. Uses the canonical site tokens only. */
+.cx-access-form { display: flex; flex-direction: column; gap: 1rem; max-width: 34rem; margin-top: 2rem; }
+.cx-field { display: flex; flex-direction: column; gap: 0.4rem; }
+.cx-field label { font-family: var(--cx-mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--cx-dim); }
+.cx-field .cx-optional { text-transform: none; letter-spacing: 0; color: var(--cx-dim); opacity: 0.8; }
+.cx-field input, .cx-field textarea { font-family: inherit; font-size: 0.95rem; color: var(--cx-ink); background: var(--cx-surface); border: 1px solid var(--cx-line); border-radius: 8px; padding: 0.75rem 0.9rem; }
+.cx-field textarea { resize: vertical; }
+.cx-field input:focus, .cx-field textarea:focus { outline: 2px solid var(--cx-accent); outline-offset: 1px; border-color: var(--cx-accent); }
+.cx-access-form .cx-btn { align-self: flex-start; }
+.cx-form-status { font-size: 0.85rem; color: var(--cx-dim); margin: 0; min-height: 1.2em; }
+.cx-form-status a { color: var(--cx-accent); }
+.cx-form-note { font-size: 0.78rem; color: var(--cx-dim); margin: 0; }
+.cx-form-note a { color: var(--cx-accent); }
+
 @media (max-width: 1100px) {
   .cx-links { display: none; }
   .cx-burger { display: block; }
