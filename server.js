@@ -91,15 +91,16 @@ const SERVICE_REGISTRY = [
   { id: "nexus", name: "Conxian Nexus Proof & Price Oracle", role: "Proof & oracle layer", host: "nexus.conxian.org", probe: "https://nexus.conxian.org/health", expect: [200], identity: "conxian-nexus", route: "/research" },
 ];
 
-// Surfaces that are published as Conxian subdomains but currently resolve to the
-// public site host rather than an independent runtime. They are probed and shown
-// honestly as aliases so the status page never presents a shared host as an
-// independently verified service.
-const ALIAS_REGISTRY = [
-  { id: "market", name: "Conxian Market Settlement Engine", role: "Settlement & fee-model SDK", host: "market.conxian.org", probe: "https://market.conxian.org/api/health", expect: [200], identity: "conxian_market", route: "/commercial" },
-  { id: "sdk", name: "Conxius Enclave SDK", role: "Cross-platform hardware signing", host: "sdk.conxian.org", probe: "https://sdk.conxian.org/api/health", expect: [200], identity: "conxius-enclave-sdk", route: "/sdk" },
-  { id: "corelibs", name: "Corelibs Cryptographic Primitives", role: "Shared protocol primitives", host: "docs.conxian.org", probe: "https://docs.conxian.org/api/health", expect: [200], identity: "lib-conxian-core", route: "/docs" },
-];
+// Published packages (market, enclave-sdk, corelibs) are libraries, not
+// independently-run runtimes: they ship to registries and are consumed by the
+// deployed services, so there is no separate host to probe. Their liveness is
+// implied by the site being up. They are documented as libraries in
+// /api/services rather than presented here as uptime targets.
+//
+// Any future surface that shares the public site host is still detected at
+// request time (see classifyProbe) and shown honestly as an alias, so a shared
+// host is never presented as an independently verified service.
+const ALIAS_REGISTRY = [];
 
 const PROBE_CACHE_MS = 30000;
 const PROBE_TIMEOUT_MS = 12000;
@@ -258,9 +259,9 @@ app.get("/api/services", (req, res) => {
       { id: "bos", name: "Business Operating System (BOS)", type: "State Orchestration & Governance", status: "active", host: "bos.conxian-labs.com", route: "/bos" },
       { id: "nexus", name: "Conxian Nexus Proof & Price Oracle", type: "Decentralized Proof & Oracle Layer", status: "active", host: "nexus.conxian.org", route: "/research" },
       { id: "gateway", name: "Gateway (Fusion & Sentinel)", type: "Middleware & Access Control", status: "active", host: "gateway.conxian.org", route: "/docs" },
-      { id: "market", name: "Conxian Market Settlement Engine", type: "Nakamoto-Ready Liquidity Engine", status: "alias", host: "market.conxian.org", route: "/commercial" },
-      { id: "sdk", name: "Conxius Enclave SDK", type: "Cross-Platform Hardware Signing Abstraction", status: "alias", host: "sdk.conxian.org", route: "/sdk" },
-      { id: "corelibs", name: "Corelibs Cryptographic Library", type: "Shared Protocol Cryptographic Primitives", status: "alias", host: "docs.conxian.org", route: "/docs" }
+      { id: "market", name: "Conxian Market Settlement Engine", type: "Nakamoto-Ready Liquidity Engine", status: "library", host: "market.conxian.org", route: "/commercial" },
+      { id: "sdk", name: "Conxius Enclave SDK", type: "Cross-Platform Hardware Signing Abstraction", status: "library", host: "sdk.conxian.org", route: "/sdk" },
+      { id: "corelibs", name: "Corelibs Cryptographic Library", type: "Shared Protocol Cryptographic Primitives", status: "library", host: "docs.conxian.org", route: "/docs" }
     ].map(service => ({ ...service, productionSupported: false })),
     infrastructureTopology: {
       status: "historical-reference",
@@ -360,6 +361,76 @@ app.post("/api/onboarding/subscribe", (req, res) => {
     entitlement: "pending-checkout",
     next: "Complete checkout; your managed API key is issued after payment settles",
   });
+});
+
+// Gated access-request intake. Public self-serve sign-up is not enabled, so the
+// site captures a request and routes it to a restricted intake system (never
+// Git). The endpoint fails closed: it reports `received: true` only after the
+// configured intake accepts the record, and otherwise returns a mailto fallback
+// rather than implying a request was stored. The payload is never persisted in
+// this process and is not written to logs.
+const ACCESS_REQUEST_FALLBACK = "mailto:labs@conxian-labs.com?subject=Console%20access%20request";
+
+function boundedField(value, max) {
+  return typeof value === "string" ? value.trim().slice(0, max) : "";
+}
+
+app.post("/api/onboarding/request-access", async (req, res) => {
+  res.setHeader("Cache-Control", "no-store");
+  const email = boundedField((req.body || {}).email, 254);
+  const organization = boundedField((req.body || {}).organization, 120);
+  const need = boundedField((req.body || {}).need, 500);
+
+  if (!email || !email.includes("@") || email.length > 254) {
+    return res.status(400).json({ error: "A valid email is required", code: "invalid_email" });
+  }
+
+  const intakeUrl = configuredUrl("ACCESS_REQUEST_ENDPOINT");
+  if (intakeUrl === null) {
+    return res.status(503).json({
+      received: false,
+      code: "intake_not_configured",
+      fallbackUrl: ACCESS_REQUEST_FALLBACK,
+      next: "Email the team; online intake is not configured on this deployment",
+    });
+  }
+
+  try {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 10000);
+    let accepted = false;
+    try {
+      const response = await fetch(intakeUrl, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ email, organization, need, source: "conxian-labs-site" }),
+        redirect: "manual",
+        signal: controller.signal,
+      });
+      accepted = response.status >= 200 && response.status < 300;
+    } finally {
+      clearTimeout(timer);
+    }
+    if (!accepted) {
+      return res.status(502).json({
+        received: false,
+        code: "intake_failed",
+        fallbackUrl: ACCESS_REQUEST_FALLBACK,
+        next: "Email the team; the intake system did not accept the request",
+      });
+    }
+    return res.status(200).json({
+      received: true,
+      message: "Request received. The team will reply by email.",
+    });
+  } catch (error) {
+    return res.status(502).json({
+      received: false,
+      code: "intake_failed",
+      fallbackUrl: ACCESS_REQUEST_FALLBACK,
+      next: "Email the team; the intake system could not be reached",
+    });
+  }
 });
 
 // SPA-style fallback for 404

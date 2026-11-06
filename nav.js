@@ -8,7 +8,12 @@
 (function () {
   "use strict";
 
-  var CONSOLE = "https://bos.conxian-labs.com";
+  // Customer-facing auth is intentionally absent: the BOS control plane is an
+  // internal operator surface and public self-serve sign-up is not enabled. The
+  // nav routes a prospective customer to the gated request-access journey rather
+  // than to an internal operator page.
+  var CONSOLE_PAGE = "/console";
+  var ACCESS_PAGE = "/get-started";
   var STATUS_PAGE = "/status";
 
   // Each product resolves to a distinct destination (page + in-page anchor)
@@ -98,16 +103,16 @@
       '<div class="cx-search-wrap"><input class="cx-search-input subpage-search-input" type="search" placeholder="Search documentation" aria-label="Search site" autocomplete="off"><section class="search-results subpage-search-results" aria-label="Search results" aria-live="polite"></section></div>' +
       '<a class="cx-status-pill" href="' + STATUS_PAGE + '" id="cx-status-pill">' +
       '<span class="cx-dot" id="cx-status-dot"></span><span id="cx-status-text">Status</span></a>' +
-      '<a class="cx-signin" href="' + CONSOLE + '/sign-in">Sign in</a>' +
-      '<a class="cx-cta" href="/get-started">Request access</a>' +
+      '<a class="cx-signin" href="' + CONSOLE_PAGE + '">Console</a>' +
+      '<a class="cx-cta" href="' + ACCESS_PAGE + '">Request access</a>' +
       '<button class="cx-burger" type="button" aria-label="Open menu" aria-expanded="false" id="cx-burger">☰</button>' +
       "</div></div>" +
       '<div class="cx-mobile" id="cx-mobile" hidden>' +
       '<a href="' + PRODUCT_LINKS.gateway + '">Gateway</a><a href="' + PRODUCT_LINKS.sdk + '">Enclave SDK</a><a href="' + PRODUCT_LINKS.wallet + '">Wallet</a>' +
       '<a href="' + PRODUCT_LINKS.core + '">Core</a><a href="' + PRODUCT_LINKS.nexus + '">Nexus</a><a href="' + PRODUCT_LINKS.market + '">Market</a>' +
       '<a href="/pricing">Pricing</a><a href="/status">Status</a>' +
-      '<a href="' + CONSOLE + '/sign-in">Sign in</a>' +
-      '<a class="cx-mobile-cta" href="/get-started">Request access</a></div>';
+      '<a href="' + CONSOLE_PAGE + '">Console</a>' +
+      '<a class="cx-mobile-cta" href="' + ACCESS_PAGE + '">Request access</a></div>';
 
     var burger = document.getElementById("cx-burger");
     var mobile = document.getElementById("cx-mobile");
@@ -187,7 +192,7 @@
       "</div>" +
       '<div class="cx-foot-cols">' +
       col("Products", [["/docs", "Gateway"], ["/sdk", "Enclave SDK"], ["/enterprise", "Wallet"], ["/research", "Nexus"], ["/commercial", "Market"]]) +
-      col("Developers", [["/docs", "Documentation"], ["/status", "Status"], ["https://github.com/Conxian", "GitHub"], [CONSOLE + "/sign-in", "Console"]]) +
+              col("Developers", [["/docs", "Documentation"], ["/status", "Status"], ["https://github.com/Conxian", "GitHub"], ["/console", "Console"]]) +
       col("Company", [["/about", "About"], ["/pricing", "Pricing"], ["/partners", "Partners"], ["/operators", "Operators"], ["/research", "Research"]]) +
       col("Legal", [["/privacy", "Privacy"], ["/terms", "Terms"], ["/security", "Security"]]) +
       "</div></div>";

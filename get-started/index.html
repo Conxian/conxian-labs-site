@@ -4,11 +4,11 @@
   <script src="../logger.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Get started with Conxian: request an account, choose a plan, provision a managed gateway, and go live. The full customer journey.">
+  <meta name="description" content="Get started with Conxian: request access, choose a plan, provision a managed gateway, and go live. Console accounts are provisioned by the team while self-serve sign-up is being completed.">
   <title>Get Started | Conxian Labs</title>
   <link rel="canonical" href="https://www.conxian-labs.com/get-started">
   <meta property="og:title" content="Get Started | Conxian Labs">
-  <meta property="og:description" content="Create an account, pick a plan, provision a managed gateway, and go live.">
+  <meta property="og:description" content="Request access, pick a plan, provision a managed gateway, and go live.">
   <link rel="icon" href="/Conxian_Logo.jpg" type="image/jpeg">
   <link rel="stylesheet" href="../css/site.css">
 </head>
@@ -19,10 +19,9 @@
       <div class="cx-wrap">
         <span class="cx-kicker">Get started</span>
         <h1 class="cx-h2">From request to a running service.</h1>
-        <p class="cx-lead">Conxian is self-serve for the software and on request for the managed gateway. Request an account, choose a plan, provision, and monitor. Where a step depends on a capability that is not yet generally available, the page says so rather than implying it works.</p>
+        <p class="cx-lead">Conxian is self-serve for the software and on request for the managed gateway. Request access, choose a plan, provision, and monitor. Where a step depends on a capability that is not yet generally available, the page says so rather than implying it works.</p>
         <div class="cx-btn-row">
-          <a class="cx-btn cx-btn--primary" href="mailto:labs@conxian-labs.com?subject=Console%20access%20request">Request access</a>
-          <a class="cx-btn cx-btn--ghost" href="https://bos.conxian-labs.com/sign-in">Sign in to console</a>
+          <a class="cx-btn cx-btn--primary" href="#request-access">Request access</a>
           <a class="cx-btn cx-btn--ghost" href="/pricing">Compare plans</a>
         </div>
       </div>
@@ -35,7 +34,7 @@
         <div class="cx-steps">
           <div class="cx-step">
             <h3>Request your account</h3>
-            <p>Console accounts are provisioned by the team while self-serve sign-up is being completed. Request one by email; no card required to explore.</p>
+            <p>Console accounts are provisioned by the team while self-serve sign-up is being completed. <a href="#request-access">Request one</a> by email; no card required to explore.</p>
           </div>
           <div class="cx-step">
             <h3>Choose a plan</h3>
@@ -43,7 +42,7 @@
           </div>
           <div class="cx-step">
             <h3>Provision your service</h3>
-            <p>Provision a managed gateway or connect your own node from the console. Keys are issued after payment settles.</p>
+            <p>Provision a managed gateway or connect your own node. Keys are issued after payment settles.</p>
           </div>
           <div class="cx-step">
             <h3>Go live and monitor</h3>
@@ -80,16 +79,41 @@
       </div>
     </section>
 
-    <section class="cx-band cx-band--low">
+    <section class="cx-band cx-band--low" id="request-access">
+      <div class="cx-wrap">
+        <span class="cx-kicker">Request access</span>
+        <h2 class="cx-h2">Request a console account.</h2>
+        <p class="cx-lead">Console accounts are provisioned by the team while self-serve sign-up is being completed. Tell us who you are and what you want to run and we will reply by email. No card is required to explore.</p>
+        <form class="cx-access-form" id="access-form" novalidate>
+          <div class="cx-field">
+            <label for="ar-email">Work email</label>
+            <input id="ar-email" name="email" type="email" required autocomplete="email" placeholder="you@company.com">
+          </div>
+          <div class="cx-field">
+            <label for="ar-org">Organization <span class="cx-optional">(optional)</span></label>
+            <input id="ar-org" name="organization" type="text" autocomplete="organization" maxlength="120">
+          </div>
+          <div class="cx-field">
+            <label for="ar-need">What do you want to run? <span class="cx-optional">(optional)</span></label>
+            <textarea id="ar-need" name="need" rows="3" maxlength="500" placeholder="Managed gateway, self-hosted node, SDK integration..."></textarea>
+          </div>
+          <button class="cx-btn cx-btn--primary" type="submit" id="access-submit">Request access</button>
+          <p class="cx-form-status" id="access-status" role="status" aria-live="polite"></p>
+          <p class="cx-form-note">Prefer email? <a href="mailto:labs@conxian-labs.com?subject=Console%20access%20request">labs@conxian-labs.com</a>. We use your email only to respond to this request. See <a href="/privacy">privacy</a> and <a href="/terms">terms</a>.</p>
+        </form>
+      </div>
+    </section>
+
+    <section class="cx-band">
       <div class="cx-wrap">
         <span class="cx-kicker">Availability</span>
-        <h2 class="cx-h2">What you can do today — and what is still in progress.</h2>
+        <h2 class="cx-h2">What you can do today - and what is still in progress.</h2>
         <p class="cx-lead">We keep this list honest. A capability appears as available only when the route, deployment, and payment path are actually wired.</p>
         <div class="cx-grid cx-grid--3" style="margin-top:2rem">
           <div class="cx-card">
             <span class="cx-card-num">ON REQUEST</span>
             <h3>Console account</h3>
-            <p>Console accounts are provisioned by the team while self-serve sign-up is being completed. Request one and sign in at <a href="https://bos.conxian-labs.com">bos.conxian-labs.com</a>.</p>
+            <p>Console accounts are provisioned by the team while self-serve sign-up is being completed. <a href="#request-access">Request one</a> and we will send sign-in details when your account is ready.</p>
           </div>
           <div class="cx-card">
             <span class="cx-card-num">AVAILABLE NOW</span>
@@ -103,7 +127,7 @@
           </div>
         </div>
         <div class="cx-btn-row">
-          <a class="cx-btn cx-btn--dark" href="mailto:labs@conxian-labs.com?subject=Console%20access%20request">Request access</a>
+          <a class="cx-btn cx-btn--dark" href="#request-access">Request access</a>
           <a class="cx-btn cx-btn--ghost" href="/docs">Read the docs</a>
         </div>
       </div>
@@ -111,6 +135,56 @@
   </main>
   <footer id="cx-footer"></footer>
   <script src="../nav.js"></script>
+  <script>
+    (function () {
+      var form = document.getElementById("access-form");
+      if (!form) return;
+      var status = document.getElementById("access-status");
+      var btn = document.getElementById("access-submit");
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var email = (document.getElementById("ar-email").value || "").trim();
+        if (!email || email.indexOf("@") < 0) {
+          status.textContent = "Enter a valid work email.";
+          return;
+        }
+        var payload = {
+          email: email,
+          organization: (document.getElementById("ar-org").value || "").trim(),
+          need: (document.getElementById("ar-need").value || "").trim(),
+        };
+        btn.disabled = true;
+        status.textContent = "Sending...";
+        fetch("/api/onboarding/request-access", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(payload),
+        })
+          .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, body: d }; }); })
+          .then(function (res) {
+            if (res.ok && res.body && res.body.received) {
+              status.textContent = "Thanks - your request was received. We will reply by email.";
+              form.reset();
+              return;
+            }
+            if (res.body && res.body.fallbackUrl) {
+              status.textContent = "Online intake is not configured yet. ";
+              var a = document.createElement("a");
+              a.href = res.body.fallbackUrl;
+              a.textContent = "Email the team";
+              status.appendChild(a);
+              status.appendChild(document.createTextNode(" instead."));
+              return;
+            }
+            status.textContent = "We could not submit that. Please try again or email labs@conxian-labs.com.";
+          })
+          .catch(function () {
+            status.textContent = "We could not submit that. Please email labs@conxian-labs.com.";
+          })
+          .then(function () { btn.disabled = false; });
+      });
+    })();
+  </script>
   <script>if(window.Logger){Logger.info("PAGE_LOAD","Route accessed",{path:window.location.pathname});}</script>
 </body>
 </html>
