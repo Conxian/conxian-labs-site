@@ -24,6 +24,7 @@
         .overall-dot { width: 14px; height: 14px; border-radius: 999px; background: var(--text-dim); flex: 0 0 auto; }
         .overall-dot.operational { background: #2E7D32; box-shadow: 0 0 0 4px rgba(46,125,50,0.12); }
         .overall-dot.partial-outage { background: #C25E00; box-shadow: 0 0 0 4px rgba(194,94,0,0.12); }
+        .overall-dot.unverified { background: #6F7780; box-shadow: 0 0 0 4px rgba(111,119,128,.12); }
         .overall-dot.major-outage { background: #B00020; box-shadow: 0 0 0 4px rgba(176,0,32,0.12); }
         .overall-label { font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.8rem; }
         .overall-meta { color: var(--text-dim); font-size: 0.7rem; margin-left: auto; }
@@ -36,6 +37,8 @@
         .status-card .dot { width: 10px; height: 10px; border-radius: 999px; background: var(--text-dim); flex: 0 0 auto; }
         .status-card .dot.up { background: #2E7D32; }
         .status-card .dot.alias { background: #C25E00; }
+        .status-card .dot.unverified { background: #6F7780; }
+        .status-card .dot.degraded { background: #C25E00; }
         .status-card .dot.down { background: #B00020; }
         .status-card h3 { font-size: 1rem; margin: 0; }
         .status-card .role { color: var(--text-dim); font-size: 0.7rem; margin: 0.35rem 0 0.75rem; }
@@ -46,6 +49,8 @@
         .state-pill { margin-left: auto; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 700; }
         .state-pill.up { color: #2E7D32; }
         .state-pill.alias { color: #C25E00; }
+        .state-pill.unverified { color: #6F7780; }
+        .state-pill.degraded { color: #C25E00; }
         .state-pill.down { color: #B00020; }
     </style>
     <link rel="stylesheet" href="../css/site.css">
@@ -57,7 +62,7 @@
         <section class="hero">
             <span class="kicker">Live Operations</span>
             <h1>Status</h1>
-            <p>Real-time reachability of the public Conxian service surfaces. Each surface is probed from the Conxian Labs edge on every refresh; a green state means the service's own health endpoint answered successfully, not that a commercial entitlement or SLA is in force.</p>
+            <p>Real-time reachability of the public Conxian service surfaces. Each surface is probed from the Conxian Labs edge on every refresh; a green state requires the expected service identity and a healthy response, but does not by itself establish entitlement or an SLA, not that a commercial entitlement or SLA is in force.</p>
         </section>
 
         <section class="section">
@@ -81,7 +86,8 @@
         const grid = document.getElementById('status-grid');
 
         const LABELS = {
-            operational: 'All systems operational',
+            operational: 'Commissioned services operational',
+            unverified: 'Production readiness not yet confirmed',
             'partial-outage': 'Partial outage',
             'major-outage': 'Major outage'
         };
@@ -89,16 +95,17 @@
         function render(data) {
             overallDot.className = 'overall-dot ' + (data.overall || '');
             overallLabel.textContent = LABELS[data.overall] || 'Unknown';
-            overallMeta.textContent = data.verified + '/' + data.total + ' verified · ' + data.aliases + ' alias' + (data.aliases === 1 ? '' : 'es') + ' · ' + data.down + ' unreachable · checked ' + new Date(data.generatedAt).toLocaleTimeString();
+            overallMeta.textContent = (data.production?.commissioned ?? '—') + ' commissioned · ' + data.verified + '/' + data.total + ' independently healthy · ' + data.aliases + ' aliases · ' + data.down + ' unreachable · checked ' + new Date(data.generatedAt).toLocaleTimeString();
             grid.innerHTML = '';
             for (const svc of data.services) {
                 const card = document.createElement('article');
                 card.className = 'status-card';
                 let status, label;
-                if (svc.verified) { status = 'up'; label = 'Verified'; }
-                else if (svc.alias) { status = 'alias'; label = 'Alias'; }
-                else if (svc.safetyMode) { status = 'alias'; label = 'Safety mode'; }
-                else { status = 'down'; label = svc.reachable ? 'Unverified' : 'Unreachable'; }
+                if (svc.state === 'operational') { status = 'up'; label = 'Verified'; }
+                else if (svc.state === 'degraded') { status = 'degraded'; label = 'Safety mode'; }
+                else if (svc.state === 'alias') { status = 'alias'; label = 'Alias'; }
+                else if (svc.state === 'unverified') { status = 'unverified'; label = 'Unverified'; }
+                else { status = 'down'; label = 'Unreachable'; }
                 card.innerHTML =
                     '<div class="row">' +
                         '<span class="dot ' + status + '"></span>' +
@@ -113,6 +120,8 @@
                     '</div>' +
                     '<p class="alias-note" hidden></p>';
                 card.querySelector('h3').textContent = svc.name;
+                card.setAttribute('aria-label', svc.name + ': ' + label + ', ' + (svc.lifecycle || 'uncommissioned'));
+                card.title = 'Lifecycle: ' + (svc.lifecycle || 'uncommissioned');
                 card.querySelector('.role').textContent = svc.role;
                 const metaCodes = card.querySelectorAll('.meta code');
                 metaCodes[0].textContent = svc.host;
@@ -125,6 +134,9 @@
                 } else if (svc.safetyMode) {
                     note.hidden = false;
                     note.textContent = 'Runtime is up but reporting safety mode; value-bearing operations are paused.';
+                } else if (svc.state === 'unverified') {
+                    note.hidden = false;
+                    note.textContent = 'The response is reachable but does not prove the expected service identity.';
                 }
                 grid.appendChild(card);
             }
