@@ -76,6 +76,17 @@ for (const p of pageMetadata) {
   }
 }
 
+// Machine-readable discovery files for autonomous agents. Served explicitly
+// because express.static denies dotfiles (.well-known) and these must be
+// readable at stable, spec-defined paths.
+app.get("/llms.txt", (req, res) => {
+  res.type("text/plain").sendFile(path.join(__dirname, "llms.txt"));
+});
+
+app.get("/.well-known/security.txt", (req, res) => {
+  res.type("text/plain").sendFile(path.join(__dirname, ".well-known", "security.txt"), { dotfiles: "allow" });
+});
+
 app.use(express.static(path.join(__dirname), {
   index: false,
   dotfiles: "deny",
