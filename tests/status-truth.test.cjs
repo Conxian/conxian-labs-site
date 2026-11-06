@@ -10,9 +10,6 @@ const hosts = [
   "https://bos.conxian-labs.com/api/health",
   "https://gateway.conxian.org/api/v1/health",
   "https://nexus.conxian.org/health",
-  "https://market.conxian.org/api/health",
-  "https://sdk.conxian.org/api/health",
-  "https://docs.conxian.org/api/health",
 ];
 let responses = {};
 function mock(status, service, extra = {}) {

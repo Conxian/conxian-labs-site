@@ -62,7 +62,7 @@
         <section class="hero">
             <span class="kicker">Live Operations</span>
             <h1>Status</h1>
-            <p>Real-time reachability of the public Conxian service surfaces. Each surface is probed from the Conxian Labs edge on every refresh; a green state requires the expected service identity and a healthy response, but does not by itself establish entitlement or an SLA, not that a commercial entitlement or SLA is in force.</p>
+            <p>Real-time reachability of the public Conxian service surfaces. Each surface is probed from the Conxian Labs edge on every refresh; a green state requires the expected service identity and a healthy response, but does not by itself establish entitlement or an SLA. Published libraries (Market, Enclave SDK, Corelibs) are not hosted runtimes and are not probed; their availability follows the platform.</p>
         </section>
 
         <section class="section">
@@ -73,7 +73,7 @@
             </div>
             <div id="status-grid" class="status-grid" aria-live="polite"></div>
             <p class="status-note">
-                Source: <code>GET /api/status</code> — the Conxian Labs site probes each surface's public health endpoint (12s timeout) and caches the result for 30 seconds. <strong>Verified</strong> means the surface's own runtime answered with its expected identity. <strong>Alias</strong> means the host answered but is served by the public site host, not an independent runtime. <strong>Safety mode</strong> means the runtime is up but has paused value-bearing operations. Reachability is not a hosted-service, settlement or custody commitment.
+                Source: <code>GET /api/status</code> — the Conxian Labs site probes each service surface's public health endpoint (12s timeout) and caches the result for 30 seconds. <strong>Verified</strong> means the surface's own runtime answered with its expected identity. <strong>Safety mode</strong> means the runtime is up but has paused value-bearing operations. Published libraries (Market, Enclave SDK, Corelibs) are consumed by these services and are catalogued in <code>GET /api/services</code>; they are not separate hosts and are not probed here. Reachability is not a hosted-service, settlement or custody commitment.
             </p>
         </section>
     </main>

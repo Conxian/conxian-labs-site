@@ -33,10 +33,10 @@ test("service catalog preserves intended routes without claiming verified deploy
   for (const service of body.services) {
     assert.equal(service.productionSupported, false);
   }
-  // Surfaces published as subdomains but served by the public site host are
-  // catalogued as aliases, not as independently verified deployments.
+  // market/sdk/corelibs are published libraries, not independently-run
+  // runtimes, so they are catalogued as libraries rather than uptime targets.
   for (const id of ["market", "sdk", "corelibs"]) {
-    assert.equal(body.services.find(service => service.id === id).status, "alias");
+    assert.equal(body.services.find(service => service.id === id).status, "library");
   }
   for (const id of ["bos", "nexus", "gateway"]) {
     assert.equal(body.services.find(service => service.id === id).status, "active");
