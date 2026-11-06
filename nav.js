@@ -11,14 +11,27 @@
   var CONSOLE = "https://bos.conxian-labs.com";
   var STATUS_PAGE = "/status";
 
+  // Each product resolves to a distinct destination (page + in-page anchor)
+  // so the seven surfaces are individually addressable rather than collapsing
+  // several products onto one generic page.
+  var PRODUCT_LINKS = {
+    gateway: "/docs#gateway",
+    sdk: "/sdk#integration-scope",
+    wallet: "/enterprise#capabilities",
+    core: "/docs#core",
+    nexus: "/research#domains",
+    market: "/commercial#market",
+    platform: "/operators#platform",
+  };
+
   var PRODUCTS = [
-    ["/docs", "Gateway", "ISO 20022 settlement and compliance middleware"],
-    ["/sdk", "Enclave SDK", "Cross-platform hardware signing and attestation"],
-    ["/enterprise", "Wallet", "Non-custodial Bitcoin and Stacks client"],
-    ["/docs", "Core library", "Bitcoin cryptographic and proof primitives"],
-    ["/research", "Nexus", "Multi-chain state verification node"],
-    ["/commercial", "Market", "Machine-to-machine settlement engine"],
-    ["/operators", "Platform", "Deployment and container orchestration"],
+    [PRODUCT_LINKS.gateway, "Gateway", "ISO 20022 settlement and compliance middleware"],
+    [PRODUCT_LINKS.sdk, "Enclave SDK", "Cross-platform hardware signing and attestation"],
+    [PRODUCT_LINKS.wallet, "Wallet", "Non-custodial Bitcoin and Stacks client"],
+    [PRODUCT_LINKS.core, "Core library", "Bitcoin cryptographic and proof primitives"],
+    [PRODUCT_LINKS.nexus, "Nexus", "Multi-chain state verification node"],
+    [PRODUCT_LINKS.market, "Market", "Machine-to-machine settlement engine"],
+    [PRODUCT_LINKS.platform, "Platform", "Deployment and container orchestration"],
   ];
 
   var SOLUTIONS = [
@@ -90,8 +103,8 @@
       '<button class="cx-burger" type="button" aria-label="Open menu" aria-expanded="false" id="cx-burger">☰</button>' +
       "</div></div>" +
       '<div class="cx-mobile" id="cx-mobile" hidden>' +
-      '<a href="/docs">Gateway</a><a href="/sdk">Enclave SDK</a><a href="/enterprise">Wallet</a>' +
-      '<a href="/docs">Core</a><a href="/research">Nexus</a><a href="/commercial">Market</a>' +
+      '<a href="' + PRODUCT_LINKS.gateway + '">Gateway</a><a href="' + PRODUCT_LINKS.sdk + '">Enclave SDK</a><a href="' + PRODUCT_LINKS.wallet + '">Wallet</a>' +
+      '<a href="' + PRODUCT_LINKS.core + '">Core</a><a href="' + PRODUCT_LINKS.nexus + '">Nexus</a><a href="' + PRODUCT_LINKS.market + '">Market</a>' +
       '<a href="/pricing">Pricing</a><a href="/status">Status</a>' +
       '<a href="' + CONSOLE + '/sign-in">Sign in</a>' +
       '<a class="cx-mobile-cta" href="/get-started">Request access</a></div>';
