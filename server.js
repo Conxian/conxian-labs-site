@@ -119,7 +119,7 @@ function classifyProbe(service, httpStatus, detail) {
   const reachable = service.expect.includes(httpStatus);
   const servedService = detail && typeof detail.service === "string" ? detail.service : null;
   const servedBySite = servedService === SITE_IDENTITY;
-  const alias = servedBySite || ALIAS_REGISTRY.some(s => s.id === service.id);
+  const alias = reachable && (servedBySite || ALIAS_REGISTRY.some(s => s.id === service.id));
   const safetyMode = Boolean(detail && (detail.safety_mode === true ||
     detail.status === "safety-mode" || detail.status === "safety_mode"));
   const identityMatches = servedService === service.identity;
