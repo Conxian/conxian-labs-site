@@ -82,12 +82,17 @@ test.describe('Conxian Labs Comprehensive Site Verification', () => {
     test('customer journey and console pages expose provisioning and cancellation', async ({ page }) => {
         await page.goto(`${BASE_URL}/get-started/index.html`);
         await expect(page.getByRole('heading', { name: /From request to a running service/i })).toBeVisible();
-        await expect(page.locator('main').getByRole('link', { name: 'Request access' }).first()).toHaveAttribute('href', /mailto:labs@conxian-labs\.com/);
+        // Request access routes to the on-page gated intake, with a mailto fallback.
+        await expect(page.locator('main').getByRole('link', { name: 'Request access' }).first()).toHaveAttribute('href', '#request-access');
+        await expect(page.locator('main a[href^="mailto:labs@conxian-labs.com"]').first()).toBeVisible();
+        await expect(page.locator('#access-form')).toBeVisible();
 
         await page.goto(`${BASE_URL}/console/index.html`);
         await expect(page.getByRole('heading', { name: /Provision, manage, and cancel/i })).toBeVisible();
-        await expect(page.locator('main').getByRole('link', { name: 'Sign in to console' }).first()).toHaveAttribute('href', 'https://bos.conxian-labs.com/sign-in');
+        await expect(page.locator('main').getByRole('link', { name: 'Request access' }).first()).toHaveAttribute('href', '/get-started#request-access');
         await expect(page.locator('main')).toContainText('cancel');
+        // No customer-facing link may point at the internal BOS operator surface.
+        await expect(page.locator('main a[href*="bos.conxian-labs.com"]')).toHaveCount(0);
     });
 
     test('docs page should state conxian-market and active ecosystem components', async ({ page }) => {
@@ -223,9 +228,11 @@ test.describe('Conxian Labs Comprehensive Site Verification', () => {
         await expect(page.locator('#cx-nav')).toBeVisible();
         // Footer (shared shell)
         await expect(page.locator('#cx-footer')).toBeVisible();
-        // Auth pair present
-        await expect(page.locator('#cx-nav').getByRole('link', { name: 'Sign in' })).toBeVisible();
+        // Auth pair present. The customer console link must not target the
+        // internal BOS control plane.
+        await expect(page.locator('#cx-nav').getByRole('link', { name: 'Console' })).toHaveAttribute('href', '/console');
         await expect(page.locator('#cx-nav').getByRole('link', { name: 'Request access' })).toBeVisible();
+        await expect(page.locator('#cx-nav a[href*="bos.conxian-labs.com"]')).toHaveCount(0);
     });
 
     test('viewport responsiveness check', async ({ page }) => {

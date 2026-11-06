@@ -11,10 +11,19 @@ services:
     autoDeploy: yes
     envVars:
       # Managed SaaS Gateway subscriber onboarding (Merchant of Record).
-      # Set to the Lemon Squeezy / Paddle checkout URL to accept credit cards;
-      # when unset, only the x402 crypto payment path is advertised.
+      # Set to the Lemon Squeezy / Paddle checkout URL to accept credit cards.
       - key: MERCHANT_CHECKOUT_URL
         sync: false
+      # Verified managed-gateway delivery base URL (HTTPS; the host must resolve).
+      # The managed tier stays unavailable until this and MERCHANT_CHECKOUT_URL are
+      # both set. Left unset deliberately: the previous placeholder host
+      # (api.conxian-labs.com) does not resolve, so declaring it would advertise an
+      # unqualified purchase path.
       - key: MANAGED_GATEWAY_ENDPOINT
-        value: "https://api.conxian-labs.com/v1/agent"
+        sync: false
+      # Optional intake endpoint for gated access requests (a restricted system,
+      # never Git). When unset, POST /api/onboarding/request-access fails closed
+      # and returns a mailto fallback instead of claiming a stored record.
+      - key: ACCESS_REQUEST_ENDPOINT
+        sync: false
 
