@@ -103,88 +103,104 @@ const ALIAS_REGISTRY = [
 
 const PROBE_CACHE_MS = 30000;
 const PROBE_TIMEOUT_MS = 12000;
-// The public site host answers /api/health for every alias subdomain with this
-// identity. Any surface that responds as the site is reachable but is not an
-// independently deployed runtime.
 const SITE_IDENTITY = "conxian-labs-site";
-let probeCache = { at: 0, results: null };
+// Commissioning is an explicit operational decision, not inferred from a DNS
+// record or a successful HTTP response. No service is assumed production by
+// default. Set STATUS_PRODUCTION_SERVICES to comma-separated known IDs only
+// after owner-approved, evidenced end-to-end qualification.
+function productionServiceIds() {
+  const candidates = new Set(SERVICE_REGISTRY.map(s => s.id));
+  return new Set(String(process.env.STATUS_PRODUCTION_SERVICES || "")
+    .split(",").map(v => v.trim()).filter(id => candidates.has(id)));
+}
+let probeCache = { at: 0, results: null, productionKey: "" };
+
+function classifyProbe(service, httpStatus, detail) {
+  const reachable = service.expect.includes(httpStatus);
+  const servedService = detail && typeof detail.service === "string" ? detail.service : null;
+  const servedBySite = servedService === SITE_IDENTITY;
+  const alias = servedBySite || ALIAS_REGISTRY.some(s => s.id === service.id);
+  const safetyMode = Boolean(detail && (detail.safety_mode === true ||
+    detail.status === "safety-mode" || detail.status === "safety_mode"));
+  const identityMatches = servedService === service.identity;
+  const verified = reachable && identityMatches && !alias && !safetyMode;
+  const state = alias ? "alias" : !reachable ? "unreachable" :
+    !identityMatches ? "unverified" : safetyMode ? "degraded" : "operational";
+  return { alias, verified, reachable, safetyMode, servedService, identityMatches, state };
+}
 
 async function probeService(service) {
   const started = Date.now();
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), PROBE_TIMEOUT_MS);
   try {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), PROBE_TIMEOUT_MS);
-    const response = await fetch(service.probe, { method: "GET", signal: controller.signal, redirect: "manual" });
-    clearTimeout(timer);
+    const response = await fetch(service.probe, {
+      method: "GET", signal: controller.signal, redirect: "manual",
+    });
     const latencyMs = Date.now() - started;
-    const ok = service.expect.includes(response.status);
     let detail = null;
     try {
-      const text = (await response.text()).slice(0, 600);
-      if (text.trim().startsWith("{")) detail = JSON.parse(text);
-    } catch {
-      detail = null;
-    }
-    const servedService = detail && typeof detail.service === "string" ? detail.service : null;
-    const safetyMode = Boolean(detail && (detail.safety_mode === true || detail.status === "safety-mode"));
-    // Reachable is necessary but not sufficient: a 200 that identifies itself as
-    // the public site is an alias, not an independently verified runtime.
-    const servedBySite = servedService === SITE_IDENTITY;
-    const alias = Boolean(service.alias) || servedBySite;
-    const verified = ok && !servedBySite;
+      const responseText = (await response.text()).slice(0, 600);
+      if (responseText.trim().startsWith("{")) detail = JSON.parse(responseText);
+    } catch { detail = null; }
+    const classification = classifyProbe(service, response.status, detail);
     return {
-      ...service,
-      alias,
-      verified,
-      reachable: ok,
-      safetyMode,
-      servedService,
-      httpStatus: response.status,
-      latencyMs,
-      detail,
-      checkedAt: new Date().toISOString(),
+      ...service, ...classification, httpStatus: response.status, latencyMs,
+      detail, checkedAt: new Date().toISOString(),
     };
   } catch (error) {
     return {
-      ...service,
-      alias: Boolean(service.alias),
-      verified: false,
-      reachable: false,
-      safetyMode: false,
-      servedService: null,
-      httpStatus: null,
+      ...service, ...classifyProbe(service, null, null), httpStatus: null,
       latencyMs: Date.now() - started,
       detail: { error: String(error && error.name ? error.name : error) },
       checkedAt: new Date().toISOString(),
     };
+  } finally {
+    clearTimeout(timer);
   }
 }
 
 async function serviceSnapshot() {
   const now = Date.now();
-  if (probeCache.results && now - probeCache.at < PROBE_CACHE_MS) {
+  const production = productionServiceIds();
+  const productionKey = [...production].sort().join(",");
+  if (probeCache.results && now - probeCache.at < PROBE_CACHE_MS
+    && probeCache.productionKey === productionKey) {
     return { ...probeCache.results, cached: true };
   }
   const results = await Promise.all(
-    [...SERVICE_REGISTRY, ...ALIAS_REGISTRY].map((s) => probeService(s)),
+    [...SERVICE_REGISTRY, ...ALIAS_REGISTRY].map(s => probeService(s)),
   );
-  const verified = results.filter((r) => r.verified).length;
-  const aliases = results.filter((r) => r.reachable && !r.verified).length;
-  const down = results.filter((r) => !r.reachable).length;
+  const commissioned = results.filter(r => production.has(r.id));
+  const unhealthy = commissioned.filter(r => r.state !== "operational");
+  const unreachable = commissioned.filter(r => r.state === "unreachable");
+  const overall = commissioned.length === 0 ? "unverified" :
+    unhealthy.length === 0 ? "operational" :
+    unreachable.length === commissioned.length ? "major-outage" : "partial-outage";
   const total = results.length;
   const snapshot = {
     generatedAt: new Date().toISOString(),
     total,
-    reachable: results.filter((r) => r.reachable).length,
-    verified,
-    aliases,
-    down,
-    degraded: total - verified,
-    overall: verified === total ? "operational" : verified === 0 ? "major-outage" : "partial-outage",
-    services: results.map(({ probe, expect, identity, ...rest }) => rest),
+    reachable: results.filter(r => r.reachable).length,
+    verified: results.filter(r => r.verified).length,
+    aliases: results.filter(r => r.alias).length,
+    down: results.filter(r => !r.reachable).length,
+    degraded: results.filter(r => r.state !== "operational").length,
+    overall,
+    production: {
+      commissioned: commissioned.length,
+      operational: commissioned.filter(r => r.state === "operational").length,
+      degraded: commissioned.filter(r => r.state === "degraded").length,
+      unreachable: unreachable.length,
+      unverified: commissioned.filter(r => r.state === "unverified").length,
+    },
+    services: results.map(({ probe, expect, identity, ...rest }) => ({
+      ...rest,
+      lifecycle: production.has(rest.id) ? "production" : "uncommissioned",
+    })),
     cached: false,
   };
-  probeCache = { at: now, results: snapshot };
+  probeCache = { at: now, results: snapshot, productionKey };
   return snapshot;
 }
 
