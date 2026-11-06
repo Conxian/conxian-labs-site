@@ -1,0 +1,31 @@
+# Conxian Labs
+
+> Conxian Labs provides Bitcoin-native infrastructure you can provision: a managed gateway, an enclave SDK, a non-custodial wallet, and verification nodes, with transparent pricing and a live status surface.
+
+## Core pages
+
+- [Home](https://www.conxian-labs.com/): Product overview and entry point.
+- [Get Started](https://www.conxian-labs.com/get-started): Self-serve customer journey from sign-up to a running service.
+- [Console](https://www.conxian-labs.com/console): Provision, manage, and cancel Conxian services.
+- [Pricing](https://www.conxian-labs.com/pricing): Commercial packaging and plan matrix.
+- [Status](https://www.conxian-labs.com/status): Live reachability of the public Conxian service surfaces.
+- [Security](https://www.conxian-labs.com/security): Security posture and vulnerability disclosure.
+
+## Machine-readable APIs
+
+- Status: https://www.conxian-labs.com/api/status
+- Services catalog: https://www.conxian-labs.com/api/services
+- Site map: https://www.conxian-labs.com/api/site-map
+- Health: https://www.conxian-labs.com/api/health
+- Managed pricing: https://www.conxian-labs.com/api/pricing/managed
+
+## Protocol surfaces
+
+- Conxian protocol site: https://conxian.org/
+- Gateway health: https://gateway.conxian.org/api/v1/health
+- Nexus health: https://nexus.conxian.org/health
+- BOS health: https://bos.conxian-labs.com/api/health
+
+## Security
+
+- [Security contact policy](https://www.conxian-labs.com/.well-known/security.txt): Coordinated vulnerability disclosure.
