@@ -363,6 +363,76 @@ app.post("/api/onboarding/subscribe", (req, res) => {
   });
 });
 
+// Gated access-request intake. Public self-serve sign-up is not enabled, so the
+// site captures a request and routes it to a restricted intake system (never
+// Git). The endpoint fails closed: it reports `received: true` only after the
+// configured intake accepts the record, and otherwise returns a mailto fallback
+// rather than implying a request was stored. The payload is never persisted in
+// this process and is not written to logs.
+const ACCESS_REQUEST_FALLBACK = "mailto:labs@conxian-labs.com?subject=Console%20access%20request";
+
+function boundedField(value, max) {
+  return typeof value === "string" ? value.trim().slice(0, max) : "";
+}
+
+app.post("/api/onboarding/request-access", async (req, res) => {
+  res.setHeader("Cache-Control", "no-store");
+  const email = boundedField((req.body || {}).email, 254);
+  const organization = boundedField((req.body || {}).organization, 120);
+  const need = boundedField((req.body || {}).need, 500);
+
+  if (!email || !email.includes("@") || email.length > 254) {
+    return res.status(400).json({ error: "A valid email is required", code: "invalid_email" });
+  }
+
+  const intakeUrl = configuredUrl("ACCESS_REQUEST_ENDPOINT");
+  if (intakeUrl === null) {
+    return res.status(503).json({
+      received: false,
+      code: "intake_not_configured",
+      fallbackUrl: ACCESS_REQUEST_FALLBACK,
+      next: "Email the team; online intake is not configured on this deployment",
+    });
+  }
+
+  try {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 10000);
+    let accepted = false;
+    try {
+      const response = await fetch(intakeUrl, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ email, organization, need, source: "conxian-labs-site" }),
+        redirect: "manual",
+        signal: controller.signal,
+      });
+      accepted = response.status >= 200 && response.status < 300;
+    } finally {
+      clearTimeout(timer);
+    }
+    if (!accepted) {
+      return res.status(502).json({
+        received: false,
+        code: "intake_failed",
+        fallbackUrl: ACCESS_REQUEST_FALLBACK,
+        next: "Email the team; the intake system did not accept the request",
+      });
+    }
+    return res.status(200).json({
+      received: true,
+      message: "Request received. The team will reply by email.",
+    });
+  } catch (error) {
+    return res.status(502).json({
+      received: false,
+      code: "intake_failed",
+      fallbackUrl: ACCESS_REQUEST_FALLBACK,
+      next: "Email the team; the intake system could not be reached",
+    });
+  }
+});
+
 // SPA-style fallback for 404
 app.use((req, res) => {
   res.status(404).sendFile(path.join(__dirname, "404.html"));
