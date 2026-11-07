@@ -27,7 +27,8 @@
 - **Shared logging:** `logger.js` (IIFE singleton)
 - **Fonts:** Self-hosted JetBrains Mono in `fonts/` (676K, 6 weights) — no Google Fonts CDN
 - **Shared CSS:** `css/common.css` — design tokens, body reset, logo, utility classes
-- **Icons:** `icons.js` — inline SVG replacements (no Material Symbols CDN)
+- **Icons:** `icons.js` — inline SVG replacements (no Material Symbols CDN). Any icon used in markup MUST be defined here or it renders as literal text. `tests/icon-map.test.cjs` enforces this.
+- **Status probes** (`server.js` → `/api/status`): services are Render **free** instances that cold-start, so each is probed up to `PROBE_ATTEMPTS` (3) times within `PROBE_TOTAL_BUDGET_MS` (60s). Only transport failures/timeouts are retried; an HTTP error status is an honest answer. `unreachable` means every attempt failed. Override via `STATUS_PROBE_ATTEMPTS`, `STATUS_PROBE_ATTEMPT_TIMEOUT_MS`, `STATUS_PROBE_BACKOFF_MS`, `STATUS_PROBE_TOTAL_BUDGET_MS`. Do not "fix" cold starts by adding a keep-alive: Render allows only 750 free instance-hours/month per workspace, and three always-on services need ~2,160.
 - **Search:** `search.js` — client-side search across all site pages
 - **Dynamic API:** `GET /api/health`, `GET /api/site-map`
 - **Deploy:** Render web service (`conxian-labs-site`), Node.js environment
