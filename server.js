@@ -114,8 +114,40 @@ const SERVICE_REGISTRY = [
 const ALIAS_REGISTRY = [];
 
 const PROBE_CACHE_MS = 30000;
-const PROBE_TIMEOUT_MS = 12000;
+// Render free instances spin down when idle and pay a cold start on the next
+// request, which can exceed any single tight timeout. Probing once with a short
+// timeout reported healthy-but-cold runtimes as "unreachable" and produced
+// false major-outage banners. Retry within a bounded budget instead, so
+// "unreachable" only means the runtime stayed unresponsive after every attempt.
+//
+// Warming the three services permanently is not an option: Render grants 750
+// free instance-hours per workspace per month, while three always-on services
+// would need roughly 2,160. So the fix belongs in how we probe and report.
+const PROBE_ATTEMPTS = 3;
+const PROBE_ATTEMPT_TIMEOUT_MS = 18000;
+const PROBE_BACKOFF_MS = 500;
+const PROBE_TOTAL_BUDGET_MS = 60000;
 const SITE_IDENTITY = "conxian-labs-site";
+
+// Optional overrides let operators tune the budget per environment, and let the
+// regression tests exercise retry behaviour without waiting on real timeouts.
+function probeLimits() {
+  const positive = (value, fallback) => {
+    const parsed = Number(value);
+    return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
+  };
+  return {
+    attempts: Math.floor(positive(process.env.STATUS_PROBE_ATTEMPTS, PROBE_ATTEMPTS)),
+    attemptTimeoutMs: positive(process.env.STATUS_PROBE_ATTEMPT_TIMEOUT_MS, PROBE_ATTEMPT_TIMEOUT_MS),
+    backoffMs: positive(process.env.STATUS_PROBE_BACKOFF_MS, PROBE_BACKOFF_MS),
+    totalBudgetMs: positive(process.env.STATUS_PROBE_TOTAL_BUDGET_MS, PROBE_TOTAL_BUDGET_MS),
+  };
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 // Commissioning is an explicit operational decision, not inferred from a DNS
 // record or a successful HTTP response. No service is assumed production by
 // default. Set STATUS_PRODUCTION_SERVICES to comma-separated known IDs only
@@ -126,6 +158,7 @@ function productionServiceIds() {
     .split(",").map(v => v.trim()).filter(id => candidates.has(id)));
 }
 let probeCache = { at: 0, results: null, productionKey: "" };
+let probeInFlight = null;
 
 function classifyProbe(service, httpStatus, detail) {
   const reachable = service.expect.includes(httpStatus);
@@ -141,10 +174,10 @@ function classifyProbe(service, httpStatus, detail) {
   return { alias, verified, reachable, safetyMode, servedService, identityMatches, state };
 }
 
-async function probeService(service) {
+async function probeOnce(service, timeoutMs) {
   const started = Date.now();
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), PROBE_TIMEOUT_MS);
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
   try {
     const response = await fetch(service.probe, {
       method: "GET", signal: controller.signal, redirect: "manual",
@@ -155,21 +188,47 @@ async function probeService(service) {
       const responseText = (await response.text()).slice(0, 600);
       if (responseText.trim().startsWith("{")) detail = JSON.parse(responseText);
     } catch { detail = null; }
-    const classification = classifyProbe(service, response.status, detail);
     return {
-      ...service, ...classification, httpStatus: response.status, latencyMs,
-      detail, checkedAt: new Date().toISOString(),
-    };
-  } catch (error) {
-    return {
-      ...service, ...classifyProbe(service, null, null), httpStatus: null,
-      latencyMs: Date.now() - started,
-      detail: { error: String(error && error.name ? error.name : error) },
-      checkedAt: new Date().toISOString(),
+      response, detail, latencyMs,
+      classification: classifyProbe(service, response.status, detail),
     };
   } finally {
     clearTimeout(timer);
   }
+}
+
+// A probe result is kept only when the runtime actually answered. An HTTP error
+// status still counts as an answer (classified honestly as unreachable or
+// unverified); only a transport failure or timeout is retried, because that is
+// the signature of a cold free-tier instance.
+async function probeService(service) {
+  const limits = probeLimits();
+  const started = Date.now();
+  let lastError = null;
+  let attempts = 0;
+
+  while (attempts < limits.attempts) {
+    const elapsed = Date.now() - started;
+    if (attempts > 0 && elapsed + limits.attemptTimeoutMs > limits.totalBudgetMs) break;
+    attempts += 1;
+    try {
+      const { response, detail, latencyMs, classification } = await probeOnce(service, limits.attemptTimeoutMs);
+      return {
+        ...service, ...classification, httpStatus: response.status, latencyMs,
+        detail, attempts, coldStart: attempts > 1, checkedAt: new Date().toISOString(),
+      };
+    } catch (error) {
+      lastError = error;
+      if (attempts < limits.attempts) await sleep(limits.backoffMs);
+    }
+  }
+
+  return {
+    ...service, ...classifyProbe(service, null, null), httpStatus: null,
+    latencyMs: Date.now() - started, attempts, coldStart: false,
+    detail: { error: String(lastError && lastError.name ? lastError.name : lastError) },
+    checkedAt: new Date().toISOString(),
+  };
 }
 
 async function serviceSnapshot() {
@@ -180,9 +239,22 @@ async function serviceSnapshot() {
     && probeCache.productionKey === productionKey) {
     return { ...probeCache.results, cached: true };
   }
-  const results = await Promise.all(
-    [...SERVICE_REGISTRY, ...ALIAS_REGISTRY].map(s => probeService(s)),
-  );
+  // Coalesce concurrent callers onto one probe sweep. Without this, a burst of
+  // requests after a cache expiry would each wake the free-tier runtimes.
+  if (probeInFlight && probeInFlight.productionKey === productionKey) {
+    return probeInFlight.promise;
+  }
+  const promise = (async () => {
+    const results = await Promise.all(
+      [...SERVICE_REGISTRY, ...ALIAS_REGISTRY].map(s => probeService(s)),
+    );
+    return buildSnapshot(results, production, productionKey);
+  })().finally(() => { probeInFlight = null; });
+  probeInFlight = { productionKey, promise };
+  return promise;
+}
+
+function buildSnapshot(results, production, productionKey) {
   const commissioned = results.filter(r => production.has(r.id));
   const unhealthy = commissioned.filter(r => r.state !== "operational");
   const unreachable = commissioned.filter(r => r.state === "unreachable");
@@ -190,6 +262,7 @@ async function serviceSnapshot() {
     unhealthy.length === 0 ? "operational" :
     unreachable.length === commissioned.length ? "major-outage" : "partial-outage";
   const total = results.length;
+  const limits = probeLimits();
   const snapshot = {
     generatedAt: new Date().toISOString(),
     total,
@@ -198,6 +271,14 @@ async function serviceSnapshot() {
     aliases: results.filter(r => r.alias).length,
     down: results.filter(r => !r.reachable).length,
     degraded: results.filter(r => r.state !== "operational").length,
+    // Services that only answered after a retry were cold, not down. Reported
+    // separately so a slow free-tier wake-up is never read as an outage.
+    coldStarts: results.filter(r => r.coldStart).length,
+    probe: {
+      attempts: limits.attempts,
+      attemptTimeoutMs: limits.attemptTimeoutMs,
+      totalBudgetMs: limits.totalBudgetMs,
+    },
     overall,
     production: {
       commissioned: commissioned.length,
@@ -212,7 +293,7 @@ async function serviceSnapshot() {
     })),
     cached: false,
   };
-  probeCache = { at: now, results: snapshot, productionKey };
+  probeCache = { at: Date.now(), results: snapshot, productionKey };
   return snapshot;
 }
 
@@ -457,3 +538,9 @@ if (require.main === module) {
 }
 
 module.exports = app;
+// Test-only hook: drops the cached probe snapshot so consecutive regression
+// cases can exercise fresh sweeps without waiting out PROBE_CACHE_MS.
+app.resetStatusProbeCache = () => {
+  probeCache = { at: 0, results: null, productionKey: "" };
+  probeInFlight = null;
+};

@@ -73,7 +73,7 @@
             </div>
             <div id="status-grid" class="status-grid" aria-live="polite"></div>
             <p class="status-note">
-                Source: <code>GET /api/status</code> — the Conxian Labs site probes each service surface's public health endpoint (12s timeout) and caches the result for 30 seconds. <strong>Verified</strong> means the surface's own runtime answered with its expected identity. <strong>Safety mode</strong> means the runtime is up but has paused value-bearing operations. Published libraries (Market, Enclave SDK, Corelibs) are consumed by these services and are catalogued in <code>GET /api/services</code>; they are not separate hosts and are not probed here. Reachability is not a hosted-service, settlement or custody commitment.
+                Source: <code>GET /api/status</code> — the Conxian Labs site probes each service surface's public health endpoint, retrying up to three times within a 60s budget so a cold start is never reported as an outage, and caches the result for 30 seconds. <strong>Verified</strong> means the surface's own runtime answered with its expected identity. <strong>Unreachable</strong> means the runtime stayed unresponsive after every attempt. <strong>Safety mode</strong> means the runtime is up but has paused value-bearing operations. Published libraries (Market, Enclave SDK, Corelibs) are consumed by these services and are catalogued in <code>GET /api/services</code>; they are not separate hosts and are not probed here. Reachability is not a hosted-service, settlement or custody commitment.
             </p>
         </section>
     </main>
@@ -95,7 +95,7 @@
         function render(data) {
             overallDot.className = 'overall-dot ' + (data.overall || '');
             overallLabel.textContent = LABELS[data.overall] || 'Unknown';
-            overallMeta.textContent = (data.production?.commissioned ?? '—') + ' commissioned · ' + data.verified + '/' + data.total + ' independently healthy · ' + data.aliases + ' aliases · ' + data.down + ' unreachable · checked ' + new Date(data.generatedAt).toLocaleTimeString();
+            overallMeta.textContent = (data.production?.commissioned ?? '—') + ' commissioned · ' + data.verified + '/' + data.total + ' independently healthy · ' + data.aliases + ' aliases · ' + data.down + ' unreachable · ' + (data.coldStarts || 0) + ' cold start' + ((data.coldStarts || 0) === 1 ? '' : 's') + ' · checked ' + new Date(data.generatedAt).toLocaleTimeString();
             grid.innerHTML = '';
             for (const svc of data.services) {
                 const card = document.createElement('article');
@@ -137,6 +137,11 @@
                 } else if (svc.state === 'unverified') {
                     note.hidden = false;
                     note.textContent = 'The response is reachable but does not prove the expected service identity.';
+                }
+                if (svc.coldStart) {
+                    note.hidden = false;
+                    note.textContent = (note.textContent ? note.textContent + ' ' : '') +
+                        'Answered on attempt ' + svc.attempts + ' after a cold start; this is a slow wake-up, not an outage.';
                 }
                 grid.appendChild(card);
             }
