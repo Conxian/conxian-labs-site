@@ -7,7 +7,7 @@
     "start": "node server.js",
     "test": "playwright test",
     "build:css": "tailwindcss -i css/tailwind.src.css -o css/tailwind.css --minify",
-    "test:api": "node --test tests/managed-onboarding.test.cjs tests/discovery.test.cjs"
+    "test:api": "node --test tests/managed-onboarding.test.cjs tests/discovery.test.cjs tests/status-truth.test.cjs tests/icon-map.test.cjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.64.1",
