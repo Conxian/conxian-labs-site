@@ -161,17 +161,23 @@ let probeCache = { at: 0, results: null, productionKey: "" };
 let probeInFlight = null;
 
 function classifyProbe(service, httpStatus, detail) {
-  const reachable = service.expect.includes(httpStatus);
+  // A 429 is an answer from a live edge: DNS resolved, TLS completed and the
+  // application edge replied. The runtime is alive and merely throttling the
+  // caller, so folding it into "unreachable" reported a false major outage
+  // whenever the prober itself was rate limited. Kept distinct from an expected
+  // 2xx, which is the only status that can prove a verified service.
+  const rateLimited = httpStatus === 429;
+  const reachable = service.expect.includes(httpStatus) || rateLimited;
   const servedService = detail && typeof detail.service === "string" ? detail.service : null;
   const servedBySite = servedService === SITE_IDENTITY;
-  const alias = reachable && (servedBySite || ALIAS_REGISTRY.some(s => s.id === service.id));
+  const alias = reachable && !rateLimited && (servedBySite || ALIAS_REGISTRY.some(s => s.id === service.id));
   const safetyMode = Boolean(detail && (detail.safety_mode === true ||
     detail.status === "safety-mode" || detail.status === "safety_mode"));
   const identityMatches = servedService === service.identity;
-  const verified = reachable && identityMatches && !alias && !safetyMode;
-  const state = alias ? "alias" : !reachable ? "unreachable" :
+  const verified = reachable && !rateLimited && identityMatches && !alias && !safetyMode;
+  const state = alias ? "alias" : rateLimited ? "rate-limited" : !reachable ? "unreachable" :
     !identityMatches ? "unverified" : safetyMode ? "degraded" : "operational";
-  return { alias, verified, reachable, safetyMode, servedService, identityMatches, state };
+  return { alias, verified, reachable, rateLimited, safetyMode, servedService, identityMatches, state };
 }
 
 async function probeOnce(service, timeoutMs) {
@@ -256,8 +262,11 @@ async function serviceSnapshot() {
 
 function buildSnapshot(results, production, productionKey) {
   const commissioned = results.filter(r => production.has(r.id));
-  const unhealthy = commissioned.filter(r => r.state !== "operational");
+  // Rate limiting is not an outage: the edge answered and proved the runtime is
+  // alive, so it must not drive the banner red the way a genuine failure does.
+  const unhealthy = commissioned.filter(r => r.state !== "operational" && r.state !== "rate-limited");
   const unreachable = commissioned.filter(r => r.state === "unreachable");
+  const rateLimited = commissioned.filter(r => r.state === "rate-limited");
   const overall = commissioned.length === 0 ? "unverified" :
     unhealthy.length === 0 ? "operational" :
     unreachable.length === commissioned.length ? "major-outage" : "partial-outage";
@@ -274,6 +283,9 @@ function buildSnapshot(results, production, productionKey) {
     // Services that only answered after a retry were cold, not down. Reported
     // separately so a slow free-tier wake-up is never read as an outage.
     coldStarts: results.filter(r => r.coldStart).length,
+    // Throttled callers are disclosed so an observer-triggered rate limit is
+    // never mistaken for a service fault.
+    rateLimited: results.filter(r => r.rateLimited).length,
     probe: {
       attempts: limits.attempts,
       attemptTimeoutMs: limits.attemptTimeoutMs,
@@ -286,6 +298,7 @@ function buildSnapshot(results, production, productionKey) {
       degraded: commissioned.filter(r => r.state === "degraded").length,
       unreachable: unreachable.length,
       unverified: commissioned.filter(r => r.state === "unverified").length,
+      rateLimited: rateLimited.length,
     },
     services: results.map(({ probe, expect, identity, ...rest }) => ({
       ...rest,

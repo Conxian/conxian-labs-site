@@ -208,14 +208,16 @@
         fetch("/api/status").then(function (r) { return r.json(); }).then(function (d) {
             if (!line || !list) return;
             var overall = d.overall || "unknown";
-            var label = overall === "operational" ? "All services verified"
+            var label = overall === "operational" ? (d.verified === d.production?.commissioned
+                    ? "All services verified"
+                    : "Services reachable — " + d.verified + "/" + (d.production?.commissioned ?? d.total) + " verified")
                 : overall === "partial-outage" ? "Partial verification — " + d.verified + "/" + d.total + " verified"
                 : overall === "major-outage" ? "No service verified"
                 : "Status unknown";
             line.textContent = label;
             list.innerHTML = (d.services || []).map(function (s) {
-                var state = s.verified ? "verified" : (s.alias ? "alias" : (s.reachable ? "unverified" : "unreachable"));
-                var color = s.verified ? "#1f8a4c" : (s.alias ? "#C25E00" : "#B00020");
+                var state = s.verified ? "verified" : (s.alias ? "alias" : (s.rateLimited ? "rate limited" : (s.reachable ? "unverified" : "unreachable")));
+                var color = s.verified ? "#1f8a4c" : (s.alias ? "#C25E00" : (s.rateLimited ? "#C25E00" : "#B00020"));
                 return '<div style="display:flex;justify-content:space-between;font-size:0.72rem;font-family:var(--cx-mono)">' +
                     '<span style="color:var(--cx-dim)">' + s.id + '</span>' +
                     '<span style="color:' + color + '">' + state + '</span></div>';
