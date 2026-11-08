@@ -67,6 +67,14 @@ const pageMetadata = [
 
 const staticPages = pageMetadata.map(p => p.route);
 
+// The pricing page carries Service + Offer JSON-LD generated from the live
+// service catalogue (managedTierView), so the structured data cannot drift from
+// /api/pricing/managed. Registered before the generic static loop so it wins.
+app.get("/pricing", (req, res) => {
+  const html = fs.readFileSync(path.join(__dirname, "pricing", "index.html"), "utf8");
+  res.type("html").send(withPricingJsonLd(html));
+});
+
 for (const p of pageMetadata) {
   const indexPath = path.join(__dirname, p.route, "index.html");
   if (fs.existsSync(indexPath)) {
@@ -426,6 +434,60 @@ function managedTierView() {
     x402PaymentPointer: null,
     qualificationRequired: available ? ["payment", "entitlement"] : ["payment", "entitlement", "runtime-provisioning"],
   };
+}
+
+// Schema.org Service + Offer for the pricing page. The offer is derived from
+// managedTierView() so the structured data always matches the API descriptor:
+// availability maps to schema.org ItemAvailability, and no checkout URL is
+// emitted until the tier is actually purchasable (never advertise a purchase
+// that is not available).
+function pricingJsonLd() {
+  const tier = managedTierView();
+  const offer = {
+    "@type": "Offer",
+    name: tier.name,
+    price: String(tier.monthlyUsd),
+    priceCurrency: "USD",
+    availability: tier.productionSupported
+      ? "https://schema.org/InStock"
+      : "https://schema.org/PreOrder",
+    url: "https://www.conxian-labs.com/pricing",
+  };
+  if (tier.checkoutUrl) {
+    offer.potentialAction = {
+      "@type": "BuyAction",
+      target: { "@type": "EntryPoint", url: tier.checkoutUrl },
+    };
+  }
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://www.conxian-labs.com/#organization",
+        name: "Conxian Labs",
+        url: "https://www.conxian-labs.com/",
+        logo: "https://www.conxian-labs.com/Conxian-Labs_Logo.jpg",
+      },
+      {
+        "@type": "Service",
+        name: "Conxian Labs managed infrastructure",
+        serviceType: "Bitcoin-native cloud infrastructure",
+        provider: { "@id": "https://www.conxian-labs.com/#organization" },
+        areaServed: "Global",
+        url: "https://www.conxian-labs.com/pricing",
+        offers: offer,
+      },
+    ],
+  };
+}
+
+const PRICING_JSONLD_MARKER = "<!-- service-jsonld -->";
+
+function withPricingJsonLd(html) {
+  if (html.includes(PRICING_JSONLD_MARKER)) return html;
+  const script = `${PRICING_JSONLD_MARKER}\n    <script type="application/ld+json">\n${JSON.stringify(pricingJsonLd(), null, 2)}\n    </script>\n`;
+  return html.replace("</head>", `${script}</head>`);
 }
 
 app.get("/api/pricing/managed", (req, res) => {
