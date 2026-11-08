@@ -40,3 +40,28 @@ test("homepage exposes JSON-LD Organization/WebSite/Service", async () => {
   assert.match(html, /"@type": "WebSite"/);
   assert.match(html, /"@type": "Service"/);
 });
+
+test("pricing page exposes Service + Offer JSON-LD generated from the catalogue", async () => {
+  const res = await fetch(base + "/pricing");
+  assert.equal(res.status, 200);
+  assert.match(res.headers.get("content-type"), /text\/html/);
+  const html = await res.text();
+  const blocks = [...html.matchAll(/<script[^>]*application\/ld\+json[^>]*>([\s\S]*?)<\/script>/g)];
+  assert.ok(blocks.length >= 1, "pricing page must embed JSON-LD");
+  const graph = blocks.map(b => JSON.parse(b[1])).flatMap(d => d["@graph"] || [d]);
+  const service = graph.find(n => n["@type"] === "Service");
+  assert.ok(service, "pricing page must expose a Service node");
+  const offer = service.offers;
+  assert.ok(offer && offer["@type"] === "Offer", "Service must carry an Offer");
+  // Offer must not drift from the API descriptor.
+  const api = await (await fetch(base + "/api/pricing/managed")).json();
+  assert.equal(offer.price, String(api.monthlyUsd));
+  assert.equal(offer.priceCurrency, "USD");
+  assert.equal(
+    offer.availability,
+    api.productionSupported ? "https://schema.org/InStock" : "https://schema.org/PreOrder",
+  );
+  if (!api.productionSupported) {
+    assert.equal(offer.potentialAction, undefined, "unavailable tier must not advertise a checkout action");
+  }
+});
