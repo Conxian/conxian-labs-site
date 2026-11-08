@@ -191,3 +191,55 @@ test("the probe budget is reported so operators can audit it", async () => {
   assert.equal(body.probe.attemptTimeoutMs, 50);
   assert.equal(body.probe.totalBudgetMs, 60000);
 });
+
+test("HTTP 429 is rate-limited, not unreachable", async () => {
+  reset();
+  process.env.STATUS_PRODUCTION_SERVICES = "bos,gateway,nexus";
+  // An edge that throttles the prober still proves DNS, TLS and the edge are
+  // alive; reporting that as "unreachable" produced false major outages.
+  responses = Object.fromEntries(hosts.map(url => [url, mock(429, null)]));
+  const body = await (await realFetch(base + "/api/status")).json();
+  const gateway = body.services.find(s => s.id === "gateway");
+  assert.equal(gateway.state, "rate-limited");
+  assert.equal(gateway.rateLimited, true);
+  assert.equal(gateway.reachable, true);
+  // A throttled answer cannot prove identity, so it must never read as verified.
+  assert.equal(gateway.verified, false);
+  assert.equal(body.production.rateLimited, 3);
+  assert.equal(body.production.unreachable, 0);
+  assert.equal(body.rateLimited, 3);
+  assert.equal(body.down, 0);
+});
+
+test("a throttled prober does not raise a major outage banner", async () => {
+  reset();
+  process.env.STATUS_PRODUCTION_SERVICES = "bos,gateway,nexus";
+  responses = Object.fromEntries(hosts.map(url => [url, mock(429, null)]));
+  const body = await (await realFetch(base + "/api/status")).json();
+  // Every commissioned runtime answered, so this is not an outage...
+  assert.equal(body.overall, "operational");
+  // ...but it is also not proof of health, because identity was unconfirmed.
+  assert.equal(body.verified, 0);
+});
+
+test("429 is an answer and is not retried", async () => {
+  reset();
+  process.env.STATUS_PRODUCTION_SERVICES = "gateway";
+  responses[hosts[1]] = mock(429, null);
+  const body = await (await realFetch(base + "/api/status")).json();
+  const gateway = body.services.find(s => s.id === "gateway");
+  assert.equal(gateway.attempts, 1);
+  assert.equal(gateway.coldStart, false);
+  assert.equal(calls[hosts[1]], 1);
+});
+
+test("a real outage alongside throttling still reports a partial outage", async () => {
+  reset();
+  process.env.STATUS_PRODUCTION_SERVICES = "bos,gateway";
+  responses[hosts[0]] = () => Promise.reject(fail());
+  responses[hosts[1]] = mock(429, null);
+  const body = await (await realFetch(base + "/api/status")).json();
+  assert.equal(body.overall, "partial-outage");
+  assert.equal(body.production.unreachable, 1);
+  assert.equal(body.production.rateLimited, 1);
+});
