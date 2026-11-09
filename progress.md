@@ -50,13 +50,13 @@ their actual owning review; no production source or DNS change occurred.
 - **Enterprise page active state**: Fixed — own nav now correctly highlights Enterprise, not Research.
 - **Deploy decoupled from test**: `render.yaml` `buildCommand` set to `npm install`.
 - **AGENTS.md**: Updated with full development context.
-- **Official Service Established**: Created `conxian-labs-site-official` (`srv-d954bv8js32c73fd3lqg`) on Render for canonical deployments.
+- **Official Service Established**: Created `conxian-labs-site-official` (`srv-<redacted>`) on Render for canonical deployments.
 
 ## Org-Wide Service & Infrastructure Topology Audit (2026-08-27)
-> **Correction (2026-11-03):** the Render service/workspace identifiers below were superseded. Current: `conxian-labs-site` = `srv-db9l01fbtjjs73c4e2vg`, workspace `Conxian-Business` = `tea-d6u0edngi27c73dvhsg0`, URL `https://conxian-labs-site.onrender.com`. The historical values (`srv-d9ndhr2jnfac73as7te0`, `tea-d4ufhh8gjchc73c80mu0`, `conxian-labs-site-xhqq.onrender.com`) no longer resolve.
+> **Correction (2026-11-03):** the Render service/workspace identifiers below were superseded. Current: `conxian-labs-site` = `srv-<redacted>`, workspace `Conxian-Business` = `tea-<redacted>`, URL `https://conxian-labs-site.onrender.com`. The historical values (`srv-<redacted>`, `tea-<redacted>`, `conxian-labs-site-xhqq.onrender.com`) no longer resolve.
 - **Production Web Hosting (Render)**:
-  - Active Primary Web Service: `conxian-labs-site` (`srv-db9l01fbtjjs73c4e2vg`), Oregon, Node.js runtime (`npm start`), workspace `Conxian-Business` (`tea-d6u0edngi27c73dvhsg0`), live URL: `https://conxian-labs-site.onrender.com`.
-  - Preview Web Service: `conxian-labs-site PR #64` (`srv-da82godbedkc73eqbsj0`).
+  - Active Primary Web Service: `conxian-labs-site` (`srv-<redacted>`), Oregon, Node.js runtime (`npm start`), workspace `Conxian-Business` (`tea-<redacted>`), live URL: `https://conxian-labs-site.onrender.com`.
+  - Preview Web Service: `conxian-labs-site PR #64` (`srv-<redacted>`).
 - **Neon Cloud Postgres Infrastructure** (Org `org-silent-sun-00457600`):
   1. `corelibs` (`sparkling-sunset-69236559`) — PG 18, `aws-us-east-2`.
   2. `Software dev kit` (`weathered-night-98492579`) — PG 18, `aws-us-east-2`.
