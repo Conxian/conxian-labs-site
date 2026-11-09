@@ -66,9 +66,9 @@ To serve all services correctly from a **Business-as-a-Platform (BaaP)** operati
 
 ## 4. Render Instance & Infrastructure Configuration
 
-### Service: `conxian-labs-site` (`srv-db9l01fbtjjs73c4e2vg`)
+### Service: `conxian-labs-site` (`srv-<redacted>`)
 *   **Status**: Active Production Web Service (Node.js)
-*   **Workspace**: `Conxian-Business` (`tea-d6u0edngi27c73dvhsg0`)
+*   **Workspace**: `Conxian-Business` (`tea-<redacted>`)
 *   **Region**: Oregon
 *   **Build Command**: `npm install`
 *   **Start Command**: `npm start`

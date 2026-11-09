@@ -384,12 +384,17 @@ app.get("/api/services", (req, res) => {
       { id: "sdk", name: "Conxius Enclave SDK", type: "Cross-Platform Hardware Signing Abstraction", status: "library", host: "sdk.conxian.org", route: "/sdk" },
       { id: "corelibs", name: "Corelibs Cryptographic Library", type: "Shared Protocol Cryptographic Primitives", status: "library", host: "docs.conxian.org", route: "/docs" }
     ].map(service => ({ ...service, productionSupported: false })),
+    // Internal topology is summarised by ROLE only. Provider resource
+    // identifiers (Render service/workspace ids, database project refs) are
+    // not published: they are internal identifiers per
+    // conxian-business docs/DATA_CLASSIFICATION_GUARDRAILS.md. See
+    // conxian-business#1817.
     infrastructureTopology: {
       status: "historical-reference",
       verified: false,
-      renderHost: "conxian-labs-site (srv-db9l01fbtjjs73c4e2vg)",
+      renderHost: "conxian-labs-site",
       neonDatabases: ["corelibs", "Software dev kit", "Business Operating System", "market", "Gateway", "Conxian Nexus"],
-      supabaseProjects: ["Conxian BOS (yauldfcpswnufgwfvnlr)", "Conxian-platform (iczqutrbbfudfzfplymc)"]
+      supabaseProjects: ["Conxian BOS", "Conxian-platform"]
     }
   });
 });
