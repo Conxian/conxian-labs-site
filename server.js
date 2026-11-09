@@ -70,10 +70,18 @@ const staticPages = pageMetadata.map(p => p.route);
 // The pricing page carries Service + Offer JSON-LD generated from the live
 // service catalogue (managedTierView), so the structured data cannot drift from
 // /api/pricing/managed. Registered before the generic static loop so it wins.
-app.get("/pricing", (req, res) => {
-  const html = fs.readFileSync(path.join(__dirname, "pricing", "index.html"), "utf8");
-  res.type("html").send(withPricingJsonLd(html));
-});
+// The template is read once at startup: the file is immutable for the process
+// lifetime, so a per-request disk read only adds unbounded I/O under load.
+const PRICING_INDEX_PATH = path.join(__dirname, "pricing", "index.html");
+const PRICING_PAGE_TEMPLATE = fs.existsSync(PRICING_INDEX_PATH)
+  ? fs.readFileSync(PRICING_INDEX_PATH, "utf8")
+  : null;
+
+if (PRICING_PAGE_TEMPLATE !== null) {
+  app.get("/pricing", (req, res) => {
+    res.type("html").send(withPricingJsonLd(PRICING_PAGE_TEMPLATE));
+  });
+}
 
 for (const p of pageMetadata) {
   const indexPath = path.join(__dirname, p.route, "index.html");
