@@ -1,5 +1,35 @@
 # Conxian Labs Site Remediation & Ecosystem Alignment Progress
 
+## Design & business audit, dropdown fix, status enhancement (2026-11-10)
+- **Dropdown menus fixed (reproduced bug)**: desktop menus closed the instant the
+  pointer left the trigger, so crossing the 8px trigger→panel gap dismissed the
+  menu (`open while paused in gap: false`). Rewrote the interaction in `nav.js`:
+  ~60ms open delay, ~220ms close grace, a CSS bridge (`.cx-menu-panel::before`)
+  spanning the gap, click-pins-a-hovered-menu, and full keyboard support
+  (`ArrowDown`/`ArrowUp`/`Escape`/`Tab`). Verified across hover, gap pause, slow
+  traverse, click, and keyboard.
+- **Nav dedupe/disambiguation**: `Solutions` listed `/enterprise` twice and
+  `Developers` listed `/docs` twice; every menu now resolves to distinct
+  destinations. Added `BOS` to the Company menu.
+- **Search index corrected**: the "Business Operating System (BOS)" entry pointed
+  at the Enterprise page although a real `/bos` page exists. Fixed the target and
+  added anchors (`docs#gateway`, `docs#core`, `commercial#market`, `research#domains`).
+- **Status surface enhanced**: `/api/status` now reports `cacheTtlMs`; the status
+  page sorts problems first, shows summary metrics, a cache-accurate refresh
+  countdown, a manual "Refresh now" button, a lifecycle chip, and an attempt count
+  when a probe retried.
+- **CSS cleanup**: removed dead legacy `.nav-bar`/`.nav-links`/`.sys-status`/
+  `.site-footer`/`.footer-links`/`.footer-brand`/`.code-block` rules from
+  `package-page.css`, dead decorative blocks from `css/common.css`, and dead
+  inline rules from `404.html`.
+- **Repo skills added** (`.agents/skills/`): `conxian-design-system`,
+  `conxian-nav-and-search`, `conxian-status-truth`, `conxian-evidence-claims`.
+- **Tests**: added `tests/nav-dropdown.spec.ts` (6 cases) and
+  `tests/search-index.test.cjs` (3 cases, wired into `test:api`).
+  Full suite: 45 Playwright + 38 Node, all green.
+- **Docs**: AGENTS.md page inventory corrected to the actual 18 routes; dropdown,
+  search, status, and skills behaviour documented.
+
 ## Main convergence review — 25 October 2026
 
 The earlier October claims below are retained historical notes, not current

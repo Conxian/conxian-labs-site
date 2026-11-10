@@ -105,8 +105,34 @@
   padding: 0.5rem;
   display: none;
   flex-direction: column;
+  z-index: 110;
 }
-.cx-menu.cx-open .cx-menu-panel { display: flex; }
+/* Invisible bridge spanning the 8px gap above the panel. Without it the pointer
+ * leaves the hoverable area while travelling from the trigger to the panel,
+ * which (combined with an instant close) made the menu nearly impossible to
+ * enter. This keeps the cursor inside the menu for its whole journey. */
+.cx-menu-panel::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -8px;
+  height: 8px;
+}
+.cx-menu.cx-open .cx-menu-panel {
+  display: flex;
+  animation: cx-menu-in 120ms ease-out;
+}
+@keyframes cx-menu-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+/* The trailing menu sits near the right edge, so anchor its panel to the right
+ * to keep it on screen at narrower desktop widths. */
+.cx-links > .cx-menu:last-child .cx-menu-panel { left: auto; right: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .cx-menu.cx-open .cx-menu-panel { animation: none; }
+}
 .cx-menu-item {
   display: flex;
   flex-direction: column;
@@ -116,6 +142,7 @@
   text-decoration: none;
 }
 .cx-menu-item:hover { background: var(--cx-surface-low); }
+.cx-menu-item:focus-visible { background: var(--cx-surface-low); outline: 2px solid var(--cx-accent); outline-offset: -2px; }
 .cx-mi-title { font-family: var(--cx-mono); font-size: 0.76rem; font-weight: 700; color: var(--cx-ink); }
 .cx-mi-desc { font-size: 0.72rem; color: var(--cx-dim); }
 
