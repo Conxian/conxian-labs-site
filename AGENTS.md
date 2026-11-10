@@ -3,8 +3,9 @@
 ## Build & Test
 - **Install:** `npm install`
 - **Dev server:** `npm start` (Express on port 3000)
-- **Test:** `npx playwright test` (or `npm test`)
-- **Test (single file):** `npx playwright test tests/design-compliance.spec.ts`
+- **Test:** `npx playwright test` (or `npm test`) — 45 Playwright cases
+- **Test (API/Node):** `npm run test:api` — 38 Node cases (onboarding, discovery, status truth, icon map, search index)
+- **Test (single file):** `npx playwright test tests/nav-dropdown.spec.ts`
 - **Debug tests:** `npx playwright test --headed`
 - **Browser install:** `npx playwright install --with-deps chromium`
 - **Node:** v24 (matches `actions/setup-node` in CI and the Render runtime)
@@ -28,10 +29,12 @@
 - **Fonts:** Self-hosted JetBrains Mono in `fonts/` (676K, 6 weights) — no Google Fonts CDN
 - **Shared CSS:** `css/common.css` — design tokens, body reset, logo, utility classes
 - **Icons:** `icons.js` — inline SVG replacements (no Material Symbols CDN). Any icon used in markup MUST be defined here or it renders as literal text. `tests/icon-map.test.cjs` enforces this.
-- **Status probes** (`server.js` → `/api/status`): services are Render **free** instances that cold-start, so each is probed up to `PROBE_ATTEMPTS` (3) times within `PROBE_TOTAL_BUDGET_MS` (60s). Only transport failures/timeouts are retried; an HTTP error status is an honest answer. `unreachable` means every attempt failed. HTTP **429** is classified `rate-limited`, not `unreachable`: the edge answered, so DNS/TLS/edge are proven alive, but identity cannot be confirmed while throttled, so it is never `verified` and never raises `major-outage`. Reported as `rateLimited`. Do not poll `/api/status` faster than the 30s cache; tight loops throttle the origin and produce a self-inflicted 429 sweep. Override via `STATUS_PROBE_ATTEMPTS`, `STATUS_PROBE_ATTEMPT_TIMEOUT_MS`, `STATUS_PROBE_BACKOFF_MS`, `STATUS_PROBE_TOTAL_BUDGET_MS`. Do not "fix" cold starts by adding a keep-alive: Render allows only 750 free instance-hours/month per workspace, and three always-on services need ~2,160.
-- **Search:** `search.js` — client-side search across all site pages
-- **Dynamic API:** `GET /api/health`, `GET /api/site-map`
+- **Navigation** (`nav.js`): renders the header, footer, and mobile menu at runtime on every page. Desktop dropdowns use hover intent — a ~60ms open delay, a ~220ms close grace, and a CSS bridge (`.cx-menu-panel::before`) spanning the trigger-to-panel gap, so the menu stays open while the pointer travels into it. A hover-opened menu is pinned by a click (the click does not toggle it shut); a second click closes it. `ArrowDown`/`ArrowUp`/`Escape`/`Tab` are handled. `tests/nav-dropdown.spec.ts` covers all of this.
+- **Search** (`search.js`): hand-maintained client-side index. Every `url` must resolve to a real file and every `#anchor` to a real `id`; `tests/search-index.test.cjs` enforces both.
+- **Status probes** (`server.js` → `/api/status`): services are Render **free** instances that cold-start, so each is probed up to `PROBE_ATTEMPTS` (3) times within `PROBE_TOTAL_BUDGET_MS` (60s). Only transport failures/timeouts are retried; an HTTP error status is an honest answer. `unreachable` means every attempt failed. HTTP **429** is classified `rate-limited`, not `unreachable`: the edge answered, so DNS/TLS/edge are proven alive, but identity cannot be confirmed while throttled, so it is never `verified` and never raises `major-outage`. Reported as `rateLimited`. The snapshot also reports `cacheTtlMs` (`PROBE_CACHE_MS`, 30s) so the status page times its refresh to the real cache boundary. Do not poll `/api/status` faster than the 30s cache; tight loops throttle the origin and produce a self-inflicted 429 sweep. Override via `STATUS_PROBE_ATTEMPTS`, `STATUS_PROBE_ATTEMPT_TIMEOUT_MS`, `STATUS_PROBE_BACKOFF_MS`, `STATUS_PROBE_TOTAL_BUDGET_MS`. Do not "fix" cold starts by adding a keep-alive: Render allows only 750 free instance-hours/month per workspace, and three always-on services need ~2,160.
+- **Dynamic API:** `GET /api/health`, `GET /api/site-map`, `GET /api/status`, `GET /api/services`, `GET /api/pricing/managed`
 - **Deploy:** Render web service (`conxian-labs-site`), Node.js environment
+- **Repo skills** (`.agents/skills/`): repo-scoped guidance for agents — `conxian-design-system`, `conxian-nav-and-search`, `conxian-status-truth`, `conxian-evidence-claims`
 
 ## Design System ("Ivory Foundation")
 - **Background:** `#FDFBF7` (Ivory)
@@ -43,24 +46,32 @@
 - **Border radius:** 4px (sharp institutional)
 - **Logos:** black background, grayscale + brightness filter
 
-## Page Inventory (15 pages)
-| Route | File | Nav? | Footer? |
-|-------|------|------|---------|
-| `/` | `index.html` | ✅ | ✅ (3 columns) |
-| `/sdk` | `sdk/index.html` | ✅ | ✅ |
-| `/docs` | `docs/index.html` | ✅ | ✅ |
-| `/pricing` | `pricing/index.html` | ✅ | ✅ |
-| `/partners` | `partners/index.html` | ✅ | ✅ |
-| `/operators` | `operators/index.html` | ✅ | ✅ |
-| `/enterprise` | `enterprise/index.html` | ✅ | ✅ |
-| `/research` | `research/index.html` | ✅ | ✅ |
-| `/terms` | `terms/index.html` | ✅ | ✅ |
-| `/about` | `about/index.html` | ✅ | ✅ |
-| `/security` | `security/index.html` | ✅ | ✅ |
-| `/privacy` | `privacy/index.html` | ✅ | ✅ |
-| `/commercial` | `commercial/index.html` | ❌ | ✅ |
-| `/commercial/pilot` | `commercial/pilot/index.html` | ❌ | ✅ |
-| `/404.html` | `404.html` | ✅ | ✅ (minimal) |
+## Page Inventory (18 routes)
+Every page renders the shared header (`#cx-nav`) and footer (`#cx-footer`) via
+`nav.js`; the "Nav?" column marks whether the page also appears in the primary
+desktop menus.
+
+| Route | File | In nav? |
+|-------|------|---------|
+| `/` | `index.html` | ✅ |
+| `/sdk` | `sdk/index.html` | ✅ |
+| `/docs` | `docs/index.html` | ✅ |
+| `/pricing` | `pricing/index.html` | ✅ (direct link) |
+| `/partners` | `partners/index.html` | ✅ |
+| `/operators` | `operators/index.html` | ✅ |
+| `/enterprise` | `enterprise/index.html` | ✅ |
+| `/research` | `research/index.html` | ✅ |
+| `/terms` | `terms/index.html` | ✅ |
+| `/about` | `about/index.html` | ✅ |
+| `/security` | `security/index.html` | ✅ |
+| `/privacy` | `privacy/index.html` | ✅ |
+| `/commercial` | `commercial/index.html` | ✅ |
+| `/commercial/pilot` | `commercial/pilot/index.html` | ✅ (via Commercial) |
+| `/bos` | `bos/index.html` | ✅ |
+| `/status` | `status/index.html` | ✅ (via Developers) |
+| `/get-started` | `get-started/index.html` | ✅ (via Developers) |
+| `/console` | `console/index.html` | ✅ (direct link) |
+| `/404.html` | `404.html` | — |
 
 ## Known Issues
 - **`production` environment has no branch protection** — relies solely on `deploy.yml` `branches: [main]` filter

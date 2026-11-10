@@ -39,17 +39,19 @@
     [PRODUCT_LINKS.platform, "Platform", "Deployment and container orchestration"],
   ];
 
+  // Every entry resolves to a distinct destination (page or in-page anchor) so
+  // no menu presents two labels for the same target.
   var SOLUTIONS = [
     ["/enterprise", "Financial infrastructure", "ISO 20022 bridging and settlement"],
     ["/commercial", "Agentic commerce", "Metered machine-to-machine payments"],
     ["/sdk", "Signing and custody", "Hardware-enforced key control"],
-    ["/enterprise", "Enterprise programs", "Dedicated nodes and support"],
+    ["/operators", "Node operations", "Run and scale verification nodes"],
   ];
 
   var DEVELOPERS = [
     ["/docs", "Documentation", "Architecture and integration guides"],
-    ["/sdk", "Enclave SDK", "Install and integrate"],
-    ["/docs", "Quickstart", "Local setup and first run"],
+    ["/sdk#integration-scope", "Enclave SDK", "Install and integrate"],
+    ["/get-started", "Quickstart", "Request access and provision"],
     ["/status", "Status", "Live service reachability"],
     ["https://github.com/Conxian", "GitHub", "Source and issues"],
   ];
@@ -60,6 +62,7 @@
     ["/partners", "Partners", "Ecosystem collaborations"],
     ["/operators", "Operators", "Node and infrastructure providers"],
     ["/research", "Research", "Cryptographic research surfaces"],
+    ["/bos", "BOS", "Public-safe operating model"],
     ["/security", "Security", "Posture and disclosure"],
   ];
 
@@ -68,7 +71,7 @@
       .map(function (it) {
         var external = it[0].indexOf("http") === 0;
         return (
-          '<a class="cx-menu-item" href="' + it[0] + '"' +
+          '<a class="cx-menu-item" role="menuitem" href="' + it[0] + '"' +
           (external ? ' target="_blank" rel="noopener noreferrer"' : "") +
           '><span class="cx-mi-title">' + it[1] + '</span>' +
           '<span class="cx-mi-desc">' + it[2] + "</span></a>"
@@ -125,35 +128,124 @@
       });
     }
 
-    // Keyboard and pointer affordance for the desktop menus.
+    // Desktop menus use hover-intent: a short open delay avoids flicker when the
+    // pointer merely crosses a trigger, and a close grace period keeps the panel
+    // open while the pointer crosses the gap between the trigger and the panel.
+    // Closing instantly on mouseleave made the menu nearly impossible to enter
+    // with a normal cursor path (the 8px gap between trigger and panel counted
+    // as "outside" and dismissed it). The panel also carries an invisible bridge
+    // (see .cx-menu-panel::before) so the pointer never leaves the hoverable area.
+    var OPEN_DELAY_MS = 60;
+    var CLOSE_GRACE_MS = 220;
+
     Array.prototype.forEach.call(el.querySelectorAll(".cx-menu"), function (menu) {
       var btn = menu.querySelector("button");
+      var openTimer = null;
+      var closeTimer = null;
+      // A menu opened by hover is "pinned" once the user clicks it, so the click
+      // that follows a hover keeps it open instead of toggling it shut, and a
+      // pinned menu survives the pointer leaving (dismissed by Escape, a click
+      // elsewhere, or focus moving out).
+      var pinned = false;
+
+      function cancel(timer) {
+        if (timer) clearTimeout(timer);
+        return null;
+      }
+      function open() {
+        closeTimer = cancel(closeTimer);
+        menu.classList.add("cx-open");
+        btn.setAttribute("aria-expanded", "true");
+      }
       function close() {
+        openTimer = cancel(openTimer);
+        closeTimer = cancel(closeTimer);
+        pinned = false;
         menu.classList.remove("cx-open");
         btn.setAttribute("aria-expanded", "false");
       }
-      menu.addEventListener("mouseenter", function () {
-        menu.classList.add("cx-open");
-        btn.setAttribute("aria-expanded", "true");
+      function scheduleOpen() {
+        closeTimer = cancel(closeTimer);
+        if (menu.classList.contains("cx-open")) return;
+        openTimer = setTimeout(open, OPEN_DELAY_MS);
+      }
+      function scheduleClose() {
+        openTimer = cancel(openTimer);
+        if (pinned) return;
+        closeTimer = setTimeout(close, CLOSE_GRACE_MS);
+      }
+
+      menu.addEventListener("mouseenter", scheduleOpen);
+      menu.addEventListener("mouseleave", scheduleClose);
+
+      // Pointer re-entering the trigger or panel cancels a pending close.
+      menu.addEventListener("mouseover", function () {
+        closeTimer = cancel(closeTimer);
       });
-      menu.addEventListener("mouseleave", close);
+
       btn.addEventListener("click", function (e) {
         e.preventDefault();
-        var willOpen = !menu.classList.contains("cx-open");
-        Array.prototype.forEach.call(el.querySelectorAll(".cx-menu"), function (m) {
-          m.classList.remove("cx-open");
-        });
-        menu.classList.toggle("cx-open", willOpen);
-        btn.setAttribute("aria-expanded", String(willOpen));
+        if (!menu.classList.contains("cx-open")) {
+          Array.prototype.forEach.call(el.querySelectorAll(".cx-menu"), function (m) {
+            if (m !== menu) m.querySelector("button").setAttribute("aria-expanded", "false");
+          });
+          Array.prototype.forEach.call(el.querySelectorAll(".cx-menu.cx-open"), function (m) {
+            if (m !== menu) m.classList.remove("cx-open");
+          });
+          open();
+          pinned = true;
+        } else if (!pinned) {
+          // Opened by hover; the click pins it open rather than closing it.
+          pinned = true;
+        } else {
+          close();
+        }
+        // e.detail === 0 means a keyboard-activated click; only then move focus
+        // into the panel so mouse users are not given a stray focus ring.
+        if (pinned && e.detail === 0) {
+          var first = menu.querySelector(".cx-menu-item");
+          if (first) first.focus({ preventScroll: true });
+        }
       });
+
+      // Keyboard: ArrowDown opens and moves into the items, ArrowUp walks back,
+      // Escape closes and returns focus to the trigger.
       menu.addEventListener("keydown", function (e) {
-        if (e.key === "Escape") close();
+        var items = Array.prototype.slice.call(menu.querySelectorAll(".cx-menu-item"));
+        var index = items.indexOf(document.activeElement);
+        if (e.key === "Escape") {
+          close();
+          btn.focus({ preventScroll: true });
+          return;
+        }
+        if (e.key === "ArrowDown") {
+          e.preventDefault();
+          if (!menu.classList.contains("cx-open")) open();
+          var next = items[index < 0 ? 0 : Math.min(index + 1, items.length - 1)];
+          if (next) next.focus({ preventScroll: true });
+          return;
+        }
+        if (e.key === "ArrowUp") {
+          e.preventDefault();
+          if (index <= 0) {
+            btn.focus({ preventScroll: true });
+            return;
+          }
+          items[index - 1].focus({ preventScroll: true });
+        }
+      });
+
+      // Tab (or any focus leaving the menu) dismisses an open panel.
+      menu.addEventListener("focusout", function (e) {
+        if (!menu.contains(e.relatedTarget)) close();
       });
     });
     document.addEventListener("click", function (e) {
       if (!el.contains(e.target)) {
         Array.prototype.forEach.call(el.querySelectorAll(".cx-menu"), function (m) {
           m.classList.remove("cx-open");
+          var b = m.querySelector("button");
+          if (b) b.setAttribute("aria-expanded", "false");
         });
       }
     });

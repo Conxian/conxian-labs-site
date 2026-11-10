@@ -307,6 +307,10 @@ function buildSnapshot(results, production, productionKey) {
       attemptTimeoutMs: limits.attemptTimeoutMs,
       totalBudgetMs: limits.totalBudgetMs,
     },
+    // Snapshot cache lifetime, disclosed so the status page can show how fresh
+    // the reading is and time its refresh to the actual cache boundary rather
+    // than polling blindly.
+    cacheTtlMs: PROBE_CACHE_MS,
     overall,
     production: {
       commissioned: commissioned.length,
