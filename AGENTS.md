@@ -78,9 +78,9 @@
 
 | Service | Projects / Resources | Status |
 |---|---|---|
-| **Render** | `conxian-labs-site` (srv-db9l01fbtjjs73c4e2vg) — Node.js web, free, Oregon | ✅ Deployed (v1.1.0) |
-| **Supabase** | `Conxian BOS` (yauldfcpswnufgwfvnlr) — PG 17.6, eu-central-1 | ✅ ACTIVE_HEALTHY |
-| **Supabase** | `Conxian-platform` (iczqutrbbfudfzfplymc) — PG 17.6, eu-central-1 | ✅ ACTIVE_HEALTHY |
+| **Render** | `conxian-labs-site` (srv-<redacted>) — Node.js web, free, Oregon | ✅ Deployed (v1.1.0) |
+| **Supabase** | `Conxian BOS` (supabase-ref-redacted) — PG 17.6, eu-central-1 | ✅ ACTIVE_HEALTHY |
+| **Supabase** | `Conxian-platform` (supabase-ref-redacted) — PG 17.6, eu-central-1 | ✅ ACTIVE_HEALTHY |
 | **NEON** | `Gateway` (noisy-cloud-41146057) — PG 18, aws-ap-southeast-1 | ✅ Active |
 | **NEON** | `Conxian Nexus` (orange-paper-76209725) — PG 17, aws-eu-central-1 | ✅ Active |
 
