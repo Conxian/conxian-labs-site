@@ -1,5 +1,24 @@
 # Conxian Labs Site Remediation & Ecosystem Alignment Progress
 
+## Research expansion + dead-CSS remediation (2026-11-10, session 2)
+- **Research page expanded** (`research/index.html`) with four evidence-bounded
+  sections: Research Integrity & Evidence Tiers (Proposed / Implemented /
+  Verified), Supply-Chain & Dependency Security Posture (RustSec, SBOM, ZSE,
+  CodeQL, pinned toolchains, licence/provenance), Threat Model: Custody, Keys,
+  and Replay, and Open Problems & Research Roadmap. Page now has 11 sections.
+  Meta/OG descriptions and the search-index entry were updated to match.
+- **Remediation — dead inline CSS removed**: 11 sub-pages (research, security,
+  terms, partners, operators, sdk, about, privacy, bos, enterprise, docs) each
+  carried a byte-identical inline `.search-bar`/`.search-results` block that was
+  always overridden by `css/site.css` (verified by computed-style probe). The
+  block was removed and the resulting 9 empty `<style>` blocks deleted.
+- **Class-collision fix**: the research page's local `.badge` (light chip) was
+  renamed `.proposal-tag` to stop colliding with the global `.badge`
+  (white-on-accent) from `package-page.css`.
+- **Tests**: added `tests/page-css-hygiene.test.cjs` (3 cases: no page
+  re-declares shared search CSS, no empty `<style>`, research keeps `#domains`
+  and its new sections), wired into `test:api`. Suite: 45 Playwright + 41 Node.
+
 ## Design & business audit, dropdown fix, status enhancement (2026-11-10)
 - **Dropdown menus fixed (reproduced bug)**: desktop menus closed the instant the
   pointer left the trigger, so crossing the 8px trigger→panel gap dismissed the
