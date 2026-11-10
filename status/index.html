@@ -55,6 +55,34 @@
         .state-pill.degraded { color: #C25E00; }
         .state-pill.rate-limited { color: #C25E00; }
         .state-pill.down { color: #B00020; }
+        .status-toolbar {
+            display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+        .status-summary { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+        .status-summary .metric { display: flex; flex-direction: column; gap: 0.15rem; }
+        .status-summary .metric strong { font-size: 1.1rem; }
+        .status-summary .metric span { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-dim); }
+        .status-refresh { margin-left: auto; display: flex; align-items: center; gap: 0.6rem; }
+        .status-refresh button {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.66rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.08em; cursor: pointer;
+            background: var(--surface); color: var(--text-main);
+            border: 1px solid var(--ghost-border); border-radius: var(--radius);
+            padding: 0.45rem 0.8rem;
+        }
+        .status-refresh button:hover { border-color: var(--accent); color: var(--accent); }
+        .status-refresh button[disabled] { opacity: 0.5; cursor: default; }
+        .status-refresh .countdown { font-size: 0.62rem; color: var(--text-dim); letter-spacing: 0.06em; }
+        .status-card .lifecycle {
+            font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.1em;
+            border: 1px solid var(--ghost-border); border-radius: 999px;
+            padding: 0.1rem 0.5rem; color: var(--text-dim);
+        }
+        .status-card .lifecycle.production { color: var(--accent-dim); border-color: rgba(194,94,0,0.35); }
+        .status-card .meta .spark { color: var(--text-dim); }
+        .status-card .meta .spark i { font-style: normal; letter-spacing: 0.05em; }
+        .status-card[data-state="unreachable"] { border-color: rgba(176,0,32,0.35); }
     </style>
     <link rel="stylesheet" href="../css/site.css">
 </head>
@@ -74,6 +102,13 @@
                 <span id="overall-label" class="overall-label">Probing services…</span>
                 <span id="overall-meta" class="overall-meta"></span>
             </div>
+            <div class="status-toolbar">
+                <div class="status-summary" id="status-summary" aria-label="Summary"></div>
+                <div class="status-refresh">
+                    <span class="countdown" id="status-countdown" aria-live="polite"></span>
+                    <button type="button" id="status-refresh-btn">Refresh now</button>
+                </div>
+            </div>
             <div id="status-grid" class="status-grid" aria-live="polite"></div>
             <p class="status-note">
                 Source: <code>GET /api/status</code> — the Conxian Labs site probes each service surface's public health endpoint, retrying up to three times within a 60s budget so a cold start is never reported as an outage, and caches the result for 30 seconds. <strong>Verified</strong> means the surface's own runtime answered with its expected identity. <strong>Unreachable</strong> means the runtime stayed unresponsive after every attempt. <strong>Safety mode</strong> means the runtime is up but has paused value-bearing operations. Published libraries (Market, Enclave SDK, Corelibs) are consumed by these services and are catalogued in <code>GET /api/services</code>; they are not separate hosts and are not probed here. Reachability is not a hosted-service, settlement or custody commitment.
@@ -86,7 +121,10 @@
         const overallDot = document.getElementById('overall-dot');
         const overallLabel = document.getElementById('overall-label');
         const overallMeta = document.getElementById('overall-meta');
+        const summaryEl = document.getElementById('status-summary');
         const grid = document.getElementById('status-grid');
+        const countdownEl = document.getElementById('status-countdown');
+        const refreshBtn = document.getElementById('status-refresh-btn');
 
         const LABELS = {
             operational: 'Commissioned services operational',
@@ -94,6 +132,23 @@
             'partial-outage': 'Partial outage',
             'major-outage': 'Major outage'
         };
+
+        // Sort so a reader sees problems first, then healthy surfaces, with
+        // uncommissioned entries last. Ordering is stable within a rank.
+        const RANK = { unreachable: 0, 'rate-limited': 1, degraded: 2, unverified: 3, alias: 4, operational: 5 };
+
+        function summarize(data) {
+            const metrics = [
+                ['Commissioned', data.production?.commissioned ?? 0],
+                ['Verified', data.verified ?? 0],
+                ['Reachable', data.reachable ?? 0],
+                ['Unreachable', data.down ?? 0],
+                ['Rate limited', data.rateLimited ?? 0]
+            ];
+            summaryEl.innerHTML = metrics.map(function (m) {
+                return '<div class="metric"><strong>' + m[1] + '</strong><span>' + m[0] + '</span></div>';
+            }).join('');
+        }
 
         function render(data) {
             overallDot.className = 'overall-dot ' + (data.overall || '');
@@ -106,10 +161,15 @@
                 ? 'Reachable — ' + (data.rateLimited || 0) + ' rate limited, none verified'
                 : (LABELS[data.overall] || 'Unknown');
             overallMeta.textContent = (data.production?.commissioned ?? '—') + ' commissioned · ' + data.verified + '/' + data.total + ' independently healthy · ' + data.aliases + ' aliases · ' + data.down + ' unreachable · ' + (data.coldStarts || 0) + ' cold start' + ((data.coldStarts || 0) === 1 ? '' : 's') + ' · ' + (data.rateLimited || 0) + ' rate limited · checked ' + new Date(data.generatedAt).toLocaleTimeString();
+            summarize(data);
             grid.innerHTML = '';
-            for (const svc of data.services) {
+            const services = (data.services || []).slice().sort(function (a, b) {
+                return (RANK[a.state] ?? 9) - (RANK[b.state] ?? 9);
+            });
+            for (const svc of services) {
                 const card = document.createElement('article');
                 card.className = 'status-card';
+                card.dataset.state = svc.state;
                 let status, label;
                 if (svc.state === 'operational') { status = 'up'; label = 'Verified'; }
                 else if (svc.state === 'rate-limited') { status = 'rate-limited'; label = 'Rate limited'; }
@@ -121,6 +181,7 @@
                     '<div class="row">' +
                         '<span class="dot ' + status + '"></span>' +
                         '<h3></h3>' +
+                        '<span class="lifecycle"></span>' +
                         '<span class="state-pill ' + status + '">' + label + '</span>' +
                     '</div>' +
                     '<p class="role"></p>' +
@@ -128,16 +189,25 @@
                         '<span>host <code></code></span>' +
                         '<span>http <code></code></span>' +
                         '<span>latency <code></code></span>' +
+                        '<span class="spark" hidden></span>' +
                     '</div>' +
                     '<p class="alias-note" hidden></p>';
                 card.querySelector('h3').textContent = svc.name;
                 card.setAttribute('aria-label', svc.name + ': ' + label + ', ' + (svc.lifecycle || 'uncommissioned'));
                 card.title = 'Lifecycle: ' + (svc.lifecycle || 'uncommissioned');
+                const lifecycle = card.querySelector('.lifecycle');
+                lifecycle.textContent = svc.lifecycle || 'uncommissioned';
+                if (svc.lifecycle === 'production') lifecycle.classList.add('production');
                 card.querySelector('.role').textContent = svc.role;
                 const metaCodes = card.querySelectorAll('.meta code');
                 metaCodes[0].textContent = svc.host;
                 metaCodes[1].textContent = svc.httpStatus == null ? '—' : svc.httpStatus;
                 metaCodes[2].textContent = svc.latencyMs + 'ms';
+                const spark = card.querySelector('.spark');
+                if (svc.attempts > 1 || svc.coldStart) {
+                    spark.hidden = false;
+                    spark.innerHTML = 'attempts <i>' + svc.attempts + '</i>';
+                }
                 const note = card.querySelector('.alias-note');
                 if (svc.alias) {
                     note.hidden = false;
@@ -161,21 +231,48 @@
             }
         }
 
-        async function refresh() {
+        let nextRefreshAt = 0;
+        let refreshTimer = null;
+
+        function scheduleRefresh(ttlMs) {
+            if (refreshTimer) clearTimeout(refreshTimer);
+            nextRefreshAt = Date.now() + (ttlMs || 30000);
+            refreshTimer = setTimeout(refresh, ttlMs || 30000);
+        }
+
+        function tick() {
+            if (!nextRefreshAt) { countdownEl.textContent = ''; return; }
+            const secs = Math.max(0, Math.round((nextRefreshAt - Date.now()) / 1000));
+            countdownEl.textContent = 'next refresh in ' + secs + 's';
+        }
+        setInterval(tick, 1000);
+
+        async function refresh(manual) {
+            if (manual) {
+                refreshBtn.disabled = true;
+                countdownEl.textContent = 'refreshing…';
+            }
             try {
                 const res = await fetch('/api/status', { headers: { accept: 'application/json' } });
                 if (!res.ok) throw new Error('status ' + res.status);
-                render(await res.json());
+                const data = await res.json();
+                render(data);
+                scheduleRefresh(data.cacheTtlMs);
+                tick();
             } catch (err) {
                 overallDot.className = 'overall-dot major-outage';
                 overallLabel.textContent = 'Status probe unavailable';
                 overallMeta.textContent = String(err);
+                countdownEl.textContent = '';
                 if (window.Logger) window.Logger.warn('STATUS', 'Status probe failed', { error: String(err) });
+            } finally {
+                if (manual) refreshBtn.disabled = false;
             }
         }
 
+        refreshBtn.addEventListener('click', function () { refresh(true); });
+
         refresh();
-        setInterval(refresh, 30000);
         if (window.Logger) window.Logger.info('PAGE_LOAD', 'Route accessed', { path: window.location.pathname });
     </script>
     <script src="../nav.js"></script>
