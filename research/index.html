@@ -4,44 +4,17 @@
     <script src="../logger.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Conxian Labs Research — Org-wide protocol theory, CXIP-1317 refinement proposals, Business-as-a-Platform (BaaP) architecture, zero-secret egress, sovereign database topology, and active modular stack research.">
+    <meta name="description" content="Conxian Labs Research — protocol theory, CXIP-1317 refinement proposals, Business-as-a-Platform (BaaP) architecture, research integrity tiers, supply-chain security posture, threat models for custody and keys, open problems, and sovereign database topology.">
     <title>Conxian Labs | Research</title>
     <link rel="canonical" href="https://www.conxian-labs.com/research">
     <meta property="og:url" content="https://www.conxian-labs.com/research">
     <meta property="og:title" content="Conxian Labs | Research & Protocol Analysis">
-    <meta property="og:description" content="Advancing logical sovereignty through CXIP-1317 org-wide upgrade proposals, Business-as-a-Platform (BaaP) specifications, and active modular stack research.">
+    <meta property="og:description" content="Protocol theory, research integrity tiers, supply-chain security posture, custody and key threat models, open problems, and Business-as-a-Platform (BaaP) specifications.">
     <meta property="og:image" content="https://www.conxian-labs.com/Conxian-Labs_Logo.jpg">
     <link rel="icon" href="../Conxian_Logo.jpg" type="image/jpeg">
     <link rel="stylesheet" href="../package-page.css">
     <script src="../search.js"></script>
     <style>
-        .search-bar {
-            display: flex; align-items: center; gap: 0.5rem;
-            margin-right: 1rem;
-        }
-        .search-bar input {
-            background: var(--surface-low, #F6F3F2);
-            border: 1px solid var(--ghost-border, rgba(221,193,178,0.15));
-            border-radius: 999px; padding: 0.4rem 1rem;
-            font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
-            color: var(--text-main); width: 180px; outline: none;
-            transition: border-color 0.2s;
-        }
-        .search-bar input:focus { border-color: var(--accent); }
-        .search-results {
-            display: none; position: absolute; top: 100%; left: 0; right: 0;
-            background: var(--surface, #FFF); border: 1px solid var(--ghost-border);
-            border-radius: 4px; margin-top: 0.25rem; max-height: 300px;
-            overflow-y: auto; z-index: 100; box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-        }
-        .search-results.visible { display: block; }
-        .search-result {
-            padding: 0.6rem 1rem; cursor: pointer; border-bottom: 1px solid var(--ghost-border);
-            font-size: 0.7rem;
-        }
-        .search-result:hover, .search-result.active { background: var(--surface-low); }
-        .search-result .title { font-weight: 600; color: var(--text-main); }
-        .search-result .desc { color: var(--text-dim); font-size: 0.65rem; margin-top: 0.15rem; }
 
         .proposal-card {
             background: var(--surface, #FFFFFF);
@@ -63,7 +36,7 @@
             gap: 1rem;
             flex-wrap: wrap;
         }
-        .badge {
+        .proposal-tag {
             background: var(--surface-low, #F6F3F2);
             color: var(--accent, #C25E00);
             padding: 0.2rem 0.5rem;
@@ -80,7 +53,7 @@
         <section class="hero">
             <span class="kicker">Research + Analysis Surface</span>
             <h1>Protocol Theory and Sovereign Implementation</h1>
-            <p>Conxian Labs publishes deep-dive analysis on market execution, protocol coordination, cryptographic primitives, sovereign database topologies, and institutional settlement topology. Our research drives the evolution of the Conxian ecosystem, informing the design of the Conxius Enclave SDK, <code>conxian-market</code>, <code>conxian-gateway</code>, <code>conxian-nexus</code>, and <code>conxian-business</code>. Research references support reproducibility; each source and repository license governs reuse. Publication does not establish formal verification or production acceptance.</p>
+            <p>Conxian Labs publishes deep-dive analysis on market execution, protocol coordination, cryptographic primitives, sovereign database topologies, and institutional settlement topology. Our research drives the evolution of the Conxian ecosystem, informing the design of the Conxius Enclave SDK, <code>conxian-market</code>, <code>conxian-gateway</code>, <code>conxian-nexus</code>, and <code>conxian-business</code>. Research references support reproducibility; each source and repository license governs reuse. Publication does not establish formal verification or production acceptance, and every claim is qualified by its evidence tier.</p>
             <div class="hero-actions">
                 <a class="btn btn-primary" href="https://github.com/Conxian">Research Repositories</a>
                 <a class="btn btn-secondary" href="/docs">Technical Docs</a>
@@ -91,7 +64,7 @@
             <h2>Core Mandate & Strategic Boundary</h2>
             <div class="proposal-card">
                 <div class="proposal-meta">
-                    <span class="badge">Zero-Token Policy</span>
+                    <span class="proposal-tag">Zero-Token Policy</span>
                     <span><strong>Anchor:</strong> Bitcoin L1 Native</span>
                     <span><strong>Boundary:</strong> .org Open Core vs .com Commercial</span>
                 </div>
@@ -135,7 +108,7 @@
             <h2>Ecosystem Refinement & Governance Proposal</h2>
             <div class="proposal-card">
                 <div class="proposal-meta">
-                    <span class="badge">CXIP-1317</span>
+                    <span class="proposal-tag">CXIP-1317</span>
                     <span><strong>Status:</strong> Active Proposal & Architecture Specification</span>
                     <span><strong>Target:</strong> Org-Wide Protocol Upgrade & Refinement</span>
                 </div>
@@ -186,6 +159,87 @@
                     <p>Designing <code>conxius-wallet</code> as an uncompromised, zero-custody reference client interface for direct on-device transaction crafting and verification.</p>
                 </article>
             </div>
+        </section>
+
+        <section class="section">
+            <h2>Research Integrity &amp; Evidence Tiers</h2>
+            <p class="section-intro">Publication is not acceptance. Every claim on this surface is qualified by the strongest evidence that actually exists for it, so a reader can separate what is proposed from what is demonstrated. No tier is inferred from a repository existing or a build succeeding.</p>
+            <div class="detail-grid">
+                <article class="detail-card">
+                    <h3>Proposed</h3>
+                    <p>A design direction, specification draft, or target. It describes intended behaviour only. Nothing at this tier may be read as deployed, audited, or available.</p>
+                </article>
+                <article class="detail-card">
+                    <h3>Implemented</h3>
+                    <p>Code exists on a branch and passes its own automated tests. This proves the code runs against those tests; it does not prove production deployment, provider acceptance, or third-party review.</p>
+                </article>
+                <article class="detail-card">
+                    <h3>Verified</h3>
+                    <p>Independently reproduced with a linked artifact: an external audit, a provider-side attestation, or an operation-specific acceptance record. Only this tier supports an operational or security claim.</p>
+                </article>
+            </div>
+            <div class="proposal-card" style="margin-top: 2rem;">
+                <h3>Why the distinction matters</h3>
+                <p>A green CI run, a merged pull request, and a healthy status probe each answer a narrower question than a security or settlement claim. Research here is written to make that gap explicit rather than to collapse it: a passing test harness qualifies the operations it exercises and nothing further. Where a claim cannot be reproduced, it is recorded as an open problem rather than asserted.</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Supply-Chain &amp; Dependency Security Posture</h2>
+            <p class="section-intro">Sovereign infrastructure inherits the trust of everything it builds on. The ecosystem treats third-party dependencies as an attack surface with its own research and enforcement layer, applied across every active repository.</p>
+            <div class="inline-list">
+                <li><strong>Dependency advisories:</strong> Rust crates are scanned against the RustSec advisory database, and JavaScript dependency trees against registry advisories. A finding is remediated by upgrading to a patched release or recorded with an explicit, reviewable exception — never silently suppressed.</li>
+                <li><strong>Software bills of materials:</strong> Dependency graphs are generated as SBOMs so a consumer can inspect exactly what a build pulls in and evaluate its own exposure.</li>
+                <li><strong>Secret egress scanning:</strong> Every change is scanned for credential material before it can land (Zero Secret Egress). A commit containing a secret is a build failure, not a review comment.</li>
+                <li><strong>Static analysis:</strong> Multi-language CodeQL analysis runs on every pull request and on the default branch, with required checks gating promotion.</li>
+                <li><strong>Pinned toolchains:</strong> Builds pin the runtime and compiler versions they are qualified against, so a "works locally" result and a CI result refer to the same toolchain.</li>
+                <li><strong>Licence and provenance:</strong> Dependency licences and artifact provenance are reviewed as part of promotion, because an OSI-approved licence is a hard gate for downstream reuse and funding.</li>
+            </div>
+            <p class="note">Dependency scanning reduces exposure; it does not establish that a system is free of vulnerabilities. A clean scan is evidence of the check having run, not proof of absence.</p>
+        </section>
+
+        <section class="section">
+            <h2>Threat Model: Custody, Keys, and Replay</h2>
+            <p class="section-intro">The security research programme is organised around the boundaries that matter most: who can move value, where key material can exist, and how a message is proven fresh. Each boundary is studied as a set of failure modes, not as a single control.</p>
+            <div class="detail-grid">
+                <article class="detail-card">
+                    <h3>Custody boundary</h3>
+                    <p>Conxian Labs is not a custodian and holds no client funds. The research interest is in keeping signing authority with the key holder, so a compromise of an operator service cannot itself move value.</p>
+                </article>
+                <article class="detail-card">
+                    <h3>Key-material egress</h3>
+                    <p>Non-custodial signing assumes private keys never leave their hardware boundary. The research asks what a remote service can learn and influence — nonces, message construction, policy — without ever receiving key material.</p>
+                </article>
+                <article class="detail-card">
+                    <h3>Attestation and trust</h3>
+                    <p>Hardware attestation (Android StrongBox, Apple Secure Enclave, cloud TEEs) is studied as a claim to be qualified per device and provider, including how attestation chains are validated and what happens when they cannot be.</p>
+                </article>
+                <article class="detail-card">
+                    <h3>Replay and freshness</h3>
+                    <p>Distributed settlement requires that a valid message cannot be reused. Research covers nonce, sequence, and idempotency design for value-bearing operations, and how retries interact with exactly-once expectations.</p>
+                </article>
+                <article class="detail-card">
+                    <h3>Message integrity at the edge</h3>
+                    <p>ISO 20022 translation sits between legacy banking rails and on-chain routing. The research surface is the transformation itself: schema fidelity, injection resistance, and where a translation error becomes a settlement error.</p>
+                </article>
+                <article class="detail-card">
+                    <h3>Availability under degradation</h3>
+                    <p>Free-tier and best-effort runtimes cold-start and throttle. Research treats the honest reporting of reachability, rate limiting, and identity as part of the security posture rather than a cosmetic concern.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Open Problems &amp; Research Roadmap</h2>
+            <p class="section-intro">Stating what is unsolved is part of the method. These are active research directions, listed as problems rather than as features, because none carries a verified solution today.</p>
+            <ul class="inline-list">
+                <li><strong>Universal proof verification:</strong> A production zkVM verifier that accepts proofs across prover backends without per-backend trust assumptions is not established. SP1 and RISC Zero remain directions, not a deployed universal verifier.</li>
+                <li><strong>Oracle decentralisation measurement:</strong> How to measure and report the real independence of a proof-and-price oracle network — beyond node count — is an open question in the proof and price research track.</li>
+                <li><strong>Cross-chain state finality:</strong> Reconciling Bitcoin L1 finality with L2 and external-chain state so a single settlement event is provably final, and not merely observed, remains unresolved.</li>
+                <li><strong>Multi-cloud operational acceptance:</strong> Deployment scaffolding exists; accepted multi-cloud operations, high availability, and managed-node service levels are not established and are not claimed.</li>
+                <li><strong>Attestation portability:</strong> A uniform way to validate device and provider attestation across Android, Apple, and cloud TEEs, and to fail safely where it cannot be validated, is still in design.</li>
+                <li><strong>Privacy of settlement metadata:</strong> Reducing the observable metadata around ISO 20022 bridging and machine-to-machine settlement without weakening auditability is an open research track.</li>
+            </ul>
         </section>
 
         <section class="section">
