@@ -191,7 +191,7 @@
                 <h3>The activation gate</h3>
                 <p>The managed tier is derived from the runtime configuration at request time, not from a static claim. Two settings must both contain valid public HTTPS URLs:</p>
                 <ul class="inline-list" style="margin-top: 1rem;">
-                    <li><strong>Checkout (<code>MERCHANT_CHECKOUT_URL</code>):</strong> a hosted Merchant-of-Record checkout target. Its absence means no payment path exists.</li>
+                    <li><strong>Payment rail (<code>MANAGED_BILLING_BASE_URL</code>):</strong> the gateway's billing base. Per ADR-009 the gateway is the single monetization surface and the Lightning subscription rail is the sanctioned crypto-native checkout — no card-network Merchant of Record serves this product (their acceptable-use policies forbid it). Its absence means no payment path exists.</li>
                     <li><strong>Provisioning (<code>MANAGED_GATEWAY_ENDPOINT</code>):</strong> the delivery endpoint that mints entitlement and issues keys after settlement. Its absence means a purchase could be taken without anything being delivered.</li>
                 </ul>
                 <p style="margin-top: 1rem;">Only when both are configured does <code>GET /api/pricing/managed</code> report <code>pricingStatus: "live"</code> and <code>availability: "available"</code>. Otherwise it reports <code>reference-only</code> / <code>unavailable</code>, and a subscription attempt returns <strong>HTTP 503 <code>subscription_unavailable</code></strong> with a null checkout URL and null x402 demand. The structured data mirrors this: the pricing page emits a schema.org <code>PreOrder</code> offer and no <code>BuyAction</code> until the tier is genuinely purchasable.</p>

@@ -414,11 +414,13 @@ app.get("/api/site-map", (req, res) => {
 });
 
 // Managed pricing stays a design reference until this deployment can both take
-// payment and deliver the service. A Merchant-of-Record checkout URL alone is
-// not a qualified offer, so the tier is available only when a hosted checkout
-// (Lemon Squeezy / Paddle) AND the managed gateway delivery endpoint are both
-// configured; otherwise the tier remains unavailable. Values are read at request
-// time so a redeploy that changes the configuration takes effect.
+// payment and deliver the service. Per ADR-009 the gateway is the single
+// monetization surface and the Lightning subscription rail is the sanctioned
+// crypto-native path (no card-network Merchant of Record: their acceptable-use
+// policies forbid this product). The tier is available only when the gateway's
+// billing base URL is configured AND the delivery endpoint is configured;
+// otherwise it remains unavailable. Values are read at request time so a
+// redeploy that changes the configuration takes effect.
 function configuredUrl(name) {
   const value = process.env[name];
   return typeof value === "string" && value.trim().length > 0 ? value.trim() : null;
@@ -465,10 +467,26 @@ const MANAGED_TIER = {
   perSettlementOpUsd: 0.1,
 };
 
+// Plans the gateway's Lightning rail accepts (sats/month). Mirrors the gateway
+// billing engine so the site cannot offer a plan the gateway rejects.
+const MANAGED_PLANS = {
+  starter: 0,
+  indie: 37700,
+  business: 128000,
+  enterprise: 1000000,
+};
+
+// The gateway billing base, e.g. https://gateway.conxian.org. Validated as a
+// public HTTPS URL (it crosses a provisioning trust boundary) so a typo cannot
+// point the site at a non-TLS or placeholder host. Unset or invalid = no rail.
+function billingBase() {
+  return configuredPublicHttpsUrl("MANAGED_BILLING_BASE_URL");
+}
+
 function managedTierView() {
-  const checkoutUrl = configuredPublicHttpsUrl("MERCHANT_CHECKOUT_URL");
+  const base = configuredPublicHttpsUrl("MANAGED_BILLING_BASE_URL");
   const endpoint = configuredPublicHttpsUrl("MANAGED_GATEWAY_ENDPOINT");
-  const available = checkoutUrl !== null && endpoint !== null;
+  const available = base !== null && endpoint !== null;
   return {
     ...MANAGED_TIER,
     pricingStatus: available ? "live" : "reference-only",
@@ -478,7 +496,12 @@ function managedTierView() {
     features: available
       ? ["managed-gateway-endpoint", "metered-relay", "rwa-verification", "settlement-ops"]
       : [],
-    checkoutUrl: available ? checkoutUrl : null,
+    // The checkout is the gateway's Lightning invoice rail, not a hosted MoR
+    // URL. No static checkout URL is advertised; the invoice is created per
+    // request and is single-use.
+    checkoutUrl: null,
+    paymentRail: available ? "lightning" : null,
+    plans: available ? Object.keys(MANAGED_PLANS) : [],
     x402PaymentPointer: null,
     qualificationRequired: available ? ["payment", "entitlement"] : ["payment", "entitlement", "runtime-provisioning"],
   };
@@ -486,9 +509,9 @@ function managedTierView() {
 
 // Schema.org Service + Offer for the pricing page. The offer is derived from
 // managedTierView() so the structured data always matches the API descriptor:
-// availability maps to schema.org ItemAvailability, and no checkout URL is
-// emitted until the tier is actually purchasable (never advertise a purchase
-// that is not available).
+// availability maps to schema.org ItemAvailability. No BuyAction is emitted: the
+// Lightning invoice is created per request, so there is no static checkout URL to
+// advertise (and a purchase that is not available is never advertised).
 function pricingJsonLd() {
   const tier = managedTierView();
   const offer = {
@@ -501,12 +524,6 @@ function pricingJsonLd() {
       : "https://schema.org/PreOrder",
     url: "https://www.conxian-labs.com/pricing",
   };
-  if (tier.checkoutUrl) {
-    offer.potentialAction = {
-      "@type": "BuyAction",
-      target: { "@type": "EntryPoint", url: tier.checkoutUrl },
-    };
-  }
   return {
     "@context": "https://schema.org",
     "@graph": [
@@ -543,13 +560,18 @@ app.get("/api/pricing/managed", (req, res) => {
   res.json(managedTierView());
 });
 
-app.post("/api/onboarding/subscribe", (req, res) => {
-  const { tier, email } = req.body || {};
+app.post("/api/onboarding/subscribe", async (req, res) => {
+  const { tier, plan, email } = req.body || {};
   if (tier !== "managed") {
     return res.status(400).json({ error: "Unsupported tier", code: "unsupported_tier" });
   }
   if (!email || typeof email !== "string" || !email.includes("@")) {
     return res.status(400).json({ error: "A valid email is required", code: "invalid_email" });
+  }
+  // Default to the entry paid plan; the gateway rejects unknown plans.
+  const selected = typeof plan === "string" && plan.length > 0 ? plan : "indie";
+  if (!Object.prototype.hasOwnProperty.call(MANAGED_PLANS, selected)) {
+    return res.status(400).json({ error: "Unsupported plan", code: "unsupported_plan", plans: Object.keys(MANAGED_PLANS) });
   }
 
   res.setHeader("Cache-Control", "no-store");
@@ -566,16 +588,57 @@ app.post("/api/onboarding/subscribe", (req, res) => {
     });
   }
 
-  // Hand the buyer off to the Merchant-of-Record hosted checkout. This returns a
-  // checkout target only; it never reports a completed purchase, entitlement or
-  // provisioned key — those are minted by the gateway webhook after settlement.
-  return res.status(200).json({
-    tier: MANAGED_TIER.id,
-    availability: "available",
-    checkoutUrl: view.checkoutUrl,
-    entitlement: "pending-checkout",
-    next: "Complete checkout; your managed API key is issued after payment settles",
-  });
+  // Create a Lightning invoice on the gateway (ADR-009: the gateway is the
+  // single monetization surface). This returns an invoice to pay; it never
+  // reports a completed purchase or a provisioned key — the entitlement is
+  // minted by the gateway after settlement. The site never sees the buyer's
+  // payment; it only relays the invoice request.
+  try {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 10000);
+    let response;
+    try {
+      response = await fetch(`${billingBase()}/api/v1/billing/subscribe`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ plan: selected }),
+        signal: controller.signal,
+      });
+    } finally {
+      clearTimeout(timer);
+    }
+    if (!response.ok) {
+      return res.status(502).json({
+        error: "The billing rail did not issue an invoice",
+        code: "invoice_unavailable",
+        plan: selected,
+        next: "Try again shortly, or contact the commercial team",
+      });
+    }
+    const invoice = await response.json();
+    return res.status(200).json({
+      tier: MANAGED_TIER.id,
+      plan: selected,
+      availability: "available",
+      paymentRail: "lightning",
+      // The bolt11 invoice is the payable artifact; the buyer pays it in any
+      // Lightning wallet. `invoice_id` is what the gateway verifies against.
+      invoiceId: invoice.invoice_id,
+      paymentRequest: invoice.payment_request,
+      amountSats: invoice.amount_sats,
+      expiresAt: invoice.expires_at,
+      term: invoice.term,
+      entitlement: "pending-payment",
+      next: "Pay the invoice from a Lightning wallet; your managed API key is issued after settlement",
+    });
+  } catch (error) {
+    return res.status(502).json({
+      error: "The billing rail could not be reached",
+      code: "billing_unreachable",
+      plan: selected,
+      next: "Try again shortly, or contact the commercial team",
+    });
+  }
 });
 
 // Gated access-request intake. Public self-serve sign-up is not enabled, so the
