@@ -7,7 +7,7 @@
     "start": "node server.js",
     "test": "playwright test",
     "build:css": "tailwindcss -i css/tailwind.src.css -o css/tailwind.css --minify",
-    "test:api": "node --test tests/managed-onboarding.test.cjs tests/discovery.test.cjs tests/status-truth.test.cjs tests/icon-map.test.cjs tests/search-index.test.cjs tests/page-css-hygiene.test.cjs tests/managed-tier-gate.test.cjs"
+    "test:api": "node --test tests/managed-onboarding.test.cjs tests/discovery.test.cjs tests/status-truth.test.cjs tests/icon-map.test.cjs tests/search-index.test.cjs tests/page-css-hygiene.test.cjs tests/managed-tier-gate.test.cjs tests/rate-limit.test.cjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.64.1",
@@ -16,7 +16,8 @@
   "dependencies": {
     "@playwright/browser-chromium": "^1.64.1",
     "compression": "^1.8.2",
-    "express": "^5.3.0"
+    "express": "^5.3.0",
+    "express-rate-limit": "^8.7.4"
   },
   "overrides": {
     "proxy-addr": "2.0.8",

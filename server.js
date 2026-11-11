@@ -1,10 +1,15 @@
 const express = require("express");
 const compression = require("compression");
+const { rateLimit } = require("express-rate-limit");
 const path = require("path");
 const fs = require("fs");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Behind the Cloudflare Worker proxy, so use the real client IP from the
+// forwarded chain for rate-limit keying. `1` trusts exactly the one proxy hop.
+app.set("trust proxy", 1);
 
 app.use(compression());
 app.use(express.json());
@@ -560,7 +565,17 @@ app.get("/api/pricing/managed", (req, res) => {
   res.json(managedTierView());
 });
 
-app.post("/api/onboarding/subscribe", async (req, res) => {
+// The onboarding endpoints do outbound work (subscription/intake), so cap the
+// per-IP request rate to bound abuse and accidental hammering.
+const onboardingLimiter = rateLimit({
+  windowMs: 60_000,
+  limit: 20,
+  standardHeaders: "draft-7",
+  legacyHeaders: false,
+  message: { error: "Too many requests", code: "rate_limited" },
+});
+
+app.post("/api/onboarding/subscribe", onboardingLimiter, async (req, res) => {
   const { tier, plan, email } = req.body || {};
   if (tier !== "managed") {
     return res.status(400).json({ error: "Unsupported tier", code: "unsupported_tier" });
@@ -653,7 +668,7 @@ function boundedField(value, max) {
   return typeof value === "string" ? value.trim().slice(0, max) : "";
 }
 
-app.post("/api/onboarding/request-access", async (req, res) => {
+app.post("/api/onboarding/request-access", onboardingLimiter, async (req, res) => {
   res.setHeader("Cache-Control", "no-store");
   const email = boundedField((req.body || {}).email, 254);
   const organization = boundedField((req.body || {}).organization, 120);
