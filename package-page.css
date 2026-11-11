@@ -753,7 +753,8 @@ a, p, code, li, span, h1, h2, h3, h4 {
     gap: 0.5rem;
     flex-wrap: wrap;
 }
-.managed-purchase input {
+.managed-purchase input,
+.managed-purchase select {
     flex: 1 1 180px;
     min-width: 0;
     background: var(--surface-low, #F6F3F2);
@@ -765,7 +766,28 @@ a, p, code, li, span, h1, h2, h3, h4 {
     color: var(--text-main);
     outline: none;
 }
-.managed-purchase input:focus { border-color: var(--accent); }
+.managed-purchase input:focus,
+.managed-purchase select:focus { border-color: var(--accent); }
+.managed-invoice {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    align-items: flex-start;
+}
+.managed-invoice img {
+    border: 1px solid var(--ghost-border);
+    border-radius: var(--radius);
+    background: #fff;
+}
+.managed-invoice label {
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    margin-bottom: 0;
+}
+.managed-invoice input { width: 100%; font-size: 0.66rem; }
 .managed-purchase-status {
     margin-top: 0.6rem;
     font-size: 0.7rem;

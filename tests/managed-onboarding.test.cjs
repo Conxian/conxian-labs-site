@@ -2,7 +2,7 @@ const { test, before, after } = require("node:test");
 const assert = require("node:assert/strict");
 const { once } = require("node:events");
 // Configuration alone must never expose an unqualified purchase path.
-process.env.MERCHANT_CHECKOUT_URL = "https://checkout.lemonsqueezy.com/buy/managed";
+process.env.MANAGED_BILLING_BASE_URL = "https://gateway.conxian.org";
 const app = require("../server.js");
 let server, base;
 before(async () => {
@@ -88,7 +88,7 @@ test("valid signup cannot report purchase, entitlement or provisioning success",
   for (const field of ["apiKey", "license", "entitlement", "provisioned"]) assert.equal(body[field], undefined);
 });
 test("unconfigured checkout remains unavailable", async () => {
-  delete process.env.MERCHANT_CHECKOUT_URL;
+  delete process.env.MANAGED_BILLING_BASE_URL;
   assert.equal((await post({ tier: "managed", email: "buyer@example.invalid" })).status, 503);
 });
 test("invalid tier keeps its validation error", async () => {
@@ -109,8 +109,8 @@ test("health and static pricing remain accessible", async () => {
     await response.arrayBuffer();
   }
 });
-test("a configured checkout alone does not advertise an offer without a delivery endpoint", async () => {
-  process.env.MERCHANT_CHECKOUT_URL = "https://checkout.lemonsqueezy.com/buy/managed";
+test("a billing base alone does not advertise an offer without a delivery endpoint", async () => {
+  process.env.MANAGED_BILLING_BASE_URL = "https://gateway.conxian.org";
   delete process.env.MANAGED_GATEWAY_ENDPOINT;
   const body = await (await fetch(`${base}/api/pricing/managed`)).json();
   assert.equal(body.productionSupported, false);
@@ -118,21 +118,37 @@ test("a configured checkout alone does not advertise an offer without a delivery
   assert.equal(body.checkoutUrl, null);
   assert.equal((await post({ tier: "managed", email: "buyer@example.invalid" })).status, 503);
 });
-test("a fully configured deployment advertises checkout without claiming entitlement", async () => {
-  process.env.MERCHANT_CHECKOUT_URL = "https://checkout.lemonsqueezy.com/buy/managed";
+test("a fully configured deployment relays a Lightning invoice without claiming entitlement", async () => {
+  process.env.MANAGED_BILLING_BASE_URL = "https://gateway.conxian.org";
   process.env.MANAGED_GATEWAY_ENDPOINT = "https://api.conxian-labs.com/v1/agent";
   const pricing = await (await fetch(`${base}/api/pricing/managed`)).json();
   assert.equal(pricing.productionSupported, true);
   assert.equal(pricing.availability, "available");
-  assert.equal(pricing.checkoutUrl, "https://checkout.lemonsqueezy.com/buy/managed");
-  const response = await post({ tier: "managed", email: "buyer@example.invalid" });
-  assert.equal(response.status, 200);
-  const body = await response.json();
-  assert.equal(body.checkoutUrl, "https://checkout.lemonsqueezy.com/buy/managed");
-  assert.equal(body.entitlement, "pending-checkout");
-  for (const field of ["apiKey", "license", "provisioned"]) assert.equal(body[field], undefined);
-  process.env.MERCHANT_CHECKOUT_URL = "https://checkout.lemonsqueezy.com/buy/managed";
-  delete process.env.MANAGED_GATEWAY_ENDPOINT;
+  assert.equal(pricing.paymentRail, "lightning");
+  assert.equal(pricing.checkoutUrl, null);
+
+  const realFetch = global.fetch;
+  global.fetch = async (url, opts) => {
+    if (String(url).includes("/api/v1/billing/subscribe")) {
+      return { ok: true, json: async () => ({
+        invoice_id: "inv_x", payment_request: "lnbc1u1p...", amount_sats: 37700,
+        expires_at: 1893456000, term: "monthly",
+      }) };
+    }
+    return realFetch(url, opts);
+  };
+  try {
+    const response = await post({ tier: "managed", plan: "indie", email: "buyer@example.invalid" });
+    assert.equal(response.status, 200);
+    const body = await response.json();
+    assert.equal(body.paymentRequest, "lnbc1u1p...");
+    assert.equal(body.amountSats, 37700);
+    assert.equal(body.entitlement, "pending-payment");
+    for (const field of ["apiKey", "license", "provisioned"]) assert.equal(body[field], undefined);
+  } finally {
+    global.fetch = realFetch;
+    delete process.env.MANAGED_GATEWAY_ENDPOINT;
+  }
 });
 
 const postAccess = body => fetch(`${base}/api/onboarding/request-access`, {
