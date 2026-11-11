@@ -285,10 +285,21 @@
                         <form class="managed-purchase" data-managed-purchase novalidate>
                             <label for="managed-email">Request managed access</label>
                             <div class="managed-purchase-row">
+                                <select id="managed-plan" name="plan" aria-label="Plan">
+                                    <option value="indie">Indie</option>
+                                    <option value="business">Business</option>
+                                    <option value="enterprise">Enterprise</option>
+                                </select>
                                 <input id="managed-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@company.com" required>
                                 <button class="btn btn-primary" type="submit">Continue</button>
                             </div>
                             <p class="managed-purchase-status" data-managed-status role="status" aria-live="polite"></p>
+                            <div class="managed-invoice" data-managed-invoice hidden>
+                                <img data-invoice-qr alt="Lightning invoice QR code" width="220" height="220">
+                                <p class="managed-purchase-status" data-invoice-meta></p>
+                                <label for="managed-bolt11">Lightning invoice</label>
+                                <input id="managed-bolt11" data-invoice-bolt11 type="text" readonly>
+                            </div>
                         </form>
                     </article>
                 </div>
@@ -632,6 +643,24 @@
             if (!form) return;
             const status = form.querySelector('[data-managed-status]');
             const input = form.querySelector('input[name="email"]');
+            const planSelect = form.querySelector('select[name="plan"]');
+            const invoiceBox = document.querySelector('[data-managed-invoice]');
+
+            function showInvoice(body) {
+                if (!invoiceBox) return;
+                invoiceBox.hidden = false;
+                const qr = invoiceBox.querySelector('[data-invoice-qr]');
+                const bolt11 = invoiceBox.querySelector('[data-invoice-bolt11]');
+                const meta = invoiceBox.querySelector('[data-invoice-meta]');
+                if (qr) {
+                    qr.src = 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=' + encodeURIComponent(body.paymentRequest);
+                }
+                if (bolt11) bolt11.value = body.paymentRequest;
+                if (meta) {
+                    meta.textContent = body.amountSats + ' sats · ' + body.term +
+                        ' · expires ' + new Date(body.expiresAt * 1000).toLocaleTimeString();
+                }
+            }
 
             form.addEventListener('submit', async (event) => {
                 event.preventDefault();
@@ -641,19 +670,20 @@
                     status.textContent = 'Enter a valid email address to continue.';
                     return;
                 }
+                const plan = planSelect ? planSelect.value : 'indie';
                 status.dataset.state = '';
-                status.textContent = 'Checking availability…';
+                status.textContent = 'Creating a Lightning invoice…';
                 try {
                     const res = await fetch('/api/onboarding/subscribe', {
                         method: 'POST',
                         headers: { 'content-type': 'application/json' },
-                        body: JSON.stringify({ tier: 'managed', email })
+                        body: JSON.stringify({ tier: 'managed', plan, email })
                     });
                     const body = await res.json();
-                    if (res.ok && body.checkoutUrl) {
+                    if (res.ok && body.paymentRequest) {
                         status.dataset.state = 'ok';
-                        status.textContent = 'Redirecting to secure checkout…';
-                        window.location.assign(body.checkoutUrl);
+                        status.textContent = 'Invoice ready — pay it from any Lightning wallet.';
+                        showInvoice(body);
                         return;
                     }
                     status.dataset.state = 'error';
