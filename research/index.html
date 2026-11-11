@@ -262,24 +262,10 @@
                 <p class="note">Reachability is not entitlement, and a mounted route is not a completed sale. This map describes the implemented chain and the configuration it waits on — not a claim that any tier is currently taking payment.</p>
             </div>
             <div class="proposal-card" style="margin-top: 1.5rem;">
-                <h3>Pricing &amp; metering model</h3>
-                <p>The managed tier is priced in satoshis on the Lightning-native rail, so no fiat conversion is required for the first-revenue lane. The ladder is a land-and-expand shape: a free entry, a low indie tier, a business tier, and a committed enterprise tier.</p>
-                <div class="pricing-table-scroll" style="margin-top: 1rem;">
-                    <table class="pricing-table">
-                        <caption>Subscription ladder (sats per month, gateway source of truth)</caption>
-                        <thead>
-                            <tr><th>Tier</th><th>Amount (sats/mo)</th><th>Approx.</th><th>Intent</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr><th>Starter</th><td><code>0</code></td><td>free</td><td>adoption and evaluation</td></tr>
-                            <tr><th>Indie</th><td><code>37,700</code></td><td>~$29</td><td>indie agent developers</td></tr>
-                            <tr><th>Business</th><td><code>128,000</code></td><td>~$99</td><td>teams, volume rail</td></tr>
-                            <tr><th>Enterprise</th><td><code>1,000,000</code></td><td>committed use</td><td>predictable revenue, true-up</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-                <p style="margin-top: 1rem;">Beyond the base, metered units are charged per operation. RWA verification and settlement are priced as value-based premiums rather than volume rail fees, because that is where the defensible margin sits; relay messages are the high-volume rail that volume tiers discount.</p>
-                <p class="note">These figures are the implemented ladder in the gateway billing engine, not an approved public rate card. Advertised prices must be ones the operator can actually charge, and the site publishes nothing until checkout and provisioning are configured.</p>
+                <h3>Pricing &amp; metering status</h3>
+                <p>Repository defaults and billing-engine fixtures describe implementation behaviour; they are not an adopted public rate card. No subscription amount, fiat equivalent, usage premium, discount, or enterprise commitment is published here until the applicable provider, cost, customer-cohort, tax, legal, entitlement, and recovery evidence has been accepted.</p>
+                <p style="margin-top: 1rem;">The technical model keeps subscription access, per-operation metering, settlement charges, and entitlement state separate so each can be tested and governed independently. A configured rail does not set a commercial price, and a source default does not authorize charging a customer.</p>
+                <p class="note">Current public terms remain unavailable. Any future rate must match the accepted commercial record and the deployed provider catalogue, then pass the same checkout, provisioning, rollback, and independent-acceptance gates described above.</p>
             </div>
         </section>
 
