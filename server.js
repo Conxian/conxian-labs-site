@@ -421,7 +421,38 @@ app.get("/api/site-map", (req, res) => {
 // time so a redeploy that changes the configuration takes effect.
 function configuredUrl(name) {
   const value = process.env[name];
-  return typeof value === "string" && value.length > 0 ? value : null;
+  return typeof value === "string" && value.trim().length > 0 ? value.trim() : null;
+}
+
+function configuredPublicHttpsUrl(name) {
+  const candidate = configuredUrl(name);
+  if (candidate === null) return null;
+
+  let parsed;
+  try {
+    parsed = new URL(candidate);
+  } catch {
+    return null;
+  }
+
+  const hostname = parsed.hostname.toLowerCase();
+  const reservedHost = hostname === "localhost"
+    || hostname.endsWith(".localhost")
+    || hostname === "invalid"
+    || hostname.endsWith(".invalid")
+    || hostname === "test"
+    || hostname.endsWith(".test")
+    || hostname === "example"
+    || hostname.endsWith(".example")
+    || ["example.com", "example.net", "example.org"].includes(hostname);
+
+  // Managed-tier values cross a browser redirect and a provisioning trust
+  // boundary. Keep private intake configuration independent from this public
+  // checkout constraint.
+  if (parsed.protocol !== "https:" || parsed.username || parsed.password || reservedHost) {
+    return null;
+  }
+  return candidate;
 }
 
 const MANAGED_TIER = {
@@ -435,8 +466,8 @@ const MANAGED_TIER = {
 };
 
 function managedTierView() {
-  const checkoutUrl = configuredUrl("MERCHANT_CHECKOUT_URL");
-  const endpoint = configuredUrl("MANAGED_GATEWAY_ENDPOINT");
+  const checkoutUrl = configuredPublicHttpsUrl("MERCHANT_CHECKOUT_URL");
+  const endpoint = configuredPublicHttpsUrl("MANAGED_GATEWAY_ENDPOINT");
   const available = checkoutUrl !== null && endpoint !== null;
   return {
     ...MANAGED_TIER,

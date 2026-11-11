@@ -189,7 +189,7 @@
             <p class="section-intro">Managed tiers activate once checkout and provisioning are configured. Until then the tier shows as unavailable rather than accepting payment. This section documents the exact gate: what the site checks, why it fails closed, and what evidence must exist before a tier may take money.</p>
             <div class="proposal-card">
                 <h3>The activation gate</h3>
-                <p>The managed tier is derived from the runtime configuration at request time, not from a static claim. Two settings must both be present and non-empty:</p>
+                <p>The managed tier is derived from the runtime configuration at request time, not from a static claim. Two settings must both contain valid public HTTPS URLs:</p>
                 <ul class="inline-list" style="margin-top: 1rem;">
                     <li><strong>Checkout (<code>MERCHANT_CHECKOUT_URL</code>):</strong> a hosted Merchant-of-Record checkout target. Its absence means no payment path exists.</li>
                     <li><strong>Provisioning (<code>MANAGED_GATEWAY_ENDPOINT</code>):</strong> the delivery endpoint that mints entitlement and issues keys after settlement. Its absence means a purchase could be taken without anything being delivered.</li>
@@ -202,7 +202,7 @@
             </div>
             <div class="proposal-card" style="margin-top: 1.5rem;">
                 <h3>What activation requires</h3>
-                <p>All that is required to activate the tier is that <strong>checkout and provisioning are configured</strong>. The two settings above are the whole switch: set both and the tier moves from <code>reference-only</code> to <code>live</code>, checkout becomes available, and provisioning has somewhere to deliver.</p>
+                <p>The runtime gate requires <strong>validated checkout and provisioning URLs</strong>. Both settings must parse as public HTTPS URLs without embedded credentials or reserved placeholder hosts; otherwise the tier remains <code>reference-only</code> and unavailable.</p>
                 <p style="margin-top: 1rem;">Those settings should only be set once the evidence behind them exists — that is what makes the switch safe to flip, not what the switch checks:</p>
                 <ul class="inline-list" style="margin-top: 1rem;">
                     <li><strong>Verified provider and payment contracts:</strong> a real Merchant-of-Record agreement, not a placeholder URL.</li>
@@ -211,7 +211,7 @@
                     <li><strong>Idempotent key lifecycle and provisioning:</strong> a settled payment must mint exactly one entitlement and one key, safely under retries.</li>
                     <li><strong>Runtime and recovery evidence:</strong> the delivery path must be shown to work, and to recover, before it accepts money.</li>
                 </ul>
-                <p class="note">Until both settings are configured, the tier stays a design reference. Activation is therefore two configuration values away — checkout and provisioning — once the evidence above holds.</p>
+                <p class="note">Until both settings are configured, the tier stays a design reference. Activation requires validated checkout and provisioning URLs after the evidence above holds; configuration presence alone is not qualification.</p>
             </div>
         </section>
 
