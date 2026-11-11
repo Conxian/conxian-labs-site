@@ -61,15 +61,35 @@ test("a delivery endpoint alone does not make the tier available", async () => {
   assert.equal(body.endpoint, null);
 });
 
-test("both settings configured makes the tier live", async () => {
-  process.env.MERCHANT_CHECKOUT_URL = "https://checkout.example.invalid/managed";
-  process.env.MANAGED_GATEWAY_ENDPOINT = "https://gateway.example.invalid/managed";
+test("valid public HTTPS settings make the tier live", async () => {
+  process.env.MERCHANT_CHECKOUT_URL = "https://checkout.lemonsqueezy.com/buy/managed";
+  process.env.MANAGED_GATEWAY_ENDPOINT = "https://gateway.conxian.org/v1/managed";
   const body = await managed();
   assert.equal(body.pricingStatus, "live");
   assert.equal(body.availability, "available");
-  assert.equal(body.checkoutUrl, "https://checkout.example.invalid/managed");
-  assert.equal(body.endpoint, "https://gateway.example.invalid/managed");
+  assert.equal(body.checkoutUrl, "https://checkout.lemonsqueezy.com/buy/managed");
+  assert.equal(body.endpoint, "https://gateway.conxian.org/v1/managed");
   assert.deepEqual(body.qualificationRequired, ["payment", "entitlement"]);
+});
+
+test("malformed, unsafe, and reserved URLs keep the tier unavailable", async () => {
+  const invalidPairs = [
+    ["javascript:alert(1)", "https://gateway.conxian.org/v1/managed"],
+    ["http://checkout.example.com/managed", "https://gateway.conxian.org/v1/managed"],
+    ["https://user:secret@checkout.example.com/managed", "https://gateway.conxian.org/v1/managed"],
+    ["https://checkout.example.invalid/managed", "https://gateway.example.invalid/managed"],
+    ["   ", "https://gateway.conxian.org/v1/managed"],
+  ];
+
+  for (const [checkout, endpoint] of invalidPairs) {
+    process.env.MERCHANT_CHECKOUT_URL = checkout;
+    process.env.MANAGED_GATEWAY_ENDPOINT = endpoint;
+    const body = await managed();
+    assert.equal(body.pricingStatus, "reference-only");
+    assert.equal(body.availability, "unavailable");
+    assert.equal(body.checkoutUrl, null);
+    assert.equal(body.productionSupported, false);
+  }
 });
 
 test("subscribe fails closed when the tier is unavailable", async () => {
