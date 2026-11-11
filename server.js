@@ -421,7 +421,34 @@ app.get("/api/site-map", (req, res) => {
 // time so a redeploy that changes the configuration takes effect.
 function configuredUrl(name) {
   const value = process.env[name];
-  return typeof value === "string" && value.length > 0 ? value : null;
+  if (typeof value !== "string" || value.trim().length === 0) return null;
+
+  const candidate = value.trim();
+  let parsed;
+  try {
+    parsed = new URL(candidate);
+  } catch {
+    return null;
+  }
+
+  const hostname = parsed.hostname.toLowerCase();
+  const reservedHost = hostname === "localhost"
+    || hostname.endsWith(".localhost")
+    || hostname === "invalid"
+    || hostname.endsWith(".invalid")
+    || hostname === "test"
+    || hostname.endsWith(".test")
+    || hostname === "example"
+    || hostname.endsWith(".example")
+    || ["example.com", "example.net", "example.org"].includes(hostname);
+
+  // These values cross a browser redirect and a provisioning trust boundary.
+  // Treat malformed, non-TLS, credential-bearing, and reserved placeholder URLs
+  // as unconfigured so a typo cannot advertise a live paid service.
+  if (parsed.protocol !== "https:" || parsed.username || parsed.password || reservedHost) {
+    return null;
+  }
+  return candidate;
 }
 
 const MANAGED_TIER = {
