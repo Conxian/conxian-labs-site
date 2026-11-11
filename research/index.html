@@ -184,6 +184,105 @@
             </div>
         </section>
 
+        <section class="section" id="managed-tier-enablement">
+            <h2>Managed Tier Enablement</h2>
+            <p class="section-intro">Managed tiers activate once checkout and provisioning are configured. Until then the tier shows as unavailable rather than accepting payment. This section documents the exact gate: what the site checks, why it fails closed, and what evidence must exist before a tier may take money.</p>
+            <div class="proposal-card">
+                <h3>The activation gate</h3>
+                <p>The managed tier is derived from the runtime configuration at request time, not from a static claim. Two settings must both be present and non-empty:</p>
+                <ul class="inline-list" style="margin-top: 1rem;">
+                    <li><strong>Checkout (<code>MERCHANT_CHECKOUT_URL</code>):</strong> a hosted Merchant-of-Record checkout target. Its absence means no payment path exists.</li>
+                    <li><strong>Provisioning (<code>MANAGED_GATEWAY_ENDPOINT</code>):</strong> the delivery endpoint that mints entitlement and issues keys after settlement. Its absence means a purchase could be taken without anything being delivered.</li>
+                </ul>
+                <p style="margin-top: 1rem;">Only when both are configured does <code>GET /api/pricing/managed</code> report <code>pricingStatus: "live"</code> and <code>availability: "available"</code>. Otherwise it reports <code>reference-only</code> / <code>unavailable</code>, and a subscription attempt returns <strong>HTTP 503 <code>subscription_unavailable</code></strong> with a null checkout URL and null x402 demand. The structured data mirrors this: the pricing page emits a schema.org <code>PreOrder</code> offer and no <code>BuyAction</code> until the tier is genuinely purchasable.</p>
+            </div>
+            <div class="proposal-card" style="margin-top: 1.5rem;">
+                <h3>Why it fails closed</h3>
+                <p>An environment checkout URL alone cannot qualify payment, entitlement verification, provisioning, or a managed service. Publishing a payment demand the operator cannot honour is a worse failure than showing nothing: it converts a research reference into an unmet promise. The gate therefore treats "not configured" as "not for sale" by default, and the qualification list reflects the difference — <code>payment</code> and <code>entitlement</code> always, plus <code>runtime-provisioning</code> while the delivery endpoint is unset.</p>
+            </div>
+            <div class="proposal-card" style="margin-top: 1.5rem;">
+                <h3>What activation requires</h3>
+                <p>All that is required to activate the tier is that <strong>checkout and provisioning are configured</strong>. The two settings above are the whole switch: set both and the tier moves from <code>reference-only</code> to <code>live</code>, checkout becomes available, and provisioning has somewhere to deliver.</p>
+                <p style="margin-top: 1rem;">Those settings should only be set once the evidence behind them exists — that is what makes the switch safe to flip, not what the switch checks:</p>
+                <ul class="inline-list" style="margin-top: 1rem;">
+                    <li><strong>Verified provider and payment contracts:</strong> a real Merchant-of-Record agreement, not a placeholder URL.</li>
+                    <li><strong>A nonzero resolved payment demand</strong> where one applies — the advertised price must be one the operator can actually charge.</li>
+                    <li><strong>Authenticated webhook and entitlement verification:</strong> payment events must be authenticated and mapped to a real entitlement, not trusted on the honour system.</li>
+                    <li><strong>Idempotent key lifecycle and provisioning:</strong> a settled payment must mint exactly one entitlement and one key, safely under retries.</li>
+                    <li><strong>Runtime and recovery evidence:</strong> the delivery path must be shown to work, and to recover, before it accepts money.</li>
+                </ul>
+                <p class="note">Until both settings are configured, the tier stays a design reference. Activation is therefore two configuration values away — checkout and provisioning — once the evidence above holds.</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Managed Tier End-to-End Model</h2>
+            <p class="section-intro">Activation is a chain, not a switch. Each link below is a real component in the ecosystem, and the chain is only as strong as its weakest configured link. This is the org-wide map from a buyer seeing a price to a tenant holding a working key.</p>
+            <div class="detail-grid">
+                <article class="detail-card">
+                    <h3>1. Discover &amp; quote</h3>
+                    <p>The site advertises a tier only when it is purchasable; the gateway exposes a quote endpoint that returns a price without creating anything. A quote is a statement of intent, not a reservation.</p>
+                </article>
+                <article class="detail-card">
+                    <h3>2. Checkout</h3>
+                    <p>A hosted Merchant-of-Record (MoR) checkout collects payment and owns tax and receipts. The site hands the buyer to it and reports <code>pending-checkout</code>; it never claims a completed purchase.</p>
+                </article>
+                <article class="detail-card">
+                    <h3>3. Settlement</h3>
+                    <p>Payment settles at the provider. For the crypto-native rail, a Lightning invoice is created and polled to a settled state; for the MoR rail, the provider sends a signed webhook.</p>
+                </article>
+                <article class="detail-card">
+                    <h3>4. Webhook &amp; verification</h3>
+                    <p>The gateway verifies the webhook's HMAC signature over the raw body with a constant-time compare, and rejects unknown event types. A webhook that fails verification is not an entitlement.</p>
+                </article>
+                <article class="detail-card">
+                    <h3>5. Entitlement</h3>
+                    <p>A verified, mapped event creates or updates a durable tenant record. The record names the tier, the endpoint, and the active key identifier — the receipt is the contract.</p>
+                </article>
+                <article class="detail-card">
+                    <h3>6. Key &amp; provisioning</h3>
+                    <p>A key is minted exactly once, stored as a hash (never the key itself), and handed to the same auth path that serves managed traffic. Provisioning is idempotent: a retry returns the existing receipt rather than a second tenant.</p>
+                </article>
+            </div>
+            <div class="proposal-card" style="margin-top: 2rem;">
+                <h3>Fail-closed is the through-line</h3>
+                <p>Every link refuses to advance on missing configuration or unverified input rather than guessing. The site will not advertise an unqualified offer; the webhook route does not mount without its provider, secret, and durable store; the onboarding lane does not mount without a database and a token; a webhook without a valid signature is rejected; and a subscription without settled payment never mints a key. The design chooses an honest "not available" over a plausible "yes" at every junction, because a false yes here means a buyer paid for something that does not exist.</p>
+            </div>
+            <div class="proposal-card" style="margin-top: 1.5rem;">
+                <h3>Component status</h3>
+                <p>Status reflects source presence, not runtime acceptance. A component can be implemented and still fail-closed in production until its configuration and evidence exist.</p>
+                <ul class="inline-list" style="margin-top: 1rem;">
+                    <li><strong>Site pricing gate</strong> — implemented. The tier is derived from configuration at request time; unconfigured means unavailable.</li>
+                    <li><strong>Merchant-of-Record webhook</strong> — implemented. Signature verification, event mapping, and durable key store are in source; the route mounts only when provider, secret, and database are all present.</li>
+                    <li><strong>Self-serve onboarding</strong> — implemented. An idempotent, multi-step provisioning lane (entitlement → endpoint → key → activation) with a receipt; mounts only when a durable store and token are present.</li>
+                    <li><strong>Lightning subscription billing</strong> — implemented, config-gated. Quote, subscribe, and verify exist; invoice creation requires a configured invoice backend and is fail-closed without it.</li>
+                    <li><strong>x402 pay-per-call</strong> — implemented on protected paths, config-gated. A live wallet backend must be wired before real settlement; until then the adapter reports unavailable rather than faking a payment.</li>
+                    <li><strong>Checkout target and product catalogue</strong> — provider-side. The hosted checkout URL and product/variant records are created in the provider dashboard; the site consumes the URL.</li>
+                </ul>
+                <p class="note">Reachability is not entitlement, and a mounted route is not a completed sale. This map describes the implemented chain and the configuration it waits on — not a claim that any tier is currently taking payment.</p>
+            </div>
+            <div class="proposal-card" style="margin-top: 1.5rem;">
+                <h3>Pricing &amp; metering model</h3>
+                <p>The managed tier is priced in satoshis on the Lightning-native rail, so no fiat conversion is required for the first-revenue lane. The ladder is a land-and-expand shape: a free entry, a low indie tier, a business tier, and a committed enterprise tier.</p>
+                <div class="pricing-table-scroll" style="margin-top: 1rem;">
+                    <table class="pricing-table">
+                        <caption>Subscription ladder (sats per month, gateway source of truth)</caption>
+                        <thead>
+                            <tr><th>Tier</th><th>Amount (sats/mo)</th><th>Approx.</th><th>Intent</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><th>Starter</th><td><code>0</code></td><td>free</td><td>adoption and evaluation</td></tr>
+                            <tr><th>Indie</th><td><code>37,700</code></td><td>~$29</td><td>indie agent developers</td></tr>
+                            <tr><th>Business</th><td><code>128,000</code></td><td>~$99</td><td>teams, volume rail</td></tr>
+                            <tr><th>Enterprise</th><td><code>1,000,000</code></td><td>committed use</td><td>predictable revenue, true-up</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p style="margin-top: 1rem;">Beyond the base, metered units are charged per operation. RWA verification and settlement are priced as value-based premiums rather than volume rail fees, because that is where the defensible margin sits; relay messages are the high-volume rail that volume tiers discount.</p>
+                <p class="note">These figures are the implemented ladder in the gateway billing engine, not an approved public rate card. Advertised prices must be ones the operator can actually charge, and the site publishes nothing until checkout and provisioning are configured.</p>
+            </div>
+        </section>
+
         <section class="section">
             <h2>Supply-Chain &amp; Dependency Security Posture</h2>
             <p class="section-intro">Sovereign infrastructure inherits the trust of everything it builds on. The ecosystem treats third-party dependencies as an attack surface with its own research and enforcement layer, applied across every active repository.</p>
