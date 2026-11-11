@@ -75,6 +75,7 @@ test("valid public HTTPS settings make the tier live", async () => {
 test("malformed, unsafe, and reserved URLs keep the tier unavailable", async () => {
   const invalidPairs = [
     ["javascript:alert(1)", "https://gateway.conxian.org/v1/managed"],
+    ["https://checkout.lemonsqueezy.com/buy/managed", "javascript:alert(1)"],
     ["http://checkout.example.com/managed", "https://gateway.conxian.org/v1/managed"],
     ["https://user:secret@checkout.example.com/managed", "https://gateway.conxian.org/v1/managed"],
     ["https://checkout.example.invalid/managed", "https://gateway.example.invalid/managed"],
