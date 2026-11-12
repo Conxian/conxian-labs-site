@@ -66,22 +66,16 @@ test("pricing page exposes Service + Offer JSON-LD generated from the catalogue"
   }
 });
 
-test("get-started and sdk pages carry the same Service + Offer JSON-LD as /pricing", async () => {
-  const api = await (await fetch(base + "/api/pricing/managed")).json();
+test("get-started and sdk do not advertise managed Service Offers before pricing acceptance", async () => {
   for (const route of ["/get-started", "/sdk"]) {
     const res = await fetch(base + route);
     assert.equal(res.status, 200, `${route} must be served`);
     const html = await res.text();
     const blocks = [...html.matchAll(/<script[^>]*application\/ld\+json[^>]*>([\s\S]*?)<\/script>/g)];
-    assert.ok(blocks.length >= 1, `${route} must embed JSON-LD`);
     const graph = blocks.map(b => JSON.parse(b[1])).flatMap(d => d["@graph"] || [d]);
-    const service = graph.find(n => n["@type"] === "Service");
-    assert.ok(service, `${route} must expose a Service node`);
-    const offer = service.offers;
-    assert.ok(offer && offer["@type"] === "Offer", `${route} Service must carry an Offer`);
-    // The structured data is generated from the live catalogue, so it matches
-    // /api/pricing/managed on every page that advertises the service.
-    assert.equal(offer.price, String(api.monthlyUsd));
-    assert.equal(offer.priceCurrency, "USD");
+    const managedOffer = graph.some(node =>
+      node["@type"] === "Service" && node.offers && node.offers["@type"] === "Offer"
+    );
+    assert.equal(managedOffer, false, `${route} must not publish managed price/availability claims`);
   }
 });
