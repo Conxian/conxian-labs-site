@@ -3,12 +3,21 @@
 ## Build & Test
 - **Install:** `npm install`
 - **Dev server:** `npm start` (Express on port 3000)
-- **Test:** `npx playwright test` (or `npm test`) — 45 Playwright cases
-- **Test (API/Node):** `npm run test:api` — 38 Node cases (onboarding, discovery, status truth, icon map, search index)
+- **Test:** `npx playwright test` (or `npm test`) — Playwright suite
+- **Test (API/Node):** `npm run test:api` — Node API suite (onboarding, discovery, status truth, icon map, search index)
 - **Test (single file):** `npx playwright test tests/nav-dropdown.spec.ts`
 - **Debug tests:** `npx playwright test --headed`
 - **Browser install:** `npx playwright install --with-deps chromium`
-- **Node:** v24 (matches `actions/setup-node` in CI and the Render runtime)
+- **Node:** v26 (matches `actions/setup-node`, `package.json` engines, and the Render runtime)
+
+## Promotion and release controls
+
+- Ordinary feature/fix/docs work targets `dev`; only `dev` promotes to `staged`; only `staged` promotes to `main`.
+- `.github/workflows/branch-promotion-policy.yml` evaluates pull requests to `dev`, `staged`, and `main` using the trusted default-branch policy with read-only permissions. It never checks out or executes PR-controlled code.
+- `scripts/branch_promotion_policy.py` validates the route, immutable promotion source/target/window, and the machine-checkable Mainnet Acceptance Evidence Pack. No bootstrap exception is configured for this repository.
+- `ci.yml` runs `python3 -m unittest scripts.tests.test_branch_promotion_policy`.
+- A staged-to-main candidate must have a completed evidence pack, exact-head required checks, genuine independent review, and the configured required status check. Do not infer acceptance from a green homepage or deployment signal.
+- **Owner/maintainer action:** add `Enforce branch promotion rules` to the `main` ruleset required checks. The current connector cannot edit repository rulesets; issue #233 remains open until read-back confirms this control.
 
 ## Deployment Environments
 
@@ -74,12 +83,13 @@ desktop menus.
 | `/404.html` | `404.html` | — |
 
 ## Known Issues
-- **`production` environment has no branch protection** — relies solely on `deploy.yml` `branches: [main]` filter
+- **Promotion enforcement gap:** `main` lacks the required `Enforce branch promotion rules` status check until the owner/maintainer adds it to the main ruleset (issue #233). The workflow alone is not sufficient.
 - **No automated CSS pipeline** — Tailwind build requires manual `npm run build:css` when classes change
 - **Custom domain ownership split** — `www.conxian-labs.com` (proxied CNAME) and the apex (proxied CNAME, redirects to `www`) both resolve to `conxian-labs-site.onrender.com`; `control.conxian-labs.com` is now a Cloudflare 301 redirect to `bos.conxian-labs.com` (Vercel removed 2026-11-03).
 
 ## CI/CD
-- `.github/workflows/ci.yml` — build-and-test + security-scan (gitleaks) on push/PR to main
+- `.github/workflows/ci.yml` — build-and-test + security-scan (gitleaks) on push/PR to main, staged, and dev; also runs the branch-promotion policy unit tests.
+- `.github/workflows/branch-promotion-policy.yml` — read-only, trusted-default-branch promotion enforcement for PRs targeting main/staged/dev.
 - `.github/workflows/deploy.yml` — deployment signal on push to main (`environment: production`)
 - `.github/workflows/dependency-review.yml` — on PR when lockfiles change
 - **Render**: auto-deploy from `main` → `conxian-labs-site` (Node.js web service, `environment: production`)
