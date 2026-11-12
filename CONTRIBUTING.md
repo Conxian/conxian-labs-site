@@ -22,3 +22,12 @@ This repository contains the dynamic Node.js/Express web service and public poli
 2. Link your pull request to the relevant GitHub issue.
 3. Request review from the appropriate owners (see `CODEOWNERS`).
 4. Ensure the change does not introduce secrets, private keys, or privileged operational details.
+
+
+## Promotion and release controls
+
+- Feature, fix, documentation, and maintenance PRs target `dev`.
+- Only `dev` may promote to `staged`; only `staged` may promote to `main`. Do not retarget or update immutable promotion branches.
+- The Branch Promotion Policy check runs from the trusted default branch on PRs to `dev`, `staged`, and `main`. It validates branch route and exact promotion metadata; staged-to-main requires a complete Mainnet Acceptance Evidence Pack.
+- Before any staged-to-main merge, confirm the required `Enforce branch promotion rules` status check is configured in the `main` ruleset, exact-head required checks are green, and a genuine independent review is recorded.
+- A deployment signal, HTTP 200, draft conversion, or green build does not constitute production acceptance. Record the exact source, artifact, deployment, health, runtime journey, and independent acceptance evidence.
