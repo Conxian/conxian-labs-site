@@ -88,6 +88,18 @@ if (PRICING_PAGE_TEMPLATE !== null) {
   });
 }
 
+// Product/journey pages carry the same Service + Offer JSON-LD as /pricing,
+// derived from the live catalogue so it cannot drift. Registered before the
+// generic static loop so it wins; each template is read once at startup.
+for (const route of ["get-started", "sdk"]) {
+  const indexPath = path.join(__dirname, route, "index.html");
+  if (!fs.existsSync(indexPath)) continue;
+  const template = fs.readFileSync(indexPath, "utf8");
+  app.get(`/${route}`, (req, res) => {
+    res.type("html").send(withPricingJsonLd(template));
+  });
+}
+
 for (const p of pageMetadata) {
   const indexPath = path.join(__dirname, p.route, "index.html");
   if (fs.existsSync(indexPath)) {
