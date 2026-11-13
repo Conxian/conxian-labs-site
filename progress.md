@@ -1,5 +1,24 @@
 # Conxian Labs Site Remediation & Ecosystem Alignment Progress
 
+## Context alignment and rules reconciliation (2026-11-13)
+- **Full-context audit**: verified branch chain (`main` d059d19 ⊂ `staged` cf015ff ⊂ `dev` 705b8c2),
+  the active `main` ruleset (`23017156`), the three open issues (#115, #135, #138), and live
+  production discovery files.
+- **Documentation drift corrected**: AGENTS.md still described a "promotion enforcement gap" and an
+  open issue #233, both stale. Issue #233 is **closed** and the `main` ruleset **does** require
+  `Enforce branch promotion rules`. Replaced the stale entries with the verified state and the real
+  blocker (below).
+- **Real blocker recorded**: the organization is **account-locked for Actions billing** — every job
+  org-wide runs 0 steps and fails in 2–3s with *"account is locked due to a billing issue"*. Root
+  cause: **no payment method on file** for the org. This is an owner-only fix and it gates every
+  required check, so `staged→main` cannot produce genuine CI evidence until it is resolved.
+- **Live state verified**: `/llms.txt`, `/.well-known/security.txt`, `/robots.txt`, `/sitemap.xml`,
+  `/api/health` all return 200 from `www.conxian-labs.com`; the homepage carries JSON-LD and
+  `/pricing` emits a `Service` + `Offer` generated from `/api/pricing/managed`. So the substance of
+  issue #135's requested outcome is already live.
+- **Baseline**: `npm run test:api` 54/54 green; `npx playwright test` 45/45 green (Node 24 sandbox;
+  `npm install --engine-strict=false` because `engines` pins Node 26 and `.npmrc` sets `engine-strict`).
+
 ## Research expansion + dead-CSS remediation (2026-11-10, session 2)
 - **Research page expanded** (`research/index.html`) with four evidence-bounded
   sections: Research Integrity & Evidence Tiers (Proposed / Implemented /
