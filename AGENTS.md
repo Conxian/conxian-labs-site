@@ -17,7 +17,7 @@
 - `scripts/branch_promotion_policy.py` validates the route, immutable promotion source/target/window, and the machine-checkable Mainnet Acceptance Evidence Pack. No bootstrap exception is configured for this repository.
 - `ci.yml` runs `python3 -m unittest scripts.tests.test_branch_promotion_policy`.
 - A staged-to-main candidate must have a completed evidence pack, exact-head required checks, genuine independent review, and the configured required status check. Do not infer acceptance from a green homepage or deployment signal.
-- **Owner/maintainer action:** add `Enforce branch promotion rules` to the `main` ruleset required checks. The current connector cannot edit repository rulesets; issue #233 remains open until read-back confirms this control.
+- **Promotion gate is enforced (verified by read-back):** the `main` ruleset (`23017156`, active) requires `Enforce branch promotion rules` alongside the scan/build contexts. Issue #233 is closed. The policy is fail-closed — no bootstrap exception is configured.
 
 ## Deployment Environments
 
@@ -83,7 +83,8 @@ desktop menus.
 | `/404.html` | `404.html` | — |
 
 ## Known Issues
-- **Promotion enforcement gap:** `main` lacks the required `Enforce branch promotion rules` status check until the owner/maintainer adds it to the main ruleset (issue #233). The workflow alone is not sufficient.
+- **CI is org-locked (account billing):** every Actions job across the org is created but runs **0 steps** and fails in 2–3s with *"The job was not started because your account is locked due to a billing issue."* Root cause: the organization has **no payment method on file** (`GET /orgs/Conxian/settings/billing/payment-method` → Not Found); net usage is well under budget, so this is a lock, not a spend cap. Making a repo public does **not** clear it (tested). **Owner action:** add a valid payment method (Organization → Billing & plans → Payment information). Until then no required check can go green and `staged→main` cannot produce genuine CI evidence.
+- **Promotion gate is enforced:** `main` requires `Enforce branch promotion rules` (ruleset `23017156`); issue #233 is closed. The gate is fail-closed from first install — the CI lock above, not a missing gate, is what blocks a genuine `staged→main` acceptance.
 - **No automated CSS pipeline** — Tailwind build requires manual `npm run build:css` when classes change
 - **Custom domain ownership split** — `www.conxian-labs.com` (proxied CNAME) and the apex (proxied CNAME, redirects to `www`) both resolve to `conxian-labs-site.onrender.com`; `control.conxian-labs.com` is now a Cloudflare 301 redirect to `bos.conxian-labs.com` (Vercel removed 2026-11-03).
 
