@@ -139,7 +139,7 @@ test("a billing base alone is a complete offer, endpoint defaulting to the base"
 });
 test("a fully configured deployment relays a Lightning invoice without claiming entitlement", async () => {
   process.env.MANAGED_BILLING_BASE_URL = "https://gateway.conxian.org";
-  process.env.MANAGED_GATEWAY_ENDPOINT = "https://api.conxian-labs.com/v1/agent";
+  process.env.MANAGED_GATEWAY_ENDPOINT = "https://api.conxian-labs.com/api/v1/agent";
   const pricing = await (await fetch(`${base}/api/pricing/managed`)).json();
   assert.equal(pricing.productionSupported, true);
   assert.equal(pricing.availability, "available");

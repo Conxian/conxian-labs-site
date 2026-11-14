@@ -307,3 +307,11 @@ test("the env template documents both managed-tier settings", () => {
   assert.ok(env.includes("MANAGED_BILLING_BASE_URL"), ".env.example must document MANAGED_BILLING_BASE_URL");
   assert.ok(env.includes("MANAGED_GATEWAY_ENDPOINT"), ".env.example must document MANAGED_GATEWAY_ENDPOINT");
 });
+
+test("the pricing page advertises the resolvable managed endpoint path", () => {
+  // The gateway nests its managed surface under /api/v1, so the customer-facing
+  // path is /api/v1/agent. A bare /v1/agent is a 404 — never publish it.
+  const html = fs.readFileSync(path.join(root, "pricing", "index.html"), "utf8");
+  assert.ok(html.includes("https://api.conxian-labs.com/api/v1/agent"), "pricing must show the resolvable /api/v1/agent path");
+  assert.ok(!/api\.conxian-labs\.com\/v1\/agent/.test(html), "pricing must not advertise the 404 /v1/agent path");
+});
