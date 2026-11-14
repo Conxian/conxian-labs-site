@@ -216,6 +216,22 @@
                     <li><strong>Authenticated surface:</strong> <code>/api/v1/agent/*</code> and the private operator routes return <strong>HTTP 401</strong> without a managed key — the managed surface is gated, not public.</li>
                 </ul>
                 <p class="note">A bare <code>GET https://api.conxian-labs.com/</code> returns 404 by design: this is an API host, not a web surface. The resolvable discovery path is <code>GET /api/v1/health</code>.</p>
+                <p style="margin-top: 1rem;">The gateway's live monthly rate card (read 2026-11-14; <code>plan_by_id</code> in <code>internal/api/src/billing.rs</code> is the single surface, per ADR-009). This is a recorded observation of the deployed gateway, not a published offer: the site advertises a tier only when its rail is configured.</p>
+                <div class="pricing-table-scroll">
+                    <table class="pricing-table" aria-describedby="gateway-rate-card-caption">
+                        <caption id="gateway-rate-card-caption">Gateway Lightning rate card — observed 2026-11-14</caption>
+                        <thead>
+                            <tr><th scope="col">Plan</th><th scope="col">Price (sats/month)</th><th scope="col">Note</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>starter</td><td>0</td><td>Free / sandbox tier</td></tr>
+                            <tr><td>indie</td><td>37,700</td><td>Entry paid tier</td></tr>
+                            <tr><td>business</td><td>128,000</td><td>Managed production tier</td></tr>
+                            <tr><td>enterprise</td><td>1,000,000</td><td>Scoped / contract</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="note"><code>pro</code> is accepted as a legacy alias for <code>business</code>; it is not a separate price.</p>
             </div>
             <div class="proposal-card" style="margin-top: 1.5rem;">
                 <h3>Why it fails closed</h3>
