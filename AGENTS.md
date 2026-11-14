@@ -113,12 +113,12 @@ desktop menus.
 | **Render** | `conxian-labs-site` (srv-<redacted>) — Node.js web, free, Oregon | ✅ Deployed (v1.1.0) |
 | **Supabase** | `Conxian BOS` (supabase-ref-redacted) — PG 17.6, eu-central-1 | ✅ ACTIVE_HEALTHY |
 | **Supabase** | `Conxian-platform` (supabase-ref-redacted) — PG 17.6, eu-central-1 | ✅ ACTIVE_HEALTHY |
-| **NEON** | `Gateway` (noisy-cloud-41146057) — PG 18, aws-ap-southeast-1 | ✅ Active |
-| **NEON** | `Conxian Nexus` (orange-paper-76209725) — PG 17, aws-eu-central-1 | ✅ Active |
+| **NEON** | `Gateway` (neon-ref-redacted) — PG 18, aws-ap-southeast-1 | ✅ Active |
+| **NEON** | `Conxian Nexus` (neon-ref-redacted) — PG 17, aws-eu-central-1 | ✅ Active |
 
 - **Render custom domain**: `www.conxian-labs.com` resolves to `conxian-labs-site.onrender.com` (proxied CNAME); the apex `conxian-labs.com` is a proxied CNAME to the same origin and redirects to `www`. `control.conxian-labs.com` is a Cloudflare 301 redirect to `bos.conxian-labs.com` (Vercel removed 2026-11-03).
-- **NEON org**: `org-silent-sun-00457600` (personal API key)
-- **Supabase org**: `dmhmarjqzgodyovlhamv` (PAT `sbp_...`)
+- **NEON org**: `neon-org-ref-redacted` (personal API key) — inventory retained privately in `.github-private/restricted/2026-11-14/`
+- **Supabase org**: `supabase-org-ref-redacted` (PAT `sbp_...`)
 
 ---
 *CONXIAN-LABS // 2026 // SOVEREIGN AUTONOMOUS BUSINESS (SAB)*
