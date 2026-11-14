@@ -1,13 +1,13 @@
 # Conxian Labs
 
-> Conxian Labs provides Bitcoin-native infrastructure you can provision: a managed gateway, an enclave SDK, a non-custodial wallet, and verification nodes, with transparent pricing and a live status surface.
+> Conxian Labs builds Bitcoin-native infrastructure: an open-source enclave SDK, a non-custodial wallet, a gateway, and verification nodes, with a live status surface and packaging guidance for optional managed services.
 
 ## Core pages
 
 - [Home](https://www.conxian-labs.com/): Product overview and entry point.
-- [Get Started](https://www.conxian-labs.com/get-started): Self-serve customer journey from sign-up to a running service.
-- [Console](https://www.conxian-labs.com/console): Provision, manage, and cancel Conxian services.
-- [Pricing](https://www.conxian-labs.com/pricing): Commercial packaging and plan matrix.
+- [Get Started](https://www.conxian-labs.com/get-started): Gated access request and onboarding journey.
+- [Console](https://www.conxian-labs.com/console): Manage Conxian services (accounts are team-provisioned while self-serve sign-up is being completed).
+- [Pricing](https://www.conxian-labs.com/pricing): Commercial packaging and plan matrix (packaging guidance, not a live rate card).
 - [Status](https://www.conxian-labs.com/status): Live reachability of the public Conxian service surfaces.
 - [Security](https://www.conxian-labs.com/security): Security posture and vulnerability disclosure.
 

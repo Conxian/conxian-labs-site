@@ -59,10 +59,10 @@ read-back are required before any cutover.
 
 ## Relationship to the Conxian stack
 
-- [`conxian-market`](https://github.com/Conxian/conxian_market) is the active market, liquidity, and asset execution engine.
+- [`conxian_market`](https://github.com/Conxian/conxian_market) is the settlement and fee-model SDK under active development (liquidity routing, order matching, and asset settlement are not yet live).
 - [`conxian-gateway`](https://github.com/Conxian/conxian-gateway) is the middleware and integration surface.
 - [`conxian-nexus`](https://github.com/Conxian/conxian-nexus) is the synchronization and proof layer.
-- [`conxius-wallet`](https://github.com/Conxian/conxius-wallet) is the sovereign wallet and reference client.
+- [`conxius-wallet`](https://github.com/Conxian/conxius-wallet) is the non-custodial reference client.
 - [`conxius-platform`](https://github.com/Conxian/conxius-platform) is the platform and environment scaffolding layer.
 - [`conxius-enclave-sdk`](https://github.com/Conxian/conxius-enclave-sdk) and [`lib-conxian-core`](https://github.com/Conxian/lib-conxian-core) provide shared primitives and reusable libraries.
 
@@ -111,10 +111,10 @@ Conxian operates as an integrated **Business-as-a-Platform (BaaP)** ecosystem po
 - **`conxian-labs.com`**: Builder, Operator, Enterprise Solutions, & B2B Infrastructure Support Surface.
 
 ### 6 Core Platform Service Pillars
-1. **Business Operating System (BOS)**: Sovereign Autonomous Business (SAB) execution engine, state orchestration, and enterprise workflow governance.
-2. **Conxian Nexus**: Decentralized proof & price oracle, real-time verification, compliance monitoring, and cross-chain state proof layer.
+1. **Business Operating System (BOS)**: Sovereign Autonomous Business (SAB) operating model, state orchestration, and enterprise workflow governance (access-gated control plane).
+2. **Conxian Nexus**: Proof and price-oracle surface with state-observation and verification interfaces; SP1/RISC Zero remain research directions.
 3. **Gateway (Fusion & Sentinel)**: High-throughput API middleware, unified JWT/Enclave authentication (`Fusion`), and secret filtering (`Sentinel`).
-4. **Conxian Market**: Nakamoto-ready settlement engine, sovereign asset exchange, and liquidity management.
+4. **Conxian Market**: Settlement and fee-model SDK under active development; liquidity routing, order matching, and asset settlement are not yet live.
 5. **Conxius Enclave SDK**: Cross-platform enclave key management and hardware attestation interface (MuSig2, Schnorr, Taproot, BitVM, Android TEE, Apple Secure Enclave, WASM).
 6. **Corelibs**: Shared cryptographic primitives, security specifications, and core protocol libraries (`lib-conxian-core`).
 

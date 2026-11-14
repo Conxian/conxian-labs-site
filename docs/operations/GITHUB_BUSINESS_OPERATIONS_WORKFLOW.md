@@ -1,12 +1,12 @@
 # GitHub business operations workflow — conxian-labs-site
 
 **Adopted:** 2026-11-12 · **Authority:** owner decision (Business #1695) ·
-**Parent:** [conxian-business#1695](https://github.com/Conxian/conxian-business/issues/1695) ·
-**Issue:** [conxian-labs-site#115](https://github.com/Conxian/conxian-labs-site/issues/115)
+**Parent:** Business #1695 ·
+**Issue:** conxian-labs-site#115
 
 This repository adopts the organization-wide GitHub business-operations workflow.
-The canonical, full definition is
-[`conxian-business/docs/operations/GITHUB_BUSINESS_OPERATIONS_WORKFLOW.md`](https://github.com/Conxian/conxian-business/blob/main/docs/operations/GITHUB_BUSINESS_OPERATIONS_WORKFLOW.md).
+The canonical, full definition lives in the access-gated business repository
+(`conxian-business/docs/operations/GITHUB_BUSINESS_OPERATIONS_WORKFLOW.md`).
 This file records only how the workflow applies **in this repository**; it does not
 restate or override the canonical contract.
 
