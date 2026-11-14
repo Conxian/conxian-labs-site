@@ -20,8 +20,12 @@ from typing import Any
 
 
 SHA_RE = re.compile(r"^[0-9a-f]{40}$")
+# `agent/` and `openhands/` are sanctioned ordinary-work prefixes so that
+# agent-generated work (docs, KB refreshes, fixes) has a valid route into `dev`.
+# They carry no privilege: a PR on one of these branches still needs the same
+# Feature -> dev checklist and the same independent review as any other branch.
 ORDINARY_DEV_HEAD_RE = re.compile(
-    r"^(?:feat(?:ure)?|fix|docs|chore|hotfix|dependabot|infra|ops|ci|security|proof)/[A-Za-z0-9._/-]+$"
+    r"^(?:feat(?:ure)?|fix|docs|chore|hotfix|dependabot|infra|ops|ci|security|proof|agent|openhands)/[A-Za-z0-9._/-]+$"
 )
 GENERATED_DEV_RE = re.compile(r"^promotion/dev-to-staged-([0-9a-f]{40})$")
 GENERATED_STAGED_RE = re.compile(r"^promotion/staged-to-main-([0-9a-f]{40})$")
@@ -218,7 +222,8 @@ def validate_pull_request(
         elif not ORDINARY_DEV_HEAD_RE.fullmatch(ctx.head_ref):
             errors.append(
                 "PRs into 'dev' must use feat/, feature/, fix/, docs/, chore/, "
-                "hotfix/, dependabot/, infra/, ops/, ci/, or security/ branch names."
+                "hotfix/, dependabot/, infra/, ops/, ci/, security/, agent/, or "
+                "openhands/ branch names."
             )
         if not (
             FEATURE_CHECKLIST_RE.search(body)
