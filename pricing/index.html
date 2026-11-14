@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <script src="../logger.js"></script>
+    <script src="../qrcode.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Conxian Labs pricing and packaging guidance for the open-source Conxius Enclave SDK, Gateway pilots, non-custodial Wallet integrations, and scoped enterprise engagements.">
@@ -84,7 +85,7 @@
                 </div>
                 <div class="cx-tier">
                     <span class="cx-tier-name">Business</span>
-                    <span class="cx-tier-price">$2,500<span>/mo</span></span>
+                    <span class="cx-tier-price">Scoped</span>
                     <ul>
                         <li>Dedicated managed gateway</li>
                         <li>ISO 20022 normalizer</li>
@@ -664,7 +665,18 @@
                 const bolt11 = invoiceBox.querySelector('[data-invoice-bolt11]');
                 const meta = invoiceBox.querySelector('[data-invoice-meta]');
                 if (qr) {
-                    qr.src = 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=' + encodeURIComponent(body.paymentRequest);
+                    // Render the BOLT11 invoice locally as a data: URI so the
+                    // payment request never leaves the browser (no third-party
+                    // QR service) and the CSP stays img-src 'self' data:.
+                    try {
+                        const code = qrcode(0, 'M');
+                        code.addData(body.paymentRequest);
+                        code.make();
+                        qr.src = code.createDataURL(4, 8);
+                    } catch (err) {
+                        qr.removeAttribute('src');
+                        Logger.warn('PRICING', 'invoice QR render failed', { error: String(err) });
+                    }
                 }
                 if (bolt11) bolt11.value = body.paymentRequest;
                 if (meta) {

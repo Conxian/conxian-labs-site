@@ -25,7 +25,7 @@
     { title: 'Security — Conxian Labs', desc: 'Security architecture, coordinated vulnerability disclosure, and the audit-readiness posture (external review not yet complete).', url: 'security/index.html', keywords: 'security audit audit-readiness disclosure vulnerability HSM non-custodial supply chain provenance sbom rfp responsible disclosure' },
     { title: 'Status — Conxian Labs', desc: 'Live reachability of the probed Conxian service runtimes — BOS, Gateway, and Nexus — with libraries catalogued separately. Probed in real time.', url: 'status/index.html', keywords: 'status uptime health reachability operational outage gateway nexus bos live probe runtime' },
     { title: 'Get Started — Conxian Labs', desc: 'The gated customer journey: request access, choose a plan, provision a managed gateway, and go live. Console accounts are provisioned by the team while self-serve sign-up is being completed.', url: 'get-started/index.html', keywords: 'get started request access signup sign up onboarding journey provision account plan managed gateway console free trial' },
-    { title: 'Console — Conxian Labs', desc: 'Provision, manage, and cancel Conxian services. Keys, usage, and billing in one place.', url: 'console/index.html', keywords: 'console dashboard provision create cancel billing keys usage api keys manage services' }
+    { title: 'Console — Conxian Labs', desc: 'Manage Conxian services: keys, usage, and billing in one place. Accounts are team-provisioned while self-serve sign-up is being completed.', url: 'console/index.html', keywords: 'console dashboard provision create cancel billing keys usage api keys manage services' }
   ];
 
   function normalize(s) { return s.toLowerCase().replace(/[^a-z0-9\s-]/g, ''); }

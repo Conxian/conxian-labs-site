@@ -33,7 +33,9 @@ Report vulnerabilities privately using the following channels:
 1. **GitHub Private Vulnerability Reporting:** Navigate to the "Security" tab and select "Report a vulnerability".
 2. **Encrypted Communication:** Email security@conxian-labs.com. We recommend using PGP for sensitive reports (key available upon request).
 
-### Response SLA
+### Response Targets
+These are best-effort targets for the coordinated disclosure process, not
+contractual service levels:
 - **Acknowledgement:** Within 48 hours.
 - **Initial Triage:** Within 5 business days.
 - **Remediation Plan:** Communicated within 10 business days for critical issues.
