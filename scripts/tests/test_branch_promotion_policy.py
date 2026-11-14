@@ -143,9 +143,23 @@ class BranchPromotionPolicyTests(unittest.TestCase):
             "ops/governance",
             "ci/governance",
             "security/governance",
+            "proof/governance",
+            "agent/docs-kb-refresh",
+            "openhands/discovery-report",
         ):
             with self.subTest(head=head):
                 self.assertAccepted(context(head, "dev", FEATURE_BODY))
+
+    def test_agent_prefix_still_requires_the_feature_checklist(self) -> None:
+        # The agent/ and openhands/ prefixes are ordinary-work routes, not an
+        # exemption: a body without the Feature -> dev checklist is rejected.
+        self.assertRejected(context("agent/docs-kb-refresh", "dev", ""))
+
+    def test_agent_prefix_cannot_target_staged_or_main(self) -> None:
+        for base, body in (("staged", STAGED_BODY), ("main", MAIN_BODY)):
+            with self.subTest(base=base):
+                self.assertRejected(context("agent/docs-kb-refresh", base, body))
+                self.assertRejected(context("openhands/discovery-report", base, body))
 
     def test_fork_ordinary_pr_routes_to_dev(self) -> None:
         self.assertAccepted(context("docs/governance", "dev", FEATURE_BODY, head_repo="fork/repo"))
