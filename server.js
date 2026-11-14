@@ -869,7 +869,7 @@ app.post("/api/onboarding/request-access", onboardingLimiter, async (req, res) =
       received: false,
       code: "intake_not_configured",
       fallbackUrl: ACCESS_REQUEST_FALLBACK,
-      next: "Email the team; online intake is not configured on this deployment",
+      next: "Email the team; online requests are not enabled yet",
     });
   }
 
@@ -894,7 +894,7 @@ app.post("/api/onboarding/request-access", onboardingLimiter, async (req, res) =
         received: false,
         code: "intake_failed",
         fallbackUrl: ACCESS_REQUEST_FALLBACK,
-        next: "Email the team; the intake system did not accept the request",
+        next: "Email the team; your request could not be recorded online",
       });
     }
     return res.status(200).json({
@@ -906,7 +906,7 @@ app.post("/api/onboarding/request-access", onboardingLimiter, async (req, res) =
       received: false,
       code: "intake_failed",
       fallbackUrl: ACCESS_REQUEST_FALLBACK,
-      next: "Email the team; the intake system could not be reached",
+      next: "Email the team; the request service could not be reached",
     });
   }
 });

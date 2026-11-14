@@ -336,12 +336,12 @@
               return;
             }
             if (res.body && res.body.fallbackUrl) {
-              status.textContent = "Online intake is not configured yet. ";
+              status.textContent = "We could not record your request online yet. ";
               var a = document.createElement("a");
               a.href = res.body.fallbackUrl;
               a.textContent = "Email the team";
               status.appendChild(a);
-              status.appendChild(document.createTextNode(" instead."));
+              status.appendChild(document.createTextNode(" and we will follow up."));
               return;
             }
             status.textContent = "We could not submit that. Please try again or email labs@conxian-labs.com.";
