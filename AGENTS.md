@@ -4,7 +4,7 @@
 - **Install:** `npm install`
 - **Dev server:** `npm start` (Express on port 3000)
 - **Test:** `npx playwright test` (or `npm test`) — Playwright suite
-- **Test (API/Node):** `npm run test:api` — Node API suite (onboarding, discovery, status truth, icon map, search index)
+- **Test (API/Node):** `npm run test:api` — Node API suite (onboarding, discovery, status truth, icon map, search index, page CSS hygiene, managed-tier gate, rate limit, site facts)
 - **Test (single file):** `npx playwright test tests/nav-dropdown.spec.ts`
 - **Debug tests:** `npx playwright test --headed`
 - **Browser install:** `npx playwright install --with-deps chromium`
@@ -17,7 +17,7 @@
 - `scripts/branch_promotion_policy.py` validates the route, immutable promotion source/target/window, and the machine-checkable Mainnet Acceptance Evidence Pack. No bootstrap exception is configured for this repository.
 - `ci.yml` runs `python3 -m unittest scripts.tests.test_branch_promotion_policy`.
 - A staged-to-main candidate must have a completed evidence pack, exact-head required checks, genuine independent review, and the configured required status check. Do not infer acceptance from a green homepage or deployment signal.
-- **Owner/maintainer action:** add `Enforce branch promotion rules` to the `main` ruleset required checks. The current connector cannot edit repository rulesets; issue #233 remains open until read-back confirms this control.
+- **Promotion gate is enforced (verified by read-back):** the `main` ruleset (`23017156`, active) requires `Enforce branch promotion rules` alongside the scan/build contexts. Issue #233 is closed. The policy is fail-closed — no bootstrap exception is configured.
 
 ## Deployment Environments
 
@@ -82,8 +82,18 @@ desktop menus.
 | `/console` | `console/index.html` | ✅ (direct link) |
 | `/404.html` | `404.html` | — |
 
+## Ecosystem Facts (verified against the org, do not drift)
+
+- **Public org repos (10, non-archived):** `lib-conxian-core`, `conxian-nexus`, `conxian-gateway`, `conxian_market` (**underscore**, not a hyphen), `conxius-wallet`, `conxius-platform`, `conxius-enclave-sdk`, `conxian-labs-site`, `conxian-business`, `.github`.
+- **Do not link `conxian-market`, `conxian_ui`, `conxius-docs`, or `conxian-infrastructure`** — those paths 404. `conxian_ui` / `conxius-docs` / `conxian-infrastructure` are retired or renamed.
+- **Licenses (repo `LICENSE` is authoritative):** nexus **AGPL-3.0**; core, gateway, wallet, enclave-sdk, platform, market = MIT. The stack is **not** uniformly MIT. `tests/site-facts.test.cjs` pins the Nexus license so it cannot silently revert to the retired BUSL-1.1 label.
+- **Product name:** the canonical label is **Conxius Enclave SDK**; "Conclave SDK" is retired and must not appear as a public label.
+- **Status probes are runtime-scoped:** only **BOS, Gateway, Nexus** are commissioned runtimes in `/api/status`. Market/SDK/Corelibs/Platform are catalogued libraries, not probed services — do not claim they are probed.
+- **Managed checkout rail:** ADR-009 makes the gateway the single monetization surface; the sanctioned rail is Lightning subscription, **not** a card Merchant of Record. The gate is `MANAGED_BILLING_BASE_URL` (absence ⇒ managed tier unavailable). `MERCHANT_CHECKOUT_URL` is retired.
+
 ## Known Issues
-- **Promotion enforcement gap:** `main` lacks the required `Enforce branch promotion rules` status check until the owner/maintainer adds it to the main ruleset (issue #233). The workflow alone is not sufficient.
+- **CI is org-locked (account billing):** every Actions job across the org is created but runs **0 steps** and fails in 2–3s with *"The job was not started because your account is locked due to a billing issue."* The lock is **billing arrears**: a card is on file, but the account is blocked until the outstanding balance is settled (owner-stated). Net usage is well under budget, so this is a lock, not a spend cap. Making a repo public does **not** clear it (tested). **Owner action:** settle the outstanding balance (Organization → Billing & plans). Until then no required check can go green and `staged→main` cannot produce genuine CI evidence.
+- **Promotion gate is enforced:** `main` requires `Enforce branch promotion rules` (ruleset `23017156`); issue #233 is closed. The gate is fail-closed from first install — the CI lock above, not a missing gate, is what blocks a genuine `staged→main` acceptance.
 - **No automated CSS pipeline** — Tailwind build requires manual `npm run build:css` when classes change
 - **Custom domain ownership split** — `www.conxian-labs.com` (proxied CNAME) and the apex (proxied CNAME, redirects to `www`) both resolve to `conxian-labs-site.onrender.com`; `control.conxian-labs.com` is now a Cloudflare 301 redirect to `bos.conxian-labs.com` (Vercel removed 2026-11-03).
 

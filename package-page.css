@@ -788,6 +788,17 @@ a, p, code, li, span, h1, h2, h3, h4 {
     margin-bottom: 0;
 }
 .managed-invoice input { width: 100%; font-size: 0.66rem; }
+.managed-key {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 0.7rem;
+    border: 1px solid var(--accent);
+    border-radius: var(--radius);
+    background: var(--surface-low, #F6F3F2);
+}
+.managed-key input { font-weight: 600; color: var(--text-main); }
 .managed-purchase-status {
     margin-top: 0.6rem;
     font-size: 0.7rem;
