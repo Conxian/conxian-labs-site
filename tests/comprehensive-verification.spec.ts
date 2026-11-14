@@ -95,9 +95,9 @@ test.describe('Conxian Labs Comprehensive Site Verification', () => {
         await expect(page.locator('main a[href*="bos.conxian-labs.com"]')).toHaveCount(0);
     });
 
-    test('docs page should state conxian-market and active ecosystem components', async ({ page }) => {
+    test('docs page should state conxian_market and active ecosystem components', async ({ page }) => {
         await page.goto(`${BASE_URL}/docs/index.html`);
-        await expect(page.locator('main')).toContainText('conxian-market');
+        await expect(page.locator('main')).toContainText('conxian_market');
         await expect(page.locator('main')).toContainText('lib-conxian-core');
     });
 

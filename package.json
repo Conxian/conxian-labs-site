@@ -7,7 +7,7 @@
     "start": "node server.js",
     "test": "playwright test",
     "build:css": "tailwindcss -i css/tailwind.src.css -o css/tailwind.css --minify",
-    "test:api": "node --test tests/managed-onboarding.test.cjs tests/discovery.test.cjs tests/status-truth.test.cjs tests/icon-map.test.cjs tests/search-index.test.cjs tests/page-css-hygiene.test.cjs tests/managed-tier-gate.test.cjs tests/rate-limit.test.cjs"
+    "test:api": "node --test tests/managed-onboarding.test.cjs tests/discovery.test.cjs tests/status-truth.test.cjs tests/icon-map.test.cjs tests/search-index.test.cjs tests/page-css-hygiene.test.cjs tests/managed-tier-gate.test.cjs tests/rate-limit.test.cjs tests/site-facts.test.cjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.65.0",

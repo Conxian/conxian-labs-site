@@ -1,5 +1,37 @@
 # Conxian Labs Site Remediation & Ecosystem Alignment Progress
 
+## Org-wide audit and evidence alignment (2026-11-14)
+- **Method**: re-verified every public claim on the site against the org reality (GitHub API repo
+  list + `LICENSE` files + canonical naming standard in `conxian-business`), then fixed what was
+  provably wrong. Kept changes evidence-grounded per the `conxian-evidence-claims` skill.
+- **Broken repo links fixed**: `conxian-market` (404) → `conxian_market` across README, docs,
+  commercial, research, search index, and two test files. Removed the dead `conxian_ui` README link.
+  `conxius-docs` / `conxian-infrastructure` are not referenced by any live file (only historical
+  `progress.md` prose).
+- **Wrong license fixed**: Nexus is **AGPL-3.0**, not BUSL-1.1. Corrected in about, docs, research,
+  README. The stack is **not** uniformly MIT; each repo `LICENSE` is authoritative.
+- **Retired name fixed**: "Conclave SDK" → "Conxius Enclave SDK" in about and terms; the duplicate
+  about portfolio card ("Enclave SDK" vs "Conclave SDK") was deduped into one canonical entry.
+- **Status truth**: the status search entry and meta description claimed 7 probed surfaces; only
+  **BOS, Gateway, Nexus** are commissioned runtimes. Corrected both.
+- **Evidence bounds**: softened unsupported absolute claims (reproducible builds, vendored/audited
+  third-party code, SBOM-on-every-release, 24h remediation SLA, a public bug-bounty program, "every
+  component runs under user control") to state the current posture and the engagement-term boundary.
+- **Pricing honesty**: the homepage teaser and the pricing "Plans" section showed invented amounts
+  ($200/$2,500) with a "Most popular" badge and hard SLA claims, contradicting the page's own "not a
+  live rate card" stance. Reframed as packaging guidance / design references with SLA marked as an
+  engagement term. Managed tiers remain gated on `MANAGED_BILLING_BASE_URL`.
+- **Deployment config**: `render.yaml` declared a retired `MERCHANT_CHECKOUT_URL` (card Merchant of
+  Record); ADR-009's sanctioned rail is Lightning, gated on `MANAGED_BILLING_BASE_URL`. Corrected.
+- **Asset cleanup**: deleted the unused 5.7 MB `Conxius-Wallet_Logo.jpg` and the 5.2 MB
+  `Conxian_Logo.jpg`; compressed the OG `Conxian-Labs_Logo.jpg` 4.7 MB → 34 KB; replaced the 5 MB
+  JPEG favicon with a 0.4 KB `favicon.svg` on all 19 pages. ~16 MB removed from the served tree.
+- **Regression guard**: added `tests/site-facts.test.cjs` (wired into `npm run test:api`) pinning the
+  repo link, Nexus license, product name, homepage count, `render.yaml` key, and SVG favicon.
+- **Verification**: `npm run test:api` 66/66 green; `npx playwright test` 45/45 green;
+  `python3 -m unittest scripts.tests.test_branch_promotion_policy` 31/31 green; independent internal
+  link/anchor sweep reports all internal links OK.
+
 ## Context alignment and rules reconciliation (2026-11-13)
 - **Full-context audit**: verified branch chain (`main` d059d19 ⊂ `staged` cf015ff ⊂ `dev` 705b8c2),
   the active `main` ruleset (`23017156`), the three open issues (#115, #135, #138), and live
