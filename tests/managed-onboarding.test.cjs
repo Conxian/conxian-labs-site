@@ -65,6 +65,7 @@ test("BOS discovery page and published site map remain accessible", async () => 
   assert.equal((await fetch(`${base}/enterprise`)).status, 200);
 });
 test("pricing preserves reference amounts without a live offer or payment pointer", async () => {
+  delete process.env.MANAGED_BILLING_BASE_URL;
   const response = await fetch(`${base}/api/pricing/managed`);
   assert.equal(response.status, 200);
   assert.equal(response.headers.get("cache-control"), "no-store");
@@ -77,6 +78,7 @@ test("pricing preserves reference amounts without a live offer or payment pointe
   assert.deepEqual(body.features, []);
 });
 test("valid signup cannot report purchase, entitlement or provisioning success", async () => {
+  delete process.env.MANAGED_BILLING_BASE_URL;
   const response = await post({ tier: "managed", email: "buyer@example.invalid" });
   assert.equal(response.status, 503);
   assert.equal(response.headers.get("cache-control"), "no-store");
@@ -109,14 +111,31 @@ test("health and static pricing remain accessible", async () => {
     await response.arrayBuffer();
   }
 });
-test("a billing base alone does not advertise an offer without a delivery endpoint", async () => {
+test("a billing base alone is a complete offer, endpoint defaulting to the base", async () => {
   process.env.MANAGED_BILLING_BASE_URL = "https://gateway.conxian.org";
   delete process.env.MANAGED_GATEWAY_ENDPOINT;
   const body = await (await fetch(`${base}/api/pricing/managed`)).json();
-  assert.equal(body.productionSupported, false);
-  assert.equal(body.availability, "unavailable");
+  assert.equal(body.productionSupported, true);
+  assert.equal(body.availability, "available");
+  assert.equal(body.endpoint, "https://gateway.conxian.org");
   assert.equal(body.checkoutUrl, null);
-  assert.equal((await post({ tier: "managed", email: "buyer@example.invalid" })).status, 503);
+  // The rail is live, so subscribe relays an invoice rather than refusing.
+  const realFetch = global.fetch;
+  global.fetch = async (url, opts) => {
+    if (String(url).includes("/api/v1/billing/subscribe")) {
+      return { ok: true, json: async () => ({
+        invoice_id: "inv_x", payment_request: "lnbc1u1p...", amount_sats: 37700,
+        expires_at: 1893456000, term: "monthly",
+      }) };
+    }
+    return realFetch(url, opts);
+  };
+  try {
+    const response = await post({ tier: "managed", email: "buyer@example.invalid" });
+    assert.equal(response.status, 200);
+  } finally {
+    global.fetch = realFetch;
+  }
 });
 test("a fully configured deployment relays a Lightning invoice without claiming entitlement", async () => {
   process.env.MANAGED_BILLING_BASE_URL = "https://gateway.conxian.org";

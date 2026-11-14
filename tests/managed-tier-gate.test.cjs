@@ -45,14 +45,16 @@ test("unconfigured managed tier is reference-only and unavailable", async () => 
   assert.equal(body.paymentRail, null);
 });
 
-test("a billing base alone does not make the tier available", async () => {
+test("a billing base alone is a complete offer, endpoint defaulting to the base", async () => {
   process.env.MANAGED_BILLING_BASE_URL = "https://gateway.conxian.org";
   delete process.env.MANAGED_GATEWAY_ENDPOINT;
   const body = await managed();
-  assert.equal(body.availability, "unavailable");
-  assert.equal(body.endpoint, null);
-  // runtime-provisioning is still required while the endpoint is unset.
-  assert.ok(body.qualificationRequired.includes("runtime-provisioning"));
+  assert.equal(body.availability, "available");
+  assert.equal(body.productionSupported, true);
+  // The billing rail is the gateway host, so it is also the delivery endpoint.
+  assert.equal(body.endpoint, "https://gateway.conxian.org");
+  assert.equal(body.paymentRail, "lightning");
+  assert.deepEqual(body.qualificationRequired, ["payment", "entitlement"]);
 });
 
 test("a delivery endpoint alone does not make the tier available", async () => {
@@ -77,25 +79,33 @@ test("both settings configured makes the tier live on the Lightning rail", async
   assert.deepEqual(body.qualificationRequired, ["payment", "entitlement"]);
 });
 
-test("malformed, unsafe, and reserved URLs keep the tier unavailable", async () => {
-  const invalidPairs = [
-    ["javascript:alert(1)", "https://gateway.conxian.org/v1/managed"],
-    ["https://gateway.conxian.org", "javascript:alert(1)"],
-    ["http://gateway.conxian.org", "https://gateway.conxian.org/v1/managed"],
-    ["https://user:secret@gateway.conxian.org", "https://gateway.conxian.org/v1/managed"],
-    ["https://gateway.example.invalid", "https://gateway.conxian.org/v1/managed"],
-    ["   ", "https://gateway.conxian.org/v1/managed"],
+test("an unsafe billing base keeps the tier unavailable", async () => {
+  const invalidBases = [
+    "javascript:alert(1)",
+    "http://gateway.conxian.org",
+    "https://user:secret@gateway.conxian.org",
+    "https://gateway.example.invalid",
+    "   ",
   ];
-
-  for (const [base, endpoint] of invalidPairs) {
-    process.env.MANAGED_BILLING_BASE_URL = base;
-    process.env.MANAGED_GATEWAY_ENDPOINT = endpoint;
+  for (const baseUrl of invalidBases) {
+    process.env.MANAGED_BILLING_BASE_URL = baseUrl;
+    process.env.MANAGED_GATEWAY_ENDPOINT = "https://gateway.conxian.org/v1/managed";
     const body = await managed();
-    assert.equal(body.pricingStatus, "reference-only");
+    assert.equal(body.pricingStatus, "reference-only", `base ${baseUrl} must not go live`);
     assert.equal(body.availability, "unavailable");
     assert.equal(body.checkoutUrl, null);
     assert.equal(body.productionSupported, false);
   }
+});
+
+test("an unsafe endpoint falls back to the valid billing base", async () => {
+  process.env.MANAGED_BILLING_BASE_URL = "https://gateway.conxian.org";
+  process.env.MANAGED_GATEWAY_ENDPOINT = "javascript:alert(1)";
+  const body = await managed();
+  // The offer is live (the rail is configured) but the endpoint never points at
+  // an unsafe host: it defaults to the validated billing base.
+  assert.equal(body.availability, "available");
+  assert.equal(body.endpoint, "https://gateway.conxian.org");
 });
 
 test("subscribe fails closed when the tier is unavailable", async () => {
@@ -183,6 +193,104 @@ test("subscribe fails closed when the gateway cannot issue an invoice", async ()
   } finally {
     global.fetch = realFetch;
   }
+});
+
+test("verify relays a settlement and returns the once-only key", async () => {
+  process.env.MANAGED_BILLING_BASE_URL = "https://gateway.conxian.org";
+  process.env.MANAGED_GATEWAY_ENDPOINT = "https://gateway.conxian.org/v1/managed";
+  const realFetch = global.fetch;
+  global.fetch = async (url, opts) => {
+    if (String(url).includes("/api/v1/billing/verify")) {
+      const sent = JSON.parse(opts.body);
+      assert.equal(sent.plan, "indie");
+      assert.equal(sent.tenant_id, "inv_abc12345");
+      assert.equal(sent.invoice_id, "inv_abc12345");
+      return {
+        ok: true,
+        status: 200,
+        json: async () => ({ api_key: "cxn_agent_deadbeef", jwt: "jwt.t", tier: "indie", expires_at: 1893456000 }),
+      };
+    }
+    return realFetch(url, opts);
+  };
+  try {
+    const res = await fetch(base + "/api/onboarding/verify", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ plan: "indie", invoiceId: "inv_abc12345", email: "buyer@example.com" }),
+    });
+    assert.equal(res.status, 200);
+    const body = await res.json();
+    assert.equal(body.entitlement, "active");
+    assert.equal(body.apiKey, "cxn_agent_deadbeef");
+    assert.equal(body.endpoint, "https://gateway.conxian.org/v1/managed");
+  } finally {
+    global.fetch = realFetch;
+  }
+});
+
+test("verify fails closed and never returns a key before settlement", async () => {
+  process.env.MANAGED_BILLING_BASE_URL = "https://gateway.conxian.org";
+  process.env.MANAGED_GATEWAY_ENDPOINT = "https://gateway.conxian.org/v1/managed";
+  const realFetch = global.fetch;
+  global.fetch = async (url, opts) => {
+    if (String(url).includes("/api/v1/billing/verify")) {
+      return { ok: false, status: 402, json: async () => ({ error: "Lightning invoice not settled" }) };
+    }
+    return realFetch(url, opts);
+  };
+  try {
+    const res = await fetch(base + "/api/onboarding/verify", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ plan: "indie", invoiceId: "inv_abc12345", email: "buyer@example.com" }),
+    });
+    assert.equal(res.status, 402);
+    const body = await res.json();
+    assert.equal(body.code, "not_settled");
+    assert.equal(body.settled, false);
+    assert.equal(body.apiKey, undefined);
+  } finally {
+    global.fetch = realFetch;
+  }
+});
+
+test("verify rejects a malformed invoice id before contacting the gateway", async () => {
+  process.env.MANAGED_BILLING_BASE_URL = "https://gateway.conxian.org";
+  process.env.MANAGED_GATEWAY_ENDPOINT = "https://gateway.conxian.org/v1/managed";
+  const realFetch = global.fetch;
+  let called = false;
+  global.fetch = async (url, opts) => {
+    if (String(url).includes("/api/v1/billing/verify")) called = true;
+    return realFetch(url, opts);
+  };
+  try {
+    const res = await fetch(base + "/api/onboarding/verify", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ plan: "indie", invoiceId: "bad id!", email: "buyer@example.com" }),
+    });
+    assert.equal(res.status, 400);
+    const body = await res.json();
+    assert.equal(body.code, "invalid_invoice");
+    assert.equal(called, false);
+  } finally {
+    global.fetch = realFetch;
+  }
+});
+
+test("verify fails closed when the tier is unavailable", async () => {
+  delete process.env.MANAGED_BILLING_BASE_URL;
+  delete process.env.MANAGED_GATEWAY_ENDPOINT;
+  const res = await fetch(base + "/api/onboarding/verify", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ plan: "indie", invoiceId: "inv_abc12345", email: "buyer@example.com" }),
+  });
+  assert.equal(res.status, 503);
+  const body = await res.json();
+  assert.equal(body.code, "subscription_unavailable");
+  assert.equal(body.apiKey, undefined);
 });
 
 test("the research page documents the managed-tier chain and its gate", () => {
