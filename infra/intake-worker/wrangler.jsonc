@@ -1,0 +1,20 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "conxian-intake",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-08-02",
+  "workers_dev": false,
+  "routes": [
+    { "pattern": "intake.conxian-labs.com/*", "zone_name": "conxian-labs.com" }
+  ],
+  "kv_namespaces": [
+    { "binding": "LEADS", "id": "1ce429f4462147ebaba105b9abf7fba6" }
+  ],
+  "send_email": [
+    { "name": "EMAIL", "destination_address": "support@conxian-labs.com" }
+  ]
+  // INTAKE_PATH is a secret (the path segment the site relays to). Set it with
+  //   npx wrangler secret put INTAKE_PATH --config infra/intake-worker/wrangler.jsonc
+  // It is deliberately not committed: an unset path makes the Worker answer 404,
+  // so an unconfigured receiver never implies a stored request.
+}
