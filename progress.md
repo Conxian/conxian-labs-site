@@ -157,13 +157,13 @@ their actual owning review; no production source or DNS change occurred.
 - **Production Web Hosting (Render)**:
   - Active Primary Web Service: `conxian-labs-site` (`srv-<redacted>`), Oregon, Node.js runtime (`npm start`), workspace `Conxian-Business` (`tea-<redacted>`), live URL: `https://conxian-labs-site.onrender.com`.
   - Preview Web Service: `conxian-labs-site PR #64` (`srv-<redacted>`).
-- **Neon Cloud Postgres Infrastructure** (Org `org-silent-sun-00457600`):
-  1. `corelibs` (`sparkling-sunset-69236559`) — PG 18, `aws-us-east-2`.
-  2. `Software dev kit` (`weathered-night-98492579`) — PG 18, `aws-us-east-2`.
-  3. `Business Operating System` (`noisy-flower-17484435`) — PG 18, `aws-us-east-2`.
-  4. `market` (`small-math-44741750`) — PG 18, `aws-eu-central-1`.
-  5. `Gateway` (`noisy-cloud-41146057`) — PG 18, `aws-ap-southeast-1`.
-  6. `Conxian Nexus` (`orange-paper-76209725`) — PG 17, `aws-eu-central-1`.
+- **Neon Cloud Postgres Infrastructure** (Org `neon-org-ref-redacted`; full project refs retained privately in `.github-private/restricted/2026-11-14/`):
+  1. `corelibs` (`neon-ref-redacted`) — PG 18, `aws-us-east-2`.
+  2. `Software dev kit` (`neon-ref-redacted`) — PG 18, `aws-us-east-2`.
+  3. `Business Operating System` (`neon-ref-redacted`) — PG 18, `aws-us-east-2`.
+  4. `market` (`neon-ref-redacted`) — PG 18, `aws-eu-central-1`.
+  5. `Gateway` (`neon-ref-redacted`) — PG 18, `aws-ap-southeast-1`.
+  6. `Conxian Nexus` (`neon-ref-redacted`) — PG 17, `aws-eu-central-1`.
 - **Site Core Architecture & Public Surfaces**:
   - Express.js dynamic web server (`server.js`) serving 15 clean public routes (`/`, `/sdk`, `/docs`, `/pricing`, `/partners`, `/operators`, `/enterprise`, `/research`, `/terms`, `/about`, `/security`, `/privacy`, `/commercial`, `/commercial/pilot`, `/404.html`).
   - Client-side zero-dependency search engine (`search.js`) indexing all 15 public surfaces.

@@ -78,10 +78,10 @@ To serve all services correctly from a **Business-as-a-Platform (BaaP)** operati
 
 ## 5. Sub-service Infrastructure Mapping (Neon Postgres)
 
-The active Neon organization (`org-silent-sun-00457600`) hosts the following database projects supporting the BaaP infrastructure:
-- **`corelibs`** (`sparkling-sunset-69236559`, PG 18, `aws-us-east-2`)
-- **`Software dev kit`** (`weathered-night-98492579`, PG 18, `aws-us-east-2`)
-- **`Business Operating System`** (`noisy-flower-17484435`, PG 18, `aws-us-east-2`)
-- **`market`** (`small-math-44741750`, PG 18, `aws-eu-central-1`)
-- **`Gateway`** (`noisy-cloud-41146057`, PG 18, `aws-ap-southeast-1`)
-- **`Conxian Nexus`** (`orange-paper-76209725`, PG 17, `aws-eu-central-1`)
+The active Neon organization (`neon-org-ref-redacted`; full identifiers retained privately in `.github-private/restricted/2026-11-14/`) hosts the following database projects supporting the BaaP infrastructure:
+- **`corelibs`** (`neon-ref-redacted`, PG 18, `aws-us-east-2`)
+- **`Software dev kit`** (`neon-ref-redacted`, PG 18, `aws-us-east-2`)
+- **`Business Operating System`** (`neon-ref-redacted`, PG 18, `aws-us-east-2`)
+- **`market`** (`neon-ref-redacted`, PG 18, `aws-eu-central-1`)
+- **`Gateway`** (`neon-ref-redacted`, PG 18, `aws-ap-southeast-1`)
+- **`Conxian Nexus`** (`neon-ref-redacted`, PG 17, `aws-eu-central-1`)
