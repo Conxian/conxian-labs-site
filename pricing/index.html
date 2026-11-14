@@ -251,7 +251,7 @@
                         <span class="kicker">Product 02b // managed SaaS</span>
                         <h3 id="managed-saas-packaging-title">Managed SaaS Gateway for Indie AI Agents</h3>
                     </div>
-                    <p>Zero-friction managed endpoint for ElizaOS, LangGraph, AutoGen, and CrewAI builders. Point your agent at <code>https://api.conxian-labs.com/v1/agent</code> and issue x402 payment demands with ERC-8183 escrow and TEE/Nitro attestation verification.</p>
+                    <p>Zero-friction managed endpoint for ElizaOS, LangGraph, AutoGen, and CrewAI builders. Point your agent at <code>https://api.conxian-labs.com/api/v1/agent</code>. Managed routes can issue route-level x402 payment demands, with ERC-8183 escrow and TEE/Nitro attestation verification specified in ADR-002 — enabled only where configured, never a blanket promise.</p>
                 </div>
                 <div class="package-grid">
                     <article class="package-card">
@@ -299,6 +299,12 @@
                                 <p class="managed-purchase-status" data-invoice-meta></p>
                                 <label for="managed-bolt11">Lightning invoice</label>
                                 <input id="managed-bolt11" data-invoice-bolt11 type="text" readonly>
+                                <button class="btn btn-primary" type="button" data-managed-claim>I have paid — issue my key</button>
+                                <p class="managed-purchase-status" data-claim-status role="status" aria-live="polite"></p>
+                                <div class="managed-key" data-managed-key hidden>
+                                    <label for="managed-apikey">Managed API key — shown once, store it now</label>
+                                    <input id="managed-apikey" data-claim-apikey type="text" readonly>
+                                </div>
                             </div>
                         </form>
                     </article>
@@ -645,10 +651,15 @@
             const input = form.querySelector('input[name="email"]');
             const planSelect = form.querySelector('select[name="plan"]');
             const invoiceBox = document.querySelector('[data-managed-invoice]');
+            const claimBtn = document.querySelector('[data-managed-claim]');
+            const claimStatus = document.querySelector('[data-claim-status]');
+            const keyBox = document.querySelector('[data-managed-key]');
+            let activeInvoice = null;
 
             function showInvoice(body) {
                 if (!invoiceBox) return;
                 invoiceBox.hidden = false;
+                activeInvoice = { plan: body.plan, invoiceId: body.invoiceId, email: (input.value || '').trim() };
                 const qr = invoiceBox.querySelector('[data-invoice-qr]');
                 const bolt11 = invoiceBox.querySelector('[data-invoice-bolt11]');
                 const meta = invoiceBox.querySelector('[data-invoice-meta]');
@@ -660,7 +671,38 @@
                     meta.textContent = body.amountSats + ' sats · ' + body.term +
                         ' · expires ' + new Date(body.expiresAt * 1000).toLocaleTimeString();
                 }
+                if (claimStatus) claimStatus.textContent = '';
+                if (keyBox) keyBox.hidden = true;
             }
+
+            async function claim() {
+                if (!activeInvoice) return;
+                claimStatus.dataset.state = '';
+                claimStatus.textContent = 'Checking settlement…';
+                try {
+                    const res = await fetch('/api/onboarding/verify', {
+                        method: 'POST',
+                        headers: { 'content-type': 'application/json' },
+                        body: JSON.stringify(activeInvoice)
+                    });
+                    const body = await res.json();
+                    if (res.ok && body.apiKey) {
+                        claimStatus.dataset.state = 'ok';
+                        claimStatus.textContent = 'Key issued — store it now, it is shown once.';
+                        const keyInput = document.querySelector('[data-claim-apikey]');
+                        if (keyInput) keyInput.value = body.apiKey;
+                        if (keyBox) keyBox.hidden = false;
+                        return;
+                    }
+                    claimStatus.dataset.state = 'error';
+                    claimStatus.textContent = body.next || body.error || 'The payment is not settled yet.';
+                } catch (err) {
+                    claimStatus.dataset.state = 'error';
+                    claimStatus.textContent = 'Could not reach the billing rail. Try again shortly.';
+                }
+            }
+
+            if (claimBtn) claimBtn.addEventListener('click', claim);
 
             form.addEventListener('submit', async (event) => {
                 event.preventDefault();
