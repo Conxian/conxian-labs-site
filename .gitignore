@@ -17,3 +17,7 @@ verify_styles.py
 
 # Agent working notes (local only; not for the public repo)
 .openhands/
+
+# Python bytecode
+__pycache__/
+*.pyc
