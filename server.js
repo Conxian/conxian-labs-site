@@ -793,6 +793,54 @@ app.post("/api/onboarding/verify", onboardingLimiter, async (req, res) => {
   }
 });
 
+// Look up the live state of a managed subscription by the invoice id the buyer
+// already holds. Same-origin relay to the gateway: the site holds no state and
+// decides nothing, it only reports what the gateway says. Fail-closed — a buyer
+// who has not settled sees `entitlement: "pending-payment"`, never a key. The
+// gateway's balance endpoint is the authority on credit.
+app.get("/api/onboarding/status", onboardingLimiter, async (req, res) => {
+  res.setHeader("Cache-Control", "no-store");
+  const invoiceId = typeof req.query.invoiceId === "string" ? req.query.invoiceId : "";
+  if (!/^[A-Za-z0-9_-]{8,128}$/.test(invoiceId)) {
+    return res.status(400).json({ error: "A valid invoice is required", code: "invalid_invoice" });
+  }
+  const view = managedTierView();
+  if (!view.productionSupported) {
+    return res.status(503).json({ error: "Managed subscriptions are not available", code: "subscription_unavailable" });
+  }
+  try {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 10000);
+    let response;
+    try {
+      response = await fetch(`${billingBase()}/api/v1/billing/balance?tenant_id=${encodeURIComponent(invoiceId)}`, {
+        signal: controller.signal,
+      });
+    } finally {
+      clearTimeout(timer);
+    }
+    if (!response.ok) {
+      return res.status(502).json({ code: "status_unavailable", next: "Try again shortly, or contact the commercial team." });
+    }
+    const balance = await response.json();
+    const balanceSats = Number(balance.balance_sats) || 0;
+    return res.status(200).json({
+      tier: MANAGED_TIER.id,
+      invoiceId,
+      endpoint: managedEndpoint(),
+      balanceSats,
+      // A non-zero credit ledger is the only thing the gateway reports as a
+      // settled entitlement. Nothing else here implies activation.
+      entitlement: balanceSats > 0 ? "active" : "pending-payment",
+      next: balanceSats > 0
+        ? "Your subscription is active. Call the managed endpoint with your key."
+        : "No settled credit yet. Pay the invoice, then claim your key.",
+    });
+  } catch (error) {
+    return res.status(502).json({ code: "billing_unreachable", next: "Try again shortly, or contact the commercial team." });
+  }
+});
+
 // Gated access-request intake. Public self-serve sign-up is not enabled, so the
 // site captures a request and routes it to a restricted intake system (never
 // Git). The endpoint fails closed: it reports `received: true` only after the
