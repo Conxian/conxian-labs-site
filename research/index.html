@@ -11,7 +11,7 @@
     <meta property="og:title" content="Conxian Labs | Research & Protocol Analysis">
     <meta property="og:description" content="Protocol theory, research integrity tiers, supply-chain security posture, custody and key threat models, open problems, and Business-as-a-Platform (BaaP) specifications.">
     <meta property="og:image" content="https://www.conxian-labs.com/Conxian-Labs_Logo.jpg">
-    <link rel="icon" href="../Conxian_Logo.jpg" type="image/jpeg">
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="../package-page.css">
     <script src="../search.js"></script>
     <style>
@@ -53,7 +53,7 @@
         <section class="hero">
             <span class="kicker">Research + Analysis Surface</span>
             <h1>Protocol Theory and Sovereign Implementation</h1>
-            <p>Conxian Labs publishes deep-dive analysis on market execution, protocol coordination, cryptographic primitives, sovereign database topologies, and institutional settlement topology. Our research drives the evolution of the Conxian ecosystem, informing the design of the Conxius Enclave SDK, <code>conxian-market</code>, <code>conxian-gateway</code>, <code>conxian-nexus</code>, and <code>conxian-business</code>. Research references support reproducibility; each source and repository license governs reuse. Publication does not establish formal verification or production acceptance, and every claim is qualified by its evidence tier.</p>
+            <p>Conxian Labs publishes deep-dive analysis on market execution, protocol coordination, cryptographic primitives, sovereign database topologies, and institutional settlement topology. Our research drives the evolution of the Conxian ecosystem, informing the design of the Conxius Enclave SDK, <code>conxian_market</code>, <code>conxian-gateway</code>, <code>conxian-nexus</code>, and <code>conxian-business</code>. Research references support reproducibility; each source and repository license governs reuse. Publication does not establish formal verification or production acceptance, and every claim is qualified by its evidence tier.</p>
             <div class="hero-actions">
                 <a class="btn btn-primary" href="https://github.com/Conxian">Research Repositories</a>
                 <a class="btn btn-secondary" href="/docs">Technical Docs</a>
@@ -73,7 +73,7 @@
                 <div class="detail-grid" style="margin-top: 1.5rem;">
                     <article class="detail-card">
                         <h3>The Open Core (<code>conxian.org</code>)</h3>
-                        <p>Protocol references, verification research, routing and SDK primitives. Each repository license is authoritative; Nexus is BUSL-1.1 source available, so this is not a uniformly MIT-licensed stack.</p>
+                        <p>Protocol references, verification research, routing and SDK primitives. Each repository license is authoritative; Nexus is AGPL-3.0 licensed, so this is not a uniformly MIT-licensed stack.</p>
                     </article>
                     <article class="detail-card">
                         <h3>Commercial Surface (<code>conxian-labs.com</code>)</h3>
@@ -140,7 +140,7 @@
                 </article>
                 <article class="detail-card">
                     <h3>4. Market Liquidity & Nakamoto Settlement</h3>
-                    <p>Research into <code>conxian-market</code> order matching algorithms, non-custodial asset exchange, sovereign liquidity pools, and BitVM zero-knowledge settlement.</p>
+                    <p>Research into <code>conxian_market</code> order matching algorithms, non-custodial asset exchange, sovereign liquidity pools, and BitVM zero-knowledge settlement.</p>
                 </article>
                 <article class="detail-card">
                     <h3>5. Cross-Platform Enclaves & Signing</h3>
@@ -186,26 +186,63 @@
 
         <section class="section" id="managed-tier-enablement">
             <h2>Managed Tier Enablement</h2>
-            <p class="section-intro">Managed tiers activate once checkout and provisioning are configured. Until then the tier shows as unavailable rather than accepting payment. This section documents the exact gate: what the site checks, why it fails closed, and what evidence must exist before a tier may take money.</p>
+            <p class="section-intro">Managed tiers activate once the payment rail is configured. Until then the tier shows as unavailable rather than accepting payment. This section documents the exact gate: what the site checks, why it fails closed, and what evidence must exist before a tier may take money.</p>
             <div class="proposal-card">
                 <h3>The activation gate</h3>
-                <p>The managed tier is derived from the runtime configuration at request time, not from a static claim. Two settings must both contain valid public HTTPS URLs:</p>
+                <p>The managed tier is derived from the runtime configuration at request time, not from a static claim. The gate is the payment rail: <code>MANAGED_BILLING_BASE_URL</code> must be a valid public HTTPS URL. The delivery endpoint defaults to that same host (the delivery host normally <em>is</em> the gateway host); <code>MANAGED_GATEWAY_ENDPOINT</code> is an optional override when the delivery host differs.</p>
                 <ul class="inline-list" style="margin-top: 1rem;">
-                    <li><strong>Payment rail (<code>MANAGED_BILLING_BASE_URL</code>):</strong> the gateway's billing base. Per ADR-009 the gateway is the single monetization surface and the Lightning subscription rail is the sanctioned crypto-native checkout — no card-network Merchant of Record serves this product (their acceptable-use policies forbid it). Its absence means no payment path exists.</li>
-                    <li><strong>Provisioning (<code>MANAGED_GATEWAY_ENDPOINT</code>):</strong> the delivery endpoint that mints entitlement and issues keys after settlement. Its absence means a purchase could be taken without anything being delivered.</li>
+                    <li><strong>Payment rail (<code>MANAGED_BILLING_BASE_URL</code>):</strong> the gateway's billing base. Per ADR-009 the gateway is the single monetization surface and the Lightning subscription rail is the sanctioned crypto-native checkout — no card-network Merchant of Record serves this product (their acceptable-use policies forbid it). Its absence means no payment path exists, so the tier is not for sale.</li>
+                    <li><strong>Delivery endpoint (<code>MANAGED_GATEWAY_ENDPOINT</code>, optional):</strong> overrides the delivery host when it differs from the billing base. Unset means the billing base is used.</li>
                 </ul>
-                <p style="margin-top: 1rem;">Only when both are configured does <code>GET /api/pricing/managed</code> report <code>pricingStatus: "live"</code> and <code>availability: "available"</code>. Otherwise it reports <code>reference-only</code> / <code>unavailable</code>, and a subscription attempt returns <strong>HTTP 503 <code>subscription_unavailable</code></strong> with a null checkout URL and null x402 demand. The structured data mirrors this: the pricing page emits a schema.org <code>PreOrder</code> offer and no <code>BuyAction</code> until the tier is genuinely purchasable.</p>
+                <p style="margin-top: 1rem;">When the rail is configured, <code>GET /api/pricing/managed</code> reports <code>pricingStatus: "live"</code> and <code>availability: "available"</code>. Otherwise it reports <code>reference-only</code> / <code>unavailable</code>, and a subscription attempt returns <strong>HTTP 503 <code>subscription_unavailable</code></strong> with a null checkout URL and null x402 demand. The structured data mirrors this: the pricing page emits a schema.org <code>PreOrder</code> offer and no <code>BuyAction</code> until the tier is genuinely purchasable.</p>
+            </div>
+            <div class="proposal-card" style="margin-top: 1.5rem;">
+                <h3>The paid loop: pay, then claim</h3>
+                <p>Configuring the rail is necessary but not sufficient — a customer must be able to <em>receive</em> what they paid for. The site closes the loop in three steps and holds no payment state of its own:</p>
+                <ol class="inline-list" style="margin-top: 1rem;">
+                    <li><strong>Quote &amp; subscribe:</strong> <code>POST /api/onboarding/subscribe</code> relays to the gateway's invoice rail and returns a real BOLT11 invoice with <code>entitlement: "pending-payment"</code>. It does not claim a purchase.</li>
+                    <li><strong>Pay:</strong> the buyer pays the invoice from any Lightning wallet.</li>
+                    <li><strong>Claim:</strong> <code>POST /api/onboarding/verify</code> relays the invoice to the gateway's verify step. The gateway is the sole authority on settlement and mints the managed API key <em>only after</em> it confirms payment. Pre-settlement the gateway answers <strong>HTTP 402 <code>not_settled</code></strong> — never a key. The plaintext key is shown once.</li>
+                </ol>
+                <p class="note">The site never decides that a payment succeeded; it relays and reports the gateway's verdict. A buyer who paid but has not yet claimed holds an invoice id, not a key.</p>
+            </div>
+            <div class="proposal-card" style="margin-top: 1.5rem;">
+                <h3>Live evidence (re-verifiable)</h3>
+                <p>These are the observable facts behind the model, each reproducible with one unauthenticated call against the gateway. They are recorded as observations with a date, not as a standing SLA — a healthy probe is not an entitlement.</p>
+                <ul class="inline-list" style="margin-top: 1rem;">
+                    <li><strong>Service identity:</strong> <code>GET /api/v1/health</code> returns <code>{"service":"conxian-gateway","status":"ok"}</code>; <code>GET /api/v1/version</code> returns the running version.</li>
+                    <li><strong>Rate card:</strong> <code>POST /api/v1/billing/quote {plan}</code> returns a real, plan-specific monthly price (verified 2026-11-14: <code>indie</code> → 37,700 sats/month). A quote creates nothing and reserves nothing.</li>
+                    <li><strong>Settlement authority:</strong> <code>POST /api/v1/billing/verify</code> for an unsettled invoice returns <strong>HTTP 402 "not settled"</strong> (verified 2026-11-14). A key is issued only after the gateway confirms payment.</li>
+                    <li><strong>Authenticated surface:</strong> <code>/api/v1/agent/*</code> and the private operator routes return <strong>HTTP 401</strong> without a managed key — the managed surface is gated, not public.</li>
+                </ul>
+                <p class="note">A bare <code>GET https://api.conxian-labs.com/</code> returns 404 by design: this is an API host, not a web surface. The resolvable discovery path is <code>GET /api/v1/health</code>.</p>
+                <p style="margin-top: 1rem;">The gateway's live monthly rate card (read 2026-11-14; <code>plan_by_id</code> in <code>internal/api/src/billing.rs</code> is the single surface, per ADR-009). This is a recorded observation of the deployed gateway, not a published offer: the site advertises a tier only when its rail is configured.</p>
+                <div class="pricing-table-scroll">
+                    <table class="pricing-table" aria-describedby="gateway-rate-card-caption">
+                        <caption id="gateway-rate-card-caption">Gateway Lightning rate card — observed 2026-11-14</caption>
+                        <thead>
+                            <tr><th scope="col">Plan</th><th scope="col">Price (sats/month)</th><th scope="col">Note</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>starter</td><td>0</td><td>Free / sandbox tier</td></tr>
+                            <tr><td>indie</td><td>37,700</td><td>Entry paid tier</td></tr>
+                            <tr><td>business</td><td>128,000</td><td>Managed production tier</td></tr>
+                            <tr><td>enterprise</td><td>1,000,000</td><td>Scoped / contract</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="note"><code>pro</code> is accepted as a legacy alias for <code>business</code>; it is not a separate price.</p>
             </div>
             <div class="proposal-card" style="margin-top: 1.5rem;">
                 <h3>Why it fails closed</h3>
-                <p>An environment checkout URL alone cannot qualify payment, entitlement verification, provisioning, or a managed service. Publishing a payment demand the operator cannot honour is a worse failure than showing nothing: it converts a research reference into an unmet promise. The gate therefore treats "not configured" as "not for sale" by default, and the qualification list reflects the difference — <code>payment</code> and <code>entitlement</code> always, plus <code>runtime-provisioning</code> while the delivery endpoint is unset.</p>
+                <p>An environment checkout URL alone cannot qualify payment, entitlement verification, provisioning, or a managed service. Publishing a payment demand the operator cannot honour is a worse failure than showing nothing: it converts a research reference into an unmet promise. The gate therefore treats "not configured" as "not for sale" by default, and the qualification list reflects the difference — <code>payment</code> and <code>entitlement</code> once the rail is configured, plus <code>runtime-provisioning</code> while it is not.</p>
             </div>
             <div class="proposal-card" style="margin-top: 1.5rem;">
                 <h3>What activation requires</h3>
-                <p>The runtime gate requires <strong>validated checkout and provisioning URLs</strong>. Both settings must parse as public HTTPS URLs without embedded credentials or reserved placeholder hosts; otherwise the tier remains <code>reference-only</code> and unavailable.</p>
+                <p>The runtime gate requires a <strong>validated billing URL</strong> (and, if set, a validated delivery override). The billing base must parse as a public HTTPS URL without embedded credentials or reserved placeholder hosts; otherwise the tier remains <code>reference-only</code> and unavailable.</p>
                 <p style="margin-top: 1rem;">Those settings should only be set once the evidence behind them exists — that is what makes the switch safe to flip, not what the switch checks:</p>
                 <ul class="inline-list" style="margin-top: 1rem;">
-                    <li><strong>Verified provider and payment contracts:</strong> a real Merchant-of-Record agreement, not a placeholder URL.</li>
+                    <li><strong>Verified payment rail:</strong> a configured invoice backend (Lightning) that can create and verify a real invoice, not a placeholder URL. A card-network Merchant of Record is not an option for this product (acceptable-use policies forbid it).</li>
                     <li><strong>A nonzero resolved payment demand</strong> where one applies — the advertised price must be one the operator can actually charge.</li>
                     <li><strong>Authenticated webhook and entitlement verification:</strong> payment events must be authenticated and mapped to a real entitlement, not trusted on the honour system.</li>
                     <li><strong>Idempotent key lifecycle and provisioning:</strong> a settled payment must mint exactly one entitlement and one key, safely under retries.</li>
@@ -225,7 +262,7 @@
                 </article>
                 <article class="detail-card">
                     <h3>2. Checkout</h3>
-                    <p>A hosted Merchant-of-Record (MoR) checkout collects payment and owns tax and receipts. The site hands the buyer to it and reports <code>pending-checkout</code>; it never claims a completed purchase.</p>
+                    <p>The gateway creates a real Lightning invoice and returns its BOLT11 string. The site relays it and reports <code>pending-payment</code>; it never claims a completed purchase. (A provider-hosted Merchant-of-Record checkout is implemented in source but not adopted — no card-network MoR serves this product.)</p>
                 </article>
                 <article class="detail-card">
                     <h3>3. Settlement</h3>
@@ -255,9 +292,10 @@
                     <li><strong>Site pricing gate</strong> — implemented. The tier is derived from configuration at request time; unconfigured means unavailable.</li>
                     <li><strong>Merchant-of-Record webhook</strong> — implemented. Signature verification, event mapping, and durable key store are in source; the route mounts only when provider, secret, and database are all present.</li>
                     <li><strong>Self-serve onboarding</strong> — implemented. An idempotent, multi-step provisioning lane (entitlement → endpoint → key → activation) with a receipt; mounts only when a durable store and token are present.</li>
-                    <li><strong>Lightning subscription billing</strong> — implemented, config-gated. Quote, subscribe, and verify exist; invoice creation requires a configured invoice backend and is fail-closed without it.</li>
+                    <li><strong>Lightning subscription billing</strong> — implemented and live, config-gated. Quote, subscribe, and verify are served by the gateway; invoice creation requires a configured invoice backend and is fail-closed without it.</li>
+                    <li><strong>Site claim relay</strong> — implemented. <code>POST /api/onboarding/verify</code> relays a paid invoice to the gateway's verify step; the site never decides settlement and never holds a key.</li>
                     <li><strong>x402 pay-per-call</strong> — implemented on protected paths, config-gated. A live wallet backend must be wired before real settlement; until then the adapter reports unavailable rather than faking a payment.</li>
-                    <li><strong>Checkout target and product catalogue</strong> — provider-side. The hosted checkout URL and product/variant records are created in the provider dashboard; the site consumes the URL.</li>
+                    <li><strong>Provider-hosted checkout (Merchant of Record)</strong> — implemented in source but not adopted. No card-network MoR serves this product, so the Lightning rail is the checkout.</li>
                 </ul>
                 <p class="note">Reachability is not entitlement, and a mounted route is not a completed sale. This map describes the implemented chain and the configuration it waits on — not a claim that any tier is currently taking payment.</p>
             </div>

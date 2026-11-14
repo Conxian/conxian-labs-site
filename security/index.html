@@ -4,14 +4,14 @@
     <script src="../logger.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Conxian Labs Security — Audit reports, bug bounty program, and cryptographic assurance for sovereign infrastructure.">
+    <meta name="description" content="Conxian Labs Security — coordinated vulnerability disclosure, non-custodial design, and the audit-readiness posture of the Conxian stack.">
     <title>Conxian Labs | Security</title>
     <link rel="canonical" href="https://www.conxian-labs.com/security">
     <meta property="og:url" content="https://www.conxian-labs.com/security">
     <meta property="og:title" content="Conxian Labs | Security">
-    <meta property="og:description" content="Security audits, bug bounty, and cryptographic assurance for the Conxian ecosystem.">
+    <meta property="og:description" content="Coordinated disclosure, non-custodial design, and audit-readiness for the Conxian ecosystem.">
     <meta property="og:image" content="https://www.conxian-labs.com/Conxian-Labs_Logo.jpg">
-    <link rel="icon" href="../Conxian_Logo.jpg" type="image/jpeg">
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="../package-page.css">
     <script src="../search.js"></script>
     <link rel="stylesheet" href="../css/site.css">
@@ -23,7 +23,7 @@
         <section class="hero">
             <span class="kicker">Trust &amp; Assurance</span>
             <h1>Security</h1>
-            <p>Conxian Labs applies institutional-grade security engineering across all production surfaces. Our infrastructure is built for auditability — every component is open-source, every build is reproducible, and every deployment is verifiable.</p>
+            <p>Conxian Labs applies security engineering across its public surfaces, with a non-custodial boundary and a disclosure policy. Claims below state the current posture and the evidence boundary for each area; they are not a warranty of a service level.</p>
         </section>
 
         <section class="section">
@@ -35,7 +35,7 @@
                 </article>
                 <article class="detail-card">
                     <h3>Reproducible Builds</h3>
-                    <p>All production artifacts are built deterministically. Any party can verify that deployed binaries match published source code. Build pipelines are public and auditable.</p>
+                    <p>Build pipelines are public and deterministic toolchains are a target for production artifacts, so that a build can be reproduced and compared against published source. Reproducibility is verified per artifact, not asserted for every component.</p>
                 </article>
                 <article class="detail-card">
                     <h3>Verification and Testing</h3>
@@ -47,18 +47,18 @@
                 </article>
                 <article class="detail-card">
                     <h3>Supply Chain Integrity</h3>
-                    <p>Dependency trees are pinned, hashed, and reviewed. All third-party code is vendored and audited before integration. SBOMs are published with every release.</p>
+                    <p>Dependency trees are pinned and secret-scanning (gitleaks) runs in CI. An SBOM is published where a release produces one; vendoring and audit coverage are per repository and stated in its own documentation.</p>
                 </article>
                 <article class="detail-card">
                     <h3>Incident Response</h3>
-                    <p>Dedicated security response team with defined SLAs. Critical vulnerabilities are addressed within 24 hours of confirmed report.</p>
+                    <p>Security reports are triaged on a rolling basis with the response targets published in the disclosure policy below. A dedicated response team and hard remediation SLAs are engagement terms, not default commitments.</p>
                 </article>
             </div>
         </section>
 
         <section class="section">
-            <h2>Bug Bounty Program</h2>
-            <p class="section-intro">We maintain a public bug bounty program for responsible disclosure of security vulnerabilities across all Conxian Labs infrastructure.</p>
+            <h2>Vulnerability Disclosure</h2>
+            <p class="section-intro">We operate a coordinated disclosure process for security vulnerabilities across Conxian Labs infrastructure. A formal paid bug-bounty program is not currently offered.</p>
             <div class="detail-grid">
                 <article class="detail-card">
                     <h3>Scope</h3>
@@ -69,20 +69,20 @@
                     <p>Submit findings to <a href="mailto:security@conxian-labs.com">security@conxian-labs.com</a>. Please include reproduction steps affected component, and impact assessment.</p>
                 </article>
                 <article class="detail-card">
-                    <h3>Response SLA</h3>
-                    <p>Initial acknowledgment within 48 hours. Triage and severity assessment within 5 business days. Critical fixes deployed within 24 hours of confirmed report.</p>
+                    <h3>Response Targets</h3>
+                    <p>Best-effort targets from a small team: initial acknowledgment within 48 hours, and triage with a severity assessment within 5 business days. Remediation timing depends on severity and is agreed with the reporter; there is no default 24-hour fix commitment.</p>
                 </article>
             </div>
         </section>
 
         <section class="section">
-            <h2>Audit Reports</h2>
-            <p class="section-intro">Independent security audits are commissioned for all major protocol components and infrastructure releases.</p>
-            <div class="note">Audit reports are published to <a href="https://github.com/Conxian">github.com/Conxian</a> alongside each major release. For the latest audit artifacts, refer to the relevant repository's <code>/audits</code> directory.</div>
+            <h2>Audit Status</h2>
+            <p class="section-intro">Independent security review is a goal for value-bearing signing paths, and it is not yet complete. No third-party audit report is published for the stack today.</p>
+            <div class="note">What exists is <strong>audit readiness</strong>: a published independent-review request for proposal (<code>docs/audits/INDEPENDENT_SECURITY_REVIEW_RFP_2026-10-10.md</code> in <code>conxius-enclave-sdk</code>), an independent verification guide, a capability-and-evidence matrix, and internal production-enablement audits the maintainers ran themselves. Self-run audits are labelled as such and are not a substitute for an external review. When an external report is completed it will be linked from the relevant repository's <code>/audits</code> directory.</div>
         </section>
 
         <section class="section">
-            <h2>Responsible Disclosure</h2>
+            <h2>Disclosure Guidelines</h2>
             <p class="section-intro">If you discover a security vulnerability, please report it responsibly:</p>
             <ol style="font-family: 'JetBrains Mono', monospace; color: var(--text-main); line-height: 2; padding-left: 2rem;">
                 <li>Email <strong>security@conxian-labs.com</strong> with detailed findings</li>

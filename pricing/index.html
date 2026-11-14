@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <script src="../logger.js"></script>
+    <script src="../qrcode.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Conxian Labs pricing and packaging guidance for the open-source Conxius Enclave SDK, Gateway pilots, non-custodial Wallet integrations, and scoped enterprise engagements.">
@@ -11,7 +12,7 @@
     <meta property="og:title" content="Conxian Labs | Pricing &amp; Packaging">
     <meta property="og:description" content="Commercial packaging guidance for the MIT Conxius Enclave SDK, Gateway pilots, non-custodial Wallet integrations, and enterprise engagements.">
     <meta property="og:image" content="https://www.conxian-labs.com/Conxian-Labs_Logo.jpg">
-    <link rel="icon" href="../Conxian_Logo.jpg" type="image/jpeg">
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="../package-page.css">
     <script src="../search.js"></script>
     <link rel="stylesheet" href="../css/site.css">
@@ -56,7 +57,7 @@
 
         <section class="section" id="plans" aria-labelledby="plans-title">
             <h2 id="plans-title">Plans</h2>
-            <p class="section-intro">Start free and scale to managed or dedicated infrastructure. Managed tiers are billed monthly; metered usage is billed on top of the base. Where a managed tier is not yet purchasable, it is marked unavailable rather than accepting payment.</p>
+            <p class="section-intro">Start free and scale to managed or dedicated infrastructure. The monthly amounts below are design references from the service catalogue, not a live rate card: managed tiers are only purchasable once checkout and provisioning are configured, and metered usage is billed on top of the base. Where a managed tier is not yet purchasable, it is marked unavailable rather than accepting payment.</p>
             <div class="cx-pricing">
                 <div class="cx-tier">
                     <span class="cx-tier-name">Community</span>
@@ -70,7 +71,7 @@
                     <a class="cx-btn cx-btn--ghost cx-tier-cta" href="/get-started">Request access</a>
                 </div>
                 <div class="cx-tier cx-tier--featured">
-                    <span class="cx-badge">Most popular</span>
+                    <span class="cx-badge">Reference</span>
                     <span class="cx-tier-name">Managed gateway</span>
                     <span class="cx-tier-price">$200<span>/mo + usage</span></span>
                     <ul>
@@ -84,11 +85,11 @@
                 </div>
                 <div class="cx-tier">
                     <span class="cx-tier-name">Business</span>
-                    <span class="cx-tier-price">$2,500<span>/mo</span></span>
+                    <span class="cx-tier-price">Scoped</span>
                     <ul>
                         <li>Dedicated managed gateway</li>
                         <li>ISO 20022 normalizer</li>
-                        <li>Business-hours SEV1 SLA</li>
+                        <li>Business-hours SEV1 SLA (engagement term)</li>
                         <li>Wallet distribution</li>
                     </ul>
                     <a class="cx-btn cx-btn--ghost cx-tier-cta" href="/enterprise">Talk to us</a>
@@ -99,7 +100,7 @@
                     <ul>
                         <li>Dedicated sovereign node</li>
                         <li>Private TEE execution</li>
-                        <li>24/7 dedicated SLA</li>
+                        <li>24/7 dedicated SLA (engagement term)</li>
                         <li>Bring-your-own vault</li>
                     </ul>
                     <a class="cx-btn cx-btn--ghost cx-tier-cta" href="mailto:enterprise@conxian-labs.com">Contact sales</a>
@@ -251,7 +252,7 @@
                         <span class="kicker">Product 02b // managed SaaS</span>
                         <h3 id="managed-saas-packaging-title">Managed SaaS Gateway for Indie AI Agents</h3>
                     </div>
-                    <p>Zero-friction managed endpoint for ElizaOS, LangGraph, AutoGen, and CrewAI builders. Point your agent at <code>https://api.conxian-labs.com/v1/agent</code> and issue x402 payment demands with ERC-8183 escrow and TEE/Nitro attestation verification.</p>
+                    <p>Zero-friction managed endpoint for ElizaOS, LangGraph, AutoGen, and CrewAI builders. Point your agent at <code>https://api.conxian-labs.com/api/v1/agent</code>. Managed routes can issue route-level x402 payment demands, with ERC-8183 escrow and TEE/Nitro attestation verification specified in ADR-002 — enabled only where configured, never a blanket promise.</p>
                 </div>
                 <div class="package-grid">
                     <article class="package-card">
@@ -299,6 +300,12 @@
                                 <p class="managed-purchase-status" data-invoice-meta></p>
                                 <label for="managed-bolt11">Lightning invoice</label>
                                 <input id="managed-bolt11" data-invoice-bolt11 type="text" readonly>
+                                <button class="btn btn-primary" type="button" data-managed-claim>I have paid — issue my key</button>
+                                <p class="managed-purchase-status" data-claim-status role="status" aria-live="polite"></p>
+                                <div class="managed-key" data-managed-key hidden>
+                                    <label for="managed-apikey">Managed API key — shown once, store it now</label>
+                                    <input id="managed-apikey" data-claim-apikey type="text" readonly>
+                                </div>
                             </div>
                         </form>
                     </article>
@@ -645,22 +652,69 @@
             const input = form.querySelector('input[name="email"]');
             const planSelect = form.querySelector('select[name="plan"]');
             const invoiceBox = document.querySelector('[data-managed-invoice]');
+            const claimBtn = document.querySelector('[data-managed-claim]');
+            const claimStatus = document.querySelector('[data-claim-status]');
+            const keyBox = document.querySelector('[data-managed-key]');
+            let activeInvoice = null;
 
             function showInvoice(body) {
                 if (!invoiceBox) return;
                 invoiceBox.hidden = false;
+                activeInvoice = { plan: body.plan, invoiceId: body.invoiceId, email: (input.value || '').trim() };
                 const qr = invoiceBox.querySelector('[data-invoice-qr]');
                 const bolt11 = invoiceBox.querySelector('[data-invoice-bolt11]');
                 const meta = invoiceBox.querySelector('[data-invoice-meta]');
                 if (qr) {
-                    qr.src = 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=' + encodeURIComponent(body.paymentRequest);
+                    // Render the BOLT11 invoice locally as a data: URI so the
+                    // payment request never leaves the browser (no third-party
+                    // QR service) and the CSP stays img-src 'self' data:.
+                    try {
+                        const code = qrcode(0, 'M');
+                        code.addData(body.paymentRequest);
+                        code.make();
+                        qr.src = code.createDataURL(4, 8);
+                    } catch (err) {
+                        qr.removeAttribute('src');
+                        Logger.warn('PRICING', 'invoice QR render failed', { error: String(err) });
+                    }
                 }
                 if (bolt11) bolt11.value = body.paymentRequest;
                 if (meta) {
                     meta.textContent = body.amountSats + ' sats · ' + body.term +
                         ' · expires ' + new Date(body.expiresAt * 1000).toLocaleTimeString();
                 }
+                if (claimStatus) claimStatus.textContent = '';
+                if (keyBox) keyBox.hidden = true;
             }
+
+            async function claim() {
+                if (!activeInvoice) return;
+                claimStatus.dataset.state = '';
+                claimStatus.textContent = 'Checking settlement…';
+                try {
+                    const res = await fetch('/api/onboarding/verify', {
+                        method: 'POST',
+                        headers: { 'content-type': 'application/json' },
+                        body: JSON.stringify(activeInvoice)
+                    });
+                    const body = await res.json();
+                    if (res.ok && body.apiKey) {
+                        claimStatus.dataset.state = 'ok';
+                        claimStatus.textContent = 'Key issued — store it now, it is shown once.';
+                        const keyInput = document.querySelector('[data-claim-apikey]');
+                        if (keyInput) keyInput.value = body.apiKey;
+                        if (keyBox) keyBox.hidden = false;
+                        return;
+                    }
+                    claimStatus.dataset.state = 'error';
+                    claimStatus.textContent = body.next || body.error || 'The payment is not settled yet.';
+                } catch (err) {
+                    claimStatus.dataset.state = 'error';
+                    claimStatus.textContent = 'Could not reach the billing rail. Try again shortly.';
+                }
+            }
+
+            if (claimBtn) claimBtn.addEventListener('click', claim);
 
             form.addEventListener('submit', async (event) => {
                 event.preventDefault();

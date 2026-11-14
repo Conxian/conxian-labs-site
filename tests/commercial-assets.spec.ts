@@ -17,7 +17,7 @@ test.describe('Commercial asset pack', () => {
         await expect(page.getByRole('link', { name: 'Review packaging guidance' })).toHaveAttribute('href', '/pricing');
 
         const surfaces = [
-            ['#commercial-market', 'Market (conxian-market)', 'In development', 'https://github.com/Conxian/conxian-market'],
+            ['#commercial-market', 'Market (conxian_market)', 'In development', 'https://github.com/Conxian/conxian_market'],
             ['#commercial-gateway', 'Gateway', 'Beta / pilot-first', 'https://github.com/Conxian/conxian-gateway'],
             ['#commercial-wallet', 'Wallet', 'Stable reference client', 'https://github.com/Conxian/conxius-wallet'],
             ['#commercial-sdk', 'Conxius Enclave SDK', 'Beta / conditional', 'https://github.com/Conxian/conxius-enclave-sdk'],

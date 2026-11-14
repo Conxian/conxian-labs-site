@@ -10,15 +10,18 @@ services:
     pullRequestPreviewsEnabled: yes
     autoDeploy: yes
     envVars:
-      # Managed SaaS Gateway subscriber onboarding (Merchant of Record).
-      # Set to the Lemon Squeezy / Paddle checkout URL to accept credit cards.
-      - key: MERCHANT_CHECKOUT_URL
+      # Managed SaaS Gateway subscriber onboarding.
+      # Per ADR-009 the gateway is the single monetization surface and the
+      # Lightning subscription rail is the sanctioned crypto-native checkout
+      # (no card-network Merchant of Record). MANAGED_BILLING_BASE_URL is the
+      # gate: its absence means no payment rail, and the managed tier stays
+      # unavailable. Left unset deliberately — the previous placeholder host
+      # (api.conxian-labs.com) does not serve a managed endpoint, so declaring
+      # it would advertise an unqualified purchase path.
+      - key: MANAGED_BILLING_BASE_URL
         sync: false
-      # Verified managed-gateway delivery base URL (HTTPS; the host must resolve).
-      # The managed tier stays unavailable until this and MERCHANT_CHECKOUT_URL are
-      # both set. Left unset deliberately: the previous placeholder host
-      # (api.conxian-labs.com) does not resolve, so declaring it would advertise an
-      # unqualified purchase path.
+      # Optional override for the delivery endpoint when the delivery host
+      # differs from the billing base. Unset = the billing base is used.
       - key: MANAGED_GATEWAY_ENDPOINT
         sync: false
       # Optional intake endpoint for gated access requests (a restricted system,

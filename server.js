@@ -54,8 +54,8 @@ const pageMetadata = [
   { route: "sdk", title: "SDK — Conxius Enclave SDK", desc: "Cross-platform enclave and key-management boundaries", priority: 0.9 },
   { route: "docs", title: "Docs — Documentation", desc: "Technical documentation for the Conxian ecosystem", priority: 0.8 },
   { route: "pricing", title: "Pricing & Packaging", desc: "Commercial packaging and plan matrix", priority: 0.7 },
-  { route: "get-started", title: "Get Started", desc: "Self-serve customer journey from sign-up to running service", priority: 0.9 },
-  { route: "console", title: "Console", desc: "Provision, manage, and cancel Conxian services", priority: 0.9 },
+  { route: "get-started", title: "Get Started", desc: "Gated access request and onboarding journey", priority: 0.9 },
+  { route: "console", title: "Console", desc: "Manage Conxian services (team-provisioned while self-serve sign-up completes)", priority: 0.9 },
   { route: 'commercial', title: "Commercial Brief", desc: "Executive buyer brief and ecosystem readiness", priority: 0.8 },
   { route: 'commercial/pilot', title: "Scoped Pilot Brief", desc: "Bounded pilot narrative and evaluation criteria", priority: 0.8 },
   { route: "partners", title: "Partners", desc: "Ecosystem partners and collaborative initiatives", priority: 0.6 },
@@ -109,6 +109,53 @@ app.get("/llms.txt", (req, res) => {
 
 app.get("/.well-known/security.txt", (req, res) => {
   res.type("text/plain").sendFile(path.join(__dirname, ".well-known", "security.txt"), { dotfiles: "allow" });
+});
+
+// The repository root also holds server code, tests, CI configuration and
+// internal operations documents (AGENTS.md, progress.md, DOMAIN_CUTOVER.md).
+// Serving the directory wholesale published those files, including internal
+// provider resource identifiers. The static handler is therefore gated to an
+// allowlist of web asset types, and the internal paths and server-side files
+// are denied outright. Anything not matched here falls through to the 404 page.
+const PUBLIC_ASSET_EXTENSIONS = new Set([
+  ".html", ".css", ".js", ".mjs",
+  ".svg", ".jpg", ".jpeg", ".png", ".gif", ".webp", ".avif", ".ico",
+  ".ttf", ".woff", ".woff2", ".otf",
+  ".txt", ".xml", ".webmanifest",
+]);
+const DENIED_STATIC_BASENAMES = new Set([
+  "server.js", "tailwind.config.js", "package.json", "package-lock.json",
+  "render.yaml", "playwright.config.ts", "cname", "codeowners", "license",
+]);
+const DENIED_STATIC_PREFIXES = [
+  "/scripts/", "/tests/", "/openspec/", "/.github/", "/.agents/",
+  "/node_modules/", "/test-results/", "/.openhands/",
+];
+
+app.use((req, res, next) => {
+  // Dynamic API endpoints are registered after this handler and are matched by
+  // the trailing router, so they must pass through untouched.
+  if (req.path.startsWith("/api/")) return next();
+
+  let pathname;
+  try {
+    pathname = decodeURIComponent(req.path).toLowerCase();
+  } catch {
+    return res.status(404).sendFile(path.join(__dirname, "404.html"));
+  }
+
+  const basename = path.posix.basename(pathname);
+  const extension = path.posix.extname(pathname);
+  const denied =
+    DENIED_STATIC_PREFIXES.some((prefix) => pathname.startsWith(prefix)) ||
+    DENIED_STATIC_BASENAMES.has(basename) ||
+    basename.endsWith(".md") ||
+    !PUBLIC_ASSET_EXTENSIONS.has(extension);
+
+  if (denied) {
+    return res.status(404).sendFile(path.join(__dirname, "404.html"));
+  }
+  return next();
 });
 
 app.use(express.static(path.join(__dirname), {
@@ -491,10 +538,22 @@ function billingBase() {
   return configuredPublicHttpsUrl("MANAGED_BILLING_BASE_URL");
 }
 
+// The host the customer's agent calls once entitled. The billing rail and the
+// delivery endpoint are normally the same gateway host, so when only the billing
+// base is configured the base is also the endpoint. A separate
+// MANAGED_GATEWAY_ENDPOINT overrides it when the delivery host differs. Requiring
+// both made the rail dark while it was already live (see #1591).
+function managedEndpoint() {
+  return configuredPublicHttpsUrl("MANAGED_GATEWAY_ENDPOINT") || billingBase();
+}
+
 function managedTierView() {
-  const base = configuredPublicHttpsUrl("MANAGED_BILLING_BASE_URL");
-  const endpoint = configuredPublicHttpsUrl("MANAGED_GATEWAY_ENDPOINT");
-  const available = base !== null && endpoint !== null;
+  const base = billingBase();
+  const endpoint = managedEndpoint();
+  // Availability keys off the billing rail: without it no invoice can be issued
+  // and no key minted. The endpoint defaults to the base host, so a configured
+  // rail is a complete offer.
+  const available = base !== null;
   return {
     ...MANAGED_TIER,
     pricingStatus: available ? "live" : "reference-only",
@@ -656,6 +715,81 @@ app.post("/api/onboarding/subscribe", onboardingLimiter, async (req, res) => {
       plan: selected,
       next: "Try again shortly, or contact the commercial team",
     });
+  }
+});
+
+// Claim a paid subscription: relay the invoice to the gateway's verify step,
+// which mints the managed API key only after it confirms settlement on-chain.
+// This is the missing half of the paid loop (#1591) — without it a customer who
+// paid received nothing. The site holds no payment state; the gateway is the
+// sole authority on settlement and entitlement. Fail-closed: a 402 from the
+// gateway means "not settled yet", never a key.
+app.post("/api/onboarding/verify", onboardingLimiter, async (req, res) => {
+  const { plan, invoiceId, email } = req.body || {};
+  if (!email || typeof email !== "string" || !email.includes("@")) {
+    return res.status(400).json({ error: "A valid email is required", code: "invalid_email" });
+  }
+  if (typeof invoiceId !== "string" || !/^[A-Za-z0-9_-]{8,128}$/.test(invoiceId)) {
+    return res.status(400).json({ error: "A valid invoice is required", code: "invalid_invoice" });
+  }
+  const selected = typeof plan === "string" && plan.length > 0 ? plan : "indie";
+  if (!Object.prototype.hasOwnProperty.call(MANAGED_PLANS, selected)) {
+    return res.status(400).json({ error: "Unsupported plan", code: "unsupported_plan", plans: Object.keys(MANAGED_PLANS) });
+  }
+
+  res.setHeader("Cache-Control", "no-store");
+  const view = managedTierView();
+  if (!view.productionSupported) {
+    return res.status(503).json({ error: "Managed subscriptions are not available", code: "subscription_unavailable" });
+  }
+
+  // The tenant is the invoice id: the gateway binds the minted key to it, so the
+  // buyer needs only the invoice id they already hold — no secret is forwarded
+  // from the browser.
+  try {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 10000);
+    let response;
+    try {
+      response = await fetch(`${billingBase()}/api/v1/billing/verify`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ plan: selected, tenant_id: invoiceId, invoice_id: invoiceId }),
+        signal: controller.signal,
+      });
+    } finally {
+      clearTimeout(timer);
+    }
+    if (response.status === 402) {
+      return res.status(402).json({
+        code: "not_settled",
+        settled: false,
+        next: "The payment is not settled yet. Pay the invoice, then check again.",
+      });
+    }
+    if (response.status === 503) {
+      return res.status(503).json({
+        code: "activation_unavailable",
+        settled: false,
+        next: "Entitlement issuance is not available right now; try again shortly.",
+      });
+    }
+    if (!response.ok) {
+      return res.status(502).json({ code: "verify_failed", settled: false, next: "Try again shortly, or contact the commercial team." });
+    }
+    const activation = await response.json();
+    return res.status(200).json({
+      tier: MANAGED_TIER.id,
+      plan: selected,
+      entitlement: "active",
+      apiKey: activation.api_key,
+      jwt: activation.jwt,
+      expiresAt: activation.expires_at,
+      endpoint: managedEndpoint(),
+      next: "Store this key now — it is shown once. Point your agent at the managed endpoint with it.",
+    });
+  } catch (error) {
+    return res.status(502).json({ code: "billing_unreachable", settled: false, next: "Try again shortly, or contact the commercial team." });
   }
 });
 
