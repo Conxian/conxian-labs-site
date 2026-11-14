@@ -145,4 +145,26 @@ test.describe('Pricing and packaging page', () => {
         expect(focusState?.outlineStyle).not.toBe('none');
         expect(focusState?.outlineWidth).not.toBe('0px');
     });
+
+    test('renders the Lightning invoice QR locally, with no third-party host', async ({ page }) => {
+        // The vendored qrcode.min.js must be loaded and able to produce a
+        // data: URI, so the invoice QR is generated in the browser and the
+        // BOLT11 payment request never leaves the visitor's machine.
+        const thirdParty: string[] = [];
+        page.on('request', (request) => {
+            const url = request.url();
+            if (!url.startsWith('file:') && !url.startsWith('data:')) thirdParty.push(url);
+        });
+        await page.goto(PRICING_URL);
+
+        const dataUri = await page.evaluate(() => {
+            // @ts-expect-error qrcode is provided by the vendored global
+            const code = window.qrcode(0, 'M');
+            code.addData('lnbc2500u1p3xyztestinvoicepayload');
+            code.make();
+            return code.createDataURL(4, 8);
+        });
+        expect(dataUri.startsWith('data:image/gif;base64,')).toBe(true);
+        expect(thirdParty.filter((url) => url.includes('qrserver'))).toEqual([]);
+    });
 });

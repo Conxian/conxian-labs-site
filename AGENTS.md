@@ -84,9 +84,9 @@ desktop menus.
 
 ## Ecosystem Facts (verified against the org, do not drift)
 
-- **Public org repos (10, non-archived):** `lib-conxian-core`, `conxian-nexus`, `conxian-gateway`, `conxian_market` (**underscore**, not a hyphen), `conxius-wallet`, `conxius-platform`, `conxius-enclave-sdk`, `conxian-labs-site`, `conxian-business`, `.github`.
+- **Public org repos (10, non-archived):** `lib-conxian-core`, `conxian-nexus`, `conxian-gateway`, `conxian_market` (**underscore**, not a hyphen), `conxius-wallet`, `conxius-platform`, `conxius-enclave-sdk`, `conxian-labs-site`, `conxian-org-site`, `.github`. (`conxian-business` is **private** — it backs the BOS control plane and must not be linked from a public page.)
 - **Do not link `conxian-market`, `conxian_ui`, `conxius-docs`, or `conxian-infrastructure`** — those paths 404. `conxian_ui` / `conxius-docs` / `conxian-infrastructure` are retired or renamed.
-- **Licenses (repo `LICENSE` is authoritative):** nexus **AGPL-3.0**; core, gateway, wallet, enclave-sdk, platform, market = MIT. The stack is **not** uniformly MIT. `tests/site-facts.test.cjs` pins the Nexus license so it cannot silently revert to the retired BUSL-1.1 label.
+- **Licenses (repo `LICENSE` is authoritative):** nexus **AGPL-3.0**; `conxian-org-site` **Apache-2.0**; core, gateway, wallet, enclave-sdk, platform, market, site, `.github` = MIT. The stack is **not** uniformly MIT. `tests/site-facts.test.cjs` pins the Nexus license so it cannot silently revert to the retired BUSL-1.1 label.
 - **Product name:** the canonical label is **Conxius Enclave SDK**; "Conclave SDK" is retired and must not appear as a public label.
 - **Status probes are runtime-scoped:** only **BOS, Gateway, Nexus** are commissioned runtimes in `/api/status`. Market/SDK/Corelibs/Platform are catalogued libraries, not probed services — do not claim they are probed.
 - **Managed checkout rail:** ADR-009 makes the gateway the single monetization surface; the sanctioned rail is Lightning subscription, **not** a card Merchant of Record. The gate is `MANAGED_BILLING_BASE_URL` (absence ⇒ managed tier unavailable). `MERCHANT_CHECKOUT_URL` is retired.
@@ -100,6 +100,7 @@ desktop menus.
 ## CI/CD
 - `.github/workflows/ci.yml` — build-and-test + security-scan (gitleaks) on push/PR to main, staged, and dev; also runs the branch-promotion policy unit tests.
 - `.github/workflows/branch-promotion-policy.yml` — read-only, trusted-default-branch promotion enforcement for PRs targeting main/staged/dev.
+- `.github/workflows/auto-promotion.yml` — opens immutable promotion candidates: on push to `dev`/`staged` (`dev`→`staged`, `staged`→`main`) and an hourly soak re-check that promotes `staged`→`main` once `MIN_MAINNET_DWELL_HOURS` (default 12) is met.
 - `.github/workflows/deploy.yml` — deployment signal on push to main (`environment: production`)
 - `.github/workflows/dependency-review.yml` — on PR when lockfiles change
 - **Render**: auto-deploy from `main` → `conxian-labs-site` (Node.js web service, `environment: production`)
