@@ -2,15 +2,29 @@
 <html lang="en">
 <head>
   <script src="../logger.js"></script>
+  <script src="../qrcode.min.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Get started with Conxian: request access, choose a plan, provision a managed gateway, and go live. Console accounts are provisioned by the team while self-serve sign-up is being completed.">
+  <meta name="description" content="Get started with Conxian self-serve: pick a plan, pay with Lightning, and receive your managed gateway key the moment payment settles. Console accounts are available on request.">
   <title>Get Started | Conxian Labs</title>
   <link rel="canonical" href="https://www.conxian-labs.com/get-started">
   <meta property="og:title" content="Get Started | Conxian Labs">
-  <meta property="og:description" content="Request access, pick a plan, provision a managed gateway, and go live.">
+  <meta property="og:description" content="Self-serve the managed gateway: pick a plan, pay with Lightning, get your key.">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../css/site.css">
+  <style>
+    .cx-field select { font-family: inherit; font-size: 0.95rem; color: var(--cx-ink); background: var(--cx-surface); border: 1px solid var(--cx-line); border-radius: 8px; padding: 0.75rem 0.9rem; }
+    .cx-field select:focus { outline: 2px solid var(--cx-accent); outline-offset: 1px; border-color: var(--cx-accent); }
+    .cx-invoice { display: flex; flex-direction: column; gap: 0.8rem; max-width: 34rem; margin-top: 1.5rem; padding: 1.4rem; background: var(--cx-surface); border: 1px solid var(--cx-line); border-radius: 14px; }
+    .cx-invoice img { align-self: flex-start; background: #fff; border: 1px solid var(--cx-line); border-radius: 8px; padding: 6px; }
+    .cx-invoice input { font-family: var(--cx-mono); font-size: 0.72rem; color: var(--cx-ink); background: var(--cx-surface-low); border: 1px solid var(--cx-line); border-radius: 8px; padding: 0.6rem 0.7rem; }
+    .cx-invoice .cx-btn { align-self: flex-start; }
+    .cx-key { display: flex; flex-direction: column; gap: 0.5rem; }
+    .cx-key code { font-family: var(--cx-mono); font-size: 0.8rem; }
+    .cx-status-ok { color: var(--cx-ok); }
+    .cx-status-warn { color: var(--cx-warn); }
+    .cx-status-err { color: var(--cx-danger, #B42318); }
+  </style>
 </head>
 <body>
   <header id="cx-nav"></header>
@@ -19,10 +33,11 @@
       <div class="cx-wrap">
         <span class="cx-kicker">Get started</span>
         <h1 class="cx-h2">From request to a running service.</h1>
-        <p class="cx-lead">Conxian is self-serve for the software and on request for the managed gateway. Request access, choose a plan, provision, and monitor. Where a step depends on a capability that is not yet generally available, the page says so rather than implying it works.</p>
+        <p class="cx-lead">The managed gateway is self-serve: choose a plan, pay with Lightning, and your API key is issued the moment the payment settles. Request a console account to manage and cancel. Where a step depends on a capability that is not yet generally available, the page says so rather than implying it works.</p>
         <div class="cx-btn-row">
-          <a class="cx-btn cx-btn--primary" href="#request-access">Request access</a>
+          <a class="cx-btn cx-btn--primary" href="#self-serve">Start now</a>
           <a class="cx-btn cx-btn--ghost" href="/pricing">Compare plans</a>
+          <a class="cx-btn cx-btn--ghost" href="#request-access">Request access</a>
         </div>
       </div>
     </section>
@@ -33,22 +48,68 @@
         <h2 class="cx-h2">Four steps, start to production.</h2>
         <div class="cx-steps">
           <div class="cx-step">
-            <h3>Request your account</h3>
-            <p>Console accounts are provisioned by the team while self-serve sign-up is being completed. <a href="#request-access">Request one</a> by email; no card required to explore.</p>
-          </div>
-          <div class="cx-step">
             <h3>Choose a plan</h3>
-            <p>Start on the free open-source software or pick a managed tier where it is enabled. Managed access is packaging guidance rather than a live rate card; see <a href="/pricing">pricing</a> for units, terms, and boundaries.</p>
+            <p>Pick a managed tier below, or start on the free open-source software. See <a href="/pricing">pricing</a> for units, terms, and boundaries.</p>
           </div>
           <div class="cx-step">
-            <h3>Provision your service</h3>
-            <p>Provision a managed gateway or connect your own node. Keys are issued after payment settles.</p>
+            <h3>Pay with Lightning</h3>
+            <p>We create a Lightning invoice on the gateway. Pay it from any wallet; the site never sees your payment.</p>
+          </div>
+          <div class="cx-step">
+            <h3>Claim your key</h3>
+            <p>Once the gateway confirms settlement, it mints your managed API key. It is shown once — store it then.</p>
           </div>
           <div class="cx-step">
             <h3>Go live and monitor</h3>
-            <p>Use the console and the public <a href="/status">status page</a> to watch your service. Cancel or change plans at any time.</p>
+            <p>Point your agent at the managed endpoint and watch the public <a href="/status">status page</a>. Request a console account to change or cancel.</p>
           </div>
         </div>
+      </div>
+    </section>
+
+    <section class="cx-band" id="self-serve">
+      <div class="cx-wrap">
+        <span class="cx-kicker">Self-serve</span>
+        <h2 class="cx-h2">Buy a managed gateway now.</h2>
+        <p class="cx-lead">Pick a plan and pay with Lightning. The gateway issues your managed API key the moment the payment settles — no account request, no waiting on the team.</p>
+        <form class="cx-access-form" id="serve-form" novalidate>
+          <div class="cx-field">
+            <label for="ss-plan">Plan</label>
+            <select id="ss-plan" name="plan">
+              <option value="indie">Indie — 37,700 sats / month</option>
+              <option value="business">Business — 128,000 sats / month</option>
+              <option value="enterprise">Enterprise — 1,000,000 sats / month</option>
+            </select>
+          </div>
+          <div class="cx-field">
+            <label for="ss-email">Email</label>
+            <input id="ss-email" name="email" type="email" inputmode="email" autocomplete="email" required placeholder="you@company.com">
+          </div>
+          <button class="cx-btn cx-btn--primary" type="submit" id="ss-submit">Create my invoice</button>
+          <p class="cx-form-status" id="ss-status" role="status" aria-live="polite"></p>
+        </form>
+        <div class="cx-invoice" id="ss-invoice" hidden>
+          <img id="ss-qr" alt="Lightning invoice QR code" width="220" height="220">
+          <p class="cx-form-status" id="ss-invoice-meta"></p>
+          <label for="ss-bolt11">Lightning invoice</label>
+          <input id="ss-bolt11" type="text" readonly>
+          <p class="cx-form-note">Invoice id — save this to look up your subscription later: <code id="ss-invoice-id"></code></p>
+          <button class="cx-btn cx-btn--dark" type="button" id="ss-claim">I have paid — issue my key</button>
+          <p class="cx-form-status" id="ss-claim-status" role="status" aria-live="polite"></p>
+          <div class="cx-key" id="ss-key" hidden>
+            <label for="ss-apikey">Managed API key — shown once, store it now</label>
+            <input id="ss-apikey" type="text" readonly>
+            <p class="cx-form-note">Endpoint: <code id="ss-endpoint"></code></p>
+          </div>
+        </div>
+        <form class="cx-access-form" id="lookup-form" novalidate style="margin-top:1.5rem">
+          <div class="cx-field">
+            <label for="lk-invoice">Already paid? Look up your subscription</label>
+            <input id="lk-invoice" name="invoiceId" type="text" placeholder="Paste your invoice id" autocomplete="off">
+          </div>
+          <button class="cx-btn cx-btn--ghost" type="submit" id="lk-submit">Check status</button>
+          <p class="cx-form-status" id="lk-status" role="status" aria-live="polite"></p>
+        </form>
       </div>
     </section>
 
@@ -83,7 +144,7 @@
       <div class="cx-wrap">
         <span class="cx-kicker">Request access</span>
         <h2 class="cx-h2">Request a console account.</h2>
-        <p class="cx-lead">Console accounts are provisioned by the team while self-serve sign-up is being completed. Tell us who you are and what you want to run and we will reply by email. No card is required to explore.</p>
+        <p class="cx-lead">Console accounts (to manage keys, watch usage, and cancel) are provisioned by the team while self-serve sign-up is being completed. Tell us who you are and what you want to run and we will reply by email. The managed gateway itself is self-serve above — no account is needed to buy and claim a key.</p>
         <form class="cx-access-form" id="access-form" novalidate>
           <div class="cx-field">
             <label for="ar-email">Work email</label>
@@ -111,23 +172,23 @@
         <p class="cx-lead">We keep this list honest. A capability appears as available only when the route, deployment, and payment path are actually wired.</p>
         <div class="cx-grid cx-grid--3" style="margin-top:2rem">
           <div class="cx-card">
+            <span class="cx-card-num">SELF-SERVE</span>
+            <h3>Managed gateway</h3>
+            <p>Pick a plan, pay with Lightning, and receive your managed API key the moment the payment settles. <a href="#self-serve">Buy a managed gateway</a>.</p>
+          </div>
+          <div class="cx-card">
             <span class="cx-card-num">ON REQUEST</span>
             <h3>Console account</h3>
-            <p>Console accounts are provisioned by the team while self-serve sign-up is being completed. <a href="#request-access">Request one</a> and we will send sign-in details when your account is ready.</p>
+            <p>Console accounts (manage keys, usage, billing, cancellation) are provisioned by the team while self-serve sign-up is being completed. <a href="#request-access">Request one</a> and we will send sign-in details when your account is ready.</p>
           </div>
           <div class="cx-card">
             <span class="cx-card-num">AVAILABLE NOW</span>
             <h3>Live service status</h3>
             <p>Public reachability for every service surface, probed live, at <a href="/status">/status</a>.</p>
           </div>
-          <div class="cx-card">
-            <span class="cx-card-num">IN PROGRESS</span>
-            <h3>Managed gateway checkout</h3>
-            <p>Managed plans activate once the hosted checkout and provisioning endpoints are configured; until then the tier shows as unavailable rather than accepting payment.</p>
-          </div>
         </div>
         <div class="cx-btn-row">
-          <a class="cx-btn cx-btn--dark" href="#request-access">Request access</a>
+          <a class="cx-btn cx-btn--dark" href="#self-serve">Buy a managed gateway</a>
           <a class="cx-btn cx-btn--ghost" href="/docs">Read the docs</a>
         </div>
       </div>
@@ -135,6 +196,113 @@
   </main>
   <footer id="cx-footer"></footer>
   <script src="../nav.js"></script>
+  <script>
+    (function () {
+      function setState(el, state, text) {
+        if (!el) return;
+        el.className = "cx-form-status" + (state === "ok" ? " cx-status-ok" : state === "warn" ? " cx-status-warn" : state === "error" ? " cx-status-err" : "");
+        el.textContent = text;
+      }
+
+      var serveForm = document.getElementById("serve-form");
+      if (serveForm) {
+        var planSel = document.getElementById("ss-plan");
+        var email = document.getElementById("ss-email");
+        var status = document.getElementById("ss-status");
+        var invoiceBox = document.getElementById("ss-invoice");
+        var qr = document.getElementById("ss-qr");
+        var meta = document.getElementById("ss-invoice-meta");
+        var bolt11 = document.getElementById("ss-bolt11");
+        var claimBtn = document.getElementById("ss-claim");
+        var claimStatus = document.getElementById("ss-claim-status");
+        var keyBox = document.getElementById("ss-key");
+        var active = null;
+
+        serveForm.addEventListener("submit", function (e) {
+          e.preventDefault();
+          var addr = (email.value || "").trim();
+          if (!addr || addr.indexOf("@") < 0) { setState(status, "error", "Enter a valid email address."); return; }
+          setState(status, "", "Creating a Lightning invoice…");
+          fetch("/api/onboarding/subscribe", {
+            method: "POST", headers: { "content-type": "application/json" },
+            body: JSON.stringify({ tier: "managed", plan: planSel.value, email: addr })
+          }).then(function (r) { return r.json().then(function (d) { return { ok: r.ok, body: d }; }); })
+            .then(function (res) {
+              if (res.ok && res.body.paymentRequest) {
+                active = { plan: res.body.plan, invoiceId: res.body.invoiceId, email: addr };
+                invoiceBox.hidden = false;
+                // Render the BOLT11 invoice locally as a data: URI so the payment
+                // request never leaves the browser (no third-party QR service)
+                // and the CSP stays img-src 'self' data:.
+                try {
+                  var code = qrcode(0, "M");
+                  code.addData(res.body.paymentRequest);
+                  code.make();
+                  qr.src = code.createDataURL(4, 8);
+                } catch (err) {
+                  qr.removeAttribute("src");
+                }
+                bolt11.value = res.body.paymentRequest;
+                meta.textContent = res.body.amountSats + " sats · " + res.body.term +
+                  " · expires " + new Date(res.body.expiresAt * 1000).toLocaleTimeString();
+                var invIdEl = document.getElementById("ss-invoice-id");
+                if (invIdEl) invIdEl.textContent = res.body.invoiceId;
+                keyBox.hidden = true;
+                setState(status, "ok", "Invoice ready — pay it from any Lightning wallet.");
+                setState(claimStatus, "", "");
+                return;
+              }
+              setState(status, "error", res.body.next || res.body.error || "Managed access is not available right now.");
+            })
+            .catch(function () { setState(status, "error", "Could not reach onboarding. Please try again later."); });
+        });
+
+        if (claimBtn) claimBtn.addEventListener("click", function () {
+          if (!active) return;
+          setState(claimStatus, "", "Checking settlement…");
+          fetch("/api/onboarding/verify", {
+            method: "POST", headers: { "content-type": "application/json" },
+            body: JSON.stringify(active)
+          }).then(function (r) { return r.json().then(function (d) { return { ok: r.ok, body: d }; }); })
+            .then(function (res) {
+              if (res.ok && res.body.apiKey) {
+                document.getElementById("ss-apikey").value = res.body.apiKey;
+                var ep = document.getElementById("ss-endpoint");
+                if (ep) ep.textContent = res.body.endpoint || "";
+                keyBox.hidden = false;
+                setState(claimStatus, "ok", "Key issued — store it now, it is shown once.");
+                return;
+              }
+              setState(claimStatus, "warn", res.body.next || res.body.error || "The payment is not settled yet.");
+            })
+            .catch(function () { setState(claimStatus, "error", "Could not reach the billing rail. Try again shortly."); });
+        });
+      }
+
+      var lookupForm = document.getElementById("lookup-form");
+      if (lookupForm) {
+        var lkInput = document.getElementById("lk-invoice");
+        var lkStatus = document.getElementById("lk-status");
+        lookupForm.addEventListener("submit", function (e) {
+          e.preventDefault();
+          var id = (lkInput.value || "").trim();
+          if (!id) { setState(lkStatus, "error", "Paste your invoice id."); return; }
+          setState(lkStatus, "", "Checking…");
+          fetch("/api/onboarding/status?invoiceId=" + encodeURIComponent(id))
+            .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, body: d }; }); })
+            .then(function (res) {
+              if (res.ok && res.body.entitlement === "active") {
+                setState(lkStatus, "ok", "Active — " + res.body.balanceSats + " sats credit. Endpoint: " + res.body.endpoint);
+                return;
+              }
+              if (res.ok) { setState(lkStatus, "warn", res.body.next || "No settled credit yet."); return; }
+              setState(lkStatus, "error", res.body.next || res.body.error || "Could not look up that invoice.");
+            })
+            .catch(function () { setState(lkStatus, "error", "Could not reach the billing rail."); });
+        });
+      }
+    })();
+  </script>
   <script>
     (function () {
       var form = document.getElementById("access-form");
