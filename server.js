@@ -111,6 +111,53 @@ app.get("/.well-known/security.txt", (req, res) => {
   res.type("text/plain").sendFile(path.join(__dirname, ".well-known", "security.txt"), { dotfiles: "allow" });
 });
 
+// The repository root also holds server code, tests, CI configuration and
+// internal operations documents (AGENTS.md, progress.md, DOMAIN_CUTOVER.md).
+// Serving the directory wholesale published those files, including internal
+// provider resource identifiers. The static handler is therefore gated to an
+// allowlist of web asset types, and the internal paths and server-side files
+// are denied outright. Anything not matched here falls through to the 404 page.
+const PUBLIC_ASSET_EXTENSIONS = new Set([
+  ".html", ".css", ".js", ".mjs",
+  ".svg", ".jpg", ".jpeg", ".png", ".gif", ".webp", ".avif", ".ico",
+  ".ttf", ".woff", ".woff2", ".otf",
+  ".txt", ".xml", ".webmanifest",
+]);
+const DENIED_STATIC_BASENAMES = new Set([
+  "server.js", "tailwind.config.js", "package.json", "package-lock.json",
+  "render.yaml", "playwright.config.ts", "cname", "codeowners", "license",
+]);
+const DENIED_STATIC_PREFIXES = [
+  "/scripts/", "/tests/", "/openspec/", "/.github/", "/.agents/",
+  "/node_modules/", "/test-results/", "/.openhands/",
+];
+
+app.use((req, res, next) => {
+  // Dynamic API endpoints are registered after this handler and are matched by
+  // the trailing router, so they must pass through untouched.
+  if (req.path.startsWith("/api/")) return next();
+
+  let pathname;
+  try {
+    pathname = decodeURIComponent(req.path).toLowerCase();
+  } catch {
+    return res.status(404).sendFile(path.join(__dirname, "404.html"));
+  }
+
+  const basename = path.posix.basename(pathname);
+  const extension = path.posix.extname(pathname);
+  const denied =
+    DENIED_STATIC_PREFIXES.some((prefix) => pathname.startsWith(prefix)) ||
+    DENIED_STATIC_BASENAMES.has(basename) ||
+    basename.endsWith(".md") ||
+    !PUBLIC_ASSET_EXTENSIONS.has(extension);
+
+  if (denied) {
+    return res.status(404).sendFile(path.join(__dirname, "404.html"));
+  }
+  return next();
+});
+
 app.use(express.static(path.join(__dirname), {
   index: false,
   dotfiles: "deny",
