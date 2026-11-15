@@ -146,3 +146,20 @@ test("no page carries an unbounded availability or SLA promise", () => {
     }
     assert.deepEqual(offenders, [], "availability/SLA claims must be engagement-defined, not printed");
 });
+
+test("no page prints the retired 80/10/10 yield split", () => {
+    // ADR-007 (Accepted 2026-11-14) retired the 80/10/10 builder matrix: a
+    // matched job is now a 10% take with a single 50/30/20 split of the take.
+    // The pricing page carried "80/10/10 BOS yield split" — the retired model.
+    const offenders = markup().filter(({ html }) => /80\/10\/10/.test(html));
+    assert.deepEqual(offenders.map(o => o.file), [], "the 80/10/10 split is retired by ADR-007");
+    assert.ok(read("pricing/index.html").includes("ADR-007"), "pricing must state the current fee model");
+});
+
+test("the search index does not call Market a live settlement engine", () => {
+    // The commercial brief states Market settlement/execution is "not yet live";
+    // the search entry must not contradict that with an "engine" claim.
+    const search = read("search.js");
+    assert.ok(!/Conxian Market — Settlement Engine/.test(search), "search must not label Market a live settlement engine");
+    assert.match(search, /Settlement & Fee-Model SDK/);
+});
