@@ -55,6 +55,7 @@ const pageMetadata = [
   { route: "docs", title: "Docs — Documentation", desc: "Technical documentation for the Conxian ecosystem", priority: 0.8 },
   { route: "pricing", title: "Pricing & Packaging", desc: "Commercial packaging and plan matrix", priority: 0.7 },
   { route: "get-started", title: "Get Started", desc: "Gated access request and onboarding journey", priority: 0.9 },
+  { route: "get-started/signup", title: "Create a free sandbox", desc: "Self-serve sign-up for a free sandbox tenant and API key", priority: 0.9 },
   { route: "console", title: "Console", desc: "Manage Conxian services (team-provisioned while self-serve sign-up completes)", priority: 0.9 },
   { route: 'commercial', title: "Commercial Brief", desc: "Executive buyer brief and ecosystem readiness", priority: 0.8 },
   { route: 'commercial/pilot', title: "Scoped Pilot Brief", desc: "Bounded pilot narrative and evaluation criteria", priority: 0.8 },
@@ -838,6 +839,101 @@ app.get("/api/onboarding/status", onboardingLimiter, async (req, res) => {
     });
   } catch (error) {
     return res.status(502).json({ code: "billing_unreachable", next: "Try again shortly, or contact the commercial team." });
+  }
+});
+
+// Self-serve sign-up front door. The gateway exposes an open, no-token
+// `POST /api/v1/signup` that provisions a free `sandbox` tenant and mints a
+// key; this relays to it so the browser calls same-origin (the site's CSP is
+// connect-src 'self') and no credential lives in the client. The relay is a
+// faithful pass-through: it reports success only when the gateway returns a
+// real api_key, and never invents a key or an entitlement. The operator token
+// is never involved — the gateway's signup lane is open by design, and is
+// reachable here only once the gateway sets SELF_SERVE_SIGNUP_ENABLED.
+function signupBase() {
+  return billingBase();
+}
+
+app.post("/api/signup", onboardingLimiter, async (req, res) => {
+  res.setHeader("Cache-Control", "no-store");
+  const body = req.body || {};
+  const tenantId = boundedField(body.tenantId, 64);
+  const email = boundedField(body.email, 254);
+
+  // Mirror the gateway's tenant-id rule (1-64 chars of [A-Za-z0-9_-], starting
+  // alphanumeric) so an invalid id is a 400 here, not a round-trip. An empty id
+  // lets the gateway assign one.
+  if (tenantId && !/^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$/.test(tenantId)) {
+    return res.status(400).json({
+      error: "Use 1-64 letters, numbers, hyphens or underscores, starting with a letter or number.",
+      code: "invalid_tenant_id",
+    });
+  }
+  if (email && !email.includes("@")) {
+    return res.status(400).json({ error: "A valid email is required", code: "invalid_email" });
+  }
+
+  const base = signupBase();
+  if (base === null) {
+    return res.status(503).json({
+      error: "Self-serve sign-up is not available on this deployment",
+      code: "signup_unavailable",
+      next: "Request access and the team will provision an account.",
+    });
+  }
+
+  // A stable idempotency key per (client, tenant) so a double-click or a retry
+  // returns the same tenant instead of provisioning a second one.
+  const idempotencyKey = `site-${req.ip}-${tenantId || email || "anon"}`.slice(0, 128);
+
+  try {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 10000);
+    let response;
+    try {
+      response = await fetch(`${base}/api/v1/signup`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ idempotency_key: idempotencyKey, tenant_id: tenantId || undefined }),
+        signal: controller.signal,
+      });
+    } finally {
+      clearTimeout(timer);
+    }
+
+    if (response.status === 404) {
+      // The gateway has not enabled its open sign-up lane.
+      return res.status(503).json({
+        error: "Self-serve sign-up is not enabled yet",
+        code: "signup_disabled",
+        next: "Request access and the team will provision an account.",
+      });
+    }
+    if (response.status === 409) {
+      return res.status(409).json({
+        error: "That name is taken or the free tier is at capacity.",
+        code: "signup_conflict",
+      });
+    }
+    if (!response.ok) {
+      return res.status(502).json({ error: "Sign-up could not be completed", code: "signup_failed" });
+    }
+
+    const receipt = await response.json();
+    if (!receipt || typeof receipt.api_key !== "string" || receipt.api_key.length === 0) {
+      return res.status(502).json({ error: "Sign-up did not return a key", code: "signup_failed" });
+    }
+    return res.status(200).json({
+      tenantId: receipt.tenant_id,
+      tier: receipt.tier,
+      plan: receipt.plan,
+      state: receipt.state,
+      endpoint: receipt.endpoint_url,
+      apiKey: receipt.api_key,
+      next: "Store this key now — it is shown once. Point your agent at the endpoint with it.",
+    });
+  } catch (error) {
+    return res.status(502).json({ error: "Sign-up could not be completed", code: "signup_failed" });
   }
 });
 

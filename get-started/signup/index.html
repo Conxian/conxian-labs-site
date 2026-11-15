@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="../../logger.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Create a free Conxian sandbox: pick a tenant name and get an API key to call the gateway. No card, no waiting on an email.">
+  <title>Create a free sandbox | Conxian Labs</title>
+  <link rel="canonical" href="https://www.conxian-labs.com/get-started/signup">
+  <meta property="og:title" content="Create a free sandbox | Conxian Labs">
+  <meta property="og:description" content="Pick a name, get a key, call the gateway. No card required.">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../css/site.css">
+</head>
+<body>
+  <header id="cx-nav"></header>
+  <main id="cx-main">
+    <section class="cx-band">
+      <div class="cx-wrap">
+        <span class="cx-kicker">Get started</span>
+        <h1 class="cx-h2">Create a free sandbox.</h1>
+        <p class="cx-lead">Pick a name and get an API key that calls the gateway. This is the free sandbox tier - no card, and no waiting on an email. The key is shown once, so copy it before you leave this page.</p>
+        <div class="cx-btn-row">
+          <a class="cx-btn cx-btn--primary" href="#signup-form-anchor">Create my sandbox</a>
+          <a class="cx-btn cx-btn--ghost" href="/get-started">Other ways to start</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="cx-band cx-band--low" id="signup-form-anchor">
+      <div class="cx-wrap">
+        <span class="cx-kicker">Self-serve sign-up</span>
+        <h2 class="cx-h2">Provision a sandbox tenant.</h2>
+        <form class="cx-access-form" id="signup-form" novalidate>
+          <div class="cx-field">
+            <label for="su-tenant">Sandbox name</label>
+            <input id="su-tenant" name="tenant" type="text" required autocomplete="off" maxlength="64" pattern="[A-Za-z0-9][A-Za-z0-9_-]*" placeholder="acme-sandbox">
+            <p class="cx-form-note">1-64 letters, numbers, hyphens or underscores, starting with a letter or number.</p>
+          </div>
+          <div class="cx-field">
+            <label for="su-email">Work email <span class="cx-optional">(optional)</span></label>
+            <input id="su-email" name="email" type="email" autocomplete="email" maxlength="254" placeholder="you@company.com">
+          </div>
+          <button class="cx-btn cx-btn--primary" type="submit" id="signup-submit">Create my sandbox</button>
+          <p class="cx-form-status" id="signup-status" role="status" aria-live="polite"></p>
+        </form>
+
+        <div class="cx-card" id="signup-result" hidden style="margin-top:2rem">
+          <span class="cx-card-num">SANDBOX READY</span>
+          <h3 id="su-result-title">Your sandbox is live.</h3>
+          <div class="cx-field">
+            <label for="su-key">API key (shown once)</label>
+            <input id="su-key" type="text" readonly>
+          </div>
+          <div class="cx-field">
+            <label for="su-endpoint">Endpoint</label>
+            <input id="su-endpoint" type="text" readonly>
+          </div>
+          <div class="cx-field">
+            <label for="su-tenant-result">Tenant</label>
+            <input id="su-tenant-result" type="text" readonly>
+          </div>
+          <div class="cx-btn-row">
+            <button class="cx-btn cx-btn--ghost" type="button" id="su-copy">Copy key</button>
+          </div>
+          <p class="cx-form-note">Call the endpoint with <code>Authorization: Bearer &lt;key&gt;</code>. Keep the key secret; it is not shown again.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cx-band">
+      <div class="cx-wrap">
+        <span class="cx-kicker">What you get</span>
+        <h2 class="cx-h2">A sandbox tenant, free.</h2>
+        <div class="cx-grid cx-grid--3">
+          <div class="cx-card">
+            <span class="cx-card-num">WHAT IT IS</span>
+            <h3>Sandbox tier</h3>
+            <p>A free tenant with an API key for the gateway. It is for building and evaluating; paid tiers add metered relay, RWA verification and settlement operations.</p>
+          </div>
+          <div class="cx-card">
+            <span class="cx-card-num">WHAT IT IS NOT</span>
+            <h3>Not a paid plan</h3>
+            <p>Sign-up never grants a paid tier. Paid access is enabled only after a payment settles; see <a href="/pricing">pricing</a>.</p>
+          </div>
+          <div class="cx-card">
+            <span class="cx-card-num">IF IT IS OFF</span>
+            <h3>Request access instead</h3>
+            <p>Self-serve sign-up is enabled per deployment. If it is not live yet, this page says so and points you to <a href="/get-started#request-access">a request</a> the team fulfils by hand.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer id="cx-footer"></footer>
+  <script src="../../nav.js"></script>
+  <script>
+    (function () {
+      var form = document.getElementById("signup-form");
+      if (!form) return;
+      var status = document.getElementById("signup-status");
+      var btn = document.getElementById("signup-submit");
+      var result = document.getElementById("signup-result");
+
+      function showResult(data) {
+        document.getElementById("su-key").value = data.apiKey || "";
+        document.getElementById("su-endpoint").value = data.endpoint || "";
+        document.getElementById("su-tenant-result").value = data.tenantId || "";
+        result.hidden = false;
+        result.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var tenant = (document.getElementById("su-tenant").value || "").trim();
+        var email = (document.getElementById("su-email").value || "").trim();
+        if (!/^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$/.test(tenant)) {
+          status.textContent = "Use 1-64 letters, numbers, hyphens or underscores, starting with a letter or number.";
+          return;
+        }
+        if (email && email.indexOf("@") < 0) {
+          status.textContent = "Enter a valid work email, or leave it blank.";
+          return;
+        }
+        btn.disabled = true;
+        status.textContent = "Creating your sandbox...";
+        fetch("/api/signup", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ tenantId: tenant, email: email || undefined }),
+        })
+          .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, status: r.status, body: d }; }); })
+          .then(function (res) {
+            var d = res.body || {};
+            if (res.ok && d.apiKey) {
+              status.textContent = "Sandbox created.";
+              showResult(d);
+              form.reset();
+              return;
+            }
+            if (d.code === "signup_disabled" || d.code === "signup_unavailable") {
+              status.textContent = "Self-serve sign-up is not enabled on this deployment yet. ";
+              var a = document.createElement("a");
+              a.href = "/get-started#request-access";
+              a.textContent = "Request access";
+              status.appendChild(a);
+              status.appendChild(document.createTextNode(" and the team will provision an account."));
+              return;
+            }
+            if (res.status === 409) {
+              status.textContent = "That name is taken, or the free tier is full. Try a different name.";
+              return;
+            }
+            status.textContent = d.error || "We could not create that sandbox. Please try again.";
+          })
+          .catch(function () {
+            status.textContent = "We could not reach the sign-up service. Please try again.";
+          })
+          .then(function () { btn.disabled = false; });
+      });
+
+      var copy = document.getElementById("su-copy");
+      if (copy) {
+        copy.addEventListener("click", function () {
+          var key = document.getElementById("su-key");
+          key.select();
+          try { document.execCommand("copy"); status.textContent = "Key copied."; }
+          catch (err) { status.textContent = "Select the key and copy it manually."; }
+        });
+      }
+    })();
+  </script>
+  <script>if(window.Logger){Logger.info("PAGE_LOAD","Route accessed",{path:window.location.pathname});}</script>
+</body>
+</html>
