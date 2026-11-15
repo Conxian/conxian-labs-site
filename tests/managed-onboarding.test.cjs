@@ -186,6 +186,9 @@ test("request-access fails closed when online intake is unconfigured", async () 
   // The response must not echo the submitted personal data.
   assert.equal(JSON.stringify(body).includes("buyer@example.invalid"), false);
   assert.equal(JSON.stringify(body).includes("ACME"), false);
+  // The message is customer-facing: it must not leak internal deployment
+  // vocabulary (the intake is a private integration, not a customer concept).
+  assert.equal(/deployment|intake/i.test(body.next), false, "the fallback copy must stay customer-safe");
 });
 
 test("request-access validates the email before any intake call", async () => {
@@ -227,6 +230,7 @@ test("request-access does not claim receipt when the intake rejects", async () =
     assert.equal(body.received, false);
     assert.equal(body.code, "intake_failed");
     assert.match(body.fallbackUrl, /^mailto:/);
+    assert.equal(/deployment|intake/i.test(body.next), false, "the failure copy must stay customer-safe");
   } finally {
     intake.close();
     delete process.env.ACCESS_REQUEST_ENDPOINT;

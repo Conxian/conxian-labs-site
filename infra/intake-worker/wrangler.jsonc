@@ -1,0 +1,25 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "conxian-intake",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-08-02",
+  "workers_dev": false,
+  "routes": [
+    { "pattern": "intake.conxian-labs.com/*", "zone_name": "conxian-labs.com" }
+  ],
+  "kv_namespaces": [
+    { "binding": "LEADS", "id": "1ce429f4462147ebaba105b9abf7fba6" }
+  ],
+  "send_email": [
+    { "name": "EMAIL", "destination_address": "support@conxian-labs.com" }
+  ]
+  // Secrets (set with `npx wrangler secret put <NAME> --config infra/intake-worker/wrangler.jsonc`):
+  //   INTAKE_PATH  — the path segment the site relays to. Unset makes the Worker
+  //                  answer 404, so an unconfigured receiver never implies a
+  //                  stored request.
+  //   GITHUB_TOKEN — creates the sanitized lifecycle:lead issue in
+  //                  Conxian/conxian-business. Unset disables tracking; the lead
+  //                  still lands in KV and the team email. Use a fine-grained
+  //                  token limited to Issues:write on that one repository.
+  // Neither is committed.
+}

@@ -24,9 +24,11 @@ services:
       # differs from the billing base. Unset = the billing base is used.
       - key: MANAGED_GATEWAY_ENDPOINT
         sync: false
-      # Optional intake endpoint for gated access requests (a restricted system,
-      # never Git). When unset, POST /api/onboarding/request-access fails closed
-      # and returns a mailto fallback instead of claiming a stored record.
+      # Restricted access-request intake endpoint (never Git). When unset, POST
+      # /api/onboarding/request-access fails closed and returns a mailto fallback
+      # instead of claiming a stored record. In production this points at the
+      # intake receiver in infra/intake-worker (Cloudflare Worker + KV); the
+      # value is set in the Render dashboard, so it is sync: false here.
       - key: ACCESS_REQUEST_ENDPOINT
         sync: false
 

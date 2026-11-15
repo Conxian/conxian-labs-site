@@ -112,6 +112,16 @@ test("get-started exposes the self-serve provision flow", () => {
   assert.ok(html.includes('id="access-form"'), "get-started must keep the access-request form");
 });
 
+test("the request-access fallback copy stays customer-safe", () => {
+  // The intake endpoint is a private integration. A visitor must see a plain
+  // "we could not record it, email us" message, never internal deployment
+  // vocabulary like "not configured on this deployment" or "intake system".
+  const html = fs.readFileSync(path.join(root, "get-started", "index.html"), "utf8");
+  assert.ok(!/not configured/i.test(html), "get-started must not tell a visitor the intake is 'not configured'");
+  assert.ok(!/intake system/i.test(html), "get-started must not expose the internal 'intake system' term");
+  assert.ok(html.includes("Email the team"), "the fallback must still offer the mailto escape hatch");
+});
+
 test("console exposes the self-serve provision flow and the status lookup", () => {
   const html = fs.readFileSync(path.join(root, "console", "index.html"), "utf8");
   assert.ok(html.includes("/api/onboarding/subscribe"), "console must offer self-serve subscribe");
