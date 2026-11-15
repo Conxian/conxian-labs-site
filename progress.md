@@ -1,5 +1,21 @@
 # Conxian Labs Site Remediation & Ecosystem Alignment Progress
 
+## Fee-model alignment to ADR-007 (2026-11-15)
+- **Trigger**: ADR-007 (two-product rate model, Accepted 2026-11-14) retired the 80/10/10
+  builder matrix. The public pricing page still printed the retired split.
+- **Pricing page fixed**: `pricing/index.html` no longer says "default 80/10/10 BOS yield
+  split". It now cites the published ADR-007 model — a dynamic rail fee and a matched-job
+  take, with a single 50/30/20 split of the platform take. No rate figure is printed, so the
+  page keeps its "packaging guidance, not a live rate card" stance and the fee-integrity rule.
+- **Search entry fixed**: `search.js` labelled Market a "Settlement Engine"; the commercial
+  brief says settlement/execution is "not yet live". The entry now reads "Settlement &
+  Fee-Model SDK … execution and settlement paths are not yet live".
+- **Regression guards**: `tests/site-facts.test.cjs` gained two checks — no page prints the
+  retired 80/10/10 split (and pricing must cite ADR-007), and the search index must not call
+  Market a live settlement engine.
+- **Verification**: `npm run test:api` 91/91 green; `npx playwright test` 46/46 green;
+  `python3 -m unittest scripts.tests.test_branch_promotion_policy` green.
+
 ## Org-wide audit and evidence alignment (2026-11-14)
 - **Method**: re-verified every public claim on the site against the org reality (GitHub API repo
   list + `LICENSE` files + canonical naming standard in `conxian-business`), then fixed what was
