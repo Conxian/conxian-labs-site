@@ -20,6 +20,30 @@ jobs:
       - run:
           name: test
           command: npm run test:api
+  tests:
+    docker:
+      - image: cimg/node:26.13.1
+    parallelism: 2
+    resource_class: medium
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - npm-{{ checksum "package-lock.json" }}
+      - run:
+          name: install
+          command: npm ci --no-audit --no-fund
+      - run:
+          name: install chromium
+          command: npx playwright install --with-deps chromium
+      - run:
+          name: install the Smarter Testing CLI
+          command: |
+            curl -fLSs https://circle.ci/cli | sudo bash
+            circleci extension install testsuite
+      - run:
+          name: end-to-end tests (split by timing across nodes)
+          command: circleci testsuite run "tests"
 workflows:
   ci:
-    jobs: [verify]
+    jobs: [verify, tests]
