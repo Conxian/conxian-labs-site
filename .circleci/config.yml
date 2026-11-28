@@ -18,8 +18,8 @@ jobs:
           paths:
             - node_modules
       - run:
-          name: build
-          command: npm run build
+          name: test
+          command: npm run test:api
 workflows:
   ci:
     jobs: [verify]
