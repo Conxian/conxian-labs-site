@@ -4,11 +4,11 @@ default:
   interruptible: true
 test:
   stage: test
-  image: node:24-bookworm-slim
+  image: node:26-bookworm-slim
   cache:
     key: npm-labs-site-$CI_COMMIT_REF_SLUG
     paths: [node_modules]
   script:
     - node --version
-    - npm ci --no-audit --no-fund || npm install --no-audit --no-fund
+    - npm ci --no-audit --no-fund
     - npm run test:api
